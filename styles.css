@@ -219,10 +219,23 @@ header {
     object-fit: cover;
     z-index: 0;
     opacity: 0.35;
+    display: none;
 }
 
-body.theme-men .hero-video {
+.hero-video-women {
     display: none;
+}
+
+.hero-video-men {
+    display: none;
+}
+
+body.theme-women .hero-video-women {
+    display: block;
+}
+
+body.theme-men .hero-video-men {
+    display: block;
 }
 
 .hero-content {
