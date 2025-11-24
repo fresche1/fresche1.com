@@ -14,17 +14,20 @@
     --gray: #999;
     --light-gray: #1a1a1a;
     --green: #25d366;
-    --accent-color: var(--white); /* Default for men */
+    --accent-color: var(--white); /* Default for men - text color */
+    --border-color: var(--gold); /* Default for men - border color */
 }
 
 /* Theme for Women - Rosa */
 body.theme-women {
     --accent-color: var(--pink);
+    --border-color: var(--pink);
 }
 
-/* Theme for Men - Blanco */
+/* Theme for Men - Blanco text, Dorado borders */
 body.theme-men {
     --accent-color: var(--white);
+    --border-color: var(--gold);
 }
 
 body {
@@ -327,7 +330,7 @@ header {
 }
 
 .product-card.pink {
-    border: 2px solid var(--accent-color);
+    border: 2px solid var(--border-color);
 }
 
 .product-badge {
@@ -687,7 +690,7 @@ footer {
 }
 
 .instruction-box.directions {
-    border-color: var(--accent-color);
+    border-color: var(--border-color);
 }
 
 .instruction-box.directions h2 {
@@ -704,7 +707,7 @@ footer {
 }
 
 .instruction-box.ingredients {
-    border-color: var(--accent-color);
+    border-color: var(--border-color);
 }
 
 .instruction-box.ingredients h2 {
@@ -767,7 +770,7 @@ footer {
     background-color: var(--dark-gray);
     margin: 5% auto;
     padding: 0;
-    border: 2px solid var(--accent-color);
+    border: 2px solid var(--border-color);
     border-radius: 20px;
     width: 90%;
     max-width: 600px;
