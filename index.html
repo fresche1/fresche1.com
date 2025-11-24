@@ -3,122 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fresche1 - Venta de Cremas</title>
+    <title>FRESCHE - Premium Intimate Care from Colombia</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Header -->
     <header>
-        <nav>
+        <nav class="navbar">
             <div class="logo">
-                <h1>Fresche1</h1>
+                <div class="logo-icon">F</div>
             </div>
-            <ul class="nav-links">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#productos">Productos</a></li>
-                <li><a href="#acerca">Acerca de</a></li>
-                <li><a href="#contacto">Contacto</a></li>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#galeria">📸 Galería</a></li>
+                <li><a href="#contact">✉️ Contact</a></li>
+                <li><a href="#whatsapp">📱 WhatsApp</a></li>
             </ul>
+            <div class="nav-buttons">
+                <button class="lang-btn">🇨🇴 ES</button>
+                <button class="lang-btn active">🇺🇸 EN</button>
+            </div>
+            <button class="share-btn">🔗 Compartir</button>
+            <button class="pronto-btn">⚡ Muy Pronto</button>
         </nav>
     </header>
 
-    <section id="inicio" class="hero">
+    <!-- Coming Soon Banner -->
+    <div class="banner-coming-soon">
+        <p>⚡⚡ <strong>COMING SOON / MUY PRONTO</strong> ⚡⚡</p>
+        <p>Proximamente podrás realizar compras • Soon you'll be able to make purchases</p>
+    </div>
+
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <button class="float-btn men">👨 FOR MEN</button>
+        <button class="float-btn women">👩 FOR WOMAN</button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
         <div class="hero-content">
-            <h2>Belleza Natural para Tu Piel</h2>
-            <p>Descubre nuestras cremas premium para el cuidado de tu piel</p>
-            <a href="#productos" class="cta-button">Ver Productos</a>
+            <span class="hero-tag">—— PREMIUM COLLECTION ——</span>
+            <h1>Elegance that <span class="highlight">Endures</span></h1>
+            <p>Premium intimate care with sweet and enveloping aromas.<br>Natural formulas that celebrate your confidence and femininity.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary">🛍️ Shop Now</button>
+                <button class="btn-secondary">📱 QR Code</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1615397349754-16f1e1fd7753?w=800" alt="FRESCHE Product">
         </div>
     </section>
 
-    <section id="productos" class="productos">
-        <div class="container">
-            <h2>Nuestros Productos</h2>
-            <div class="productos-grid">
-                <div class="producto-card">
-                    <div class="producto-image">
-                        <div class="placeholder-image">🧴</div>
+    <!-- Products Section -->
+    <section id="products" class="products-section">
+        <div class="section-header">
+            <span class="section-tag">—— OUR COLLECTION ——</span>
+            <h2>Our Products</h2>
+            <p>Sweet and elegant aromas for every moment</p>
+        </div>
+
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card pink">
+                <span class="product-badge">Sweet</span>
+                <img src="https://images.unsplash.com/photo-1583082537-3f096e31b233?w=600" alt="FRESCHE CherryMood">
+                <div class="product-info">
+                    <h3>FRESCHE CherryMood</h3>
+                    <p>Dulzura vibrante que eleva tu ánimo y te envuelve en frescura deliciosa. Aroma irresistible de cerezas dulces que despierta tus sentidos.</p>
+                    <div class="product-footer">
+                        <span class="product-size">1oz</span>
+                        <span class="product-price">Price coming soon<br><small>Available for purchase soon!</small></span>
                     </div>
-                    <h3>Crema Hidratante</h3>
-                    <p>Hidratación profunda para todo tipo de piel</p>
-                    <span class="precio">$29.99</span>
-                    <button class="btn-comprar">Comprar</button>
+                    <button class="btn-whatsapp">💬 Notify me on WhatsApp</button>
                 </div>
-                
-                <div class="producto-card">
-                    <div class="producto-image">
-                        <div class="placeholder-image">✨</div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card pink">
+                <span class="product-badge">Elegant</span>
+                <img src="https://images.unsplash.com/photo-1595467809569-85f3ddda9b38?w=600" alt="FRESCHE Velvet">
+                <div class="product-info">
+                    <h3>FRESCHE Velvet</h3>
+                    <p>Sofisticación suave como terciopelo con notas cítricas dulces y florales. Elegancia femenina que te hace sentir única y especial todo el día.</p>
+                    <div class="product-footer">
+                        <span class="product-size">1oz</span>
+                        <span class="product-price">Price coming soon<br><small>Available for purchase soon!</small></span>
                     </div>
-                    <h3>Crema Anti-Edad</h3>
-                    <p>Reduce las líneas de expresión y arrugas</p>
-                    <span class="precio">$39.99</span>
-                    <button class="btn-comprar">Comprar</button>
+                    <button class="btn-whatsapp">💬 Notify me on WhatsApp</button>
                 </div>
-                
-                <div class="producto-card">
-                    <div class="producto-image">
-                        <div class="placeholder-image">☀️</div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <span class="product-badge">Sweet</span>
+                <img src="https://images.unsplash.com/photo-1599351423260-754f6c1c6e70?w=600" alt="FRESCHE Coco & Vanilla">
+                <div class="product-info">
+                    <h3>FRESCHE Coco & Vanilla</h3>
+                    <p>Irresistible combinación de coco tropical y vainilla dulce. La fragancia perfecta para el hombre moderno que busca distinción.</p>
+                    <div class="product-footer">
+                        <span class="product-size">1oz</span>
+                        <span class="product-price">Price coming soon<br><small>Available for purchase soon!</small></span>
                     </div>
-                    <h3>Protector Solar</h3>
-                    <p>Protección UV para el cuidado diario</p>
-                    <span class="precio">$24.99</span>
-                    <button class="btn-comprar">Comprar</button>
+                    <button class="btn-whatsapp">💬 Notify me on WhatsApp</button>
                 </div>
-                
-                <div class="producto-card">
-                    <div class="producto-image">
-                        <div class="placeholder-image">🌙</div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <span class="product-badge">Classic</span>
+                <img src="https://images.unsplash.com/photo-1511381939415-e44015466834?w=600" alt="FRESCHE Eclipse">
+                <div class="product-info">
+                    <h3>FRESCHE Eclipse</h3>
+                    <p>Fragancia masculina sofisticada que te mantiene fresco y con buen olor todo el día. Sin sudor, puro bienestar.</p>
+                    <div class="product-footer">
+                        <span class="product-size">1oz</span>
+                        <span class="product-price">Price coming soon<br><small>Available for purchase soon!</small></span>
                     </div>
-                    <h3>Crema Nocturna</h3>
-                    <p>Regeneración durante el descanso</p>
-                    <span class="precio">$34.99</span>
-                    <button class="btn-comprar">Comprar</button>
+                    <button class="btn-whatsapp">💬 Notify me on WhatsApp</button>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <span class="product-badge">Elegant</span>
+                <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=600" alt="FRESCHE Dulce Tobacco">
+                <div class="product-info">
+                    <h3>FRESCHE Dulce Tobacco</h3>
+                    <p>Elegante aroma a tabaco dulce que proyecta masculinidad y sofisticación. Para el hombre que sabe lo que quiere.</p>
+                    <div class="product-footer">
+                        <span class="product-size">1oz</span>
+                        <span class="product-price">Price coming soon<br><small>Available for purchase soon!</small></span>
+                    </div>
+                    <button class="btn-whatsapp">💬 Notify me on WhatsApp</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="acerca" class="acerca">
-        <div class="container">
-            <h2>Acerca de Fresche1</h2>
-            <p>Somos una empresa dedicada a ofrecer productos de alta calidad para el cuidado de la piel. 
-               Nuestras cremas están formuladas con ingredientes naturales y probados dermatológicamente.</p>
-            <div class="beneficios">
-                <div class="beneficio">
-                    <h3>🌿 Natural</h3>
-                    <p>Ingredientes naturales seleccionados</p>
-                </div>
-                <div class="beneficio">
-                    <h3>🔬 Probado</h3>
-                    <p>Dermatológicamente testado</p>
-                </div>
-                <div class="beneficio">
-                    <h3>💚 Eco-Friendly</h3>
-                    <p>Respetuoso con el medio ambiente</p>
-                </div>
+    <!-- Values Section -->
+    <section class="values-section">
+        <h2>Our Commitment</h2>
+        <p>Quality, ethics and responsibility in every product</p>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon green">🌱</div>
+                <h3>Vegan product</h3>
+            </div>
+            <div class="value-card">
+                <div class="value-icon blue">💙</div>
+                <h3>Not tested on animals</h3>
+            </div>
+            <div class="value-card">
+                <div class="value-icon gold">♻️</div>
+                <h3>Recyclable</h3>
+            </div>
+            <div class="value-card">
+                <div class="value-icon white">CO</div>
+                <h3>Made in Colombia</h3>
             </div>
         </div>
     </section>
 
-    <section id="contacto" class="contacto">
-        <div class="container">
-            <h2>Contacto</h2>
-            <p>¿Tienes preguntas? Contáctanos</p>
-            <form class="contacto-form">
-                <input type="text" placeholder="Nombre" required>
-                <input type="email" placeholder="Email" required>
-                <textarea placeholder="Mensaje" rows="5" required></textarea>
-                <button type="submit" class="btn-enviar">Enviar Mensaje</button>
-            </form>
+    <!-- Coming Soon Section -->
+    <section class="coming-soon-section">
+        <div class="coming-soon-box">
+            <span class="sparkle">✨</span>
+            <h2>Coming Soon</h2>
+            <p>Sign up to receive notifications when we launch our premium collection</p>
+            <button class="btn-whatsapp">💬 Notify me on WhatsApp</button>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
-        <div class="container">
-            <p>&copy; 2025 Fresche1. Todos los derechos reservados.</p>
-            <div class="social-links">
-                <a href="#" aria-label="Facebook">📘</a>
-                <a href="#" aria-label="Instagram">📷</a>
-                <a href="#" aria-label="Twitter">🐦</a>
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <div class="logo-icon">F</div>
+                </div>
+                <p>Premium men's and women's intimate care from Colombia to the world.</p>
             </div>
+            <div class="footer-col">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="#">FRESCHE Eclipse</a></li>
+                    <li><a href="#">FRESCHE Coco & Vanilla</a></li>
+                    <li><a href="#">FRESCHE Dulce Tobacco</a></li>
+                    <li><a href="#">FRESCHE CherryMood</a></li>
+                    <li><a href="#">FRESCHE Velvet</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li>✉️ Email: fresche@fresche1.com</li>
+                    <li>📱 WhatsApp: +57 301 760 6723</li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">📋 Instructions for Use</a></li>
+                    <li><a href="#">💬 Direct Messages</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <p>@fresche1</p>
+                <p>Follow us on Instagram</p>
+                <div class="qr-code">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://instagram.com/fresche1" alt="QR Code">
+                    <p>📱 Scan to follow us</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 FRESCHE. All rights reserved. Made in Colombia 🇨🇴</p>
         </div>
     </footer>
 </body>
