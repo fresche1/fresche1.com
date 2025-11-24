@@ -54,16 +54,32 @@
         <video class="hero-video hero-video-men" autoplay loop muted playsinline>
             <source src="images/background-men.mp4" type="video/mp4">
         </video>
-        <div class="hero-content">
-            <span class="hero-tag" data-es="—— PREMIUM COLLECTION ——" data-en="—— PREMIUM COLLECTION ——">—— PREMIUM COLLECTION ——</span>
+        
+        <!-- Content for Women -->
+        <div class="hero-content hero-content-women">
+            <span class="hero-tag">—— PREMIUM COLLECTION ——</span>
             <h1>
-                <span data-es="Elegance that " data-en="Elegance that ">Elegance that </span><br>
-                <span class="highlight" data-es="Endures" data-en="Endures">Endures</span>
+                <span>Elegance that </span><br>
+                <span class="highlight">Endures</span>
             </h1>
-            <p data-es="Premium intimate care with sweet and enveloping aromas. Natural formulas that celebrate your confidence and femininity." data-en="Premium intimate care with sweet and enveloping aromas. Natural formulas that celebrate your confidence and femininity.">Premium intimate care with sweet and enveloping aromas. Natural formulas that celebrate your confidence and femininity.</p>
+            <p>Premium intimate care with sweet and enveloping aromas. Natural formulas that celebrate your confidence and femininity.</p>
             <div class="hero-buttons">
-                <button class="btn-primary" data-es="🛍️ Shop Now" data-en="🛍️ Shop Now">🛍️ Shop Now</button>
-                <button class="btn-secondary" data-es="📱 QR Code" data-en="📱 QR Code">📱 QR Code</button>
+                <button class="btn-primary">🛍️ Shop Now</button>
+                <button class="btn-secondary">📱 QR Code</button>
+            </div>
+        </div>
+        
+        <!-- Content for Men -->
+        <div class="hero-content hero-content-men">
+            <span class="hero-tag">—— COLECCIÓN PREMIUM ——</span>
+            <h1>
+                <span>Elegancia que </span><br>
+                <span class="highlight">Perdura</span>
+            </h1>
+            <p>Cuidado íntimo premium con aromas dulces y envolventes. Fórmulas naturales que celebran tu confianza y masculinidad.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary">🛍️ Comprar Ahora</button>
+                <button class="btn-secondary">📱 Código QR</button>
             </div>
         </div>
     </section>
@@ -81,16 +97,15 @@
             <div class="product-card pink product-women" data-gender="women" onclick="openProductModal('cherry')">
                 <span class="product-badge" data-es="Dulce" data-en="Sweet">Dulce</span>
                 <img src="images/cherry.jpg" alt="FRESCHE CherryMood" onerror="this.src='https://images.unsplash.com/photo-1583082537-3f096e31b233?w=600'">
-                <div class="product-info">
+                <div class="product-info-top">
                     <h3>FRESCHE CherryMood</h3>
                     <p data-es="Dulzura vibrante que eleva tu ánimo y te envuelve en frescura deliciosa." data-en="Vibrant sweetness that lifts your mood and envelops you in delicious freshness.">Dulzura vibrante que eleva tu ánimo y te envuelve en frescura deliciosa.</p>
-                    <div class="product-footer">
-                        <span class="product-size">1oz</span>
-                        <span class="product-price">
-                            <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span><br>
-                            <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
-                        </span>
-                    </div>
+                </div>
+                <div class="product-info-bottom">
+                    <span class="product-size">1oz</span>
+                    <span class="product-price">
+                        <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span>
+                    </span>
                 </div>
             </div>
 
@@ -98,16 +113,15 @@
             <div class="product-card pink product-women" data-gender="women" onclick="openProductModal('velvet')">
                 <span class="product-badge" data-es="Elegante" data-en="Elegant">Elegante</span>
                 <img src="images/velvet.jpg" alt="FRESCHE Velvet" onerror="this.src='https://images.unsplash.com/photo-1595467809569-85f3ddda9b38?w=600'">
-                <div class="product-info">
+                <div class="product-info-top">
                     <h3>FRESCHE Velvet</h3>
                     <p data-es="Sofisticación suave como terciopelo con notas cítricas dulces y florales." data-en="Soft sophistication like velvet with sweet citrus and floral notes.">Sofisticación suave como terciopelo con notas cítricas dulces y florales.</p>
-                    <div class="product-footer">
-                        <span class="product-size">1oz</span>
-                        <span class="product-price">
-                            <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span><br>
-                            <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
-                        </span>
-                    </div>
+                </div>
+                <div class="product-info-bottom">
+                    <span class="product-size">1oz</span>
+                    <span class="product-price">
+                        <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span>
+                    </span>
                 </div>
             </div>
 
@@ -115,16 +129,15 @@
             <div class="product-card product-men" data-gender="men" onclick="openProductModal('coco')">
                 <span class="product-badge" data-es="Dulce" data-en="Sweet">Dulce</span>
                 <img src="images/coco.jpg" alt="FRESCHE Coco & Vanilla" onerror="this.src='https://images.unsplash.com/photo-1599351423260-754f6c1c6e70?w=600'">
-                <div class="product-info">
+                <div class="product-info-top">
                     <h3>FRESCHE Coco & Vanilla</h3>
                     <p data-es="Dulce y tropical, esta fragancia combina coco suave con vainilla cremosa." data-en="Sweet and tropical, this fragrance combines smooth coconut with creamy vanilla.">Dulce y tropical, esta fragancia combina coco suave con vainilla cremosa.</p>
-                    <div class="product-footer">
-                        <span class="product-size">1oz</span>
-                        <span class="product-price">
-                            <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span><br>
-                            <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
-                        </span>
-                    </div>
+                </div>
+                <div class="product-info-bottom">
+                    <span class="product-size">1oz</span>
+                    <span class="product-price">
+                        <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span>
+                    </span>
                 </div>
             </div>
 
@@ -132,16 +145,15 @@
             <div class="product-card product-men" data-gender="men" onclick="openProductModal('eclipse')">
                 <span class="product-badge" data-es="Clásico" data-en="Classic">Clásico</span>
                 <img src="images/eclipse.jpg" alt="FRESCHE Eclipse" onerror="this.src='https://images.unsplash.com/photo-1511381939415-e44015466834?w=600'">
-                <div class="product-info">
+                <div class="product-info-top">
                     <h3>FRESCHE Eclipse</h3>
                     <p data-es="Fragancia masculina y sofisticada. Fresco y con buen olor. Sin sudor." data-en="Masculine and sophisticated fragrance. Fresh and good-smelling. No sweat.">Fragancia masculina y sofisticada. Fresco y con buen olor. Sin sudor.</p>
-                    <div class="product-footer">
-                        <span class="product-size">1oz</span>
-                        <span class="product-price">
-                            <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span><br>
-                            <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
-                        </span>
-                    </div>
+                </div>
+                <div class="product-info-bottom">
+                    <span class="product-size">1oz</span>
+                    <span class="product-price">
+                        <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span>
+                    </span>
                 </div>
             </div>
 
@@ -149,16 +161,15 @@
             <div class="product-card product-men" data-gender="men" onclick="openProductModal('tobacco')">
                 <span class="product-badge" data-es="Elegante" data-en="Elegant">Elegante</span>
                 <img src="images/tobacco.jpg" alt="FRESCHE Dulce Tobacco" onerror="this.src='https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=600'">
-                <div class="product-info">
+                <div class="product-info-top">
                     <h3>FRESCHE Dulce Tobacco</h3>
                     <p data-es="Elegante y masculino con notas de tabaco dulce. Un aroma sofisticado y atemporal." data-en="Elegant and masculine with notes of sweet tobacco. A sophisticated and timeless aroma.">Elegante y masculino con notas de tabaco dulce. Un aroma sofisticado y atemporal.</p>
-                    <div class="product-footer">
-                        <span class="product-size">1oz</span>
-                        <span class="product-price">
-                            <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span><br>
-                            <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
-                        </span>
-                    </div>
+                </div>
+                <div class="product-info-bottom">
+                    <span class="product-size">1oz</span>
+                    <span class="product-price">
+                        <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span>
+                    </span>
                 </div>
             </div>
         </div>
