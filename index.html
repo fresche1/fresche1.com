@@ -1,143 +1,169 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FRESCHE - Premium Intimate Care from Colombia</title>
+    <title>FRESCHE - Cuidado Íntimo Premium desde Colombia</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="theme-men">
     <!-- Header -->
     <header>
         <nav class="navbar">
             <div class="logo">
-                <div class="logo-icon">F</div>
+                <img src="images/logo.png" alt="FRESCHE Logo" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="logo-icon" style="display:none;">F</div>
             </div>
             <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#products">Products</a></li>
-                <li><a href="#galeria">📸 Galería</a></li>
-                <li><a href="#contact">✉️ Contact</a></li>
-                <li><a href="#whatsapp">📱 WhatsApp</a></li>
+                <li><a href="#home" data-es="Inicio" data-en="Home">Inicio</a></li>
+                <li><a href="#products" data-es="Productos" data-en="Products">Productos</a></li>
+                <li><a href="#galeria" data-es="📸 Galería" data-en="📸 Gallery">📸 Galería</a></li>
+                <li><a href="#contact" data-es="✉️ Contacto" data-en="✉️ Contact">✉️ Contacto</a></li>
+                <li><a href="#whatsapp" data-es="📱 WhatsApp" data-en="📱 WhatsApp">📱 WhatsApp</a></li>
             </ul>
             <div class="nav-buttons">
-                <button class="lang-btn">🇨🇴 ES</button>
-                <button class="lang-btn active">🇺🇸 EN</button>
+                <button class="lang-btn active" onclick="changeLang('es')">🇨🇴 ES</button>
+                <button class="lang-btn" onclick="changeLang('en')">🇺🇸 EN</button>
             </div>
-            <button class="share-btn">🔗 Compartir</button>
-            <button class="pronto-btn">⚡ Muy Pronto</button>
+            <button class="share-btn" data-es="🔗 Compartir" data-en="🔗 Share">🔗 Compartir</button>
+            <button class="pronto-btn" data-es="⚡ Muy Pronto" data-en="⚡ Coming Soon">⚡ Muy Pronto</button>
         </nav>
     </header>
 
     <!-- Coming Soon Banner -->
     <div class="banner-coming-soon">
-        <p>⚡⚡ <strong>COMING SOON / MUY PRONTO</strong> ⚡⚡</p>
-        <p>Proximamente podrás realizar compras • Soon you'll be able to make purchases</p>
+        <p><strong data-es="⚡⚡ PROXIMAMENTE / COMING SOON ⚡⚡" data-en="⚡⚡ COMING SOON / MUY PRONTO ⚡⚡">⚡⚡ PROXIMAMENTE / COMING SOON ⚡⚡</strong></p>
+        <p data-es="Próximamente podrás realizar compras • Soon you'll be able to make purchases" data-en="Soon you'll be able to make purchases • Próximamente podrás realizar compras">Próximamente podrás realizar compras • Soon you'll be able to make purchases</p>
     </div>
 
     <!-- Floating Buttons -->
     <div class="floating-buttons">
-        <button class="float-btn men active" onclick="changeTheme('men')">👨 FOR MEN</button>
-        <button class="float-btn women" onclick="changeTheme('women')">👩 FOR WOMAN</button>
+        <button class="float-btn men active" onclick="changeTheme('men')">
+            <span data-es="👨 PARA HOMBRES" data-en="👨 FOR MEN">👨 PARA HOMBRES</span>
+        </button>
+        <button class="float-btn women" onclick="changeTheme('women')">
+            <span data-es="👩 PARA MUJERES" data-en="👩 FOR WOMEN">👩 PARA MUJERES</span>
+        </button>
     </div>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="home">
         <div class="hero-content">
-            <span class="hero-tag">—— PREMIUM COLLECTION ——</span>
-            <h1>Elegance that <span class="highlight">Endures</span></h1>
-            <p>Premium intimate care with sweet and enveloping aromas.<br>Natural formulas that celebrate your confidence and femininity.</p>
+            <span class="hero-tag" data-es="—— COLECCIÓN PREMIUM ——" data-en="—— PREMIUM COLLECTION ——">—— COLECCIÓN PREMIUM ——</span>
+            <h1>
+                <span data-es="Elegancia que " data-en="Elegance that ">Elegancia que </span>
+                <span class="highlight" data-es="Perdura" data-en="Endures">Perdura</span>
+            </h1>
+            <p>
+                <span data-es="Cuidado íntimo premium con aromas dulces y envolventes." data-en="Premium intimate care with sweet and enveloping aromas.">Cuidado íntimo premium con aromas dulces y envolventes.</span><br>
+                <span data-es="Fórmulas naturales que celebran tu confianza y feminidad." data-en="Natural formulas that celebrate your confidence and femininity.">Fórmulas naturales que celebran tu confianza y feminidad.</span>
+            </p>
             <div class="hero-buttons">
-                <button class="btn-primary">🛍️ Shop Now</button>
-                <button class="btn-secondary">📱 QR Code</button>
+                <button class="btn-primary" data-es="🛍️ Comprar Ahora" data-en="🛍️ Shop Now">🛍️ Comprar Ahora</button>
+                <button class="btn-secondary" data-es="📱 Código QR" data-en="📱 QR Code">📱 Código QR</button>
             </div>
         </div>
         <div class="hero-image">
-            <img src="https://images.unsplash.com/photo-1615397349754-16f1e1fd7753?w=800" alt="FRESCHE Product">
+            <img src="images/jar-pink.jpg" alt="Producto FRESCHE" onerror="this.src='https://images.unsplash.com/photo-1615397349754-16f1e1fd7753?w=800'">
         </div>
     </section>
 
     <!-- Products Section -->
     <section id="products" class="products-section">
         <div class="section-header">
-            <span class="section-tag">—— OUR COLLECTION ——</span>
-            <h2>Our Products</h2>
-            <p>Sweet and elegant aromas for every moment</p>
+            <span class="section-tag" data-es="—— NUESTRA COLECCIÓN ——" data-en="—— OUR COLLECTION ——">—— NUESTRA COLECCIÓN ——</span>
+            <h2 data-es="Nuestros Productos" data-en="Our Products">Nuestros Productos</h2>
+            <p data-es="Aromas dulces y elegantes para cada momento" data-en="Sweet and elegant aromas for every moment">Aromas dulces y elegantes para cada momento</p>
         </div>
 
         <div class="products-grid">
-            <!-- Product 1 -->
-            <div class="product-card pink">
-                <span class="product-badge">Sweet</span>
-                <img src="https://images.unsplash.com/photo-1583082537-3f096e31b233?w=600" alt="FRESCHE CherryMood">
+            <!-- Product 1 - CherryMood (ONLY WOMEN) -->
+            <div class="product-card pink product-women" data-gender="women">
+                <span class="product-badge" data-es="Dulce" data-en="Sweet">Dulce</span>
+                <img src="images/cherry.jpg" alt="FRESCHE CherryMood" onerror="this.src='https://images.unsplash.com/photo-1583082537-3f096e31b233?w=600'">
                 <div class="product-info">
                     <h3>FRESCHE CherryMood</h3>
-                    <p>Dulzura vibrante que eleva tu ánimo y te envuelve en frescura deliciosa. Aroma irresistible de cerezas dulces que despierta tus sentidos.</p>
+                    <p data-es="Dulzura vibrante que eleva tu ánimo y te envuelve en frescura deliciosa. Aroma irresistible de cerezas dulces que despierta tus sentidos." data-en="Vibrant sweetness that lifts your spirits and envelops you in delicious freshness. Irresistible aroma of sweet cherries that awakens your senses.">Dulzura vibrante que eleva tu ánimo y te envuelve en frescura deliciosa. Aroma irresistible de cerezas dulces que despierta tus sentidos.</p>
                     <div class="product-footer">
                         <span class="product-size">1oz</span>
-                        <span class="product-price">Price coming soon<br><small>Available for purchase soon!</small></span>
+                        <span class="product-price">
+                            <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span><br>
+                            <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
+                        </span>
                     </div>
-                    <button class="btn-whatsapp">💬 Notify me on WhatsApp</button>
+                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp">💬 Notificarme por WhatsApp</button>
                 </div>
             </div>
 
-            <!-- Product 2 -->
-            <div class="product-card pink">
-                <span class="product-badge">Elegant</span>
-                <img src="https://images.unsplash.com/photo-1595467809569-85f3ddda9b38?w=600" alt="FRESCHE Velvet">
+            <!-- Product 2 - Velvet (ONLY WOMEN) -->
+            <div class="product-card pink product-women" data-gender="women">
+                <span class="product-badge" data-es="Elegante" data-en="Elegant">Elegante</span>
+                <img src="images/velvet.jpg" alt="FRESCHE Velvet" onerror="this.src='https://images.unsplash.com/photo-1595467809569-85f3ddda9b38?w=600'">
                 <div class="product-info">
                     <h3>FRESCHE Velvet</h3>
-                    <p>Sofisticación suave como terciopelo con notas cítricas dulces y florales. Elegancia femenina que te hace sentir única y especial todo el día.</p>
+                    <p data-es="Sofisticación suave como terciopelo con notas cítricas dulces y florales. Elegancia femenina que te hace sentir única y especial todo el día." data-en="Soft sophistication like velvet with sweet citrus and floral notes. Feminine elegance that makes you feel unique and special all day.">Sofisticación suave como terciopelo con notas cítricas dulces y florales. Elegancia femenina que te hace sentir única y especial todo el día.</p>
                     <div class="product-footer">
                         <span class="product-size">1oz</span>
-                        <span class="product-price">Price coming soon<br><small>Available for purchase soon!</small></span>
+                        <span class="product-price">
+                            <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span><br>
+                            <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
+                        </span>
                     </div>
-                    <button class="btn-whatsapp">💬 Notify me on WhatsApp</button>
+                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp">💬 Notificarme por WhatsApp</button>
                 </div>
             </div>
 
-            <!-- Product 3 -->
-            <div class="product-card">
-                <span class="product-badge">Sweet</span>
-                <img src="https://images.unsplash.com/photo-1599351423260-754f6c1c6e70?w=600" alt="FRESCHE Coco & Vanilla">
+            <!-- Product 3 - Coco & Vanilla (FOR MEN) -->
+            <div class="product-card product-men" data-gender="men">
+                <span class="product-badge" data-es="Dulce" data-en="Sweet">Dulce</span>
+                <img src="images/coco.jpg" alt="FRESCHE Coco & Vanilla" onerror="this.src='https://images.unsplash.com/photo-1599351423260-754f6c1c6e70?w=600'">
                 <div class="product-info">
                     <h3>FRESCHE Coco & Vanilla</h3>
-                    <p>Irresistible combinación de coco tropical y vainilla dulce. La fragancia perfecta para el hombre moderno que busca distinción.</p>
+                    <p data-es="Irresistible combinación de coco tropical y vainilla dulce. La fragancia perfecta para el hombre moderno que busca distinción." data-en="Irresistible combination of tropical coconut and sweet vanilla. The perfect fragrance for the modern man seeking distinction.">Irresistible combinación de coco tropical y vainilla dulce. La fragancia perfecta para el hombre moderno que busca distinción.</p>
                     <div class="product-footer">
                         <span class="product-size">1oz</span>
-                        <span class="product-price">Price coming soon<br><small>Available for purchase soon!</small></span>
+                        <span class="product-price">
+                            <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span><br>
+                            <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
+                        </span>
                     </div>
-                    <button class="btn-whatsapp">💬 Notify me on WhatsApp</button>
+                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp">💬 Notificarme por WhatsApp</button>
                 </div>
             </div>
 
-            <!-- Product 4 -->
-            <div class="product-card">
-                <span class="product-badge">Classic</span>
-                <img src="https://images.unsplash.com/photo-1511381939415-e44015466834?w=600" alt="FRESCHE Eclipse">
+            <!-- Product 4 - Eclipse (FOR MEN) -->
+            <div class="product-card product-men" data-gender="men">
+                <span class="product-badge" data-es="Clásico" data-en="Classic">Clásico</span>
+                <img src="images/eclipse.jpg" alt="FRESCHE Eclipse" onerror="this.src='https://images.unsplash.com/photo-1511381939415-e44015466834?w=600'">
                 <div class="product-info">
                     <h3>FRESCHE Eclipse</h3>
-                    <p>Fragancia masculina sofisticada que te mantiene fresco y con buen olor todo el día. Sin sudor, puro bienestar.</p>
+                    <p data-es="Fragancia masculina sofisticada que te mantiene fresco y con buen olor todo el día. Sin sudor, puro bienestar." data-en="Sophisticated masculine fragrance that keeps you fresh and good-smelling all day. No sweat, pure wellness.">Fragancia masculina sofisticada que te mantiene fresco y con buen olor todo el día. Sin sudor, puro bienestar.</p>
                     <div class="product-footer">
                         <span class="product-size">1oz</span>
-                        <span class="product-price">Price coming soon<br><small>Available for purchase soon!</small></span>
+                        <span class="product-price">
+                            <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span><br>
+                            <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
+                        </span>
                     </div>
-                    <button class="btn-whatsapp">💬 Notify me on WhatsApp</button>
+                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp">💬 Notificarme por WhatsApp</button>
                 </div>
             </div>
 
-            <!-- Product 5 -->
-            <div class="product-card">
-                <span class="product-badge">Elegant</span>
-                <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=600" alt="FRESCHE Dulce Tobacco">
+            <!-- Product 5 - Dulce Tobacco (FOR MEN) -->
+            <div class="product-card product-men" data-gender="men">
+                <span class="product-badge" data-es="Elegante" data-en="Elegant">Elegante</span>
+                <img src="images/tobacco.jpg" alt="FRESCHE Dulce Tobacco" onerror="this.src='https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=600'">
                 <div class="product-info">
                     <h3>FRESCHE Dulce Tobacco</h3>
-                    <p>Elegante aroma a tabaco dulce que proyecta masculinidad y sofisticación. Para el hombre que sabe lo que quiere.</p>
+                    <p data-es="Elegante aroma a tabaco dulce que proyecta masculinidad y sofisticación. Para el hombre que sabe lo que quiere." data-en="Elegant sweet tobacco aroma that projects masculinity and sophistication. For the man who knows what he wants.">Elegante aroma a tabaco dulce que proyecta masculinidad y sofisticación. Para el hombre que sabe lo que quiere.</p>
                     <div class="product-footer">
                         <span class="product-size">1oz</span>
-                        <span class="product-price">Price coming soon<br><small>Available for purchase soon!</small></span>
+                        <span class="product-price">
+                            <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span><br>
+                            <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
+                        </span>
                     </div>
-                    <button class="btn-whatsapp">💬 Notify me on WhatsApp</button>
+                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp">💬 Notificarme por WhatsApp</button>
                 </div>
             </div>
         </div>
@@ -145,24 +171,24 @@
 
     <!-- Values Section -->
     <section class="values-section">
-        <h2>Our Commitment</h2>
-        <p>Quality, ethics and responsibility in every product</p>
+        <h2 data-es="Nuestro Compromiso" data-en="Our Commitment">Nuestro Compromiso</h2>
+        <p data-es="Calidad, ética y responsabilidad en cada producto" data-en="Quality, ethics and responsibility in every product">Calidad, ética y responsabilidad en cada producto</p>
         <div class="values-grid">
             <div class="value-card">
                 <div class="value-icon green">🌱</div>
-                <h3>Vegan product</h3>
+                <h3 data-es="Producto vegano" data-en="Vegan product">Producto vegano</h3>
             </div>
             <div class="value-card">
                 <div class="value-icon blue">💙</div>
-                <h3>Not tested on animals</h3>
+                <h3 data-es="No probado en animales" data-en="Not tested on animals">No probado en animales</h3>
             </div>
             <div class="value-card">
                 <div class="value-icon gold">♻️</div>
-                <h3>Recyclable</h3>
+                <h3 data-es="Reciclable" data-en="Recyclable">Reciclable</h3>
             </div>
             <div class="value-card">
                 <div class="value-icon white">CO</div>
-                <h3>Made in Colombia</h3>
+                <h3 data-es="Hecho en Colombia" data-en="Made in Colombia">Hecho en Colombia</h3>
             </div>
         </div>
     </section>
@@ -171,23 +197,24 @@
     <section class="coming-soon-section">
         <div class="coming-soon-box">
             <span class="sparkle">✨</span>
-            <h2>Coming Soon</h2>
-            <p>Sign up to receive notifications when we launch our premium collection</p>
-            <button class="btn-whatsapp">💬 Notify me on WhatsApp</button>
+            <h2 data-es="Próximamente" data-en="Coming Soon">Próximamente</h2>
+            <p data-es="Regístrate para recibir notificaciones cuando lancemos nuestra colección premium" data-en="Sign up to receive notifications when we launch our premium collection">Regístrate para recibir notificaciones cuando lancemos nuestra colección premium</p>
+            <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp">💬 Notificarme por WhatsApp</button>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer id="contact">
         <div class="footer-content">
             <div class="footer-col">
                 <div class="footer-logo">
-                    <div class="logo-icon">F</div>
+                    <img src="images/logo.png" alt="FRESCHE Logo" class="logo-img-footer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="width: 50px;">
+                    <div class="logo-icon" style="display:none;">F</div>
                 </div>
-                <p>Premium men's and women's intimate care from Colombia to the world.</p>
+                <p data-es="Cuidado íntimo premium para hombres y mujeres desde Colombia al mundo." data-en="Premium men's and women's intimate care from Colombia to the world.">Cuidado íntimo premium para hombres y mujeres desde Colombia al mundo.</p>
             </div>
             <div class="footer-col">
-                <h4>Products</h4>
+                <h4 data-es="Productos" data-en="Products">Productos</h4>
                 <ul>
                     <li><a href="#">FRESCHE Eclipse</a></li>
                     <li><a href="#">FRESCHE Coco & Vanilla</a></li>
@@ -197,54 +224,111 @@
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Support</h4>
+                <h4 data-es="Soporte" data-en="Support">Soporte</h4>
                 <ul>
                     <li>✉️ Email: fresche@fresche1.com</li>
                     <li>📱 WhatsApp: +57 301 760 6723</li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Shipping</a></li>
-                    <li><a href="#">📋 Instructions for Use</a></li>
-                    <li><a href="#">💬 Direct Messages</a></li>
+                    <li><a href="#" data-es="Acerca de Nosotros" data-en="About Us">Acerca de Nosotros</a></li>
+                    <li><a href="#" data-es="Envíos" data-en="Shipping">Envíos</a></li>
+                    <li><a href="#" data-es="📋 Instrucciones de Uso" data-en="📋 Instructions for Use">📋 Instrucciones de Uso</a></li>
+                    <li><a href="#" data-es="💬 Mensajes Directos" data-en="💬 Direct Messages">💬 Mensajes Directos</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Follow Us</h4>
+                <h4 data-es="Síguenos" data-en="Follow Us">Síguenos</h4>
                 <p>@fresche1</p>
-                <p>Follow us on Instagram</p>
+                <p data-es="Síguenos en Instagram" data-en="Follow us on Instagram">Síguenos en Instagram</p>
                 <div class="qr-code">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://instagram.com/fresche1" alt="QR Code">
-                    <p>📱 Scan to follow us</p>
+                    <img src="images/qr-pink.png" alt="QR Code" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://instagram.com/fresche1'">
+                    <p data-es="📱 Escanea para seguirnos" data-en="📱 Scan to follow us">📱 Escanea para seguirnos</p>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2024 FRESCHE. All rights reserved. Made in Colombia 🇨🇴</p>
+            <p data-es="© 2024 FRESCHE. Todos los derechos reservados. Hecho en Colombia 🇨🇴" data-en="© 2024 FRESCHE. All rights reserved. Made in Colombia 🇨🇴">© 2024 FRESCHE. Todos los derechos reservados. Hecho en Colombia 🇨🇴</p>
         </div>
     </footer>
 
     <script>
-        // Theme switcher
+        // Theme switcher (Men/Women)
         function changeTheme(theme) {
             const body = document.body;
             const menBtn = document.querySelector('.float-btn.men');
             const womenBtn = document.querySelector('.float-btn.women');
+            const products = document.querySelectorAll('.product-card');
             
             if (theme === 'men') {
                 body.classList.remove('theme-women');
                 body.classList.add('theme-men');
                 menBtn.classList.add('active');
                 womenBtn.classList.remove('active');
+                
+                // Show men products, hide women products
+                products.forEach(product => {
+                    if (product.dataset.gender === 'women') {
+                        product.style.display = 'none';
+                    } else {
+                        product.style.display = 'block';
+                    }
+                });
             } else {
                 body.classList.remove('theme-men');
                 body.classList.add('theme-women');
                 womenBtn.classList.add('active');
                 menBtn.classList.remove('active');
+                
+                // Show women products, hide men products
+                products.forEach(product => {
+                    if (product.dataset.gender === 'men') {
+                        product.style.display = 'none';
+                    } else {
+                        product.style.display = 'block';
+                    }
+                });
             }
         }
         
-        // Set default theme to men
+        // Language switcher (Spanish/English)
+        function changeLang(lang) {
+            const html = document.documentElement;
+            const langBtns = document.querySelectorAll('.lang-btn');
+            const elements = document.querySelectorAll('[data-es][data-en]');
+            
+            html.setAttribute('data-lang', lang);
+            html.setAttribute('lang', lang);
+            
+            // Update button active state
+            langBtns.forEach(btn => {
+                if ((lang === 'es' && btn.textContent.includes('ES')) || 
+                    (lang === 'en' && btn.textContent.includes('EN'))) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Update all translatable elements
+            elements.forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = text;
+                } else {
+                    el.textContent = text;
+                }
+            });
+            
+            // Update page title
+            if (lang === 'es') {
+                document.title = 'FRESCHE - Cuidado Íntimo Premium desde Colombia';
+            } else {
+                document.title = 'FRESCHE - Premium Intimate Care from Colombia';
+            }
+        }
+        
+        // Set default theme and language on load
         document.addEventListener('DOMContentLoaded', function() {
             changeTheme('men');
+            changeLang('es');
         });
     </script>
 </body>
