@@ -17,7 +17,7 @@
             <ul class="nav-menu">
                 <li><a href="#home" data-es="Inicio" data-en="Home">Inicio</a></li>
                 <li><a href="#products" data-es="Productos" data-en="Products">Productos</a></li>
-                <li><a href="#galeria" data-es="📸 Galería" data-en="📸 Gallery">📸 Galería</a></li>
+                <li><a href="instructions.html" data-es="📋 Instrucciones" data-en="📋 Instructions">📋 Instrucciones</a></li>
                 <li><a href="#contact" data-es="✉️ Contacto" data-en="✉️ Contact">✉️ Contacto</a></li>
                 <li><a href="#whatsapp" data-es="📱 WhatsApp" data-en="📱 WhatsApp">📱 WhatsApp</a></li>
             </ul>
@@ -78,7 +78,7 @@
 
         <div class="products-grid">
             <!-- Product 1 - CherryMood (ONLY WOMEN) -->
-            <div class="product-card pink product-women" data-gender="women">
+            <div class="product-card pink product-women" data-gender="women" onclick="openProductModal('cherry')">
                 <span class="product-badge" data-es="Dulce" data-en="Sweet">Dulce</span>
                 <img src="images/cherry.jpg" alt="FRESCHE CherryMood" onerror="this.src='https://images.unsplash.com/photo-1583082537-3f096e31b233?w=600'">
                 <div class="product-info">
@@ -91,12 +91,12 @@
                             <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
                         </span>
                     </div>
-                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp">💬 Notificarme por WhatsApp</button>
+                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp" onclick="event.stopPropagation(); window.open('https://wa.me/573017606723', '_blank')">💬 Notificarme por WhatsApp</button>
                 </div>
             </div>
 
             <!-- Product 2 - Velvet (ONLY WOMEN) -->
-            <div class="product-card pink product-women" data-gender="women">
+            <div class="product-card pink product-women" data-gender="women" onclick="openProductModal('velvet')">
                 <span class="product-badge" data-es="Elegante" data-en="Elegant">Elegante</span>
                 <img src="images/velvet.jpg" alt="FRESCHE Velvet" onerror="this.src='https://images.unsplash.com/photo-1595467809569-85f3ddda9b38?w=600'">
                 <div class="product-info">
@@ -109,12 +109,12 @@
                             <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
                         </span>
                     </div>
-                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp">💬 Notificarme por WhatsApp</button>
+                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp" onclick="event.stopPropagation(); window.open('https://wa.me/573017606723', '_blank')">💬 Notificarme por WhatsApp</button>
                 </div>
             </div>
 
             <!-- Product 3 - Coco & Vanilla (FOR MEN) -->
-            <div class="product-card product-men" data-gender="men">
+            <div class="product-card product-men" data-gender="men" onclick="openProductModal('coco')">
                 <span class="product-badge" data-es="Dulce" data-en="Sweet">Dulce</span>
                 <img src="images/coco.jpg" alt="FRESCHE Coco & Vanilla" onerror="this.src='https://images.unsplash.com/photo-1599351423260-754f6c1c6e70?w=600'">
                 <div class="product-info">
@@ -127,12 +127,12 @@
                             <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
                         </span>
                     </div>
-                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp">💬 Notificarme por WhatsApp</button>
+                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp" onclick="event.stopPropagation(); window.open('https://wa.me/573017606723', '_blank')">💬 Notificarme por WhatsApp</button>
                 </div>
             </div>
 
             <!-- Product 4 - Eclipse (FOR MEN) -->
-            <div class="product-card product-men" data-gender="men">
+            <div class="product-card product-men" data-gender="men" onclick="openProductModal('eclipse')">
                 <span class="product-badge" data-es="Clásico" data-en="Classic">Clásico</span>
                 <img src="images/eclipse.jpg" alt="FRESCHE Eclipse" onerror="this.src='https://images.unsplash.com/photo-1511381939415-e44015466834?w=600'">
                 <div class="product-info">
@@ -145,12 +145,12 @@
                             <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
                         </span>
                     </div>
-                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp">💬 Notificarme por WhatsApp</button>
+                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp" onclick="event.stopPropagation(); window.open('https://wa.me/573017606723', '_blank')">💬 Notificarme por WhatsApp</button>
                 </div>
             </div>
 
             <!-- Product 5 - Dulce Tobacco (FOR MEN) -->
-            <div class="product-card product-men" data-gender="men">
+            <div class="product-card product-men" data-gender="men" onclick="openProductModal('tobacco')">
                 <span class="product-badge" data-es="Elegante" data-en="Elegant">Elegante</span>
                 <img src="images/tobacco.jpg" alt="FRESCHE Dulce Tobacco" onerror="this.src='https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=600'">
                 <div class="product-info">
@@ -163,7 +163,7 @@
                             <small data-es="¡Disponible para compra pronto!" data-en="Available for purchase soon!">¡Disponible para compra pronto!</small>
                         </span>
                     </div>
-                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp">💬 Notificarme por WhatsApp</button>
+                    <button class="btn-whatsapp" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp" onclick="event.stopPropagation(); window.open('https://wa.me/573017606723', '_blank')">💬 Notificarme por WhatsApp</button>
                 </div>
             </div>
         </div>
@@ -249,7 +249,129 @@
         </div>
     </footer>
 
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeProductModal()">&times;</span>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be injected by JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Product information database
+        const products = {
+            cherry: {
+                name: 'FRESCHE CherryMood',
+                image: 'images/cherry.jpg',
+                size: '1oz',
+                description: {
+                    es: 'Dulzura vibrante que eleva tu ánimo y te envuelve en frescura deliciosa. Aroma irresistible de cerezas dulces que despierta tus sentidos.',
+                    en: 'Vibrant sweetness that lifts your spirits and envelops you in delicious freshness. Irresistible aroma of sweet cherries that awakens your senses.'
+                },
+                features: {
+                    es: ['Formulación premium', 'Protección 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
+                    en: ['Premium formulation', '24h protection', 'Natural ingredients', 'Made in Colombia']
+                }
+            },
+            velvet: {
+                name: 'FRESCHE Velvet',
+                image: 'images/velvet.jpg',
+                size: '1oz',
+                description: {
+                    es: 'Sofisticación suave como terciopelo con notas cítricas dulces y florales. Elegancia femenina que te hace sentir única y especial todo el día.',
+                    en: 'Soft sophistication like velvet with sweet citrus and floral notes. Feminine elegance that makes you feel unique and special all day.'
+                },
+                features: {
+                    es: ['Formulación premium', 'Protección 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
+                    en: ['Premium formulation', '24h protection', 'Natural ingredients', 'Made in Colombia']
+                }
+            },
+            coco: {
+                name: 'FRESCHE Coco & Vanilla',
+                image: 'images/coco.jpg',
+                size: '1oz',
+                description: {
+                    es: 'Irresistible combinación de coco tropical y vainilla dulce. La fragancia perfecta para el hombre moderno que busca distinción.',
+                    en: 'Irresistible combination of tropical coconut and sweet vanilla. The perfect fragrance for the modern man seeking distinction.'
+                },
+                features: {
+                    es: ['Formulación premium', 'Protección 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
+                    en: ['Premium formulation', '24h protection', 'Natural ingredients', 'Made in Colombia']
+                }
+            },
+            eclipse: {
+                name: 'FRESCHE Eclipse',
+                image: 'images/eclipse.jpg',
+                size: '1oz',
+                description: {
+                    es: 'Fragancia masculina sofisticada que te mantiene fresco y con buen olor todo el día. Sin sudor, puro bienestar.',
+                    en: 'Sophisticated masculine fragrance that keeps you fresh and good-smelling all day. No sweat, pure wellness.'
+                },
+                features: {
+                    es: ['Formulación premium', 'Protección 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
+                    en: ['Premium formulation', '24h protection', 'Natural ingredients', 'Made in Colombia']
+                }
+            },
+            tobacco: {
+                name: 'FRESCHE Dulce Tobacco',
+                image: 'images/tobacco.jpg',
+                size: '1oz',
+                description: {
+                    es: 'Elegante aroma a tabaco dulce que proyecta masculinidad y sofisticación. Para el hombre que sabe lo que quiere.',
+                    en: 'Elegant sweet tobacco aroma that projects masculinity and sophistication. For the man who knows what he wants.'
+                },
+                features: {
+                    es: ['Formulación premium', 'Protección 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
+                    en: ['Premium formulation', '24h protection', 'Natural ingredients', 'Made in Colombia']
+                }
+            }
+        };
+
+        // Open product modal
+        function openProductModal(productId) {
+            const product = products[productId];
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            const modal = document.getElementById('productModal');
+            const modalBody = document.getElementById('modalBody');
+            
+            const features = product.features[lang].map(f => `<li>✓ ${f}</li>`).join('');
+            
+            modalBody.innerHTML = `
+                <img src="${product.image}" alt="${product.name}" class="modal-product-image">
+                <h2>${product.name}</h2>
+                <p class="modal-description">${product.description[lang]}</p>
+                <div class="modal-size">${lang === 'es' ? 'Tamaño' : 'Size'}: ${product.size}</div>
+                <h3>${lang === 'es' ? 'Características' : 'Features'}:</h3>
+                <ul class="modal-features">${features}</ul>
+                <div class="modal-buttons">
+                    <a href="instructions.html" class="btn-instructions">${lang === 'es' ? '📋 Ver Instrucciones' : '📋 View Instructions'}</a>
+                    <button class="btn-whatsapp" onclick="window.open('https://wa.me/573017606723', '_blank')">
+                        ${lang === 'es' ? '💬 Notificarme por WhatsApp' : '💬 Notify me on WhatsApp'}
+                    </button>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close product modal
+        function closeProductModal() {
+            const modal = document.getElementById('productModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target == modal) {
+                closeProductModal();
+            }
+        }
+        
         // Theme switcher (Men/Women)
         function changeTheme(theme) {
             const body = document.body;

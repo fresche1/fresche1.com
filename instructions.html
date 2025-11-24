@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es" data-lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instrucciones de Uso - FRESCHE</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-men">
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.png" alt="FRESCHE Logo" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="logo-icon" style="display:none;">F</div>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html#home" data-es="Inicio" data-en="Home">Inicio</a></li>
+                <li><a href="index.html#products" data-es="Productos" data-en="Products">Productos</a></li>
+                <li><a href="instructions.html" data-es="📋 Instrucciones" data-en="📋 Instructions" class="active">📋 Instrucciones</a></li>
+                <li><a href="index.html#contact" data-es="✉️ Contacto" data-en="✉️ Contact">✉️ Contacto</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="lang-btn active" onclick="changeLang('es')">🇨🇴 ES</button>
+                <button class="lang-btn" onclick="changeLang('en')">🇺🇸 EN</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Instructions Page -->
+    <section class="instructions-page">
+        <div class="container">
+            <h1 data-es="Instrucciones de Uso" data-en="Instructions for Use">Instrucciones de Uso</h1>
+            <p class="subtitle" data-es="Escanea el código QR para ver las instrucciones" data-en="Scan QR code to view instructions">Escanea el código QR para ver las instrucciones</p>
+            
+            <div class="qr-center">
+                <img src="images/qr-black.png" alt="QR Instructions" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://fresche1.com/instructions'">
+                <p data-es="📱 Escanea QR para ver instrucciones" data-en="📱 Scan QR to view instructions">📱 Escanea QR para ver instrucciones</p>
+            </div>
+
+            <!-- DIRECTIONS -->
+            <div class="instruction-box directions">
+                <h2>
+                    <span class="icon">📋</span>
+                    <span data-es="INDICACIONES" data-en="DIRECTIONS">INDICACIONES</span>
+                </h2>
+                <p data-es="Aplicar sobre piel limpia y seca en el área íntima externa y región circundante. Masajear hasta su total absorción. No enjuagar. Solo para uso externo." data-en="Apply to clean, dry skin on the external intimate area and surrounding region. Massage until fully absorbed. Do not rinse. For external use only.">
+                    Aplicar sobre piel limpia y seca en el área íntima externa y región circundante. Masajear hasta su total absorción. No enjuagar. Solo para uso externo.
+                </p>
+            </div>
+
+            <!-- CAUTION -->
+            <div class="instruction-box caution">
+                <h2>
+                    <span class="icon">⚠️</span>
+                    <span data-es="PRECAUCIÓN" data-en="CAUTION">PRECAUCIÓN</span>
+                </h2>
+                <p data-es="Solo para uso externo. Mantener fuera del alcance de los niños. En caso de irritación, suspender el uso. En caso de contacto con los ojos, enjuagar inmediatamente. Conservar en su envase original a una temperatura inferior a 30°C y protegido de la luz directa." data-en="For external use only. Keep out of reach of children. If irritation occurs, discontinue use. In case of contact with eyes, rinse immediately. Store in its original container at a temperature below 30°C and protected from direct light.">
+                    Solo para uso externo. Mantener fuera del alcance de los niños. En caso de irritación, suspender el uso. En caso de contacto con los ojos, enjuagar inmediatamente. Conservar en su envase original a una temperatura inferior a 30°C y protegido de la luz directa.
+                </p>
+            </div>
+
+            <!-- INGREDIENTS -->
+            <div class="instruction-box ingredients">
+                <h2>
+                    <span class="icon">🧪</span>
+                    <span data-es="INGREDIENTES" data-en="INGREDIENTS">INGREDIENTES</span>
+                </h2>
+                <p class="ingredients-list">
+                    WATER, CETYL ALCOHOL, THEOBROMA CACAO SEED BUTTER, CETEARETH-20, BUTYROSPERMUM PARKII BUTTER, ZEA MAYS STARCH, CYCLOPENTASILOXANE, ISOPROPYL MYRISTATE, GLYCERYL STEARATE, POLYMETHYLSILSESQUIOXANE/SILICA CROSSPOLYMER, DIMETHICONE (and) DIMETHICONOL, POLYSORBATE 20 (and) HEXYLRESORCINOL (and) CAPRYLIC ACID (and) ISOPROPYL ALCOHOL (and) PEG-400 (and) CAPROIC ACID (and) CAPRIC ACID, PROPYLENE GLYCOL, PARFUM, COCOS NUCIFERA OIL, ALOE BARBADENSIS LEAF EXTRACT, CAMELLIA SINENSIS LEAF EXTRACT, CHAMOMILLA RECUTITA FLOWER EXTRACT, ROSMARINUS OFFICINALIS EXTRACT, TOCOPHEROL, HELIANTHUS ANNUUS SEED OIL, TRICLOSAN, DISODIUM EDTA, PHENOXYETHANOL, ETHYLHEXYLGLYCERIN.
+                </p>
+            </div>
+
+            <div class="back-btn-container">
+                <a href="index.html" class="btn-back" data-es="← Volver a Productos" data-en="← Back to Products">← Volver a Productos</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <img src="images/logo.png" alt="FRESCHE Logo" class="logo-img-footer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="width: 50px;">
+                    <div class="logo-icon" style="display:none;">F</div>
+                </div>
+                <p data-es="Cuidado íntimo premium para hombres y mujeres desde Colombia al mundo." data-en="Premium men's and women's intimate care from Colombia to the world.">Cuidado íntimo premium para hombres y mujeres desde Colombia al mundo.</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-es="Contacto" data-en="Contact">Contacto</h4>
+                <ul>
+                    <li>✉️ Email: fresche@fresche1.com</li>
+                    <li>📱 WhatsApp: +57 301 760 6723</li>
+                    <li>📍 Colombia</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p data-es="© 2024 FRESCHE. Todos los derechos reservados. Hecho en Colombia 🇨🇴" data-en="© 2024 FRESCHE. All rights reserved. Made in Colombia 🇨🇴">© 2024 FRESCHE. Todos los derechos reservados. Hecho en Colombia 🇨🇴</p>
+        </div>
+    </footer>
+
+    <script>
+        function changeLang(lang) {
+            const html = document.documentElement;
+            const langBtns = document.querySelectorAll('.lang-btn');
+            const elements = document.querySelectorAll('[data-es][data-en]');
+            
+            html.setAttribute('data-lang', lang);
+            html.setAttribute('lang', lang);
+            
+            langBtns.forEach(btn => {
+                if ((lang === 'es' && btn.textContent.includes('ES')) || 
+                    (lang === 'en' && btn.textContent.includes('EN'))) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            elements.forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = text;
+                } else {
+                    el.textContent = text;
+                }
+            });
+            
+            if (lang === 'es') {
+                document.title = 'Instrucciones de Uso - FRESCHE';
+            } else {
+                document.title = 'Instructions for Use - FRESCHE';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            changeLang('es');
+        });
+    </script>
+</body>
+</html>
