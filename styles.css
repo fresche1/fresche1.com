@@ -14,6 +14,17 @@
     --gray: #999;
     --light-gray: #1a1a1a;
     --green: #25d366;
+    --accent-color: var(--white); /* Default for men */
+}
+
+/* Theme for Women - Rosa */
+body.theme-women {
+    --accent-color: var(--pink);
+}
+
+/* Theme for Men - Blanco */
+body.theme-men {
+    --accent-color: var(--white);
 }
 
 body {
@@ -81,7 +92,7 @@ header {
 }
 
 .nav-menu a:hover {
-    color: var(--pink);
+    color: var(--accent-color);
 }
 
 .nav-buttons {
@@ -170,6 +181,11 @@ header {
 
 .float-btn.women:hover {
     box-shadow: 0 6px 20px rgba(255, 105, 180, 0.6);
+}
+
+.float-btn.active {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.8);
 }
 
 /* Hero Section */
@@ -283,7 +299,7 @@ header {
 }
 
 .section-header p {
-    color: var(--pink);
+    color: var(--accent-color);
     font-size: 1.2rem;
 }
 
@@ -306,15 +322,15 @@ header {
 }
 
 .product-card.pink {
-    border: 2px solid var(--pink);
+    border: 2px solid var(--accent-color);
 }
 
 .product-badge {
     position: absolute;
     top: 20px;
     right: 20px;
-    background: var(--pink);
-    color: var(--white);
+    background: var(--accent-color);
+    color: var(--black);
     padding: 0.5rem 1.5rem;
     border-radius: 50px;
     font-size: 0.85rem;
@@ -354,14 +370,14 @@ header {
 }
 
 .product-size {
-    color: var(--pink);
+    color: var(--accent-color);
     font-weight: 600;
     font-size: 1.2rem;
 }
 
 .product-price {
     text-align: right;
-    color: var(--pink);
+    color: var(--accent-color);
     font-weight: 600;
 }
 
@@ -486,7 +502,7 @@ header {
 }
 
 .coming-soon-box p {
-    color: var(--pink);
+    color: var(--accent-color);
     font-size: 1.2rem;
     margin-bottom: 2rem;
 }
@@ -508,7 +524,7 @@ footer {
 }
 
 .footer-col h4 {
-    color: var(--pink);
+    color: var(--accent-color);
     margin-bottom: 1rem;
     font-size: 1.2rem;
 }
@@ -528,7 +544,7 @@ footer {
 }
 
 .footer-col a:hover {
-    color: var(--pink);
+    color: var(--accent-color);
 }
 
 .footer-col p {

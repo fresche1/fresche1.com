@@ -37,8 +37,8 @@
 
     <!-- Floating Buttons -->
     <div class="floating-buttons">
-        <button class="float-btn men">👨 FOR MEN</button>
-        <button class="float-btn women">👩 FOR WOMAN</button>
+        <button class="float-btn men active" onclick="changeTheme('men')">👨 FOR MEN</button>
+        <button class="float-btn women" onclick="changeTheme('women')">👩 FOR WOMAN</button>
     </div>
 
     <!-- Hero Section -->
@@ -221,5 +221,31 @@
             <p>© 2024 FRESCHE. All rights reserved. Made in Colombia 🇨🇴</p>
         </div>
     </footer>
+
+    <script>
+        // Theme switcher
+        function changeTheme(theme) {
+            const body = document.body;
+            const menBtn = document.querySelector('.float-btn.men');
+            const womenBtn = document.querySelector('.float-btn.women');
+            
+            if (theme === 'men') {
+                body.classList.remove('theme-women');
+                body.classList.add('theme-men');
+                menBtn.classList.add('active');
+                womenBtn.classList.remove('active');
+            } else {
+                body.classList.remove('theme-men');
+                body.classList.add('theme-women');
+                womenBtn.classList.add('active');
+                menBtn.classList.remove('active');
+            }
+        }
+        
+        // Set default theme to men
+        document.addEventListener('DOMContentLoaded', function() {
+            changeTheme('men');
+        });
+    </script>
 </body>
 </html>
