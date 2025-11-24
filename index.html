@@ -342,15 +342,57 @@
                 <img src="${product.image}" alt="${product.name}" class="modal-product-image">
                 <h2>${product.name}</h2>
                 <p class="modal-description">${product.description[lang]}</p>
-                <div class="modal-size">${lang === 'es' ? 'Tamaño' : 'Size'}: ${product.size}</div>
-                <h3>${lang === 'es' ? 'Características' : 'Features'}:</h3>
-                <ul class="modal-features">${features}</ul>
-                <div class="modal-buttons">
-                    <a href="instructions.html" class="btn-instructions">${lang === 'es' ? '📋 Ver Instrucciones' : '📋 View Instructions'}</a>
-                    <button class="btn-whatsapp" onclick="window.open('https://wa.me/573017606723', '_blank')">
-                        ${lang === 'es' ? '💬 Notificarme por WhatsApp' : '💬 Notify me on WhatsApp'}
+                
+                <div class="modal-product-info">
+                    <div class="modal-size-section">
+                        <span class="modal-size-label">${lang === 'es' ? 'product.size' : 'product.size'}</span>
+                        <span class="modal-size-value">${product.size}</span>
+                    </div>
+                    <div class="modal-price-section">
+                        <span class="modal-price-label">${lang === 'es' ? 'Price coming soon' : 'Price coming soon'}</span>
+                        <span class="modal-price-sublabel">${lang === 'es' ? 'Available for purchase soon!' : 'Available for purchase soon!'}</span>
+                    </div>
+                </div>
+
+                <div class="modal-tabs">
+                    <button class="modal-tab active" onclick="showTab('details')">
+                        <span class="tab-icon">⭕</span> ${lang === 'es' ? 'Product details:' : 'Product details:'}
+                    </button>
+                    <button class="modal-tab" onclick="showTab('instructions')">
+                        <span class="tab-icon">📋</span> ${lang === 'es' ? 'Instructions for Use' : 'Instructions for Use'}
                     </button>
                 </div>
+
+                <div id="tab-details" class="modal-tab-content active">
+                    <ul class="modal-features">${features}</ul>
+                </div>
+
+                <div id="tab-instructions" class="modal-tab-content">
+                    <p>${lang === 'es' ? 'Ver página de instrucciones completas' : 'View full instructions page'}</p>
+                </div>
+
+                <div class="modal-values">
+                    <div class="modal-value-item">
+                        <span class="modal-value-icon">🌱</span>
+                        <span class="modal-value-text">${lang === 'es' ? 'Vegan product' : 'Vegan product'}</span>
+                    </div>
+                    <div class="modal-value-item">
+                        <span class="modal-value-icon">💙</span>
+                        <span class="modal-value-text">${lang === 'es' ? 'Not tested on animals' : 'Not tested on animals'}</span>
+                    </div>
+                    <div class="modal-value-item">
+                        <span class="modal-value-icon">♻️</span>
+                        <span class="modal-value-text">${lang === 'es' ? 'Recyclable' : 'Recyclable'}</span>
+                    </div>
+                    <div class="modal-value-item">
+                        <span class="modal-value-icon">CO</span>
+                        <span class="modal-value-text">${lang === 'es' ? 'Made in Colombia' : 'Made in Colombia'}</span>
+                    </div>
+                </div>
+
+                <button class="btn-whatsapp-modal" onclick="window.open('https://wa.me/573017606723', '_blank')">
+                    💬 ${lang === 'es' ? 'Notify me on WhatsApp' : 'Notify me on WhatsApp'}
+                </button>
             `;
             
             modal.style.display = 'block';
@@ -362,6 +404,23 @@
             const modal = document.getElementById('productModal');
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
+        }
+
+        // Show tab content
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.modal-tab');
+            const contents = document.querySelectorAll('.modal-tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            if (tabName === 'details') {
+                tabs[0].classList.add('active');
+                document.getElementById('tab-details').classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById('tab-instructions').classList.add('active');
+            }
         }
 
         // Close modal when clicking outside
