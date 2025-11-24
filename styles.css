@@ -204,7 +204,7 @@ header {
     justify-content: flex-start;
     max-width: 100%;
     margin: 0;
-    min-height: 350px;
+    min-height: 600px;
     position: relative;
     overflow: hidden;
     background: var(--black);
@@ -218,9 +218,8 @@ header {
     height: 100%;
     object-fit: cover;
     z-index: 0;
-    opacity: 0.25;
+    opacity: 0.3;
     display: none;
-    transform: scale(0.6);
 }
 
 .hero-video-women {
@@ -599,6 +598,138 @@ body.theme-men .hero-content-men {
     border: 2px solid var(--white);
     font-weight: bold;
     font-size: 1.5rem;
+}
+
+/* International Shipping Section */
+.shipping-section {
+    padding: 6rem 2rem;
+    background: var(--black);
+    text-align: center;
+}
+
+.shipping-header {
+    margin-bottom: 4rem;
+}
+
+.shipping-badge {
+    display: block;
+    color: var(--gold);
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+}
+
+.shipping-section h2 {
+    font-size: 3rem;
+    color: var(--white);
+    margin-bottom: 1rem;
+}
+
+.shipping-subtitle {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+.shipping-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+}
+
+.shipping-card {
+    background: var(--light-gray);
+    border: 2px solid #333;
+    border-radius: 15px;
+    padding: 0;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+    position: relative;
+}
+
+.shipping-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--gold);
+}
+
+.shipping-image {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.shipping-card h3 {
+    color: var(--white);
+    font-size: 1.5rem;
+    margin: 1.5rem 0 0.5rem;
+    padding: 0 1rem;
+}
+
+.shipping-contact {
+    color: var(--gold);
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    padding: 0 1rem;
+}
+
+.shipping-days {
+    display: block;
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin: 0.5rem 0 1.5rem;
+    padding: 0 1rem;
+}
+
+.shipping-note {
+    max-width: 900px;
+    margin: 0 auto 2rem;
+    padding: 1.5rem;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid var(--gold);
+    border-radius: 10px;
+}
+
+.shipping-note p {
+    color: var(--accent-color);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin: 0;
+}
+
+.shipping-calculator {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--light-gray);
+    border: 2px solid #333;
+    border-radius: 15px;
+}
+
+.calculator-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.shipping-calculator p {
+    color: var(--white);
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+.shipping-calculator a {
+    color: var(--accent-color);
+    font-size: 1rem;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.shipping-calculator a:hover {
+    color: var(--gold);
 }
 
 /* Coming Soon Section */
