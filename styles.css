@@ -1034,41 +1034,61 @@ body.theme-women .qr-code img {
     .hero {
         min-height: 500px;
         padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .hero-video {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.6;
         object-fit: cover;
     }
     
     .hero h1 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
+        text-align: center;
     }
     
     .hero p {
-        font-size: 0.95rem;
+        font-size: 0.85rem;
+        text-align: center;
     }
     
     .hero-content-men,
     .hero-content-women {
-        padding: 1.5rem 1.2rem !important;
-        max-width: 90% !important;
+        padding: 1.2rem 1rem !important;
+        max-width: 85% !important;
         margin: 0 auto;
         position: relative;
         z-index: 2;
+        background: rgba(0, 0, 0, 0.75) !important;
+        text-align: center;
+    }
+    
+    body.theme-women .hero-content-women {
+        background: rgba(0, 0, 0, 0.7) !important;
+        border: 1.5px solid var(--pink) !important;
     }
     
     .hero-content-men h1,
     .hero-content-women h1 {
-        font-size: 1.6rem !important;
-        margin-bottom: 0.8rem;
+        font-size: 1.4rem !important;
+        margin-bottom: 0.6rem;
+        text-align: center;
     }
     
     .hero-content-men p,
     .hero-content-women p {
-        font-size: 0.9rem !important;
-        line-height: 1.5;
+        font-size: 0.8rem !important;
+        line-height: 1.4;
+        text-align: center;
+    }
+    
+    .hero-tag {
+        font-size: 0.65rem !important;
+        text-align: center;
+        letter-spacing: 2px;
     }
     
     .products-grid {
@@ -1079,6 +1099,31 @@ body.theme-women .qr-code img {
     
     .product-card {
         max-width: 100%;
+    }
+    
+    .product-info-top h3 {
+        font-size: 1.1rem;
+        text-align: center;
+    }
+    
+    .product-info-top p {
+        font-size: 0.75rem;
+        text-align: center;
+    }
+    
+    .product-size,
+    .product-price {
+        font-size: 0.85rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.6rem;
+        text-align: center;
+    }
+    
+    .section-header p {
+        font-size: 0.85rem;
+        text-align: center;
     }
     
     .floating-buttons {
@@ -1104,8 +1149,19 @@ body.theme-women .qr-code img {
         min-width: auto;
     }
     
-    .section-header h2 {
-        font-size: 2rem;
+    .shipping-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .shipping-section h2 {
+        font-size: 1.6rem;
+        text-align: center;
+    }
+    
+    .shipping-subtitle {
+        font-size: 0.9rem;
+        text-align: center;
     }
     
     .shipping-grid {
@@ -1119,6 +1175,25 @@ body.theme-women .qr-code img {
         text-align: center;
     }
     
+    .footer-col h4 {
+        font-size: 1rem;
+    }
+    
+    .footer-col p,
+    .footer-col li,
+    .footer-col a {
+        font-size: 0.85rem;
+    }
+    
+    .footer-col h4 {
+        font-size: 1rem;
+    }
+    
+    .footer-col p,
+    .footer-col li {
+        font-size: 0.85rem;
+    }
+    
     .modal-content {
         width: 95%;
         margin: 5% auto;
@@ -1126,12 +1201,20 @@ body.theme-women .qr-code img {
     }
     
     .banner-coming-soon {
-        padding: 0.8rem 0.5rem;
-        font-size: 0.75rem;
+        padding: 0.5rem 0.3rem;
+        font-size: 0.65rem;
+        text-align: center;
+        line-height: 1.3;
     }
     
     .banner-coming-soon p {
         margin: 0.1rem 0;
+    }
+    
+    .banner-coming-soon strong {
+        font-size: 0.7rem;
+        display: block;
+        margin-bottom: 0.2rem;
     }
 }
 
