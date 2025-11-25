@@ -225,8 +225,9 @@ header {
     height: 100%;
     object-fit: cover;
     z-index: 0;
-    opacity: 0.15;
+    opacity: 0.4;
     display: none;
+    filter: brightness(1.2);
 }
 
 .hero-video-women {
