@@ -740,18 +740,217 @@
             changeTheme('men');
             changeLang('es');
         });
+
+        // FRESCHE AI Chatbot
+        const chatbotKnowledge = {
+            productos: {
+                cherrymood: {
+                    nombre: "CherryMood",
+                    tipo: "Femenino",
+                    descripcion: "Perfume íntimo con aroma a cereza, diseñado especialmente para mujeres",
+                    beneficios: ["Aroma seductor", "Larga duración", "pH balanceado", "Sensación de frescura"],
+                    precio: "Consultar disponibilidad"
+                },
+                velvet: {
+                    nombre: "Velvet",
+                    tipo: "Femenino",
+                    descripcion: "Fragancia íntima suave y sofisticada para la mujer moderna",
+                    beneficios: ["Textura sedosa", "Elegante aroma", "Hidratación", "Sensación aterciopelada"],
+                    precio: "Consultar disponibilidad"
+                },
+                coco: {
+                    nombre: "Coco & Vanilla",
+                    tipo: "Unisex",
+                    descripcion: "Perfume íntimo con combinación tropical de coco y vainilla",
+                    beneficios: ["Aroma dulce y tropical", "Para él y ella", "Larga duración", "Sensación refrescante"],
+                    precio: "Consultar disponibilidad"
+                },
+                eclipse: {
+                    nombre: "Eclipse",
+                    tipo: "Unisex",
+                    descripcion: "Fragancia íntima misteriosa y cautivadora",
+                    beneficios: ["Aroma único", "Versátil", "Sofisticado", "Efecto prolongado"],
+                    precio: "Consultar disponibilidad"
+                },
+                tobacco: {
+                    nombre: "Dulce Tobacco",
+                    tipo: "Masculino",
+                    descripcion: "Perfume íntimo con notas de tabaco dulce, ideal para hombres",
+                    beneficios: ["Aroma varonil", "Notas amaderadas", "Masculino y elegante", "Duración extendida"],
+                    precio: "Consultar disponibilidad"
+                }
+            },
+            instrucciones: [
+                "1. Lavar y secar completamente el área íntima",
+                "2. Aplicar 1-2 gotas del perfume íntimo",
+                "3. Masajear suavemente en la zona externa",
+                "4. Dejar absorber durante unos segundos",
+                "5. Disfrutar del aroma fresco y duradero"
+            ],
+            envios: {
+                colombia: "Envíos a toda Colombia",
+                internacional: "Envíos internacionales a Sudamérica, Asia y Europa",
+                contacto: "+57 301 760 6723"
+            },
+            contacto: {
+                whatsapp: "+57 301 760 6723",
+                email: "contacto@fresche.com"
+            }
+        };
+
+        function toggleChatbot() {
+            const window = document.getElementById('chatbot-window');
+            window.style.display = window.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatbot-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Agregar mensaje del usuario
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Generar respuesta de IA
+            setTimeout(() => {
+                const response = generateAIResponse(message);
+                addMessage(response, 'bot');
+            }, 800);
+        }
+
+        function addMessage(text, type) {
+            const messagesContainer = document.getElementById('chatbot-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type === 'user' ? 'user-message' : 'bot-message';
+            
+            if (type === 'bot') {
+                messageDiv.innerHTML = `<strong>FRESCHE AI:</strong> ${text}`;
+            } else {
+                messageDiv.innerHTML = `<strong>Tú:</strong> ${text}`;
+            }
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function generateAIResponse(message) {
+            const msg = message.toLowerCase();
+            
+            // Saludos
+            if (msg.match(/hola|buenos|buenas|hey|hi|hello/)) {
+                return "¡Hola! 👋 Soy el asistente virtual de FRESCHE. Puedo ayudarte con información sobre nuestros perfumes íntimos, instrucciones de uso, envíos y más. ¿Qué te gustaría saber?";
+            }
+            
+            // Productos específicos
+            if (msg.includes('cherry') || msg.includes('cereza')) {
+                const p = chatbotKnowledge.productos.cherrymood;
+                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. ¿Te gustaría saber cómo usarlo?`;
+            }
+            if (msg.includes('velvet')) {
+                const p = chatbotKnowledge.productos.velvet;
+                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Perfecto para la mujer elegante.`;
+            }
+            if (msg.includes('coco') || msg.includes('vanilla') || msg.includes('vainilla')) {
+                const p = chatbotKnowledge.productos.coco;
+                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Ideal para parejas.`;
+            }
+            if (msg.includes('eclipse')) {
+                const p = chatbotKnowledge.productos.eclipse;
+                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Misterioso y cautivador.`;
+            }
+            if (msg.includes('tobacco') || msg.includes('tabaco')) {
+                const p = chatbotKnowledge.productos.tobacco;
+                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Masculinidad y elegancia.`;
+            }
+            
+            // Productos en general
+            if (msg.match(/producto|perfume|fragancia|catalogo|que tienen|que venden/)) {
+                return "Tenemos 5 perfumes íntimos premium:<br><br>👩 <strong>Para Mujeres:</strong> CherryMood y Velvet<br>👫 <strong>Unisex:</strong> Coco & Vanilla y Eclipse<br>👨 <strong>Para Hombres:</strong> Dulce Tobacco<br><br>¿Sobre cuál te gustaría saber más?";
+            }
+            
+            // Instrucciones
+            if (msg.match(/usar|aplicar|instrucciones|como se usa|modo de uso/)) {
+                return `📋 <strong>Instrucciones de uso:</strong><br><br>${chatbotKnowledge.instrucciones.join('<br>')}`;
+            }
+            
+            // Envíos
+            if (msg.match(/envio|enviar|delivery|shipping|entreg|donde envian/)) {
+                return `📦 <strong>Envíos:</strong><br><br>🇨🇴 ${chatbotKnowledge.envios.colombia}<br>🌎 ${chatbotKnowledge.envios.internacional}<br><br>Contáctanos: ${chatbotKnowledge.envios.contacto}`;
+            }
+            
+            // Precios
+            if (msg.match(/precio|costo|valor|cuanto cuesta|cuanto vale/)) {
+                return "💰 Para conocer precios y promociones actuales, por favor contáctanos:<br><br>📱 WhatsApp: +57 301 760 6723<br>📧 Email: contacto@fresche.com<br><br>¡Tenemos ofertas especiales!";
+            }
+            
+            // Contacto
+            if (msg.match(/contacto|contactar|llamar|escribir|telefono|whatsapp|email/)) {
+                return `📞 <strong>Contáctanos:</strong><br><br>📱 WhatsApp: ${chatbotKnowledge.contacto.whatsapp}<br>📧 Email: ${chatbotKnowledge.contacto.email}<br><br>¡Estamos aquí para ayudarte!`;
+            }
+            
+            // Beneficios generales
+            if (msg.match(/beneficio|ventaja|por que|para que sirve/)) {
+                return "✨ <strong>Beneficios de los perfumes íntimos FRESCHE:</strong><br><br>• pH balanceado<br>• Aromas sofisticados y duraderos<br>• Aumentan la confianza<br>• Fórmulas dermatológicamente probadas<br>• Ingredientes de alta calidad<br>• Sensación de frescura prolongada";
+            }
+            
+            // Mujer
+            if (msg.match(/mujer|femenino|ella|chica/)) {
+                return "👩 <strong>Para Mujeres:</strong><br><br>🍒 <strong>CherryMood</strong> - Aroma seductor a cereza<br>💎 <strong>Velvet</strong> - Sofisticación y elegancia<br><br>Ambos productos tienen pH balanceado y larga duración. ¿Te gustaría más detalles?";
+            }
+            
+            // Hombre
+            if (msg.match(/hombre|masculino|el|chico/)) {
+                return "👨 <strong>Para Hombres:</strong><br><br>🍂 <strong>Dulce Tobacco</strong> - Notas amaderadas y masculinas<br><br>También tenemos opciones unisex como Eclipse y Coco & Vanilla. ¿Quieres saber más?";
+            }
+            
+            // Agradecimiento
+            if (msg.match(/gracias|thanks|thank you/)) {
+                return "¡De nada! 😊 Estoy aquí para ayudarte. ¿Hay algo más sobre FRESCHE que te gustaría saber?";
+            }
+            
+            // Respuesta por defecto
+            return "Puedo ayudarte con:<br><br>• Información sobre nuestros productos<br>• Instrucciones de uso<br>• Envíos y entregas<br>• Precios y contacto<br><br>¿Sobre qué te gustaría saber más?";
+        }
     </script>
 
-    <!-- Chatbot Widget WhatsApp -->
-    <a href="https://wa.me/573017606723?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20FRESCHE" 
-       class="whatsapp-float" 
-       target="_blank"
-       aria-label="Chat WhatsApp">
-        <svg width="60" height="60" viewBox="0 0 60 60">
-            <circle cx="30" cy="30" r="30" fill="#25D366"/>
-            <path d="M30.667 14.667c-8.284 0-15 6.716-15 15 0 2.67.7 5.18 1.926 7.356l-1.858 6.81 6.98-1.83c2.11 1.15 4.518 1.806 7.062 1.806 8.284 0 15-6.716 15-15s-6.716-15-15-15zm8.83 21.38c-.362.948-1.808 1.743-2.95 1.977-.77.157-1.777.282-5.164-1.107-4.332-1.778-7.125-6.168-7.342-6.45-.217-.282-1.767-2.35-1.767-4.48 0-2.13 1.118-3.177 1.514-3.61.396-.433.865-.542 1.154-.542.29 0 .578.003.832.015.267.013.625-.1.977.745.362.865 1.232 3.006 1.34 3.225.108.217.18.47.036.752-.144.282-.217.46-.433.7-.217.24-.456.536-.65.72-.217.206-.442.43-.19.843.252.413 1.12 1.847 2.403 2.993 1.65 1.473 3.042 1.933 3.474 2.15.433.217.686.18.938-.108.252-.29 1.082-1.26 1.37-1.693.29-.433.578-.362.975-.217.397.145 2.518 1.188 2.95 1.405.433.217.72.325.83.505.108.18.108 1.047-.252 2.058z" fill="white"/>
-        </svg>
-    </a>
+    <!-- FRESCHE AI Chatbot -->
+    <div id="fresche-chatbot" class="chatbot-container">
+        <button class="chatbot-toggle" onclick="toggleChatbot()">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3 .97 4.29L2 22l5.71-.97C9 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.38 0-2.68-.29-3.86-.81l-.28-.13-2.89.49.49-2.89-.13-.28C4.79 14.68 4.5 13.38 4.5 12c0-4.14 3.36-7.5 7.5-7.5s7.5 3.36 7.5 7.5-3.36 7.5-7.5 7.5z"/>
+                <circle cx="8" cy="12" r="1.5"/>
+                <circle cx="12" cy="12" r="1.5"/>
+                <circle cx="16" cy="12" r="1.5"/>
+            </svg>
+            <span class="chatbot-badge">IA</span>
+        </button>
+        
+        <div class="chatbot-window" id="chatbot-window">
+            <div class="chatbot-header">
+                <div class="chatbot-header-info">
+                    <img src="images/1758372322944blob.jpg" alt="FRESCHE" class="chatbot-logo">
+                    <div>
+                        <h3>FRESCHE AI</h3>
+                        <p>Asistente Virtual</p>
+                    </div>
+                </div>
+                <button class="chatbot-close" onclick="toggleChatbot()">&times;</button>
+            </div>
+            
+            <div class="chatbot-messages" id="chatbot-messages">
+                <div class="bot-message">
+                    <strong>FRESCHE AI:</strong> ¡Hola! 👋 Soy el asistente virtual de FRESCHE. ¿En qué puedo ayudarte hoy?
+                </div>
+            </div>
+            
+            <div class="chatbot-input-container">
+                <input type="text" id="chatbot-input" placeholder="Escribe tu pregunta..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()">Enviar</button>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
