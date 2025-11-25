@@ -1694,6 +1694,22 @@ body.theme-women .qr-center img {
     box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
 }
 
+/* Tidio Chat Widget Customization */
+#tidio-chat-iframe {
+    z-index: 10000 !important;
+}
+
+#tidio-chat {
+    z-index: 10000 !important;
+}
+
+@media (max-width: 768px) {
+    #tidio-chat-iframe {
+        bottom: 80px !important;
+        right: 10px !important;
+    }
+}
+
 @media (max-width: 768px) {
     .modal-values {
         grid-template-columns: repeat(2, 1fr);
