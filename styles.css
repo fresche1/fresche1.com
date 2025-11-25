@@ -269,7 +269,7 @@ body.theme-men .hero-video-men {
 .hero-content-men .hero-tag,
 .hero-content-men h1,
 .hero-content-men p {
-    color: var(--gold);
+    color: var(--gold) !important;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
 }
 
@@ -277,8 +277,16 @@ body.theme-men .hero-video-men {
     text-shadow: 3px 3px 10px rgba(0, 0, 0, 1), 0 0 20px rgba(0, 0, 0, 0.8);
 }
 
+.hero-content-men h1 span {
+    color: var(--gold) !important;
+}
+
+.hero-content-men .highlight {
+    color: var(--gold) !important;
+}
+
 .hero-content-men .hero-tag {
-    color: var(--gold);
+    color: var(--gold) !important;
     font-weight: 800;
     letter-spacing: 4px;
 }
