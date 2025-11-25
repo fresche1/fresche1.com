@@ -922,10 +922,35 @@ body.theme-women .qr-code img {
 @media (max-width: 768px) {
     .hamburger {
         display: flex;
+        order: 1;
     }
     
     .navbar {
-        padding: 1rem;
+        padding: 0.8rem 1rem;
+        gap: 1rem;
+        flex-wrap: nowrap;
+    }
+    
+    .logo {
+        order: 2;
+        flex: 1;
+        justify-content: center;
+    }
+    
+    .logo-img {
+        height: 50px;
+    }
+    
+    .nav-buttons {
+        order: 3;
+        gap: 0.3rem;
+        flex-shrink: 0;
+    }
+    
+    .lang-btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.75rem;
+        min-width: 45px;
     }
     
     .nav-menu {
@@ -999,16 +1024,43 @@ body.theme-women .qr-code img {
     }
     
     .hero {
-        min-height: 400px;
-        padding: 2rem 1rem;
+        min-height: 500px;
+        padding: 1rem;
+    }
+    
+    .hero-video {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.5;
+        object-fit: cover;
     }
     
     .hero h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
     
     .hero p {
-        font-size: 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .hero-content-men,
+    .hero-content-women {
+        padding: 1.5rem 1.2rem !important;
+        max-width: 90% !important;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-content-men h1,
+    .hero-content-women h1 {
+        font-size: 1.6rem !important;
+        margin-bottom: 0.8rem;
+    }
+    
+    .hero-content-men p,
+    .hero-content-women p {
+        font-size: 0.9rem !important;
+        line-height: 1.5;
     }
     
     .products-grid {
@@ -1066,19 +1118,12 @@ body.theme-women .qr-code img {
     }
     
     .banner-coming-soon {
-        padding: 0.8rem 1rem;
-        font-size: 0.85rem;
+        padding: 0.8rem 0.5rem;
+        font-size: 0.75rem;
     }
     
-    .hero-content-men,
-    .hero-content-women {
-        padding: 2rem 1.5rem !important;
-        max-width: 100% !important;
-    }
-    
-    .hero-content-men h1,
-    .hero-content-women h1 {
-        font-size: 1.8rem !important;
+    .banner-coming-soon p {
+        margin: 0.1rem 0;
     }
 }
 
@@ -1121,8 +1166,23 @@ body.theme-women .qr-code img {
 
 /* Small mobile devices */
 @media (max-width: 480px) {
+    .hero {
+        min-height: 450px;
+    }
+    
+    .hero-video {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.45;
+    }
+    
     .hero h1 {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
+    }
+    
+    .hero-content-men,
+    .hero-content-women {
+        padding: 1.2rem 1rem !important;
+        max-width: 95% !important;
     }
     
     .section-header h2 {
