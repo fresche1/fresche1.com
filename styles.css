@@ -1055,7 +1055,19 @@ body.theme-women .qr-code img {
         height: 300px;
         object-fit: cover;
         opacity: 1;
-        display: block;
+    }
+    
+    .hero-video-men,
+    .hero-video-women {
+        display: none !important;
+    }
+    
+    body.theme-men .hero-video-men {
+        display: block !important;
+    }
+    
+    body.theme-women .hero-video-women {
+        display: block !important;
     }
     
     .hero h1 {
@@ -1694,19 +1706,18 @@ body.theme-women .qr-center img {
     box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
 }
 
-/* Tidio Chat Widget Customization */
-#tidio-chat-iframe {
+/* Tawk.to Chat Widget Customization */
+.tawk-min-container {
     z-index: 10000 !important;
 }
 
-#tidio-chat {
+#tawkchat-container {
     z-index: 10000 !important;
 }
 
 @media (max-width: 768px) {
-    #tidio-chat-iframe {
+    .tawk-min-container {
         bottom: 80px !important;
-        right: 10px !important;
     }
 }
 
