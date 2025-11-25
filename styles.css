@@ -929,6 +929,7 @@ body.theme-women .qr-code img {
         padding: 0.8rem 1rem;
         gap: 1rem;
         flex-wrap: nowrap;
+        align-items: center;
     }
     
     .logo {
@@ -945,6 +946,7 @@ body.theme-women .qr-code img {
         order: 3;
         gap: 0.3rem;
         flex-shrink: 0;
+        position: static;
     }
     
     .lang-btn {
@@ -1402,10 +1404,10 @@ body.theme-women .qr-center img {
 
 .modal-product-image {
     width: 100%;
-    height: 350px;
+    height: 280px;
     object-fit: contain;
     border-radius: 0;
-    margin-bottom: 0;
+    margin-bottom: 1rem;
     background: #0a0a0a;
 }
 
@@ -1590,7 +1592,7 @@ body.theme-women .qr-center img {
     }
     
     .modal-product-image {
-        height: 200px;
+        height: 180px;
     }
 }
 
