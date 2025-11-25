@@ -30,11 +30,17 @@ body.theme-men {
     --border-color: var(--gold);
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--black);
     color: var(--white);
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
@@ -1032,17 +1038,24 @@ body.theme-women .qr-code img {
     }
     
     .hero {
-        min-height: 500px;
-        padding: 1rem;
+        min-height: auto;
+        padding: 0;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
     }
     
     .hero-video {
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 0.6;
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 100%;
+        height: 300px;
         object-fit: cover;
+        opacity: 1;
+        display: block;
     }
     
     .hero h1 {
@@ -1057,18 +1070,24 @@ body.theme-women .qr-code img {
     
     .hero-content-men,
     .hero-content-women {
-        padding: 1.2rem 1rem !important;
-        max-width: 85% !important;
-        margin: 0 auto;
+        padding: 1.5rem 1.2rem !important;
+        max-width: 100% !important;
+        margin: 0;
         position: relative;
-        z-index: 2;
-        background: rgba(0, 0, 0, 0.75) !important;
+        z-index: 1;
+        background: var(--black) !important;
         text-align: center;
+        border: none !important;
+        box-shadow: none !important;
     }
     
     body.theme-women .hero-content-women {
-        background: rgba(0, 0, 0, 0.7) !important;
-        border: 1.5px solid var(--pink) !important;
+        background: var(--black) !important;
+        border-top: 3px solid var(--pink) !important;
+    }
+    
+    body.theme-men .hero-content-men {
+        border-top: 3px solid var(--gold) !important;
     }
     
     .hero-content-men h1,
@@ -1487,11 +1506,17 @@ body.theme-women .qr-center img {
 
 .modal-product-image {
     width: 100%;
-    height: 280px;
+    height: 450px;
     object-fit: contain;
     border-radius: 0;
     margin-bottom: 1rem;
-    background: #0a0a0a;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    padding: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.modal-product-image:hover {
+    transform: scale(1.02);
 }
 
 .modal-body h2 {
@@ -1675,7 +1700,7 @@ body.theme-women .qr-center img {
     }
     
     .modal-product-image {
-        height: 180px;
+        height: 300px;
     }
 }
 
