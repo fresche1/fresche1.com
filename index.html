@@ -477,7 +477,39 @@
                 </div>
 
                 <div id="tab-instructions" class="modal-tab-content">
-                    <p>${lang === 'es' ? 'Ver página de instrucciones completas' : 'View full instructions page'}</p>
+                    <div style="padding: 1.5rem; background: rgba(212,175,55,0.05); border-radius: 10px; margin-top: 1rem;">
+                        <h3 style="color: var(--gold); font-size: 1.3rem; margin-bottom: 1rem;">
+                            ${lang === 'es' ? '📍 Cómo Usar' : '📍 How to Use'}
+                        </h3>
+                        <ol style="color: var(--white); line-height: 1.8; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.8rem;">
+                                ${lang === 'es' ? '<strong>Limpiar:</strong> Lava y seca bien el área íntima antes de aplicar.' : '<strong>Clean:</strong> Wash and dry the intimate area well before applying.'}
+                            </li>
+                            <li style="margin-bottom: 0.8rem;">
+                                ${lang === 'es' ? '<strong>Aplicar:</strong> Toma una pequeña cantidad (del tamaño de un guisante) con los dedos limpios.' : '<strong>Apply:</strong> Take a small amount (pea-sized) with clean fingers.'}
+                            </li>
+                            <li style="margin-bottom: 0.8rem;">
+                                ${lang === 'es' ? '<strong>Extender:</strong> Aplica suavemente en el área íntima externa con movimientos circulares.' : '<strong>Spread:</strong> Gently apply to the external intimate area with circular motions.'}
+                            </li>
+                            <li style="margin-bottom: 0.8rem;">
+                                ${lang === 'es' ? '<strong>Absorber:</strong> Masajea hasta que se absorba completamente. No enjuagar.' : '<strong>Absorb:</strong> Massage until completely absorbed. Do not rinse.'}
+                            </li>
+                            <li style="margin-bottom: 0.8rem;">
+                                ${lang === 'es' ? '<strong>Frecuencia:</strong> Usar diariamente o después de la ducha para mejores resultados.' : '<strong>Frequency:</strong> Use daily or after showering for best results.'}
+                            </li>
+                        </ol>
+                        <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,193,7,0.1); border-left: 3px solid var(--gold); border-radius: 5px;">
+                            <p style="color: var(--gold); font-size: 0.95rem; margin: 0;">
+                                <strong>⚠️ ${lang === 'es' ? 'Importante:' : 'Important:'}</strong>
+                                ${lang === 'es' ? 'Solo para uso externo. Evitar contacto con mucosas internas. Discontinuar si hay irritación.' : 'For external use only. Avoid contact with internal mucous membranes. Discontinue if irritation occurs.'}
+                            </p>
+                        </div>
+                        <div style="margin-top: 1rem; text-align: center;">
+                            <a href="instructions.html" style="display: inline-block; padding: 0.8rem 2rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); text-decoration: none; border-radius: 25px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(212,175,55,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                ${lang === 'es' ? '📝 Ver Instrucciones Completas' : '📝 View Full Instructions'}
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-values">
