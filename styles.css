@@ -296,7 +296,9 @@ body.theme-men .hero-video-men {
 
 .hero-content-women {
     display: none;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 105, 180, 0.15);
+    border: 2px solid var(--pink);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 105, 180, 0.3);
 }
 
 .hero-content-men {
@@ -333,6 +335,17 @@ body.theme-men .hero-video-men {
 
 body.theme-women .hero-content-women {
     display: block;
+}
+
+body.theme-women .hero-content-women .hero-tag,
+body.theme-women .hero-content-women h1,
+body.theme-women .hero-content-women p {
+    color: var(--white) !important;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+body.theme-women .hero-content-women h1 {
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 1), 0 0 20px rgba(255, 105, 180, 0.5);
 }
 
 body.theme-men .hero-content-men {
