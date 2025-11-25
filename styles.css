@@ -68,14 +68,16 @@ header {
 }
 
 .logo-img {
-    height: 80px;
+    height: 100px;
     width: auto;
-    filter: brightness(1.1) contrast(1.2);
-    transition: transform 0.3s;
+    filter: brightness(1.15) contrast(1.15) saturate(1.1);
+    transition: transform 0.3s ease;
+    object-fit: contain;
 }
 
 .logo-img:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    filter: brightness(1.25) contrast(1.2) saturate(1.15);
 }
 
 .logo-icon {
