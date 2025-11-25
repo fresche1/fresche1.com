@@ -500,38 +500,39 @@ body.theme-men .hero-content-men {
 
 /* Product Info Top - Name and Description */
 .product-info-top {
-    padding: 2rem 2rem 1rem 2rem;
+    padding: 1.5rem 2rem;
     position: relative;
     z-index: 2;
+    margin-top: auto;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 70%, rgba(0,0,0,0) 100%);
 }
 
 .product-info-top h3 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
+    margin-bottom: 0.3rem;
     color: var(--white);
     font-weight: 700;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.9), 0 0 15px rgba(0,0,0,0.8);
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
 }
 
 .product-info-top p {
     color: #fff;
-    line-height: 1.6;
-    font-size: 1rem;
-    text-shadow: 1px 1px 6px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.8);
+    line-height: 1.4;
+    font-size: 0.9rem;
+    text-shadow: 1px 1px 6px rgba(0,0,0,0.9);
     font-weight: 500;
+    margin-bottom: 0.5rem;
 }
 
 /* Product Info Bottom - Size and Price */
 .product-info-bottom {
-    padding: 1rem 2rem 2rem 2rem;
+    padding: 0 2rem 1.5rem 2rem;
     position: relative;
     z-index: 2;
-    margin-top: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    padding-top: 1.5rem;
+    background: rgba(0,0,0,0.95);
 }
 
 .product-size {
