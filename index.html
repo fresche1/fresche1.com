@@ -2,7 +2,10 @@
 <html lang="es" data-lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>FRESCHE - Cuidado Íntimo Premium desde Colombia</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -10,13 +13,18 @@
     <!-- Header -->
     <header>
         <nav class="navbar">
+            <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <div class="logo">
                 <img src="images/1758372322944blob.jpg" alt="FRESCHE Logo" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="logo-icon" style="display:none;">F</div>
             </div>
-            <ul class="nav-menu">
-                <li><a href="#home" data-es="Inicio" data-en="Home">Inicio</a></li>
-                <li><a href="#products" data-es="Productos" data-en="Products">Productos</a></li>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" onclick="closeMenu()" data-es="Inicio" data-en="Home">Inicio</a></li>
+                <li><a href="#products" onclick="closeMenu()" data-es="Productos" data-en="Products">Productos</a></li>
                 <li><a href="instructions.html" data-es="📋 Instrucciones" data-en="📋 Instructions">📋 Instrucciones</a></li>
                 <li><a href="https://wa.me/573017606723" target="_blank" data-es="✉️ Contacto" data-en="✉️ Contact">✉️ Contacto</a></li>
                 <li><a href="https://wa.me/573017606723" target="_blank" data-es="📱 WhatsApp" data-en="📱 WhatsApp">📱 WhatsApp</a></li>
@@ -29,6 +37,9 @@
             <button class="pronto-btn" data-es="⚡ Muy Pronto" data-en="⚡ Coming Soon">⚡ Muy Pronto</button>
         </nav>
     </header>
+
+    <!-- Menu Overlay for Mobile -->
+    <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
     <!-- Coming Soon Banner -->
     <div class="banner-coming-soon">
@@ -661,6 +672,35 @@
             if (event.target === productModal) {
                 closeProductModal();
             }
+        }
+
+        // Mobile Menu Functions
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const menuOverlay = document.getElementById('menuOverlay');
+            const hamburger = document.querySelector('.hamburger');
+            
+            navMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if (navMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        function closeMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const menuOverlay = document.getElementById('menuOverlay');
+            const hamburger = document.querySelector('.hamburger');
+            
+            navMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            hamburger.classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
 
         // Set default theme and language on load
