@@ -266,22 +266,21 @@
             <div class="footer-col">
                 <h4 data-es="Productos" data-en="Products">Productos</h4>
                 <ul>
-                    <li><a href="#">FRESCHE Eclipse</a></li>
-                    <li><a href="#">FRESCHE Coco & Vanilla</a></li>
-                    <li><a href="#">FRESCHE Dulce Tobacco</a></li>
-                    <li><a href="#">FRESCHE CherryMood</a></li>
-                    <li><a href="#">FRESCHE Velvet</a></li>
+                    <li><a href="#" onclick="openProductModal('eclipse'); return false;" style="cursor: pointer;">FRESCHE Eclipse</a></li>
+                    <li><a href="#" onclick="openProductModal('coco'); return false;" style="cursor: pointer;">FRESCHE Coco & Vanilla</a></li>
+                    <li><a href="#" onclick="openProductModal('tobacco'); return false;" style="cursor: pointer;">FRESCHE Dulce Tobacco</a></li>
+                    <li><a href="#" onclick="openProductModal('cherry'); return false;" style="cursor: pointer;">FRESCHE CherryMood</a></li>
+                    <li><a href="#" onclick="openProductModal('velvet'); return false;" style="cursor: pointer;">FRESCHE Velvet</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4 data-es="Soporte" data-en="Support">Soporte</h4>
                 <ul>
-                    <li>✉️ Email: fresche@fresche1.com</li>
-                    <li>📱 WhatsApp: +57 301 760 6723</li>
-                    <li><a href="#" data-es="Acerca de Nosotros" data-en="About Us">Acerca de Nosotros</a></li>
-                    <li><a href="#" data-es="Envíos" data-en="Shipping">Envíos</a></li>
-                    <li><a href="#" data-es="📋 Instrucciones de Uso" data-en="📋 Instructions for Use">📋 Instrucciones de Uso</a></li>
-                    <li><a href="#" data-es="💬 Mensajes Directos" data-en="💬 Direct Messages">💬 Mensajes Directos</a></li>
+                    <li><a href="#" onclick="openContactModal(); return false;" style="cursor: pointer;" data-es="✉️ Contacto" data-en="✉️ Contact">✉️ Contacto</a></li>
+                    <li><a href="#" onclick="openAboutModal(); return false;" style="cursor: pointer;" data-es="Acerca de Nosotros" data-en="About Us">Acerca de Nosotros</a></li>
+                    <li><a href="#shipping" style="cursor: pointer;" data-es="Envíos" data-en="Shipping">Envíos</a></li>
+                    <li><a href="instructions.html" style="cursor: pointer;" data-es="📋 Instrucciones de Uso" data-en="📋 Instructions for Use">📋 Instrucciones de Uso</a></li>
+                    <li><a href="https://wa.me/573017606723" target="_blank" style="cursor: pointer;" data-es="💬 Mensajes Directos" data-en="💬 Direct Messages">💬 Mensajes Directos</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -305,6 +304,55 @@
             <span class="close-modal" onclick="closeProductModal()">&times;</span>
             <div class="modal-body" id="modalBody">
                 <!-- Content will be injected by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- About Us Modal -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeAboutModal()">&times;</span>
+            <div id="aboutModalBody" style="text-align: center; padding: 2rem;">
+                <div style="position: relative; padding: 3rem; background: linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(20,20,20,0.98) 100%); border-radius: 15px; box-shadow: 0 20px 60px rgba(212,175,55,0.3);">
+                    <img src="images/1758372322944blob.jpg" alt="FRESCHE Logo" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 250px; opacity: 0.08; filter: brightness(1.5);">
+                    <div style="position: relative; z-index: 2;">
+                        <h2 style="color: rgb(212,175,55); font-size: 2.5rem; margin-bottom: 1.5rem; text-shadow: 0 0 20px rgba(212,175,55,0.5);" data-es="Acerca de FRESCHE" data-en="About FRESCHE">Acerca de FRESCHE</h2>
+                        <p style="color: #fff; font-size: 1.2rem; line-height: 1.8; margin-bottom: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);" data-es="FRESCHE es una marca colombiana pionera en el cuidado íntimo premium. Nacimos con la misión de revolucionar la higiene personal a través de fórmulas innovadoras y fragancias sofisticadas." data-en="FRESCHE is a Colombian brand pioneering in premium intimate care. We were born with the mission to revolutionize personal hygiene through innovative formulas and sophisticated fragrances.">FRESCHE es una marca colombiana pionera en el cuidado íntimo premium. Nacimos con la misión de revolucionar la higiene personal a través de fórmulas innovadoras y fragancias sofisticadas.</p>
+                        <p style="color: #fff; font-size: 1.2rem; line-height: 1.8; margin-bottom: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);" data-es="Nuestras cremas íntimas están elaboradas con ingredientes naturales premium, ofreciendo protección de 24 horas, frescura duradera y fragancias únicas diseñadas tanto para hombres como para mujeres." data-en="Our intimate creams are made with premium natural ingredients, offering 24-hour protection, lasting freshness, and unique fragrances designed for both men and women.">Nuestras cremas íntimas están elaboradas con ingredientes naturales premium, ofreciendo protección de 24 horas, frescura duradera y fragancias únicas diseñadas tanto para hombres como para mujeres.</p>
+                        <p style="color: rgb(212,175,55); font-size: 1.3rem; font-weight: 600; text-shadow: 0 0 15px rgba(212,175,55,0.6);" data-es="Desde Colombia para el mundo 🇨🇴✨" data-en="From Colombia to the world 🇨🇴✨">Desde Colombia para el mundo 🇨🇴✨</p>
+                        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid rgba(212,175,55,0.3);">
+                            <p style="color: #fff; font-size: 1.1rem; margin-bottom: 0.5rem;">🌱 <span data-es="Producto vegano" data-en="Vegan product">Producto vegano</span></p>
+                            <p style="color: #fff; font-size: 1.1rem; margin-bottom: 0.5rem;">💙 <span data-es="No testeado en animales" data-en="Not tested on animals">No testeado en animales</span></p>
+                            <p style="color: #fff; font-size: 1.1rem; margin-bottom: 0.5rem;">♻️ <span data-es="Reciclable" data-en="Recyclable">Reciclable</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeContactModal()">&times;</span>
+            <div id="contactModalBody" style="text-align: center; padding: 2rem;">
+                <h2 style="color: rgb(212,175,55); margin-bottom: 2rem;" data-es="Selecciona tu método de contacto" data-en="Select your contact method">Selecciona tu método de contacto</h2>
+                <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 400px; margin: 0 auto;">
+                    <a href="mailto:fresche@fresche1.com" style="display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.2) 100%); border: 2px solid rgb(212,175,55); border-radius: 10px; color: #fff; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(212,175,55,0.3) 0%, rgba(212,175,55,0.4) 100%)'; this.style.transform='translateY(-5px)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.2) 100%)'; this.style.transform='translateY(0)';">
+                        <span style="font-size: 2rem;">✉️</span>
+                        <div style="text-align: left;">
+                            <div style="font-weight: 600;" data-es="Enviar Email" data-en="Send Email">Enviar Email</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">fresche@fresche1.com</div>
+                        </div>
+                    </a>
+                    <a href="https://wa.me/573017606723" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(37,211,102,0.1) 0%, rgba(37,211,102,0.2) 100%); border: 2px solid #25D366; border-radius: 10px; color: #fff; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(37,211,102,0.3) 0%, rgba(37,211,102,0.4) 100%)'; this.style.transform='translateY(-5px)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(37,211,102,0.1) 0%, rgba(37,211,102,0.2) 100%)'; this.style.transform='translateY(0)';">
+                        <span style="font-size: 2rem;">📱</span>
+                        <div style="text-align: left;">
+                            <div style="font-weight: 600;" data-es="WhatsApp" data-en="WhatsApp">WhatsApp</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">+57 301 760 6723</div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -556,6 +604,65 @@
             }
         }
         
+        // Open/Close About Modal
+        function openAboutModal() {
+            const modal = document.getElementById('aboutModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Update translations
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            const elements = modal.querySelectorAll('[data-es][data-en]');
+            elements.forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (text) el.textContent = text;
+            });
+        }
+        
+        function closeAboutModal() {
+            const modal = document.getElementById('aboutModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Open/Close Contact Modal
+        function openContactModal() {
+            const modal = document.getElementById('contactModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Update translations
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            const elements = modal.querySelectorAll('[data-es][data-en]');
+            elements.forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (text) el.textContent = text;
+            });
+        }
+        
+        function closeContactModal() {
+            const modal = document.getElementById('contactModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const aboutModal = document.getElementById('aboutModal');
+            const contactModal = document.getElementById('contactModal');
+            const productModal = document.getElementById('productModal');
+            
+            if (event.target === aboutModal) {
+                closeAboutModal();
+            }
+            if (event.target === contactModal) {
+                closeContactModal();
+            }
+            if (event.target === productModal) {
+                closeProductModal();
+            }
+        }
+
         // Set default theme and language on load
         document.addEventListener('DOMContentLoaded', function() {
             changeTheme('men');
