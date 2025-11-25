@@ -256,10 +256,19 @@ body.theme-men .hero-video-men {
 
 .hero-content-women {
     display: none;
+    background: rgba(255, 255, 255, 0.95);
 }
 
 .hero-content-men {
     display: none;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid var(--gold);
+}
+
+.hero-content-men .hero-tag,
+.hero-content-men h1,
+.hero-content-men p {
+    color: var(--gold);
 }
 
 body.theme-women .hero-content-women {
@@ -1258,3 +1267,4 @@ footer {
         height: 250px;
     }
 }
+
