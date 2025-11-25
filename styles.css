@@ -261,14 +261,26 @@ body.theme-men .hero-video-men {
 
 .hero-content-men {
     display: none;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.92);
     border: 2px solid var(--gold);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 175, 55, 0.3);
 }
 
 .hero-content-men .hero-tag,
 .hero-content-men h1,
 .hero-content-men p {
     color: var(--gold);
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+.hero-content-men h1 {
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 1), 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.hero-content-men .hero-tag {
+    color: var(--gold);
+    font-weight: 800;
+    letter-spacing: 4px;
 }
 
 body.theme-women .hero-content-women {
