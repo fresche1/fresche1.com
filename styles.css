@@ -857,6 +857,10 @@ footer {
     padding: 10px;
 }
 
+body.theme-women .qr-code img {
+    background: var(--pink);
+}
+
 .qr-code p {
     margin-top: 0.5rem;
     font-size: 0.9rem;
@@ -937,6 +941,10 @@ footer {
     background: white;
     padding: 15px;
     border-radius: 15px;
+}
+
+body.theme-women .qr-center img {
+    background: var(--pink);
 }
 
 .qr-center p {
