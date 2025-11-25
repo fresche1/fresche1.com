@@ -1042,7 +1042,7 @@ body.theme-women .qr-code img {
         padding: 0;
         display: flex;
         flex-direction: column;
-        align-items: stretch;
+        align-items: center;
         justify-content: flex-start;
     }
     
@@ -1052,22 +1052,30 @@ body.theme-women .qr-code img {
         left: auto;
         transform: none;
         width: 100%;
-        height: 300px;
+        height: 350px;
         object-fit: cover;
         opacity: 1;
+        display: none;
     }
     
-    .hero-video-men,
+    .hero-video-men {
+        display: none;
+    }
+    
     .hero-video-women {
-        display: none !important;
+        display: none;
     }
     
     body.theme-men .hero-video-men {
-        display: block !important;
+        display: block;
     }
     
     body.theme-women .hero-video-women {
-        display: block !important;
+        display: block;
+    }
+    
+    .hero-content {
+        display: none;
     }
     
     .hero h1 {
@@ -1080,10 +1088,15 @@ body.theme-women .qr-code img {
         text-align: center;
     }
     
+    .hero-content {
+        display: none;
+    }
+    
     .hero-content-men,
     .hero-content-women {
-        padding: 1.5rem 1.2rem !important;
+        padding: 2rem 1.5rem !important;
         max-width: 100% !important;
+        width: 100%;
         margin: 0;
         position: relative;
         z-index: 1;
@@ -1091,14 +1104,17 @@ body.theme-women .qr-code img {
         text-align: center;
         border: none !important;
         box-shadow: none !important;
+        display: none;
     }
     
     body.theme-women .hero-content-women {
+        display: block;
         background: var(--black) !important;
         border-top: 3px solid var(--pink) !important;
     }
     
     body.theme-men .hero-content-men {
+        display: block;
         border-top: 3px solid var(--gold) !important;
     }
     
@@ -1706,18 +1722,30 @@ body.theme-women .qr-center img {
     box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
 }
 
-/* Tawk.to Chat Widget Customization */
-.tawk-min-container {
-    z-index: 10000 !important;
+/* WhatsApp Float Button */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
 }
 
-#tawkchat-container {
-    z-index: 10000 !important;
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(0 6px 12px rgba(37,211,102,0.5));
 }
 
 @media (max-width: 768px) {
-    .tawk-min-container {
-        bottom: 80px !important;
+    .whatsapp-float {
+        bottom: 100px;
+        right: 15px;
+        width: 55px;
+        height: 55px;
     }
 }
 
