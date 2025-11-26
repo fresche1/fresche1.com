@@ -258,11 +258,11 @@ header {
 
 .hero-video {
     position: absolute;
-    top: 80px;
+    top: 150px;
     left: 50%;
     transform: translateX(-50%) scale(0.65);
     width: 100%;
-    height: calc(100% - 80px);
+    height: calc(100% - 150px);
     object-fit: contain;
     z-index: 0;
     opacity: 0.55;
@@ -1405,7 +1405,8 @@ body.theme-women .footer-product-men {
     background-size: 40%;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.05;
+    opacity: 0.12;
+    filter: brightness(1.4);
     z-index: 0;
     pointer-events: none;
 }
@@ -1461,22 +1462,6 @@ body.theme-women .qr-center img {
     box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
     position: relative;
     overflow: hidden;
-}
-
-.instruction-box::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 150px;
-    height: 150px;
-    background-image: url('images/1758372322944blob.jpg');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.08;
-    z-index: 0;
 }
 
 .instruction-box h2 {
