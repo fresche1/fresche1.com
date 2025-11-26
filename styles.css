@@ -1255,7 +1255,8 @@ body.theme-women .footer-product-men {
     .hero-video-men {
         display: none;
         position: relative !important;
-        left: 50% !important;
+        left: 60% !important;
+        top: 30% !important;
         transform: translateX(-50%) !important;
         width: 100vw !important;
         max-width: none !important;
@@ -1277,7 +1278,8 @@ body.theme-women .footer-product-men {
     body.theme-men .hero-video-men {
         display: block;
         position: relative !important;
-        left: 50% !important;
+        left: 60% !important;
+        top: 30% !important;
         transform: translateX(-50%) !important;
         width: 100vw !important;
         max-width: none !important;
