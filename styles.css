@@ -1253,18 +1253,22 @@ body.theme-women .footer-product-men {
     
     .hero-video-men {
         display: none;
+        transform: none;
     }
     
     .hero-video-women {
         display: none;
+        transform: none;
     }
     
     body.theme-men .hero-video-men {
         display: block;
+        transform: none;
     }
     
     body.theme-women .hero-video-women {
         display: block;
+        transform: none;
     }
     
     .hero-content {
