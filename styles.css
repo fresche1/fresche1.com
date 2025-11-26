@@ -1508,6 +1508,8 @@ body.theme-women .qr-center img {
     font-size: 0.95rem !important;
     color: #d4af37 !important;
     word-break: break-word;
+    text-align: center;
+    line-height: 1.8;
 }
 
 .product-features {
