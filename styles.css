@@ -280,6 +280,7 @@ header {
 
 body.theme-women .hero-video-women {
     display: block;
+    transform: translateX(calc(-50% + 2cm));
 }
 
 body.theme-men .hero-video-men {
