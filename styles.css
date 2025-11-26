@@ -1390,13 +1390,37 @@ body.theme-women .footer-product-men {
 .instructions-page {
     padding: 6rem 2rem 4rem;
     min-height: 80vh;
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    position: relative;
+}
+
+.instructions-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/1758372322944blob.jpg');
+    background-size: 40%;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.05;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.instructions-page .container {
+    position: relative;
+    z-index: 1;
 }
 
 .instructions-page h1 {
     text-align: center;
     font-size: 3rem;
     margin-bottom: 1rem;
-    color: var(--white);
+    color: var(--gold);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
 }
 
 .instructions-page .subtitle {
@@ -1429,11 +1453,30 @@ body.theme-women .qr-center img {
 }
 
 .instruction-box {
-    background: var(--light-gray);
+    background: linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(26,26,26,0.9) 100%);
     border-radius: 20px;
     padding: 2.5rem;
     margin-bottom: 2rem;
-    border: 2px solid #333;
+    border: 2px solid var(--gold);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.instruction-box::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    background-image: url('images/1758372322944blob.jpg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.08;
+    z-index: 0;
 }
 
 .instruction-box h2 {
@@ -1442,6 +1485,9 @@ body.theme-women .qr-center img {
     gap: 1rem;
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
+    color: var(--gold);
+    position: relative;
+    z-index: 1;
 }
 
 .instruction-box .icon {
@@ -1449,13 +1495,15 @@ body.theme-women .qr-center img {
 }
 
 .instruction-box p {
-    color: var(--gray);
+    color: #e0e0e0;
     line-height: 1.8;
     font-size: 1.1rem;
+    position: relative;
+    z-index: 1;
 }
 
 .instruction-box.directions {
-    border-color: var(--border-color);
+    border-color: var(--gold);
 }
 
 .instruction-box.directions h2 {
@@ -1481,8 +1529,43 @@ body.theme-women .qr-center img {
 
 .ingredients-list {
     font-size: 0.95rem !important;
-    color: #aaa !important;
+    color: #d4af37 !important;
     word-break: break-word;
+}
+
+.product-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 3rem 0;
+}
+
+.feature-item {
+    background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(26,26,26,0.85) 100%);
+    border: 2px solid var(--gold);
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    transition: all 0.3s;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+}
+
+.feature-item span:last-child {
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 1rem;
 }
 
 .back-btn-container {
