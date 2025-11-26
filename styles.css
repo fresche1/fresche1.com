@@ -1253,22 +1253,38 @@ body.theme-women .footer-product-men {
     
     .hero-video-men {
         display: none;
-        transform: none;
+        transform: none !important;
+        width: 100% !important;
+        height: auto !important;
+        left: auto !important;
+        right: auto !important;
     }
     
     .hero-video-women {
         display: none;
-        transform: none;
+        transform: none !important;
+        width: 100% !important;
+        height: auto !important;
+        left: auto !important;
+        right: auto !important;
     }
     
     body.theme-men .hero-video-men {
         display: block;
-        transform: none;
+        transform: none !important;
+        width: 100% !important;
+        height: auto !important;
+        left: auto !important;
+        right: auto !important;
     }
     
     body.theme-women .hero-video-women {
         display: block;
-        transform: none;
+        transform: none !important;
+        width: 100% !important;
+        height: auto !important;
+        left: auto !important;
+        right: auto !important;
     }
     
     .hero-content {
