@@ -912,6 +912,20 @@ body.theme-women .qr-code img {
     background: var(--pink);
 }
 
+/* Footer product filtering by theme */
+.footer-product-men,
+.footer-product-women {
+    display: list-item;
+}
+
+body.theme-men .footer-product-women {
+    display: none;
+}
+
+body.theme-women .footer-product-men {
+    display: none;
+}
+
 .qr-code p {
     margin-top: 0.5rem;
     font-size: 0.9rem;
@@ -1042,25 +1056,26 @@ body.theme-women .qr-code img {
         padding: 0;
         display: flex;
         flex-direction: column;
-        align-items: stretch;
+        align-items: center;
         justify-content: flex-start;
         width: 100%;
         overflow: hidden;
+        position: relative;
     }
     
     .hero-video {
-        position: static;
-        top: auto;
-        left: auto;
-        transform: none;
+        position: relative;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
         width: 100%;
         max-width: 100%;
-        height: 350px;
+        height: 400px;
         object-fit: cover;
         opacity: 1;
         display: none;
         margin: 0;
-        filter: brightness(1.3) contrast(1.1);
+        filter: brightness(1.4) contrast(1.15);
         z-index: 0;
     }
     
@@ -1254,20 +1269,41 @@ body.theme-women .qr-code img {
     }
     
     .banner-coming-soon {
-        padding: 0.5rem 0.3rem;
-        font-size: 0.65rem;
+        padding: 0.5rem 0.5rem;
+        font-size: 0.6rem;
         text-align: center;
-        line-height: 1.3;
+        line-height: 1.4;
+        overflow: hidden;
     }
     
     .banner-coming-soon p {
         margin: 0.1rem 0;
+        padding: 0 0.3rem;
+        word-wrap: break-word;
     }
     
     .banner-coming-soon strong {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         display: block;
         margin-bottom: 0.2rem;
+        word-wrap: break-word;
+    }
+    
+    .coming-soon-section {
+        padding: 3rem 1rem;
+    }
+    
+    .coming-soon-box {
+        padding: 2rem 1.5rem;
+    }
+    
+    .coming-soon-box h2 {
+        font-size: 2rem;
+    }
+    
+    .coming-soon-box p {
+        font-size: 1rem;
+        padding: 0 0.5rem;
     }
 }
 
