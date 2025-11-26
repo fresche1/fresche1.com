@@ -1082,10 +1082,12 @@ body.theme-women .footer-product-men {
     
     .hero-video-men {
         display: none;
+        transform: scale(1);
     }
     
     .hero-video-women {
         display: none;
+        transform: scale(0.5);
     }
     
     body.theme-men .hero-video-men {
@@ -2059,15 +2061,16 @@ body.theme-women .qr-center img {
     
     .chatbot-container {
         bottom: 100px;
-        right: 15px;
+        right: 10px;
+        z-index: 9999;
     }
     
     .chatbot-window {
         bottom: 70px;
         right: 0;
         left: auto;
-        width: 350px;
-        max-width: calc(100vw - 30px);
+        width: 320px;
+        max-width: calc(100vw - 20px);
     }
     
     .chatbot-toggle {
