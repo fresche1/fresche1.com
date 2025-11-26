@@ -1095,6 +1095,12 @@ body.theme-women .footer-product-men {
         order: 1;
         flex: 1;
         justify-content: flex-start;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    
+    .logo:active {
+        transform: scale(0.95);
     }
     
     .logo-img {
@@ -1176,22 +1182,30 @@ body.theme-women .footer-product-men {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        background: rgba(212, 175, 55, 0.1);
-        border: 1px solid var(--gold);
-        color: var(--gold);
-        padding: 0.4rem 0.7rem;
-        font-size: 0.7rem;
-        border-radius: 6px;
+        background: transparent;
+        border: none;
+        color: rgba(212, 175, 55, 0.5);
+        padding: 0.3rem 0.5rem;
+        font-size: 0.65rem;
+        border-radius: 4px;
         order: 3;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        backdrop-filter: blur(10px);
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        transition: all 0.3s;
+    }
+    
+    .share-btn:hover {
+        color: var(--gold);
+        background: rgba(212, 175, 55, 0.05);
     }
     
     body.theme-women .share-btn {
-        background: rgba(255, 105, 180, 0.1);
-        border: 1px solid var(--pink);
+        color: rgba(255, 105, 180, 0.5);
+    }
+    
+    body.theme-women .share-btn:hover {
         color: var(--pink);
+        background: rgba(255, 105, 180, 0.05);
     }
     
     .pronto-btn {
