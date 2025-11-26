@@ -260,7 +260,7 @@ header {
     position: absolute;
     top: 150px;
     left: 50%;
-    transform: translateX(-50%) scale(0.65);
+    transform: translateX(-50%) scale(0.85);
     width: 100%;
     height: calc(100% - 150px);
     object-fit: contain;
