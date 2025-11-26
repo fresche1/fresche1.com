@@ -1053,35 +1053,31 @@ body.theme-women .footer-product-men {
     }
     
     .hero {
-        min-height: auto;
+        min-height: 100vh;
         padding: 0;
         margin: 0;
-        display: block;
+        display: flex;
+        flex-direction: column;
         width: 100%;
-        overflow: visible;
+        overflow: hidden;
         position: relative;
         background: var(--black);
     }
     
     .hero-video {
-        position: relative;
+        position: absolute;
         top: 0;
         left: 0;
-        transform: none;
-        width: 100vw;
-        max-width: 100vw;
-        height: auto;
-        min-height: 500px;
-        max-height: 70vh;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
-        object-position: center center;
-        opacity: 1;
+        object-position: center;
+        opacity: 0.85;
         display: block;
         margin: 0;
         padding: 0;
-        filter: brightness(1.3) contrast(1.1);
-        z-index: 1;
-        background: var(--black);
+        filter: brightness(1.1) contrast(1.05);
+        z-index: 0;
     }
     
     .hero-video-men {
