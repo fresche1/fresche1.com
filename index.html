@@ -33,7 +33,7 @@
                 <button class="lang-btn active" onclick="changeLang('es')">🇨🇴 ES</button>
                 <button class="lang-btn" onclick="changeLang('en')">🇺🇸 EN</button>
             </div>
-            <button class="share-btn" onclick="window.open('https://wa.me/573017606723', '_blank')" data-es="🔗 Compartir" data-en="🔗 Share">🔗 Compartir</button>
+            <button class="share-btn" onclick="shareWebsite()" data-es="🔗 Compartir" data-en="🔗 Share">🔗 Compartir</button>
             <button class="pronto-btn" data-es="⚡ Muy Pronto" data-en="⚡ Coming Soon">⚡ Muy Pronto</button>
         </nav>
     </header>
@@ -638,6 +638,47 @@
                         product.style.display = 'block';
                     }
                 });
+            }
+        }
+        
+        // Share Website Function
+        async function shareWebsite() {
+            const shareData = {
+                title: 'FRESCHE - Cuidado Íntimo Premium',
+                text: 'Descubre FRESCHE: Cuidado íntimo premium con aromas elegantes. 100% natural, vegano y hecho en Colombia. 🇨🇴✨',
+                url: window.location.href
+            };
+
+            try {
+                // Try Web Share API (works on mobile and some modern browsers)
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    // Fallback for desktop browsers
+                    // Copy link to clipboard
+                    await navigator.clipboard.writeText(window.location.href);
+                    
+                    // Show custom share menu
+                    const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                    const message = lang === 'es' 
+                        ? '¡Enlace copiado! Ahora puedes pegarlo en cualquier aplicación.' 
+                        : 'Link copied! You can now paste it in any app.';
+                    
+                    alert(message);
+                }
+            } catch (err) {
+                console.log('Error sharing:', err);
+                // If everything fails, copy to clipboard
+                try {
+                    await navigator.clipboard.writeText(window.location.href);
+                    const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                    const message = lang === 'es' 
+                        ? '¡Enlace copiado al portapapeles!' 
+                        : 'Link copied to clipboard!';
+                    alert(message);
+                } catch (clipErr) {
+                    console.log('Clipboard error:', clipErr);
+                }
             }
         }
         
