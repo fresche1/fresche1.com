@@ -182,14 +182,24 @@ body.bg-light .nav-menu a:hover {
 body.theme-men .footer-col h4,
 body.theme-men .footer-col p,
 body.theme-men .footer-col a,
-body.theme-men .footer-bottom {
+body.theme-men .footer-col ul li,
+body.theme-men .footer-bottom,
+body.theme-men .footer-bottom p,
+body.theme-men footer p,
+body.theme-men footer h4,
+body.theme-men footer a {
     color: var(--gold) !important;
 }
 
 body.theme-men.bg-light .footer-col h4,
 body.theme-men.bg-light .footer-col p,
 body.theme-men.bg-light .footer-col a,
-body.theme-men.bg-light .footer-bottom {
+body.theme-men.bg-light .footer-col ul li,
+body.theme-men.bg-light .footer-bottom,
+body.theme-men.bg-light .footer-bottom p,
+body.theme-men.bg-light footer p,
+body.theme-men.bg-light footer h4,
+body.theme-men.bg-light footer a {
     color: #000 !important;
 }
 
