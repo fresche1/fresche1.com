@@ -29,16 +29,13 @@
                 <li><a href="https://wa.me/573017606723" target="_blank" data-es="✉️ Contacto" data-en="✉️ Contact">✉️ Contacto</a></li>
                 <li><a href="https://wa.me/573017606723" target="_blank" data-es="📱 WhatsApp" data-en="📱 WhatsApp">📱 WhatsApp</a></li>
                 <li class="menu-color-selector">
-                    <span class="menu-color-label" data-es="Color de Fondo:" data-en="Background Color:">Color de Fondo:</span>
+                    <span class="menu-color-label" data-es="Tema:" data-en="Theme:">Tema:</span>
                     <div class="menu-color-buttons">
-                        <button class="menu-bg-btn active" onclick="changeBackgroundColor('black'); closeMenu();" data-color="black" title="Negro">
-                            <span style="display: block; width: 100%; height: 100%; background: #000; border-radius: 50%;"></span>
+                        <button class="menu-bg-btn active" onclick="changeBackgroundColor('black'); closeMenu();" data-color="black" title="Tema Oscuro">
+                            <span style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: #000; border-radius: 50%; color: #fff; font-size: 1.2rem;">🌙</span>
                         </button>
-                        <button class="menu-bg-btn" onclick="changeBackgroundColor('white'); closeMenu();" data-color="white" title="Blanco">
-                            <span style="display: block; width: 100%; height: 100%; background: #fff; border-radius: 50%;"></span>
-                        </button>
-                        <button class="menu-bg-btn" onclick="changeBackgroundColor('silver'); closeMenu();" data-color="silver" title="Plateado">
-                            <span style="display: block; width: 100%; height: 100%; background: linear-gradient(135deg, #d4d4d4 0%, #8e8e8e 100%); border-radius: 50%;"></span>
+                        <button class="menu-bg-btn" onclick="changeBackgroundColor('light'); closeMenu();" data-color="light" title="Tema Claro">
+                            <span style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: linear-gradient(135deg, #e8e8e8 0%, #b8b8b8 100%); border-radius: 50%; font-size: 1.2rem;">☀️</span>
                         </button>
                     </div>
                 </li>
@@ -696,20 +693,19 @@
             const buttons = document.querySelectorAll('.bg-color-btn, .menu-bg-btn');
             
             // Remove all background classes
-            body.classList.remove('bg-white', 'bg-silver');
+            body.classList.remove('bg-white', 'bg-silver', 'bg-light');
             
             // Add selected background class
-            if (color === 'white') {
-                body.classList.add('bg-white');
-            } else if (color === 'silver') {
-                body.classList.add('bg-silver');
+            if (color === 'white' || color === 'light') {
+                body.classList.add('bg-light');
             }
             // 'black' is default, no class needed
             
             // Update active button
             buttons.forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.getAttribute('data-color') === color) {
+                const btnColor = btn.getAttribute('data-color');
+                if (btnColor === color || (color === 'light' && btnColor === 'white') || (color === 'white' && btnColor === 'light')) {
                     btn.classList.add('active');
                 }
             });
