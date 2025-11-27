@@ -327,6 +327,49 @@ header {
     box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3), 0 8px 25px rgba(255, 193, 7, 0.4);
 }
 
+/* Menu Color Selector (Mobile) */
+.menu-color-selector {
+    display: none;
+    padding: 1.5rem 1rem !important;
+    border-top: 1px solid rgba(255, 193, 7, 0.2);
+    margin-top: 1rem;
+}
+
+.menu-color-label {
+    display: block;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.menu-color-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.menu-bg-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    border: 3px solid transparent;
+    padding: 3px;
+    background: transparent;
+}
+
+.menu-bg-btn:hover {
+    transform: scale(1.1);
+}
+
+.menu-bg-btn.active {
+    border: 3px solid var(--gold);
+    box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3);
+}
+
 /* Hero Section */
 .hero {
     padding: 0;
@@ -1167,6 +1210,16 @@ body.theme-women .footer-product-men {
 @media (max-width: 768px) {
     .hamburger {
         display: none;
+    }
+    
+    /* Hide desktop color selector in mobile */
+    .bg-color-selector {
+        display: none;
+    }
+    
+    /* Show color selector in menu */
+    .menu-color-selector {
+        display: block !important;
     }
     
     .navbar {

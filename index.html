@@ -28,6 +28,20 @@
                 <li><a href="instructions.html" data-es="📋 Instrucciones" data-en="📋 Instructions">📋 Instrucciones</a></li>
                 <li><a href="https://wa.me/573017606723" target="_blank" data-es="✉️ Contacto" data-en="✉️ Contact">✉️ Contacto</a></li>
                 <li><a href="https://wa.me/573017606723" target="_blank" data-es="📱 WhatsApp" data-en="📱 WhatsApp">📱 WhatsApp</a></li>
+                <li class="menu-color-selector">
+                    <span class="menu-color-label" data-es="Color de Fondo:" data-en="Background Color:">Color de Fondo:</span>
+                    <div class="menu-color-buttons">
+                        <button class="menu-bg-btn active" onclick="changeBackgroundColor('black'); closeMenu();" data-color="black" title="Negro">
+                            <span style="display: block; width: 100%; height: 100%; background: #000; border-radius: 50%;"></span>
+                        </button>
+                        <button class="menu-bg-btn" onclick="changeBackgroundColor('white'); closeMenu();" data-color="white" title="Blanco">
+                            <span style="display: block; width: 100%; height: 100%; background: #fff; border-radius: 50%;"></span>
+                        </button>
+                        <button class="menu-bg-btn" onclick="changeBackgroundColor('silver'); closeMenu();" data-color="silver" title="Plateado">
+                            <span style="display: block; width: 100%; height: 100%; background: linear-gradient(135deg, #d4d4d4 0%, #8e8e8e 100%); border-radius: 50%;"></span>
+                        </button>
+                    </div>
+                </li>
             </ul>
             <div class="nav-buttons">
                 <button class="lang-btn active" onclick="changeLang('es')">🇨🇴 ES</button>
@@ -679,7 +693,7 @@
         // Change Background Color Function
         function changeBackgroundColor(color) {
             const body = document.body;
-            const buttons = document.querySelectorAll('.bg-color-btn');
+            const buttons = document.querySelectorAll('.bg-color-btn, .menu-bg-btn');
             
             // Remove all background classes
             body.classList.remove('bg-white', 'bg-silver');
