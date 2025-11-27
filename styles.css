@@ -1516,7 +1516,7 @@ body.theme-women .footer-product-men {
         top: 0 !important;
         margin-left: 0 !important;
         margin-top: 0 !important;
-        transform: translateX(1%) !important;
+        transform: translateX(0%) !important;
         width: 100vw !important;
         max-width: none !important;
         height: auto !important;
@@ -1541,7 +1541,7 @@ body.theme-women .footer-product-men {
         top: 0 !important;
         margin-left: 0 !important;
         margin-top: 0 !important;
-        transform: translateX(1%) !important;
+        transform: translateX(0%) !important;
         width: 100vw !important;
         max-width: none !important;
         height: auto !important;
