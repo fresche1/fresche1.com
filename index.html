@@ -57,6 +57,13 @@
         </button>
     </div>
 
+    <!-- Background Color Selector -->
+    <div class="bg-color-selector">
+        <button class="bg-color-btn active" onclick="changeBackgroundColor('black')" style="background: #000; border: 2px solid var(--gold);" title="Negro"></button>
+        <button class="bg-color-btn" onclick="changeBackgroundColor('white')" style="background: #fff; border: 2px solid #ccc;" title="Blanco"></button>
+        <button class="bg-color-btn" onclick="changeBackgroundColor('silver')" style="background: linear-gradient(135deg, #d4d4d4 0%, #8e8e8e 100%); border: 2px solid #999;" title="Plateado"></button>
+    </div>
+
     <!-- Hero Section -->
     <section class="hero" id="home">
         <video class="hero-video hero-video-women" autoplay loop muted playsinline>
@@ -661,6 +668,27 @@
                     }
                 });
             }
+        }
+        
+        // Change Background Color Function
+        function changeBackgroundColor(color) {
+            const body = document.body;
+            const buttons = document.querySelectorAll('.bg-color-btn');
+            
+            // Remove all background classes
+            body.classList.remove('bg-white', 'bg-silver');
+            
+            // Add selected background class
+            if (color === 'white') {
+                body.classList.add('bg-white');
+            } else if (color === 'silver') {
+                body.classList.add('bg-silver');
+            }
+            // 'black' is default, no class needed
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
         }
         
         // Share Website Function

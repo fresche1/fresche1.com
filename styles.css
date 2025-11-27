@@ -41,6 +41,50 @@ body {
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Background Color Themes */
+body.bg-white {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.bg-white .hero,
+body.bg-white .products-section,
+body.bg-white .shipping-section,
+body.bg-white .values-section,
+body.bg-white footer {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.bg-white .product-card,
+body.bg-white .value-card,
+body.bg-white .benefit-item {
+    background: rgba(0, 0, 0, 0.05);
+    color: #000000;
+}
+
+body.bg-silver {
+    background: linear-gradient(135deg, #d4d4d4 0%, #8e8e8e 100%);
+    color: #000000;
+}
+
+body.bg-silver .hero,
+body.bg-silver .products-section,
+body.bg-silver .shipping-section,
+body.bg-silver .values-section,
+body.bg-silver footer {
+    background: linear-gradient(135deg, #d4d4d4 0%, #8e8e8e 100%);
+    color: #000000;
+}
+
+body.bg-silver .product-card,
+body.bg-silver .value-card,
+body.bg-silver .benefit-item {
+    background: rgba(255, 255, 255, 0.2);
+    color: #000000;
 }
 
 .container {
@@ -240,6 +284,41 @@ header {
 .float-btn.active {
     transform: scale(1.1);
     box-shadow: 0 8px 25px rgba(255, 193, 7, 0.8);
+}
+
+/* Background Color Selector */
+.bg-color-selector {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.8rem;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.bg-color-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.bg-color-btn:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.bg-color-btn.active {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 3px var(--gold);
 }
 
 /* Hero Section */
@@ -1259,7 +1338,7 @@ body.theme-women .footer-product-men {
         top: 0 !important;
         margin-left: 0 !important;
         margin-top: 0 !important;
-        transform: translateX(10%) !important;
+        transform: translateX(-6%) !important;
         width: 100vw !important;
         max-width: none !important;
         height: auto !important;
@@ -1284,7 +1363,7 @@ body.theme-women .footer-product-men {
         top: 0 !important;
         margin-left: 0 !important;
         margin-top: 0 !important;
-        transform: translateX(10%) !important;
+        transform: translateX(-6%) !important;
         width: 100vw !important;
         max-width: none !important;
         height: auto !important;
