@@ -102,7 +102,7 @@ body.bg-white .footer-col a {
 }
 
 body.bg-light {
-    background: linear-gradient(135deg, #8a8a8a 0%, #6a6a6a 100%);
+    background: linear-gradient(135deg, #525252 0%, #404040 100%);
     color: #000;
 }
 
@@ -111,7 +111,7 @@ body.bg-light .products-section,
 body.bg-light .shipping-section,
 body.bg-light .values-section,
 body.bg-light footer {
-    background: linear-gradient(135deg, #8a8a8a 0%, #6a6a6a 100%);
+    background: linear-gradient(135deg, #525252 0%, #404040 100%);
     color: #000;
 }
 
@@ -177,6 +177,12 @@ body.bg-light .nav-menu {
 
 body.bg-light .nav-menu a:hover {
     color: var(--gold) !important;
+}
+
+body.theme-men .footer-col h4,
+body.theme-men .footer-col p,
+body.theme-men .footer-col a {
+    color: #000 !important;
 }
 
 .container {
@@ -1492,7 +1498,7 @@ body.theme-women .footer-product-men {
         top: 0 !important;
         margin-left: 0 !important;
         margin-top: 0 !important;
-        transform: translateX(0%) !important;
+        transform: translateX(8%) !important;
         width: 100vw !important;
         max-width: none !important;
         height: auto !important;
@@ -1517,7 +1523,7 @@ body.theme-women .footer-product-men {
         top: 0 !important;
         margin-left: 0 !important;
         margin-top: 0 !important;
-        transform: translateX(0%) !important;
+        transform: translateX(8%) !important;
         width: 100vw !important;
         max-width: none !important;
         height: auto !important;
