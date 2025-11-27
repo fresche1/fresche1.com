@@ -102,8 +102,8 @@ body.bg-white .footer-col a {
 }
 
 body.bg-light {
-    background: linear-gradient(135deg, #e8e8e8 0%, #b8b8b8 100%);
-    color: #1a1a1a;
+    background: linear-gradient(135deg, #8a8a8a 0%, #6a6a6a 100%);
+    color: #000;
 }
 
 body.bg-light .hero,
@@ -111,14 +111,14 @@ body.bg-light .products-section,
 body.bg-light .shipping-section,
 body.bg-light .values-section,
 body.bg-light footer {
-    background: linear-gradient(135deg, #e8e8e8 0%, #b8b8b8 100%);
-    color: #1a1a1a;
+    background: linear-gradient(135deg, #8a8a8a 0%, #6a6a6a 100%);
+    color: #000;
 }
 
 body.bg-light .product-card,
 body.bg-light .value-card,
 body.bg-light .benefit-item {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.7);
     color: #000;
 }
 
@@ -133,7 +133,7 @@ body.bg-light h3 {
 
 body.bg-light .hero-content-men,
 body.bg-light .hero-content-women {
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: rgba(255, 255, 255, 0.98) !important;
     color: #000 !important;
 }
 
@@ -154,7 +154,29 @@ body.bg-light .highlight {
 body.bg-light footer,
 body.bg-light .footer-col p,
 body.bg-light .footer-col a {
-    color: #1a1a1a !important;
+    color: #000 !important;
+}
+
+body.bg-light .nav-menu,
+body.bg-light .nav-menu a,
+body.bg-light p,
+body.bg-light span,
+body.bg-light li,
+body.bg-light .product-card p,
+body.bg-light .value-card p,
+body.bg-light .benefit-item p,
+body.bg-light .shipping-info p,
+body.bg-light .footer-col h3 {
+    color: #000 !important;
+}
+
+body.bg-light .nav-menu {
+    background: rgba(200, 200, 200, 0.98) !important;
+    backdrop-filter: blur(15px);
+}
+
+body.bg-light .nav-menu a:hover {
+    color: var(--gold) !important;
 }
 
 .container {
@@ -1470,7 +1492,7 @@ body.theme-women .footer-product-men {
         top: 0 !important;
         margin-left: 0 !important;
         margin-top: 0 !important;
-        transform: translateX(-18%) !important;
+        transform: translateX(0%) !important;
         width: 100vw !important;
         max-width: none !important;
         height: auto !important;
@@ -1495,7 +1517,7 @@ body.theme-women .footer-product-men {
         top: 0 !important;
         margin-left: 0 !important;
         margin-top: 0 !important;
-        transform: translateX(-18%) !important;
+        transform: translateX(0%) !important;
         width: 100vw !important;
         max-width: none !important;
         height: auto !important;
