@@ -182,6 +182,12 @@ body.bg-light .nav-menu a:hover {
 body.theme-men .footer-col h4,
 body.theme-men .footer-col p,
 body.theme-men .footer-col a {
+    color: var(--gold) !important;
+}
+
+body.theme-men.bg-light .footer-col h4,
+body.theme-men.bg-light .footer-col p,
+body.theme-men.bg-light .footer-col a {
     color: #000 !important;
 }
 
