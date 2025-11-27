@@ -696,8 +696,11 @@
             body.classList.remove('bg-white', 'bg-silver', 'bg-light');
             
             // Add selected background class
-            if (color === 'white' || color === 'light') {
+            if (color === 'light') {
                 body.classList.add('bg-light');
+                console.log('Tema claro activado');
+            } else {
+                console.log('Tema oscuro activado');
             }
             // 'black' is default, no class needed
             
@@ -705,7 +708,7 @@
             buttons.forEach(btn => {
                 btn.classList.remove('active');
                 const btnColor = btn.getAttribute('data-color');
-                if (btnColor === color || (color === 'light' && btnColor === 'white') || (color === 'white' && btnColor === 'light')) {
+                if (btnColor === color) {
                     btn.classList.add('active');
                 }
             });

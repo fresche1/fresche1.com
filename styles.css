@@ -180,11 +180,14 @@ header {
     max-width: 1400px;
     margin: 0 auto;
     gap: 2rem;
+    position: relative;
 }
 
 .logo {
     display: flex;
     align-items: center;
+    cursor: pointer;
+    position: relative;
 }
 
 .logo-img {
@@ -246,21 +249,39 @@ header {
 }
 
 .nav-menu {
-    display: flex;
+    display: none; /* Hidden by default, shows on click */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(15px);
     list-style: none;
-    gap: 2rem;
-    flex: 1;
+    padding: 2rem;
+    border-radius: 0 0 15px 15px;
+    min-width: 300px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.nav-menu.active {
+    display: block;
+}
+
+.nav-menu li {
+    margin-bottom: 1rem;
 }
 
 .nav-menu a {
     color: var(--white);
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 1rem;
     transition: color 0.3s;
+    display: block;
+    padding: 0.5rem 0;
 }
 
 .nav-menu a:hover {
-    color: var(--accent-color);
+    color: var(--gold);
 }
 
 .nav-buttons {
