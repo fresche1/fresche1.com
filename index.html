@@ -8,8 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>FRESCHE - Cuidado Íntimo Premium desde Colombia</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Stripe.js -->
-    <script src="https://js.stripe.com/v3/"></script>
+    <!-- PayU integration will be server-side -->
 </head>
 <body class="theme-men">
     <!-- Header -->
@@ -469,7 +468,7 @@
                 <div id="cartItems"></div>
                 <div id="cartTotal" style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--gold);"></div>
                 <button id="checkoutBtn" class="btn-checkout" onclick="checkout()" style="display: none; width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 600; cursor: pointer; margin-top: 1.5rem; transition: all 0.3s;">
-                    <span data-es="💳 Pagar con Stripe" data-en="💳 Pay with Stripe">💳 Pagar con Stripe</span>
+                    <span data-es="💳 Pagar con PayU" data-en="💳 Pay with PayU">💳 Pagar con PayU</span>
                 </button>
                 <button id="whatsappBtn" class="btn-whatsapp" onclick="checkoutViaWhatsApp()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="white" style="flex-shrink: 0;">
@@ -1252,9 +1251,6 @@
                 return;
             }
             
-            // Initialize Stripe (replace with your actual publishable key)
-            const stripe = Stripe('pk_test_51YOUR_STRIPE_KEY_HERE'); // TODO: Replace with actual key
-            
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
             const currency = cart[0]?.currency || userCurrency.currency;
             
@@ -1263,29 +1259,36 @@
             checkoutBtn.disabled = true;
             checkoutBtn.innerHTML = lang === 'es' ? '⏳ Procesando...' : '⏳ Processing...';
             
-            // Prepare line items for Stripe
-            const lineItems = cart.map(item => ({
-                price_data: {
-                    currency: (item.currency || userCurrency.currency).toLowerCase(),
-                    product_data: {
-                        name: item.name,
-                        images: [window.location.origin + '/' + item.image],
-                    },
-                    unit_amount: Math.round((item.price || userCurrency.price) * (currency === 'COP' ? 1 : 100)),
-                },
-                quantity: item.quantity,
-            }));
+            // Calculate totals
+            const total = cart.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0);
+            const referenceCode = 'FRESCHE_' + Date.now();
             
-            // In a production environment, you would send this to your server
-            // For now, we'll show a message about setting up the backend
+            // PayU requires server-side integration for security
+            // Prepare order data
+            const orderData = {
+                merchantId: 'YOUR_MERCHANT_ID', // TODO: Replace with actual PayU merchant ID
+                accountId: 'YOUR_ACCOUNT_ID',   // TODO: Replace with actual PayU account ID
+                description: cart.map(item => `${item.name} x${item.quantity}`).join(', '),
+                referenceCode: referenceCode,
+                amount: total,
+                tax: 0,
+                taxReturnBase: 0,
+                currency: currency,
+                buyerEmail: 'customer@example.com', // Will be collected in production
+                responseUrl: window.location.origin + '/payment-response.html',
+                confirmationUrl: window.location.origin + '/payment-confirmation',
+                items: cart
+            };
+            
+            // In production, send this to your server to generate PayU signature
             setTimeout(() => {
                 checkoutBtn.disabled = false;
-                checkoutBtn.innerHTML = lang === 'es' ? '💳 Pagar con Stripe' : '💳 Pay with Stripe';
+                checkoutBtn.innerHTML = lang === 'es' ? '💳 Pagar con PayU' : '💳 Pay with PayU';
                 
                 alert(
                     lang === 'es' 
-                    ? '🔧 Para completar el pago con tarjeta, necesitas:\n\n1. Crear cuenta en stripe.com\n2. Obtener tus claves API\n3. Configurar un servidor backend\n\nPor ahora, usa WhatsApp para pedidos.' 
-                    : '🔧 To complete card payment, you need:\n\n1. Create account at stripe.com\n2. Get your API keys\n3. Set up a backend server\n\nFor now, use WhatsApp for orders.'
+                    ? '🔧 Para completar el pago con PayU, necesitas:\n\n1. Crear cuenta en payu.com/co\n2. Obtener Merchant ID y API Key\n3. Configurar un servidor backend para firmar pagos\n4. Costos: 3.49% + $900 COP\n\n✅ PayU soporta:\n• Tarjetas internacionales (COP/USD)\n• PSE, Efecty, Baloto\n• Precios dinámicos por país\n\nPor ahora, usa WhatsApp para pedidos.' 
+                    : '🔧 To complete PayU payment, you need:\n\n1. Create account at payu.com/co\n2. Get Merchant ID and API Key\n3. Set up backend server to sign payments\n4. Costs: 3.49% + $900 COP\n\n✅ PayU supports:\n• International cards (COP/USD)\n• PSE, Efecty, Baloto\n• Dynamic pricing per country\n\nFor now, use WhatsApp for orders.'
                 );
                 
                 // Fallback to WhatsApp
