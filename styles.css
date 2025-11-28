@@ -249,12 +249,16 @@ header {
     filter: brightness(1.25) contrast(1.2) saturate(1.15);
 }
 
+/* Forzar visualización de emojis de banderas */
+.value-icon,
+.modal-value-icon,
+.lang-btn {
+    font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", sans-serif !important;
+}
+
 /* Menu Lines - Solo visible en Desktop */
 .menu-lines {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-    justify-content: center;
+    display: none;
 }
 
 .decorative-line {
@@ -266,7 +270,7 @@ header {
 
 /* Hamburger Menu */
 .hamburger {
-    display: none;
+    display: flex;
     flex-direction: column;
     cursor: pointer;
     padding: 5px;
