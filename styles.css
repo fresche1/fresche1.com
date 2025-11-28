@@ -249,6 +249,21 @@ header {
     filter: brightness(1.25) contrast(1.2) saturate(1.15);
 }
 
+/* Menu Lines - Solo visible en Desktop */
+.menu-lines {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    justify-content: center;
+}
+
+.decorative-line {
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.8;
+}
+
 /* Hamburger Menu */
 .hamburger {
     display: none;
@@ -1407,6 +1422,11 @@ body.theme-women .footer-product-men {
     
     .logo:active {
         transform: scale(0.95);
+    }
+    
+    /* Ocultar líneas decorativas en mobile */
+    .menu-lines {
+        display: none;
     }
     
     .logo-img {
