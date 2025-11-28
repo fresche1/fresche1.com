@@ -652,13 +652,24 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-                    <button class="btn-add-to-cart" onclick="addToCart('${productId}')" style="flex: 1; min-width: 200px; padding: 1rem 2rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                        🛒 ${lang === 'es' ? 'Agregar al Carrito' : 'Add to Cart'}
-                    </button>
-                    <button class="btn-whatsapp-modal" onclick="window.open('https://wa.me/573017606723?text=${encodeURIComponent(lang === 'es' ? '¡Hola! Me interesa ' + product.name : 'Hello! I am interested in ' + product.name)}', '_blank')" style="flex: 1; min-width: 200px; padding: 1rem 2rem; background: linear-gradient(135deg, #25D366, #128C7E); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                        💬 ${lang === 'es' ? 'Consultar por WhatsApp' : 'Ask on WhatsApp'}
-                    </button>
+                <div style="margin-top: 2rem;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background: rgba(212,175,55,0.1); border-radius: 10px; border: 1px solid var(--gold);">
+                        <label style="color: var(--gold); font-weight: 600; font-size: 1.1rem;">${lang === 'es' ? 'Cantidad:' : 'Quantity:'}</label>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <button onclick="changeModalQuantity(-1)" style="width: 40px; height: 40px; background: var(--gold); color: var(--black); border: none; border-radius: 8px; font-size: 1.5rem; font-weight: bold; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">−</button>
+                            <input type="number" id="modal-quantity" value="1" min="1" max="99" style="width: 80px; height: 40px; text-align: center; font-size: 1.3rem; font-weight: 600; border: 2px solid var(--gold); background: rgba(0,0,0,0.5); color: var(--gold); border-radius: 8px; outline: none;" readonly>
+                            <button onclick="changeModalQuantity(1)" style="width: 40px; height: 40px; background: var(--gold); color: var(--black); border: none; border-radius: 8px; font-size: 1.5rem; font-weight: bold; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">+</button>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button class="btn-add-to-cart" onclick="addToCartWithQuantity('${productId}')" style="flex: 1; min-width: 200px; padding: 1.2rem 2rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(212,175,55,0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(212,175,55,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(212,175,55,0.3)'">
+                            🛒 ${lang === 'es' ? 'Agregar al Carrito' : 'Add to Cart'}
+                        </button>
+                        <button class="btn-whatsapp-modal" onclick="window.open('https://wa.me/573017606723?text=${encodeURIComponent(lang === 'es' ? '¡Hola! Me interesa ' + product.name : 'Hello! I am interested in ' + product.name)}', '_blank')" style="flex: 1; min-width: 200px; padding: 1.2rem 2rem; background: linear-gradient(135deg, #25D366, #128C7E); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(37,211,102,0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(37,211,102,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(37,211,102,0.3)'">
+                            💬 ${lang === 'es' ? 'Consultar por WhatsApp' : 'Ask on WhatsApp'}
+                        </button>
+                    </div>
                 </div>
             `;
             
@@ -1140,6 +1151,46 @@
         
         // Initialize country detection on page load
         detectUserCountry();
+
+        function changeModalQuantity(change) {
+            const quantityInput = document.getElementById('modal-quantity');
+            let currentValue = parseInt(quantityInput.value);
+            let newValue = currentValue + change;
+            
+            if (newValue >= 1 && newValue <= 99) {
+                quantityInput.value = newValue;
+            }
+        }
+
+        function addToCartWithQuantity(productId) {
+            const quantityInput = document.getElementById('modal-quantity');
+            const quantity = parseInt(quantityInput.value) || 1;
+            
+            const product = products[productId];
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    id: productId,
+                    name: product.name,
+                    image: product.image,
+                    price: userCurrency.price,
+                    currency: userCurrency.currency,
+                    quantity: quantity
+                });
+            }
+            
+            localStorage.setItem('freshCart', JSON.stringify(cart));
+            updateCartBadge();
+            
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            alert(lang === 'es' ? `✅ ${quantity} producto(s) agregado(s) al carrito` : `✅ ${quantity} product(s) added to cart`);
+            
+            // Reset quantity to 1
+            quantityInput.value = 1;
+        }
 
         function updateCartBadge() {
             const badge = document.getElementById('cartBadge');
