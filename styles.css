@@ -877,20 +877,32 @@ body.theme-men .hero-content-men {
 
 .btn-whatsapp {
     width: 100%;
-    background: var(--green);
+    background: linear-gradient(135deg, #25D366, #128C7E);
     color: var(--white);
     border: none;
-    padding: 1rem;
-    border-radius: 10px;
-    font-weight: 600;
+    padding: 1.2rem;
+    border-radius: 12px;
+    font-weight: 700;
     cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.3s;
+    font-size: 1.15rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
 }
 
 .btn-whatsapp:hover {
-    background: #1fb855;
-    transform: translateY(-2px);
+    background: linear-gradient(135deg, #128C7E, #075E54);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+}
+
+.btn-whatsapp:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
 }
 
 /* Values Section */
