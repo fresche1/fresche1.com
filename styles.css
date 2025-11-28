@@ -1371,18 +1371,26 @@ body.theme-women .footer-product-men {
     }
     
     .navbar {
-        padding: 0.8rem 1rem;
-        gap: 1rem;
+        padding: 0.8rem 0.8rem;
+        gap: 0.5rem;
         flex-wrap: nowrap;
         align-items: center;
+        display: grid;
+        grid-template-columns: auto 1fr auto auto;
+        grid-template-areas: "hamburger logo buttons cart";
+    }
+    
+    .hamburger {
+        grid-area: hamburger;
+        display: flex;
     }
     
     .logo {
-        order: 1;
-        flex: 1;
+        grid-area: logo;
         justify-content: flex-start;
         cursor: pointer;
         transition: transform 0.2s;
+        margin-left: 0.3rem;
     }
     
     .logo:active {
@@ -1451,33 +1459,44 @@ body.theme-women .footer-product-men {
         padding-left: 1.5rem;
     }
     
+    .cart-btn {
+        grid-area: cart;
+        padding: 0.4rem 0.7rem;
+        font-size: 1.1rem;
+        border: 1.5px solid var(--gold);
+        background: rgba(212, 175, 55, 0.15);
+        color: var(--gold);
+        min-width: 50px;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+    
+    .cart-badge {
+        top: -6px;
+        right: -6px;
+        width: 19px;
+        height: 19px;
+        font-size: 0.65rem;
+        font-weight: 700;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
     .nav-buttons {
-        order: 3;
-        gap: 0.3rem;
+        grid-area: buttons;
+        gap: 0.25rem;
         flex-shrink: 0;
         position: static;
+        display: flex;
     }
     
     .lang-btn {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.75rem;
-        min-width: 45px;
+        padding: 0.35rem 0.5rem;
+        font-size: 0.7rem;
+        min-width: 42px;
     }
     
     .share-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: transparent;
-        border: none;
-        color: rgba(212, 175, 55, 0.5);
-        padding: 0.3rem 0.5rem;
-        font-size: 0.65rem;
-        border-radius: 4px;
-        order: 3;
-        font-weight: 500;
-        letter-spacing: 0.3px;
-        transition: all 0.3s;
+        display: none;
     }
     
     .share-btn:hover {

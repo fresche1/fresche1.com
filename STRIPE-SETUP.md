@@ -1,156 +1,241 @@
 # 🔧 Configuración de Stripe para FRESCHE
 
-## ✅ ¿Qué se ha implementado?
+## 💰 **COSTOS DE STRIPE (Actualizado 2025)**
 
-Tu página ahora tiene:
+### 📍 **Stripe Colombia:**
+- **Tarifa por transacción**: 3.95% + $900 COP
+- **Sin costos mensuales ni de configuración**
+- **Transferencias a tu cuenta**: Cada 7 días automático
+- **Tiempo de depósito**: 2-3 días hábiles
 
-1. **Detección automática de país** - Identifica si el cliente está en Colombia, USA u otro país
-2. **Precios dinámicos**:
-   - 🇨🇴 Colombia: **$25,000 COP** por producto
-   - 🇺🇸 USA/Internacional: **$12 USD** por producto
-3. **Carrito inteligente** - Muestra precios en la moneda correcta según la región
-4. **Stripe Checkout preparado** - Listo para pagos con tarjeta, Apple Pay, Google Pay
-5. **WhatsApp como backup** - Los clientes pueden ordenar por WhatsApp con precios incluidos
-
----
-
-## 🚀 Próximos Pasos para Activar Pagos con Tarjeta
-
-### Paso 1: Crear Cuenta en Stripe (5 minutos)
-
-1. Ve a [https://stripe.com](https://stripe.com)
-2. Haz clic en **"Empezar ahora"** o **"Sign up"**
-3. Ingresa tu email, contraseña y datos básicos
-4. Selecciona **Colombia** como país de tu negocio
-5. Verifica tu email
-
-### Paso 2: Obtener tus Claves API (2 minutos)
-
-1. Inicia sesión en [https://dashboard.stripe.com](https://dashboard.stripe.com)
-2. En el menú izquierdo, busca **"Developers"** → **"API keys"**
-3. Verás dos claves:
-   - **Publishable key** (comienza con `pk_test_...`) ← Esta va en tu página web
-   - **Secret key** (comienza con `sk_test_...`) ← Esta va en tu servidor (NO la compartas)
-
-4. **Copia la Publishable key** (pk_test_...)
-
-### Paso 3: Agregar tu Clave a la Página
-
-Abre el archivo `index.html` y busca esta línea (aproximadamente línea 1275):
-
-```javascript
-const stripe = Stripe('pk_test_51YOUR_STRIPE_KEY_HERE'); // TODO: Replace with actual key
+**Ejemplo práctico:**
+```
+Venta: $25,000 COP
+Comisión Stripe: $1,888 COP (3.95% + $900)
+TÚ RECIBES: $23,112 COP ✅
 ```
 
-**Reemplázala con:**
+### 🇺🇸 **Stripe USA:**
+- **Tarifa por transacción**: 2.9% + $0.30 USD
+- **Sin costos mensuales**
+- **Transferencias automáticas**
 
-```javascript
-const stripe = Stripe('pk_test_TU_CLAVE_AQUI'); // Pega tu publishable key
+**Ejemplo práctico:**
+```
+Venta: $12.00 USD
+Comisión Stripe: $0.65 USD (2.9% + $0.30)
+TÚ RECIBES: $11.35 USD ✅
 ```
 
-### Paso 4: Activar Cuenta de Stripe (10 minutos)
-
-Para recibir pagos reales, Stripe necesita verificar tu negocio:
-
-1. En el Dashboard de Stripe, completa:
-   - ✅ Información del negocio (nombre, dirección, RUT/NIT)
-   - ✅ Datos bancarios para recibir transferencias
-   - ✅ Documentos de identidad (cédula/pasaporte)
-
-2. Una vez aprobado, cambia de **"Test mode"** a **"Live mode"**
-3. Obtén las claves **LIVE** (empiezan con `pk_live_...` y `sk_live_...`)
-4. Reemplaza la clave de prueba por la clave live en tu página
+### 💳 **Métodos de Pago Incluidos:**
+✅ Tarjetas de Crédito (Visa, Mastercard, Amex)
+✅ Tarjetas de Débito
+✅ Apple Pay
+✅ Google Pay
+✅ PSE (Colombia)
+✅ Efecty (Colombia)
+✅ Baloto (Colombia)
 
 ---
 
-## 💰 Costos y Comisiones
+## 🚀 **PASOS PARA CONFIGURAR TUS PAGOS**
 
-### Stripe Colombia:
-- **3.95% + $900 COP** por transacción exitosa
-- Sin tarifas mensuales
-- Transferencias a tu cuenta bancaria cada 7 días
+### **Paso 1: Crear Cuenta Stripe (5 minutos)**
 
-### Stripe USA:
-- **2.9% + $0.30 USD** por transacción exitosa
-- Sin tarifas mensuales
-- Transferencias automáticas
+1. **Ir a**: [https://dashboard.stripe.com/register](https://dashboard.stripe.com/register)
 
-### Ejemplo práctico:
-- **Venta en Colombia**: Producto $25,000 COP
-  - Comisión Stripe: $1,888 COP
-  - Tú recibes: **$23,112 COP**
+2. **Registrarte con**:
+   - Email (usa uno que revises frecuentemente)
+   - Contraseña segura
+   - Nombre de tu negocio: **"FRESCHE"** o **"FRESCHE Colombia"**
 
-- **Venta en USA**: Producto $12 USD
-  - Comisión Stripe: $0.65 USD
-  - Tú recibes: **$11.35 USD**
+3. **Seleccionar país**: Colombia 🇨🇴
+
+4. **Verificar email**: Revisa tu correo y haz clic en el enlace
 
 ---
 
-## 🎯 Estado Actual de la Implementación
+### **Paso 2: Completar Información del Negocio (10 minutos)**
 
-### ✅ Funcionando ahora:
-- Detección automática de país
-- Precios dinámicos COP/USD
-- Carrito de compras con totales
-- Pedidos por WhatsApp con precios
+Stripe necesita esta información para transferir el dinero a tu cuenta:
 
-### ⏳ Requiere configuración (Paso 3):
-- Pagos con tarjeta de crédito/débito
-- Apple Pay / Google Pay
-- Confirmación automática de pedidos
+#### **📋 Datos Requeridos:**
 
-### 🔮 Futuro (requiere servidor backend):
-- Emails de confirmación automáticos
-- Panel de administración de pedidos
-- Tracking de envíos
-- Gestión de inventario
+1. **Información Personal**:
+   - Nombre completo (como aparece en tu cédula)
+   - Cédula de Ciudadanía
+   - Fecha de nacimiento
+   - Dirección completa
 
----
+2. **Información del Negocio**:
+   - Nombre legal del negocio
+   - NIT o RUT (si tienes)
+   - Tipo de productos: "Cuidado Personal / Cosmética"
+   - Sitio web: `https://fresche1.github.io/fresche1.com`
 
-## 📱 Cómo Funciona para tus Clientes
+3. **Cuenta Bancaria** (MUY IMPORTANTE):
+   - Banco (ej: Bancolombia, Davivienda, etc.)
+   - Tipo de cuenta: Ahorros o Corriente
+   - Número de cuenta
+   - Nombre del titular (debe coincidir con tu identificación)
 
-### Para clientes en Colombia:
-1. Navegan tu página, ven precios en **$25,000 COP**
-2. Agregan productos al carrito
-3. Hacen checkout con tarjeta → Pagan en **COP**
-4. O consultan por WhatsApp (alternativa)
+4. **Documentos** (para verificación):
+   - Foto de tu cédula (frontal y reverso)
+   - Extracto bancario o certificación (a veces lo piden)
 
-### Para clientes en USA:
-1. Navegan tu página, ven precios en **$12 USD**
-2. Agregan productos al carrito
-3. Hacen checkout con tarjeta → Pagan en **USD**
-4. O consultan por WhatsApp (alternativa)
+#### **⚠️ IMPORTANTE**:
+- La cuenta bancaria **DEBE** estar a tu nombre
+- Todos los datos **DEBEN** coincidir con tus documentos
+- Stripe verifica todo esto por seguridad
 
 ---
 
-## 🛡️ Seguridad
+### **Paso 3: Obtener tus Claves API**
 
-- ✅ Los datos de tarjetas **nunca** tocan tu servidor
-- ✅ Stripe maneja todo el procesamiento seguro (PCI compliant)
-- ✅ Protección contra fraude incluida
-- ✅ 3D Secure automático para transacciones sospechosas
+Una vez tu cuenta esté verificada:
+
+1. **Ir a**: [https://dashboard.stripe.com/test/apikeys](https://dashboard.stripe.com/test/apikeys)
+
+2. **Verás dos tipos de claves**:
+
+#### **🔑 Claves de PRUEBA (Test Keys)**
+Estas son para probar el sistema SIN dinero real:
+
+```
+Publishable key (pk_test_...): 
+- Esta va en tu página web ✅
+- Es PÚBLICA, se puede compartir
+- Ejemplo: pk_test_51Abc123XYZ...
+
+Secret key (sk_test_...):
+- Esta NO va en tu página web ❌
+- Es SECRETA, nunca la compartas
+- Se usa en el servidor
+- Ejemplo: sk_test_51Abc123XYZ...
+```
+
+#### **🔑 Claves EN VIVO (Live Keys)**  
+Estas son para recibir dinero REAL (después de activar la cuenta):
+
+```
+Publishable key (pk_live_...):
+- Esta va en tu página web cuando estés listo ✅
+- Es PÚBLICA
+
+Secret key (sk_live_...):
+- Esta NO va en tu página web ❌
+- Es SECRETA
+```
 
 ---
 
-## 🆘 Soporte
+### **Paso 4: Darte las Credenciales a Mí**
 
-- **Stripe Support**: [https://support.stripe.com](https://support.stripe.com)
+**🎯 LO QUE NECESITO DE TI:**
+
+1. **Solo tu Publishable Key (pk_test_...)** para empezar a probar
+
+**Envíame por aquí:**
+```
+pk_test_TU_CLAVE_AQUI
+```
+
+**❌ NO me envíes**:
+- Secret Key (sk_test_... o sk_live_...)
+- Contraseñas
+- Datos bancarios
+
+---
+
+### **Paso 5: Yo Configuro Todo (5 minutos)**
+
+Cuando me des tu `pk_test_...`, yo:
+
+1. ✅ Actualizo `index.html` con tu clave
+2. ✅ Configuro los precios ($25,000 COP / $12 USD)
+3. ✅ Activo el botón de pago
+4. ✅ Hago commit y push
+5. ✅ Te confirmo que está listo
+
+**Podrás probar pagos** con tarjetas de prueba:
+```
+Tarjeta de prueba exitosa:
+4242 4242 4242 4242
+MM/AA: Cualquier fecha futura
+CVC: Cualquier 3 dígitos
+```
+
+---
+
+### **Paso 6: Activar Modo LIVE (cuando estés listo)**
+
+Una vez hayas probado y todo funcione:
+
+1. **En Stripe Dashboard**, cambiar a "Live mode"
+2. **Obtener tus claves LIVE** (pk_live_... y sk_live_...)
+3. **Enviarmelas claves live**
+4. **Yo actualizo el código**
+5. **¡Listo para recibir dinero real!** 💰
+
+---
+
+## 📱 **Cómo Funciona para tus Clientes**
+
+### 🇨🇴 **Cliente en Colombia:**
+1. Ve tu página → Productos a **$25,000 COP**
+2. Agrega al carrito
+3. Click "Pagar con Stripe"
+4. Paga con tarjeta/PSE/Efecty en **COP**
+5. ✅ Tú recibes **$23,112 COP** (después de comisión)
+6. Dinero llega a tu cuenta en **2-3 días**
+
+### 🇺🇸 **Cliente en USA:**
+1. Ve tu página → Productos a **$12 USD**
+2. Agrega al carrito
+3. Click "Pagar con Stripe"
+4. Paga con tarjeta/Apple Pay en **USD**
+5. ✅ Tú recibes **$11.35 USD** (después de comisión)
+6. Dinero llega a tu cuenta en **2-3 días**
+
+---
+
+## 🛡️ **Seguridad y Ventajas**
+
+✅ **PCI Compliant**: Los datos de tarjetas nunca tocan tu servidor
+✅ **3D Secure**: Protección automática contra fraude
+✅ **Radar**: Sistema anti-fraude de Stripe (incluido gratis)
+✅ **Disputas**: Stripe te ayuda con contracargos
+✅ **Soporte 24/7**: Chat en vivo en español
+
+---
+
+## 📞 **Soporte Stripe**
+
+- **Dashboard**: [https://dashboard.stripe.com](https://dashboard.stripe.com)
+- **Soporte**: Chat en vivo 24/7 desde el dashboard
 - **Documentación**: [https://stripe.com/docs](https://stripe.com/docs)
-- **Chat en vivo** disponible 24/7 en el Dashboard
+- **Teléfono Colombia**: +57 1 5803557
 
 ---
 
-## 📋 Resumen Rápido
+## ✅ **RESUMEN RÁPIDO - QUÉ HACER**
 
 ```
-1. ✅ Código implementado en tu página
-2. 🔜 Crear cuenta en stripe.com
-3. 🔜 Copiar publishable key a index.html línea ~1275
-4. 🔜 Completar verificación del negocio
-5. 🔜 Cambiar a modo LIVE
-6. 🎉 ¡Listo para recibir pagos!
+1. ✅ Crear cuenta en stripe.com
+2. ✅ Completar información del negocio
+3. ✅ Agregar tu cuenta bancaria
+4. ✅ Verificar identidad (subir cédula)
+5. ✅ Copiar tu Publishable Key (pk_test_...)
+6. ✅ Enviármela por aquí
+7. ✅ Yo configuro todo
+8. ✅ Probar con tarjeta de prueba
+9. ✅ Cuando estés listo → Activar modo LIVE
+10. 🎉 ¡A recibir pagos!
 ```
 
 ---
 
-**Nota**: Por ahora, el sistema usa WhatsApp como método de pago. Una vez configures Stripe (Pasos 1-4), los pagos con tarjeta funcionarán automáticamente. ✨
+## 💡 **PREGUNTAS FRECUENTES**
+
+**¿Cuánto tarda la verificación?**
+- Instant
