@@ -49,11 +49,10 @@
                 <button class="lang-btn active" onclick="changeLang('es')">🇨🇴 ES</button>
                 <button class="lang-btn" onclick="changeLang('en')">🇺🇸 EN</button>
             </div>
-            <button class="cart-btn" onclick="openCart()" data-es="🛒 Carrito" data-en="🛒 Cart">
+            <button class="cart-btn" onclick="openCart()">
                 🛒 <span class="cart-badge" id="cartBadge">0</span>
             </button>
             <button class="share-btn" onclick="shareWebsite()" data-es="🔗 Compartir" data-en="🔗 Share">🔗 Compartir</button>
-            <button class="pronto-btn" data-es="⚡ Muy Pronto" data-en="⚡ Coming Soon">⚡ Muy Pronto</button>
         </nav>
     </header>
 
@@ -481,7 +480,6 @@
                 name: 'FRESCHE CherryMood',
                 image: 'images/cherry.jpg',
                 size: '1oz',
-                price: 25000,
                 description: {
                     es: 'Dulzura vibrante que eleva tu ánimo y te envuelve en frescura deliciosa.',
                     en: 'Vibrant sweetness that lifts your mood and envelops you in delicious freshness.'
@@ -495,7 +493,6 @@
                 name: 'FRESCHE Velvet',
                 image: 'images/velvet.jpg',
                 size: '1oz',
-                price: 25000,
                 description: {
                     es: 'Sofisticación suave como terciopelo con notas cítricas dulces y florales.',
                     en: 'Soft sophistication like velvet with sweet citrus and floral notes.'
@@ -509,7 +506,6 @@
                 name: 'FRESCHE Coco & Vanilla',
                 image: 'images/coco.jpg',
                 size: '1oz',
-                price: 25000,
                 description: {
                     es: 'Dulce y tropical, esta fragancia combina coco suave con vainilla cremosa.',
                     en: 'Sweet and tropical, this fragrance combines smooth coconut with creamy vanilla.'
@@ -523,7 +519,6 @@
                 name: 'FRESCHE Eclipse',
                 image: 'images/eclipse.jpg',
                 size: '1oz',
-                price: 25000,
                 description: {
                     es: 'Fragancia masculina y sofisticada. Fresco y con buen olor. Sin sudor.',
                     en: 'Masculine and sophisticated fragrance. Fresh and good-smelling. No sweat.'
@@ -537,7 +532,6 @@
                 name: 'FRESCHE Dulce Tobacco',
                 image: 'images/tobacco.jpg',
                 size: '1oz',
-                price: 25000,
                 description: {
                     es: 'Elegante y masculino con notas de tabaco dulce. Un aroma sofisticado y atemporal.',
                     en: 'Elegant and masculine with notes of sweet tobacco. A sophisticated and timeless aroma.'
@@ -638,7 +632,7 @@
 
                 <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
                     <button class="btn-add-to-cart" onclick="addToCart('${productId}')" style="flex: 1; min-width: 200px; padding: 1rem 2rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                        🛒 ${lang === 'es' ? 'Agregar al Carrito ($25.000 COP)' : 'Add to Cart ($25,000 COP)'}
+                        🛒 ${lang === 'es' ? 'Agregar al Carrito' : 'Add to Cart'}
                     </button>
                     <button class="btn-whatsapp-modal" onclick="window.open('https://wa.me/573017606723?text=${encodeURIComponent(lang === 'es' ? '¡Hola! Me interesa ' + product.name : 'Hello! I am interested in ' + product.name)}', '_blank')" style="flex: 1; min-width: 200px; padding: 1rem 2rem; background: linear-gradient(135deg, #25D366, #128C7E); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
                         💬 ${lang === 'es' ? 'Consultar por WhatsApp' : 'Ask on WhatsApp'}
@@ -1113,7 +1107,6 @@
                 cart.push({
                     id: productId,
                     name: product.name,
-                    price: product.price,
                     image: product.image,
                     quantity: 1
                 });
@@ -1159,15 +1152,12 @@
                 return;
             }
             
-            let total = 0;
             cartItems.innerHTML = cart.map(item => {
-                total += item.price * item.quantity;
                 return `
                     <div style="display: flex; gap: 1rem; align-items: center; padding: 1rem; border-bottom: 1px solid #333; background: rgba(212,175,55,0.05); border-radius: 10px; margin-bottom: 1rem;">
                         <img src="${item.image}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;">
                         <div style="flex: 1;">
                             <h4 style="color: var(--gold); margin-bottom: 0.5rem;">${item.name}</h4>
-                            <p style="color: var(--white); font-size: 1.1rem; font-weight: 600;">$${item.price.toLocaleString('es-CO')} COP</p>
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <button onclick="updateQuantity('${item.id}', -1)" style="width: 30px; height: 30px; background: var(--gold); color: var(--black); border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">-</button>
@@ -1179,10 +1169,11 @@
                 `;
             }).join('');
             
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
             cartTotal.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="color: var(--gold); font-size: 1.5rem;">${lang === 'es' ? 'Total:' : 'Total:'}</h3>
-                    <h3 style="color: var(--gold); font-size: 1.8rem; font-weight: 700;">$${total.toLocaleString('es-CO')} COP</h3>
+                    <h3 style="color: var(--gold); font-size: 1.5rem;">${lang === 'es' ? 'Total de productos:' : 'Total items:'}</h3>
+                    <h3 style="color: var(--gold); font-size: 1.8rem; font-weight: 700;">${totalItems}</h3>
                 </div>
             `;
             
@@ -1205,18 +1196,16 @@
         function checkout() {
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
             let message = lang === 'es' ? '🛒 *Mi Pedido FRESCHE*\n\n' : '🛒 *My FRESCHE Order*\n\n';
-            let total = 0;
+            let totalItems = 0;
             
             cart.forEach(item => {
                 message += `• ${item.name}\n`;
-                message += `  ${lang === 'es' ? 'Cantidad' : 'Quantity'}: ${item.quantity}\n`;
-                message += `  ${lang === 'es' ? 'Precio' : 'Price'}: $${item.price.toLocaleString('es-CO')} COP\n`;
-                message += `  Subtotal: $${(item.price * item.quantity).toLocaleString('es-CO')} COP\n\n`;
-                total += item.price * item.quantity;
+                message += `  ${lang === 'es' ? 'Cantidad' : 'Quantity'}: ${item.quantity}\n\n`;
+                totalItems += item.quantity;
             });
             
             message += `━━━━━━━━━━━━━━━━\n`;
-            message += `*${lang === 'es' ? 'TOTAL' : 'TOTAL'}: $${total.toLocaleString('es-CO')} COP*\n\n`;
+            message += `*${lang === 'es' ? 'Total de productos' : 'Total items'}: ${totalItems}*\n\n`;
             message += lang === 'es' ? '¡Gracias por tu pedido! 🇨🇴✨' : 'Thank you for your order! 🇨🇴✨';
             
             const whatsappUrl = `https://wa.me/573017606723?text=${encodeURIComponent(message)}`;
