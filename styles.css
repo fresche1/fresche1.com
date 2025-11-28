@@ -360,6 +360,7 @@ header {
     font-size: 1.5rem;
     line-height: 1;
     min-width: 50px;
+    font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
 }
 
 .lang-btn.active {
