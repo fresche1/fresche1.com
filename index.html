@@ -8,6 +8,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>FRESCHE - Cuidado Íntimo Premium desde Colombia</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body class="theme-men">
     <!-- Header -->
@@ -467,7 +469,10 @@
                 <div id="cartItems"></div>
                 <div id="cartTotal" style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--gold);"></div>
                 <button id="checkoutBtn" class="btn-checkout" onclick="checkout()" style="display: none; width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 600; cursor: pointer; margin-top: 1.5rem; transition: all 0.3s;">
-                    <span data-es="💬 Hacer Pedido por WhatsApp" data-en="💬 Order via WhatsApp">💬 Hacer Pedido por WhatsApp</span>
+                    <span data-es="💳 Pagar con Stripe" data-en="💳 Pay with Stripe">💳 Pagar con Stripe</span>
+                </button>
+                <button id="whatsappBtn" class="btn-whatsapp" onclick="checkoutViaWhatsApp()" style="display: none; width: 100%; padding: 1rem; background: #25D366; color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-top: 1rem; transition: all 0.3s;">
+                    <span data-es="💬 O pedir por WhatsApp" data-en="💬 Or order via WhatsApp">💬 O pedir por WhatsApp</span>
                 </button>
             </div>
         </div>
@@ -475,6 +480,17 @@
 
     <script>
         // Product information database
+        // Pricing configuration by region
+        const pricing = {
+            CO: { currency: 'COP', symbol: '$', price: 25000 },      // Colombia
+            US: { currency: 'USD', symbol: '$', price: 12 },          // United States
+            DEFAULT: { currency: 'USD', symbol: '$', price: 12 }      // International
+        };
+
+        // Current user region (will be detected)
+        let userRegion = 'DEFAULT';
+        let userCurrency = pricing.DEFAULT;
+
         const products = {
             cherry: {
                 name: 'FRESCHE CherryMood',
@@ -1089,6 +1105,35 @@
 
         // Shopping Cart Functions
         let cart = JSON.parse(localStorage.getItem('freshCart')) || [];
+        
+        // Detect user's country and set pricing
+        async function detectUserCountry() {
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                const countryCode = data.country_code;
+                
+                if (countryCode === 'CO') {
+                    userRegion = 'CO';
+                    userCurrency = pricing.CO;
+                } else if (countryCode === 'US') {
+                    userRegion = 'US';
+                    userCurrency = pricing.US;
+                } else {
+                    userRegion = 'DEFAULT';
+                    userCurrency = pricing.DEFAULT;
+                }
+                
+                console.log(`Region detected: ${userRegion}, Currency: ${userCurrency.currency}`);
+            } catch (error) {
+                console.error('Error detecting country:', error);
+                userRegion = 'DEFAULT';
+                userCurrency = pricing.DEFAULT;
+            }
+        }
+        
+        // Initialize country detection on page load
+        detectUserCountry();
 
         function updateCartBadge() {
             const badge = document.getElementById('cartBadge');
@@ -1108,6 +1153,8 @@
                     id: productId,
                     name: product.name,
                     image: product.image,
+                    price: userCurrency.price,
+                    currency: userCurrency.currency,
                     quantity: 1
                 });
             }
@@ -1152,32 +1199,56 @@
                 return;
             }
             
+            let total = 0;
             cartItems.innerHTML = cart.map(item => {
+                const itemPrice = item.price || userCurrency.price;
+                const itemCurrency = item.currency || userCurrency.currency;
+                const subtotal = itemPrice * item.quantity;
+                total += subtotal;
+                
+                const formattedPrice = itemCurrency === 'COP' 
+                    ? `$${itemPrice.toLocaleString('es-CO')}` 
+                    : `$${itemPrice.toFixed(2)}`;
+                    
+                const formattedSubtotal = itemCurrency === 'COP'
+                    ? `$${subtotal.toLocaleString('es-CO')}`
+                    : `$${subtotal.toFixed(2)}`;
+                
                 return `
                     <div style="display: flex; gap: 1rem; align-items: center; padding: 1rem; border-bottom: 1px solid #333; background: rgba(212,175,55,0.05); border-radius: 10px; margin-bottom: 1rem;">
                         <img src="${item.image}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;">
                         <div style="flex: 1;">
                             <h4 style="color: var(--gold); margin-bottom: 0.5rem;">${item.name}</h4>
+                            <p style="color: var(--gray); font-size: 0.9rem; margin: 0;">${formattedPrice} ${itemCurrency}</p>
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <button onclick="updateQuantity('${item.id}', -1)" style="width: 30px; height: 30px; background: var(--gold); color: var(--black); border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">-</button>
                             <span style="color: var(--white); font-size: 1.1rem; min-width: 30px; text-align: center;">${item.quantity}</span>
                             <button onclick="updateQuantity('${item.id}', 1)" style="width: 30px; height: 30px; background: var(--gold); color: var(--black); border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">+</button>
                         </div>
+                        <div style="text-align: right; min-width: 80px;">
+                            <p style="color: var(--white); font-weight: bold; margin: 0;">${formattedSubtotal}</p>
+                            <p style="color: var(--gray); font-size: 0.8rem; margin: 0;">${itemCurrency}</p>
+                        </div>
                         <button onclick="removeFromCart('${item.id}')" style="padding: 0.5rem 1rem; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">🗑️</button>
                     </div>
                 `;
             }).join('');
             
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const currency = cart[0]?.currency || userCurrency.currency;
+            const formattedTotal = currency === 'COP'
+                ? `$${total.toLocaleString('es-CO')}`
+                : `$${total.toFixed(2)}`;
+            
             cartTotal.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="color: var(--gold); font-size: 1.5rem;">${lang === 'es' ? 'Total de productos:' : 'Total items:'}</h3>
-                    <h3 style="color: var(--gold); font-size: 1.8rem; font-weight: 700;">${totalItems}</h3>
+                    <h3 style="color: var(--gold); font-size: 1.5rem;">${lang === 'es' ? 'TOTAL:' : 'TOTAL:'}</h3>
+                    <h3 style="color: var(--gold); font-size: 1.8rem; font-weight: 700;">${formattedTotal} ${currency}</h3>
                 </div>
             `;
             
             checkoutBtn.style.display = 'block';
+            document.getElementById('whatsappBtn').style.display = 'block';
         }
 
         function openCart() {
@@ -1194,18 +1265,85 @@
         }
 
         function checkout() {
+            if (cart.length === 0) {
+                const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                alert(lang === 'es' ? 'Tu carrito está vacío' : 'Your cart is empty');
+                return;
+            }
+            
+            // Initialize Stripe (replace with your actual publishable key)
+            const stripe = Stripe('pk_test_51YOUR_STRIPE_KEY_HERE'); // TODO: Replace with actual key
+            
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            const currency = cart[0]?.currency || userCurrency.currency;
+            
+            // Show loading message
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            checkoutBtn.disabled = true;
+            checkoutBtn.innerHTML = lang === 'es' ? '⏳ Procesando...' : '⏳ Processing...';
+            
+            // Prepare line items for Stripe
+            const lineItems = cart.map(item => ({
+                price_data: {
+                    currency: (item.currency || userCurrency.currency).toLowerCase(),
+                    product_data: {
+                        name: item.name,
+                        images: [window.location.origin + '/' + item.image],
+                    },
+                    unit_amount: Math.round((item.price || userCurrency.price) * (currency === 'COP' ? 1 : 100)),
+                },
+                quantity: item.quantity,
+            }));
+            
+            // In a production environment, you would send this to your server
+            // For now, we'll show a message about setting up the backend
+            setTimeout(() => {
+                checkoutBtn.disabled = false;
+                checkoutBtn.innerHTML = lang === 'es' ? '💳 Pagar con Stripe' : '💳 Pay with Stripe';
+                
+                alert(
+                    lang === 'es' 
+                    ? '🔧 Para completar el pago con tarjeta, necesitas:\n\n1. Crear cuenta en stripe.com\n2. Obtener tus claves API\n3. Configurar un servidor backend\n\nPor ahora, usa WhatsApp para pedidos.' 
+                    : '🔧 To complete card payment, you need:\n\n1. Create account at stripe.com\n2. Get your API keys\n3. Set up a backend server\n\nFor now, use WhatsApp for orders.'
+                );
+                
+                // Fallback to WhatsApp
+                checkoutViaWhatsApp();
+            }, 1000);
+        }
+        
+        function checkoutViaWhatsApp() {
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
             let message = lang === 'es' ? '🛒 *Mi Pedido FRESCHE*\n\n' : '🛒 *My FRESCHE Order*\n\n';
-            let totalItems = 0;
+            let total = 0;
             
             cart.forEach(item => {
+                const itemPrice = item.price || userCurrency.price;
+                const itemCurrency = item.currency || userCurrency.currency;
+                const subtotal = itemPrice * item.quantity;
+                total += subtotal;
+                
+                const formattedPrice = itemCurrency === 'COP' 
+                    ? `$${itemPrice.toLocaleString('es-CO')}` 
+                    : `$${itemPrice.toFixed(2)}`;
+                    
+                const formattedSubtotal = itemCurrency === 'COP'
+                    ? `$${subtotal.toLocaleString('es-CO')}`
+                    : `$${subtotal.toFixed(2)}`;
+                
                 message += `• ${item.name}\n`;
-                message += `  ${lang === 'es' ? 'Cantidad' : 'Quantity'}: ${item.quantity}\n\n`;
-                totalItems += item.quantity;
+                message += `  ${lang === 'es' ? 'Cantidad' : 'Quantity'}: ${item.quantity}\n`;
+                message += `  ${lang === 'es' ? 'Precio' : 'Price'}: ${formattedPrice} ${itemCurrency}\n`;
+                message += `  Subtotal: ${formattedSubtotal} ${itemCurrency}\n\n`;
             });
             
+            const currency = cart[0]?.currency || userCurrency.currency;
+            const formattedTotal = currency === 'COP'
+                ? `$${total.toLocaleString('es-CO')}`
+                : `$${total.toFixed(2)}`;
+            
             message += `━━━━━━━━━━━━━━━━\n`;
-            message += `*${lang === 'es' ? 'Total de productos' : 'Total items'}: ${totalItems}*\n\n`;
+            message += `*${lang === 'es' ? 'TOTAL' : 'TOTAL'}: ${formattedTotal} ${currency}*\n\n`;
             message += lang === 'es' ? '¡Gracias por tu pedido! 🇨🇴✨' : 'Thank you for your order! 🇨🇴✨';
             
             const whatsappUrl = `https://wa.me/573017606723?text=${encodeURIComponent(message)}`;
