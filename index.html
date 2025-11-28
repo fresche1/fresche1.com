@@ -47,8 +47,12 @@
                 </li>
             </ul>
             <div class="nav-buttons">
-                <button class="lang-btn active" onclick="changeLang('es')">🇨🇴</button>
-                <button class="lang-btn" onclick="changeLang('en')">🇺🇸</button>
+                <button class="lang-btn active" onclick="changeLang('es')" title="Español">
+                    <span class="flag-emoji">🇨🇴</span>
+                </button>
+                <button class="lang-btn" onclick="changeLang('en')" title="English">
+                    <span class="flag-emoji">🇺🇸</span>
+                </button>
             </div>
             <button class="cart-btn" onclick="openCart()">
                 🛒 <span class="cart-badge" id="cartBadge">0</span>
