@@ -351,7 +351,7 @@ header {
     border-color: var(--gold);
 }
 
-.share-btn, .pronto-btn {
+.share-btn, .pronto-btn, .cart-btn {
     background: transparent;
     border: 1px solid #333;
     color: var(--white);
@@ -360,6 +360,35 @@ header {
     cursor: pointer;
     font-size: 0.9rem;
     transition: all 0.3s;
+}
+
+.cart-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #dc3545;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.cart-btn:hover {
+    background: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
 }
 
 .pronto-btn:hover {

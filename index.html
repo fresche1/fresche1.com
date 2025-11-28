@@ -49,6 +49,9 @@
                 <button class="lang-btn active" onclick="changeLang('es')">🇨🇴 ES</button>
                 <button class="lang-btn" onclick="changeLang('en')">🇺🇸 EN</button>
             </div>
+            <button class="cart-btn" onclick="openCart()" data-es="🛒 Carrito" data-en="🛒 Cart">
+                🛒 <span class="cart-badge" id="cartBadge">0</span>
+            </button>
             <button class="share-btn" onclick="shareWebsite()" data-es="🔗 Compartir" data-en="🔗 Share">🔗 Compartir</button>
             <button class="pronto-btn" data-es="⚡ Muy Pronto" data-en="⚡ Coming Soon">⚡ Muy Pronto</button>
         </nav>
@@ -456,6 +459,21 @@
         </div>
     </div>
 
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeCart()">&times;</span>
+            <div id="cartModalBody" style="padding: 2rem;">
+                <h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;" data-es="🛒 Carrito de Compras" data-en="🛒 Shopping Cart">🛒 Carrito de Compras</h2>
+                <div id="cartItems"></div>
+                <div id="cartTotal" style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--gold);"></div>
+                <button id="checkoutBtn" class="btn-checkout" onclick="checkout()" style="display: none; width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 600; cursor: pointer; margin-top: 1.5rem; transition: all 0.3s;">
+                    <span data-es="💬 Hacer Pedido por WhatsApp" data-en="💬 Order via WhatsApp">💬 Hacer Pedido por WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Product information database
         const products = {
@@ -463,6 +481,7 @@
                 name: 'FRESCHE CherryMood',
                 image: 'images/cherry.jpg',
                 size: '1oz',
+                price: 25000,
                 description: {
                     es: 'Dulzura vibrante que eleva tu ánimo y te envuelve en frescura deliciosa.',
                     en: 'Vibrant sweetness that lifts your mood and envelops you in delicious freshness.'
@@ -476,6 +495,7 @@
                 name: 'FRESCHE Velvet',
                 image: 'images/velvet.jpg',
                 size: '1oz',
+                price: 25000,
                 description: {
                     es: 'Sofisticación suave como terciopelo con notas cítricas dulces y florales.',
                     en: 'Soft sophistication like velvet with sweet citrus and floral notes.'
@@ -489,6 +509,7 @@
                 name: 'FRESCHE Coco & Vanilla',
                 image: 'images/coco.jpg',
                 size: '1oz',
+                price: 25000,
                 description: {
                     es: 'Dulce y tropical, esta fragancia combina coco suave con vainilla cremosa.',
                     en: 'Sweet and tropical, this fragrance combines smooth coconut with creamy vanilla.'
@@ -502,6 +523,7 @@
                 name: 'FRESCHE Eclipse',
                 image: 'images/eclipse.jpg',
                 size: '1oz',
+                price: 25000,
                 description: {
                     es: 'Fragancia masculina y sofisticada. Fresco y con buen olor. Sin sudor.',
                     en: 'Masculine and sophisticated fragrance. Fresh and good-smelling. No sweat.'
@@ -515,6 +537,7 @@
                 name: 'FRESCHE Dulce Tobacco',
                 image: 'images/tobacco.jpg',
                 size: '1oz',
+                price: 25000,
                 description: {
                     es: 'Elegante y masculino con notas de tabaco dulce. Un aroma sofisticado y atemporal.',
                     en: 'Elegant and masculine with notes of sweet tobacco. A sophisticated and timeless aroma.'
@@ -613,9 +636,14 @@
                     </div>
                 </div>
 
-                <button class="btn-whatsapp-modal" onclick="window.open('https://wa.me/573017606723', '_blank')">
-                    💬 ${lang === 'es' ? 'Notifícame por WhatsApp' : 'Notify me on WhatsApp'}
-                </button>
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn-add-to-cart" onclick="addToCart('${productId}')" style="flex: 1; min-width: 200px; padding: 1rem 2rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        🛒 ${lang === 'es' ? 'Agregar al Carrito ($25.000 COP)' : 'Add to Cart ($25,000 COP)'}
+                    </button>
+                    <button class="btn-whatsapp-modal" onclick="window.open('https://wa.me/573017606723?text=${encodeURIComponent(lang === 'es' ? '¡Hola! Me interesa ' + product.name : 'Hello! I am interested in ' + product.name)}', '_blank')" style="flex: 1; min-width: 200px; padding: 1rem 2rem; background: linear-gradient(135deg, #25D366, #128C7E); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        💬 ${lang === 'es' ? 'Consultar por WhatsApp' : 'Ask on WhatsApp'}
+                    </button>
+                </div>
             `;
             
             modal.style.display = 'block';
@@ -1064,6 +1092,147 @@
             // Respuesta por defecto
             return "Puedo ayudarte con:<br><br>• Información sobre nuestros productos<br>• Instrucciones de uso<br>• Envíos y entregas<br>• Precios y contacto<br><br>¿Sobre qué te gustaría saber más?";
         }
+
+        // Shopping Cart Functions
+        let cart = JSON.parse(localStorage.getItem('freshCart')) || [];
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            badge.textContent = totalItems;
+            badge.style.display = totalItems > 0 ? 'flex' : 'none';
+        }
+
+        function addToCart(productId) {
+            const product = products[productId];
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    id: productId,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('freshCart', JSON.stringify(cart));
+            updateCartBadge();
+            
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            alert(lang === 'es' ? '✅ Producto agregado al carrito' : '✅ Product added to cart');
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('freshCart', JSON.stringify(cart));
+            updateCartBadge();
+            renderCart();
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    localStorage.setItem('freshCart', JSON.stringify(cart));
+                    renderCart();
+                }
+            }
+        }
+
+        function renderCart() {
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `<p style="text-align: center; color: var(--gray); padding: 3rem;">${lang === 'es' ? 'Tu carrito está vacío' : 'Your cart is empty'}</p>`;
+                cartTotal.innerHTML = '';
+                checkoutBtn.style.display = 'none';
+                return;
+            }
+            
+            let total = 0;
+            cartItems.innerHTML = cart.map(item => {
+                total += item.price * item.quantity;
+                return `
+                    <div style="display: flex; gap: 1rem; align-items: center; padding: 1rem; border-bottom: 1px solid #333; background: rgba(212,175,55,0.05); border-radius: 10px; margin-bottom: 1rem;">
+                        <img src="${item.image}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;">
+                        <div style="flex: 1;">
+                            <h4 style="color: var(--gold); margin-bottom: 0.5rem;">${item.name}</h4>
+                            <p style="color: var(--white); font-size: 1.1rem; font-weight: 600;">$${item.price.toLocaleString('es-CO')} COP</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <button onclick="updateQuantity('${item.id}', -1)" style="width: 30px; height: 30px; background: var(--gold); color: var(--black); border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">-</button>
+                            <span style="color: var(--white); font-size: 1.1rem; min-width: 30px; text-align: center;">${item.quantity}</span>
+                            <button onclick="updateQuantity('${item.id}', 1)" style="width: 30px; height: 30px; background: var(--gold); color: var(--black); border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">+</button>
+                        </div>
+                        <button onclick="removeFromCart('${item.id}')" style="padding: 0.5rem 1rem; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">🗑️</button>
+                    </div>
+                `;
+            }).join('');
+            
+            cartTotal.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="color: var(--gold); font-size: 1.5rem;">${lang === 'es' ? 'Total:' : 'Total:'}</h3>
+                    <h3 style="color: var(--gold); font-size: 1.8rem; font-weight: 700;">$${total.toLocaleString('es-CO')} COP</h3>
+                </div>
+            `;
+            
+            checkoutBtn.style.display = 'block';
+        }
+
+        function openCart() {
+            const modal = document.getElementById('cartModal');
+            renderCart();
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCart() {
+            const modal = document.getElementById('cartModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function checkout() {
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            let message = lang === 'es' ? '🛒 *Mi Pedido FRESCHE*\n\n' : '🛒 *My FRESCHE Order*\n\n';
+            let total = 0;
+            
+            cart.forEach(item => {
+                message += `• ${item.name}\n`;
+                message += `  ${lang === 'es' ? 'Cantidad' : 'Quantity'}: ${item.quantity}\n`;
+                message += `  ${lang === 'es' ? 'Precio' : 'Price'}: $${item.price.toLocaleString('es-CO')} COP\n`;
+                message += `  Subtotal: $${(item.price * item.quantity).toLocaleString('es-CO')} COP\n\n`;
+                total += item.price * item.quantity;
+            });
+            
+            message += `━━━━━━━━━━━━━━━━\n`;
+            message += `*${lang === 'es' ? 'TOTAL' : 'TOTAL'}: $${total.toLocaleString('es-CO')} COP*\n\n`;
+            message += lang === 'es' ? '¡Gracias por tu pedido! 🇨🇴✨' : 'Thank you for your order! 🇨🇴✨';
+            
+            const whatsappUrl = `https://wa.me/573017606723?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Initialize cart badge on load
+        updateCartBadge();
+
+        // Close cart when clicking outside
+        window.addEventListener('click', function(event) {
+            const cartModal = document.getElementById('cartModal');
+            if (event.target === cartModal) {
+                closeCart();
+            }
+        });
     </script>
 
     <!-- FRESCHE AI Chatbot -->
