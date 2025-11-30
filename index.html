@@ -166,13 +166,13 @@
                 </div>
             </div>
 
-            <!-- Product 3 - Coco & Vanilla (FOR MEN) -->
+            <!-- Product 3 - Coco & Vainilla (FOR MEN) -->
             <div class="product-card product-men" data-gender="men" onclick="openProductModal('coco')">
                 <span class="product-badge" data-es="Dulce" data-en="Sweet">Dulce</span>
-                <img src="images/coco.jpg" alt="FRESCHE Coco & Vanilla" onerror="this.src='https://images.unsplash.com/photo-1599351423260-754f6c1c6e70?w=600'">
+                <img src="images/coco.jpg" alt="FRESCHE Coco & Vainilla" onerror="this.src='https://images.unsplash.com/photo-1599351423260-754f6c1c6e70?w=600'">
                 <div class="product-overlay"></div>
                 <div class="product-info-top">
-                    <h3>Coco & Vanilla</h3>
+                    <h3 data-es="Coco & Vainilla" data-en="Coco & Vanilla">Coco & Vainilla</h3>
                     <p data-es="Dulce y tropical, esta fragancia combina coco suave con vainilla cremosa." data-en="Sweet and tropical, this fragrance combines smooth coconut with creamy vanilla.">Dulce y tropical, esta fragancia combina coco suave con vainilla cremosa.</p>
                 </div>
                 <div class="product-info-bottom">
@@ -373,7 +373,7 @@
                 <h4 data-es="Productos" data-en="Products">Productos</h4>
                 <ul class="footer-products-list">
                     <li class="footer-product-men"><a href="#" onclick="openProductModal('eclipse'); return false;" style="cursor: pointer;">FRESCHE Eclipse</a></li>
-                    <li class="footer-product-men"><a href="#" onclick="openProductModal('coco'); return false;" style="cursor: pointer;">FRESCHE Coco & Vanilla</a></li>
+                    <li class="footer-product-men"><a href="#" onclick="openProductModal('coco'); return false;" style="cursor: pointer;" data-es="FRESCHE Coco & Vainilla" data-en="FRESCHE Coco & Vanilla">FRESCHE Coco & Vainilla</a></li>
                     <li class="footer-product-men"><a href="#" onclick="openProductModal('tobacco'); return false;" style="cursor: pointer;">FRESCHE Dulce Tobacco</a></li>
                     <li class="footer-product-women"><a href="#" onclick="openProductModal('cherry'); return false;" style="cursor: pointer;">FRESCHE CherryMood</a></li>
                     <li class="footer-product-women"><a href="#" onclick="openProductModal('velvet'); return false;" style="cursor: pointer;">FRESCHE Velvet</a></li>
@@ -525,7 +525,7 @@
                 }
             },
             coco: {
-                name: 'FRESCHE Coco & Vanilla',
+                name: 'FRESCHE Coco & Vainilla',
                 image: 'images/coco.jpg',
                 size: '1oz',
                 description: {
@@ -965,7 +965,7 @@
                     precio: "Consultar disponibilidad"
                 },
                 coco: {
-                    nombre: "Coco & Vanilla",
+                    nombre: "Coco & Vainilla",
                     tipo: "Unisex",
                     descripcion: "Perfume íntimo con combinación tropical de coco y vainilla",
                     beneficios: ["Aroma dulce y tropical", "Para él y ella", "Larga duración", "Sensación refrescante"],
@@ -1073,7 +1073,7 @@
             
             // Productos en general
             if (msg.match(/producto|perfume|fragancia|catalogo|que tienen|que venden/)) {
-                return "Tenemos 5 perfumes íntimos premium:<br><br>👩 <strong>Para Mujeres:</strong> CherryMood y Velvet<br>👫 <strong>Unisex:</strong> Coco & Vanilla y Eclipse<br>👨 <strong>Para Hombres:</strong> Dulce Tobacco<br><br>¿Sobre cuál te gustaría saber más?";
+                return "Tenemos 5 perfumes íntimos premium:<br><br>👩 <strong>Para Mujeres:</strong> CherryMood y Velvet<br>👫 <strong>Unisex:</strong> Coco & Vainilla y Eclipse<br>👨 <strong>Para Hombres:</strong> Dulce Tobacco<br><br>¿Sobre cuál te gustaría saber más?";
             }
             
             // Instrucciones
@@ -1108,7 +1108,7 @@
             
             // Hombre
             if (msg.match(/hombre|masculino|el|chico/)) {
-                return "👨 <strong>Para Hombres:</strong><br><br>🍂 <strong>Dulce Tobacco</strong> - Notas amaderadas y masculinas<br><br>También tenemos opciones unisex como Eclipse y Coco & Vanilla. ¿Quieres saber más?";
+                return "👨 <strong>Para Hombres:</strong><br><br>🍂 <strong>Dulce Tobacco</strong> - Notas amaderadas y masculinas<br><br>También tenemos opciones unisex como Eclipse y Coco & Vainilla. ¿Quieres saber más?";
             }
             
             // Agradecimiento
