@@ -66,9 +66,7 @@
 
     <!-- Music Player -->
     <div class="music-player">
-        <audio id="bgMusic">
-            <source id="audioSource" src="" type="audio/mpeg">
-        </audio>
+        <audio id="bgMusic" preload="auto"></audio>
         <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Reproducir música">
             🎵
         </button>
@@ -898,44 +896,48 @@
         // Initialize music player
         function initMusicPlayer() {
             const audio = document.getElementById('bgMusic');
-            const source = document.getElementById('audioSource');
             
-            // Set initial track
-            source.src = playlist[currentTrack];
-            audio.load();
+            // Set initial track directly to src
+            audio.src = playlist[currentTrack];
             
             // Auto-advance to next track when one ends
             audio.addEventListener('ended', () => {
                 currentTrack = (currentTrack + 1) % playlist.length;
-                source.src = playlist[currentTrack];
-                audio.load();
+                audio.src = playlist[currentTrack];
                 if (isPlaying) {
-                    audio.play().catch(err => console.log('Autoplay blocked:', err));
+                    audio.play().catch(err => console.log('Play error:', err));
                 }
             });
             
-            // Set volume based on device (mobile = quieter, desktop = normal)
+            // Set volume based on device
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            audio.volume = isMobile ? 0.4 : 0.6;
+            audio.volume = isMobile ? 0.5 : 0.7;
+            
+            console.log('Music player initialized');
         }
         
         function toggleMusic() {
             const audio = document.getElementById('bgMusic');
             const btn = document.getElementById('musicBtn');
             
+            console.log('Toggle music clicked, paused:', audio.paused);
+            
             if (audio.paused) {
                 audio.play().then(() => {
                     isPlaying = true;
                     btn.textContent = '🔇';
                     btn.title = 'Pausar música';
+                    console.log('Music playing');
                 }).catch(err => {
-                    console.log('Autoplay blocked:', err);
+                    console.error('Play failed:', err);
+                    alert('No se pudo reproducir la música. Por favor intenta de nuevo.');
                 });
             } else {
                 audio.pause();
                 isPlaying = false;
                 btn.textContent = '🎵';
                 btn.title = 'Reproducir música';
+                console.log('Music paused');
             }
         }
         
