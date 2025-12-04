@@ -2721,7 +2721,7 @@ body.theme-women .qr-center img {
 /* Music Player */
 .music-player {
     position: fixed;
-    bottom: 30px;
+    bottom: 120px;
     left: 30px;
     z-index: 1000;
 }
