@@ -1,0 +1,209 @@
+/* Gallery Section */
+.gallery-section {
+    padding: 6rem 2rem;
+    background: linear-gradient(135deg, rgba(0,0,0,0.98) 0%, rgba(20,20,20,0.98) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/1758372322944blob.jpg');
+    background-size: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.03;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.gallery-section .section-header {
+    position: relative;
+    z-index: 1;
+}
+
+/* Gallery Categories Grid */
+.gallery-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.gallery-category {
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid var(--gold);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-category::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.gallery-category:hover::before {
+    left: 100%;
+}
+
+.gallery-category:hover {
+    transform: translateY(-10px);
+    border-color: var(--gold);
+    background: rgba(212, 175, 55, 0.1);
+    box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
+}
+
+.category-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    filter: drop-shadow(0 4px 10px rgba(212, 175, 55, 0.4));
+}
+
+.gallery-category h3 {
+    color: var(--gold);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.gallery-category p {
+    color: var(--white);
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+/* Gallery Modal */
+.gallery-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.gallery-modal-content {
+    background: linear-gradient(135deg, rgba(10,10,10,0.98) 0%, rgba(30,30,30,0.98) 100%);
+    border: 3px solid var(--gold);
+    border-radius: 20px;
+    padding: 3rem;
+    max-width: 1200px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(212, 175, 55, 0.4);
+}
+
+.gallery-modal-content h2 {
+    color: var(--gold);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    text-shadow: 0 2px 10px rgba(212, 175, 55, 0.5);
+}
+
+.close-modal {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 3rem;
+    color: var(--gold);
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    line-height: 1;
+}
+
+.close-modal:hover {
+    background: var(--gold);
+    color: var(--black);
+    transform: rotate(90deg);
+}
+
+/* Gallery Grid inside Modal */
+.gallery-grid-modal {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.gallery-video-item {
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.gallery-video-item:hover {
+    border-color: var(--gold);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+
+.gallery-video-item video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.gallery-video-item p {
+    padding: 1rem;
+    text-align: center;
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Coming Soon Message */
+.coming-soon-message {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.soon-icon {
+    font-size: 6rem;
+    display: block;
+    margin-bottom: 2rem;
+    filter: drop-shadow(0 4px 15px rgba(212, 175, 55, 0.4));
+}
+
+.coming-soon-message p {
+    color: var(--white);
+    font-size: 1.3rem;
+    opacity: 0.8;
+}

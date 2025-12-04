@@ -1,0 +1,77 @@
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="section-header">
+            <span class="section-tag" data-es=" NUESTRA GALERÍA " data-en=" OUR GALLERY "> NUESTRA GALERÍA </span>
+            <h2 data-es="Galería FRESCHE" data-en="FRESCHE Gallery">Galería FRESCHE</h2>
+            <p data-es="Explora nuestro contenido exclusivo" data-en="Explore our exclusive content">Explora nuestro contenido exclusivo</p>
+        </div>
+
+        <div class="gallery-categories">
+            <!-- Videos Category -->
+            <div class="gallery-category" onclick="openGallerySection('videos')">
+                <div class="category-icon"></div>
+                <h3 data-es="Videos" data-en="Videos">Videos</h3>
+                <p data-es="Descubre nuestras colecciones en movimiento" data-en="Discover our collections in motion">Descubre nuestras colecciones en movimiento</p>
+            </div>
+
+            <!-- Photos Category -->
+            <div class="gallery-category" onclick="openGallerySection('photos')">
+                <div class="category-icon"></div>
+                <h3 data-es="Fotos" data-en="Photos">Fotos</h3>
+                <p data-es="Momentos especiales capturados" data-en="Special moments captured">Momentos especiales capturados</p>
+            </div>
+
+            <!-- Ads Category -->
+            <div class="gallery-category" onclick="openGallerySection('ads')">
+                <div class="category-icon"></div>
+                <h3 data-es="Publicidad" data-en="Advertising">Publicidad</h3>
+                <p data-es="Contenido promocional exclusivo" data-en="Exclusive promotional content">Contenido promocional exclusivo</p>
+            </div>
+        </div>
+
+        <!-- Videos Modal -->
+        <div id="videosModal" class="gallery-modal">
+            <div class="gallery-modal-content">
+                <span class="close-modal" onclick="closeGalleryModal('videos')">&times;</span>
+                <h2 data-es=" Videos" data-en=" Videos"> Videos</h2>
+                <div class="gallery-grid-modal">
+                    <div class="gallery-video-item">
+                        <video controls>
+                            <source src="images/background-women.mp4" type="video/mp4">
+                        </video>
+                        <p data-es="Colección Femenina" data-en="Women's Collection">Colección Femenina</p>
+                    </div>
+                    <div class="gallery-video-item">
+                        <video controls>
+                            <source src="images/background-men.mp4" type="video/mp4">
+                        </video>
+                        <p data-es="Colección Masculina" data-en="Men's Collection">Colección Masculina</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photos Modal -->
+        <div id="photosModal" class="gallery-modal">
+            <div class="gallery-modal-content">
+                <span class="close-modal" onclick="closeGalleryModal('photos')">&times;</span>
+                <h2 data-es=" Fotos" data-en=" Photos"> Fotos</h2>
+                <div class="coming-soon-message">
+                    <span class="soon-icon"></span>
+                    <p data-es="Próximamente contenido fotográfico exclusivo" data-en="Exclusive photo content coming soon">Próximamente contenido fotográfico exclusivo</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ads Modal -->
+        <div id="adsModal" class="gallery-modal">
+            <div class="gallery-modal-content">
+                <span class="close-modal" onclick="closeGalleryModal('ads')">&times;</span>
+                <h2 data-es=" Publicidad" data-en=" Advertising"> Publicidad</h2>
+                <div class="coming-soon-message">
+                    <span class="soon-icon"></span>
+                    <p data-es="Próximamente contenido publicitario exclusivo" data-en="Exclusive advertising content coming soon">Próximamente contenido publicitario exclusivo</p>
+                </div>
+            </div>
+        </div>
+    </section>

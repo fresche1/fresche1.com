@@ -331,81 +331,91 @@
     <!-- Gallery Section -->
     <section id="gallery" class="gallery-section">
         <div class="section-header">
-            <span class="section-tag" data-es=" NUESTRA GALER�A " data-en=" OUR GALLERY "> NUESTRA GALER�A </span>
-            <h2 data-es="Galer�a FRESCHE" data-en="FRESCHE Gallery">Galer�a FRESCHE</h2>
-            <p data-es="Explora nuestro contenido exclusivo" data-en="Explore our exclusive content">Explora nuestro contenido exclusivo</p>
+            <span class="section-tag" data-es="—— NUESTRA GALERÍA ——" data-en="—— OUR GALLERY ——">—— NUESTRA GALERÍA ——</span>
+            <h2 data-es="Galería FRESCHE" data-en="FRESCHE Gallery">Galería FRESCHE</h2>
+            <p data-es="Descubre nuestros productos, momentos especiales y contenido exclusivo" data-en="Discover our products, special moments and exclusive content">Descubre nuestros productos, momentos especiales y contenido exclusivo</p>
         </div>
 
-        <div class="gallery-categories">
-            <!-- Videos Category -->
-            <div class="gallery-category" onclick="openGallerySection('videos')">
-                <div class="category-icon"></div>
-                <h3 data-es="Videos" data-en="Videos">Videos</h3>
-                <p data-es="Descubre nuestras colecciones en movimiento" data-en="Discover our collections in motion">Descubre nuestras colecciones en movimiento</p>
-            </div>
-
-            <!-- Photos Category -->
-            <div class="gallery-category" onclick="openGallerySection('photos')">
-                <div class="category-icon"></div>
-                <h3 data-es="Fotos" data-en="Photos">Fotos</h3>
-                <p data-es="Momentos especiales capturados" data-en="Special moments captured">Momentos especiales capturados</p>
-            </div>
-
-            <!-- Ads Category -->
-            <div class="gallery-category" onclick="openGallerySection('ads')">
-                <div class="category-icon"></div>
-                <h3 data-es="Publicidad" data-en="Advertising">Publicidad</h3>
-                <p data-es="Contenido promocional exclusivo" data-en="Exclusive promotional content">Contenido promocional exclusivo</p>
-            </div>
+        <div class="gallery-tabs">
+            <button class="gallery-tab active" onclick="filterGallery('all')" data-es="Todo" data-en="All">Todo</button>
+            <button class="gallery-tab" onclick="filterGallery('photos')" data-es="📸 Fotos" data-en="📸 Photos">📸 Fotos</button>
+            <button class="gallery-tab" onclick="filterGallery('videos')" data-es="🎥 Videos" data-en="🎥 Videos">🎥 Videos</button>
+            <button class="gallery-tab" onclick="filterGallery('ads')" data-es="✨ Publicidad" data-en="✨ Ads">✨ Publicidad</button>
         </div>
 
-        <!-- Videos Modal -->
-        <div id="videosModal" class="gallery-modal">
-            <div class="gallery-modal-content">
-                <span class="close-modal" onclick="closeGalleryModal('videos')">&times;</span>
-                <h2 data-es=" Videos" data-en=" Videos"> Videos</h2>
-                <div class="gallery-grid-modal">
-                    <div class="gallery-video-item">
-                        <video controls>
-                            <source src="images/background-women.mp4" type="video/mp4">
-                        </video>
-                        <p data-es="Colecci�n Femenina" data-en="Women's Collection">Colecci�n Femenina</p>
-                    </div>
-                    <div class="gallery-video-item">
-                        <video controls>
-                            <source src="images/background-men.mp4" type="video/mp4">
-                        </video>
-                        <p data-es="Colecci�n Masculina" data-en="Men's Collection">Colecci�n Masculina</p>
-                    </div>
+        <div class="gallery-grid">
+            <!-- Photo Items -->
+            <div class="gallery-item photo" data-type="photos" onclick="openGalleryModal(0)">
+                <img src="images/cherry.jpg" alt="CherryMood Product">
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">📸</span>
+                    <span class="gallery-title" data-es="CherryMood" data-en="CherryMood">CherryMood</span>
                 </div>
             </div>
-        </div>
 
-        <!-- Photos Modal -->
-        <div id="photosModal" class="gallery-modal">
-            <div class="gallery-modal-content">
-                <span class="close-modal" onclick="closeGalleryModal('photos')">&times;</span>
-                <h2 data-es=" Fotos" data-en=" Photos"> Fotos</h2>
-                <div class="coming-soon-message">
-                    <span class="soon-icon"></span>
-                    <p data-es="Pr�ximamente contenido fotogr�fico exclusivo" data-en="Exclusive photo content coming soon">Pr�ximamente contenido fotogr�fico exclusivo</p>
+            <div class="gallery-item photo" data-type="photos" onclick="openGalleryModal(1)">
+                <img src="images/velvet.jpg" alt="Velvet Product">
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">📸</span>
+                    <span class="gallery-title" data-es="Velvet Elegance" data-en="Velvet Elegance">Velvet Elegance</span>
                 </div>
             </div>
-        </div>
 
-        <!-- Ads Modal -->
-        <div id="adsModal" class="gallery-modal">
-            <div class="gallery-modal-content">
-                <span class="close-modal" onclick="closeGalleryModal('ads')">&times;</span>
-                <h2 data-es=" Publicidad" data-en=" Advertising"> Publicidad</h2>
-                <div class="coming-soon-message">
-                    <span class="soon-icon"></span>
-                    <p data-es="Pr�ximamente contenido publicitario exclusivo" data-en="Exclusive advertising content coming soon">Pr�ximamente contenido publicitario exclusivo</p>
+            <div class="gallery-item photo" data-type="photos" onclick="openGalleryModal(2)">
+                <img src="images/coco.jpg" alt="Coco & Vanilla">
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">📸</span>
+                    <span class="gallery-title" data-es="Coco & Vanilla" data-en="Coco & Vanilla">Coco & Vanilla</span>
+                </div>
+            </div>
+
+            <div class="gallery-item photo" data-type="photos" onclick="openGalleryModal(3)">
+                <img src="images/eclipse.jpg" alt="Eclipse">
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">📸</span>
+                    <span class="gallery-title" data-es="Eclipse Luxury" data-en="Eclipse Luxury">Eclipse Luxury</span>
+                </div>
+            </div>
+
+            <!-- Video Items -->
+            <div class="gallery-item video" data-type="videos" onclick="openGalleryModal(4)">
+                <video muted loop>
+                    <source src="images/background-women.mp4" type="video/mp4">
+                </video>
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">🎥</span>
+                    <span class="gallery-title" data-es="Colección Femenina" data-en="Women's Collection">Colección Femenina</span>
+                </div>
+            </div>
+
+            <div class="gallery-item video" data-type="videos" onclick="openGalleryModal(5)">
+                <video muted loop>
+                    <source src="images/background-men.mp4" type="video/mp4">
+                </video>
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">🎥</span>
+                    <span class="gallery-title" data-es="Colección Masculina" data-en="Men's Collection">Colección Masculina</span>
+                </div>
+            </div>
+
+            <!-- Ad/Promo Items -->
+            <div class="gallery-item ad" data-type="ads" onclick="openGalleryModal(6)">
+                <img src="images/tobacco.jpg" alt="Dulce Tobacco">
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">✨</span>
+                    <span class="gallery-title" data-es="Dulce Tobacco - Nuevo" data-en="Dulce Tobacco - New">Dulce Tobacco - Nuevo</span>
+                </div>
+            </div>
+
+            <div class="gallery-item ad" data-type="ads" onclick="openGalleryModal(7)">
+                <img src="images/jar-pink.jpg" alt="FRESCHE Promo">
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">✨</span>
+                    <span class="gallery-title" data-es="Promoción Especial" data-en="Special Promotion">Promoción Especial</span>
                 </div>
             </div>
         </div>
     </section>
-
 
     <!-- International Shipping Section -->
     <section class="shipping-section">
