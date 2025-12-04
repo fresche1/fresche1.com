@@ -66,12 +66,17 @@
 
     <!-- Music Player -->
     <div class="music-player">
-        <audio id="bgMusic" loop>
-            <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_4be80b9e35.mp3" type="audio/mpeg">
+        <audio id="bgMusic">
+            <source id="audioSource" src="" type="audio/mpeg">
         </audio>
-        <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Música de fondo">
-            🎵
-        </button>
+        <div class="music-controls">
+            <button class="music-nav-btn" onclick="prevTrack()" title="Canción anterior">⏮️</button>
+            <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Reproducir música">
+                🎵
+            </button>
+            <button class="music-nav-btn" onclick="nextTrack()" title="Siguiente canción">⏭️</button>
+        </div>
+        <div class="track-info" id="trackInfo"></div>
     </div>
 
     <!-- Coming Soon Banner -->
@@ -884,24 +889,82 @@
             document.body.style.overflow = 'auto';
         }
         
-        // Background Music Toggle
+        // Background Music Playlist
+        const playlist = [
+            {
+                name: 'Rock Instrumental 1',
+                url: 'https://cdn.pixabay.com/audio/2022/03/10/audio_4be80b9e35.mp3'
+            },
+            {
+                name: 'Rock Instrumental 2',
+                url: 'https://cdn.pixabay.com/audio/2022/05/13/audio_c5e1c72c1e.mp3'
+            },
+            {
+                name: 'Rock Instrumental 3',
+                url: 'https://cdn.pixabay.com/audio/2023/02/28/audio_1b4833ab4b.mp3'
+            },
+            {
+                name: 'Rock Instrumental 4',
+                url: 'https://cdn.pixabay.com/audio/2022/10/25/audio_24607afeb9.mp3'
+            }
+        ];
+        
+        let currentTrack = 0;
+        let isPlaying = false;
+        
+        // Initialize music player
+        function initMusicPlayer() {
+            loadTrack(currentTrack);
+            const audio = document.getElementById('bgMusic');
+            audio.addEventListener('ended', nextTrack);
+        }
+        
+        function loadTrack(index) {
+            const audio = document.getElementById('bgMusic');
+            const source = document.getElementById('audioSource');
+            const trackInfo = document.getElementById('trackInfo');
+            
+            source.src = playlist[index].url;
+            audio.load();
+            trackInfo.textContent = playlist[index].name;
+            
+            if (isPlaying) {
+                audio.play().catch(err => console.log('Autoplay blocked:', err));
+            }
+        }
+        
         function toggleMusic() {
             const audio = document.getElementById('bgMusic');
             const btn = document.getElementById('musicBtn');
             
             if (audio.paused) {
                 audio.play().then(() => {
-                    btn.textContent = '🔇';
+                    isPlaying = true;
+                    btn.textContent = '⏸️';
                     btn.title = 'Pausar música';
                 }).catch(err => {
                     console.log('Autoplay blocked:', err);
                 });
             } else {
                 audio.pause();
-                btn.textContent = '🎵';
-                btn.title = 'Música de fondo';
+                isPlaying = false;
+                btn.textContent = '▶️';
+                btn.title = 'Reproducir música';
             }
         }
+        
+        function nextTrack() {
+            currentTrack = (currentTrack + 1) % playlist.length;
+            loadTrack(currentTrack);
+        }
+        
+        function prevTrack() {
+            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrack);
+        }
+        
+        // Initialize on page load
+        window.addEventListener('load', initMusicPlayer);
         
         // Open/Close Contact Modal
         function openContactModal() {
