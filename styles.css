@@ -624,6 +624,8 @@ body.theme-men .hero-video-men {
     background: rgba(0, 0, 0, 0.92);
     border: 2px solid var(--gold);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 175, 55, 0.3);
+    margin-left: 2rem !important;
+    margin-right: auto !important;
 }
 
 .hero-content-men .hero-tag,
