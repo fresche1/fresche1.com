@@ -64,6 +64,16 @@
     <!-- Menu Overlay for Mobile -->
     <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
+    <!-- Music Player -->
+    <div class="music-player">
+        <audio id="bgMusic" loop>
+            <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_4be80b9e35.mp3" type="audio/mpeg">
+        </audio>
+        <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Música de fondo">
+            🎵
+        </button>
+    </div>
+
     <!-- Coming Soon Banner -->
     <div class="banner-coming-soon">
         <p><strong data-es="⚡⚡ PROXIMAMENTE / COMING SOON ⚡⚡" data-en="⚡⚡ COMING SOON / MUY PRONTO ⚡⚡">⚡⚡ PROXIMAMENTE / COMING SOON ⚡⚡</strong></p>
@@ -872,6 +882,25 @@
             const modal = document.getElementById('aboutModal');
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
+        }
+        
+        // Background Music Toggle
+        function toggleMusic() {
+            const audio = document.getElementById('bgMusic');
+            const btn = document.getElementById('musicBtn');
+            
+            if (audio.paused) {
+                audio.play().then(() => {
+                    btn.textContent = '🔇';
+                    btn.title = 'Pausar música';
+                }).catch(err => {
+                    console.log('Autoplay blocked:', err);
+                });
+            } else {
+                audio.pause();
+                btn.textContent = '🎵';
+                btn.title = 'Música de fondo';
+            }
         }
         
         // Open/Close Contact Modal
