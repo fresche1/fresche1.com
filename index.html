@@ -886,16 +886,16 @@
         let currentTrack = 0;
         let isPlaying = false;
         const playlist = [
-            'https://www.bensound.com/bensound-music/bensound-instinct.mp3',
-            'https://www.bensound.com/bensound-music/bensound-energy.mp3',
-            'https://www.bensound.com/bensound-music/bensound-actionable.mp3',
-            'https://www.bensound.com/bensound-music/bensound-punky.mp3'
+            'https://www.bensound.com/bensound-music/bensound-slowmotion.mp3',
+            'https://www.bensound.com/bensound-music/bensound-relaxing.mp3',
+            'https://www.bensound.com/bensound-music/bensound-littleidea.mp3',
+            'https://www.bensound.com/bensound-music/bensound-romantic.mp3'
         ];
         
         // Initialize music player
         function initMusicPlayer() {
             const audio = document.getElementById('bgMusic');
-            audio.src = playlist[0];
+            audio.src = playlist[currentTrack];
             audio.volume = 0.6;
             
             audio.addEventListener('ended', () => {
@@ -916,6 +916,10 @@
             const btn = document.getElementById('musicBtn');
             
             if (audio.paused) {
+                // Cambiar a la siguiente canción al reproducir
+                currentTrack = (currentTrack + 1) % playlist.length;
+                audio.src = playlist[currentTrack];
+                
                 const playPromise = audio.play();
                 
                 if (playPromise !== undefined) {
