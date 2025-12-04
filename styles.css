@@ -365,6 +365,35 @@ header {
     line-height: 1;
     min-width: 50px;
     font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.lang-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.15;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.lang-btn:first-of-type::before {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600"><rect fill="%23FCD116" width="900" height="200"/><rect fill="%23003893" y="200" width="900" height="200"/><rect fill="%23CE1126" y="400" width="900" height="200"/></svg>');
+}
+
+.lang-btn:last-of-type::before {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7410 3900"><rect width="7410" height="3900" fill="%23b22234"/><path d="M0,450H7410m0,600H0m0,600H7410m0,600H0m0,600H7410m0,600H0" stroke="%23fff" stroke-width="300"/><rect width="2964" height="2100" fill="%23003868"/></svg>');
+}
+
+.lang-btn .flag-emoji {
+    position: relative;
+    z-index: 1;
 }
 
 .flag-emoji {
