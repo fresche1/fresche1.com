@@ -835,8 +835,10 @@
             
             // Update button active state
             langBtns.forEach(btn => {
-                if ((lang === 'es' && btn.textContent.includes('ES')) || 
-                    (lang === 'en' && btn.textContent.includes('EN'))) {
+                const isSpanish = btn.onclick.toString().includes("'es'");
+                const isEnglish = btn.onclick.toString().includes("'en'");
+                
+                if ((lang === 'es' && isSpanish) || (lang === 'en' && isEnglish)) {
                     btn.classList.add('active');
                 } else {
                     btn.classList.remove('active');
