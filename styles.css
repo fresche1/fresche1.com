@@ -1181,6 +1181,239 @@ body.theme-women .benefit-item h3 {
     line-height: 1.6;
 }
 
+/* Gallery Section */
+.gallery-section {
+    padding: 6rem 2rem;
+    background: linear-gradient(135deg, rgba(0,0,0,0.98) 0%, rgba(20,20,20,0.98) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/1758372322944blob.jpg');
+    background-size: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.03;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.gallery-section .section-header {
+    position: relative;
+    z-index: 1;
+}
+
+.gallery-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 3rem 0;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+}
+
+.gallery-tab {
+    padding: 0.8rem 2rem;
+    background: rgba(212, 175, 55, 0.1);
+    border: 2px solid var(--gold);
+    border-radius: 30px;
+    color: var(--gold);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.gallery-tab:hover {
+    background: var(--gold);
+    color: var(--black);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+}
+
+.gallery-tab.active {
+    background: var(--gold);
+    color: var(--black);
+    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.gallery-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.gallery-item img,
+.gallery-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--gold);
+    box-shadow: 0 20px 60px rgba(212, 175, 55, 0.4);
+}
+
+.gallery-item:hover img,
+.gallery-item:hover video {
+    transform: scale(1.1);
+}
+
+.gallery-item video {
+    filter: brightness(0.8);
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 70%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.8));
+}
+
+.gallery-title {
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-align: center;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+.gallery-item.hidden {
+    display: none;
+}
+
+/* Gallery Modal */
+.gallery-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 10000;
+    padding: 2rem;
+}
+
+.gallery-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    background: var(--black);
+    border-radius: 15px;
+    border: 2px solid var(--gold);
+    overflow: hidden;
+}
+
+.gallery-modal-content img,
+.gallery-modal-content video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.gallery-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    border-radius: 50%;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.gallery-modal-close:hover {
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.6);
+}
+
+.gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(212, 175, 55, 0.9);
+    border: none;
+    border-radius: 50%;
+    color: var(--black);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10001;
+}
+
+.gallery-nav:hover {
+    background: var(--gold);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.gallery-nav.prev {
+    left: 1rem;
+}
+
+.gallery-nav.next {
+    right: 1rem;
+}
+
 /* International Shipping Section */
 .shipping-section {
     padding: 6rem 2rem;
@@ -1890,6 +2123,45 @@ body.theme-women .footer-product-men {
     .shipping-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 0.5rem;
+    }
+    
+    .gallery-tabs {
+        gap: 0.5rem;
+        margin: 2rem 0;
+    }
+    
+    .gallery-tab {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.85rem;
+    }
+    
+    .gallery-section {
+        padding: 4rem 1rem;
+    }
+    
+    .gallery-modal-content {
+        max-width: 95%;
+        max-height: 80%;
+    }
+    
+    .gallery-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .gallery-nav.prev {
+        left: 0.5rem;
+    }
+    
+    .gallery-nav.next {
+        right: 0.5rem;
     }
     
     .footer-content {
@@ -2787,6 +3059,87 @@ body.theme-women .qr-center img {
     transform: translateY(-1px) scale(0.98);
 }
 
+/* Gallery CTA Button */
+.gallery-cta-btn {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, var(--gold) 0%, #ff8c00 100%);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+    text-decoration: none;
+    color: var(--black);
+    font-weight: 700;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.gallery-cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+}
+
+.gallery-cta-btn:hover::before {
+    left: 100%;
+}
+
+.gallery-cta-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 40px rgba(212, 175, 55, 0.6);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.gallery-cta-btn:active {
+    transform: translateY(-2px) scale(1.02);
+}
+
+.gallery-cta-icon {
+    font-size: 2rem;
+    animation: pulse 2s ease-in-out infinite;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.gallery-cta-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+}
+
+.gallery-cta-title {
+    font-size: 1.1rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.gallery-cta-subtitle {
+    font-size: 0.75rem;
+    font-weight: 500;
+    opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
 @media (max-width: 768px) {
     .music-player {
         bottom: 180px;
@@ -2797,6 +3150,25 @@ body.theme-women .qr-center img {
         width: 50px;
         height: 50px;
         font-size: 1.2rem;
+    }
+    
+    .gallery-cta-btn {
+        right: 15px;
+        bottom: 100px;
+        padding: 0.8rem 1.2rem;
+        gap: 0.8rem;
+    }
+    
+    .gallery-cta-icon {
+        font-size: 1.5rem;
+    }
+    
+    .gallery-cta-title {
+        font-size: 0.95rem;
+    }
+    
+    .gallery-cta-subtitle {
+        font-size: 0.65rem;
     }
 }
 

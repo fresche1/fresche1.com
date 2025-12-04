@@ -31,6 +31,7 @@
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#home" onclick="closeMenu()" data-es="Inicio" data-en="Home">Inicio</a></li>
                 <li><a href="#products" onclick="closeMenu()" data-es="Productos" data-en="Products">Productos</a></li>
+                <li><a href="#gallery" onclick="closeMenu()" data-es="📸 Galería" data-en="📸 Gallery">📸 Galería</a></li>
                 <li><a href="instructions.html" data-es="📋 Instrucciones" data-en="📋 Instructions">📋 Instrucciones</a></li>
                 <li><a href="https://wa.me/573017606723" target="_blank" data-es="✉️ Contacto" data-en="✉️ Contact">✉️ Contacto</a></li>
                 <li><a href="https://wa.me/573017606723" target="_blank" data-es="📱 WhatsApp" data-en="📱 WhatsApp">📱 WhatsApp</a></li>
@@ -71,6 +72,15 @@
             🎵
         </button>
     </div>
+
+    <!-- Gallery CTA Button -->
+    <a href="#gallery" class="gallery-cta-btn" onclick="scrollToGallery()">
+        <span class="gallery-cta-icon">📸</span>
+        <span class="gallery-cta-text">
+            <span class="gallery-cta-title" data-es="Galería" data-en="Gallery">Galería</span>
+            <span class="gallery-cta-subtitle" data-es="Ver más" data-en="View more">Ver más</span>
+        </span>
+    </a>
 
     <!-- Coming Soon Banner -->
     <div class="banner-coming-soon">
@@ -313,6 +323,95 @@
                         <h3 data-es="Ideal para deportistas" data-en="Ideal for athletes">Ideal para deportistas</h3>
                         <p data-es="Protección activa durante el ejercicio" data-en="Active protection during exercise">Protección activa durante el ejercicio</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="section-header">
+            <span class="section-tag" data-es="—— NUESTRA GALERÍA ——" data-en="—— OUR GALLERY ——">—— NUESTRA GALERÍA ——</span>
+            <h2 data-es="Galería FRESCHE" data-en="FRESCHE Gallery">Galería FRESCHE</h2>
+            <p data-es="Descubre nuestros productos, momentos especiales y contenido exclusivo" data-en="Discover our products, special moments and exclusive content">Descubre nuestros productos, momentos especiales y contenido exclusivo</p>
+        </div>
+
+        <div class="gallery-tabs">
+            <button class="gallery-tab active" onclick="filterGallery('all')" data-es="Todo" data-en="All">Todo</button>
+            <button class="gallery-tab" onclick="filterGallery('photos')" data-es="📸 Fotos" data-en="📸 Photos">📸 Fotos</button>
+            <button class="gallery-tab" onclick="filterGallery('videos')" data-es="🎥 Videos" data-en="🎥 Videos">🎥 Videos</button>
+            <button class="gallery-tab" onclick="filterGallery('ads')" data-es="✨ Publicidad" data-en="✨ Ads">✨ Publicidad</button>
+        </div>
+
+        <div class="gallery-grid">
+            <!-- Photo Items -->
+            <div class="gallery-item photo" data-type="photos" onclick="openGalleryModal(0)">
+                <img src="images/cherry.jpg" alt="CherryMood Product">
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">📸</span>
+                    <span class="gallery-title" data-es="CherryMood" data-en="CherryMood">CherryMood</span>
+                </div>
+            </div>
+
+            <div class="gallery-item photo" data-type="photos" onclick="openGalleryModal(1)">
+                <img src="images/velvet.jpg" alt="Velvet Product">
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">📸</span>
+                    <span class="gallery-title" data-es="Velvet Elegance" data-en="Velvet Elegance">Velvet Elegance</span>
+                </div>
+            </div>
+
+            <div class="gallery-item photo" data-type="photos" onclick="openGalleryModal(2)">
+                <img src="images/coco.jpg" alt="Coco & Vanilla">
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">📸</span>
+                    <span class="gallery-title" data-es="Coco & Vanilla" data-en="Coco & Vanilla">Coco & Vanilla</span>
+                </div>
+            </div>
+
+            <div class="gallery-item photo" data-type="photos" onclick="openGalleryModal(3)">
+                <img src="images/eclipse.jpg" alt="Eclipse">
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">📸</span>
+                    <span class="gallery-title" data-es="Eclipse Luxury" data-en="Eclipse Luxury">Eclipse Luxury</span>
+                </div>
+            </div>
+
+            <!-- Video Items -->
+            <div class="gallery-item video" data-type="videos" onclick="openGalleryModal(4)">
+                <video muted loop>
+                    <source src="images/background-women.mp4" type="video/mp4">
+                </video>
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">🎥</span>
+                    <span class="gallery-title" data-es="Colección Femenina" data-en="Women's Collection">Colección Femenina</span>
+                </div>
+            </div>
+
+            <div class="gallery-item video" data-type="videos" onclick="openGalleryModal(5)">
+                <video muted loop>
+                    <source src="images/background-men.mp4" type="video/mp4">
+                </video>
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">🎥</span>
+                    <span class="gallery-title" data-es="Colección Masculina" data-en="Men's Collection">Colección Masculina</span>
+                </div>
+            </div>
+
+            <!-- Ad/Promo Items -->
+            <div class="gallery-item ad" data-type="ads" onclick="openGalleryModal(6)">
+                <img src="images/tobacco.jpg" alt="Dulce Tobacco">
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">✨</span>
+                    <span class="gallery-title" data-es="Dulce Tobacco - Nuevo" data-en="Dulce Tobacco - New">Dulce Tobacco - Nuevo</span>
+                </div>
+            </div>
+
+            <div class="gallery-item ad" data-type="ads" onclick="openGalleryModal(7)">
+                <img src="images/jar-pink.jpg" alt="FRESCHE Promo">
+                <div class="gallery-overlay">
+                    <span class="gallery-icon">✨</span>
+                    <span class="gallery-title" data-es="Promoción Especial" data-en="Special Promotion">Promoción Especial</span>
                 </div>
             </div>
         </div>
@@ -1484,6 +1583,92 @@
                 closeCart();
             }
         });
+
+        // Gallery Functions
+        let currentGalleryIndex = 0;
+        const galleryItems = [
+            { type: 'photo', src: 'images/cherry.jpg', title: 'CherryMood' },
+            { type: 'photo', src: 'images/velvet.jpg', title: 'Velvet Elegance' },
+            { type: 'photo', src: 'images/coco.jpg', title: 'Coco & Vanilla' },
+            { type: 'photo', src: 'images/eclipse.jpg', title: 'Eclipse Luxury' },
+            { type: 'video', src: 'images/background-women.mp4', title: 'Colección Femenina' },
+            { type: 'video', src: 'images/background-men.mp4', title: 'Colección Masculina' },
+            { type: 'photo', src: 'images/tobacco.jpg', title: 'Dulce Tobacco' },
+            { type: 'photo', src: 'images/jar-pink.jpg', title: 'Promoción Especial' }
+        ];
+
+        function filterGallery(filter) {
+            const items = document.querySelectorAll('.gallery-item');
+            const tabs = document.querySelectorAll('.gallery-tab');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            items.forEach(item => {
+                if (filter === 'all') {
+                    item.classList.remove('hidden');
+                } else {
+                    if (item.dataset.type === filter) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        function openGalleryModal(index) {
+            currentGalleryIndex = index;
+            const item = galleryItems[index];
+            
+            let modalHTML = `
+                <div class="gallery-modal active" id="galleryModal" onclick="closeGalleryModal(event)">
+                    <div class="gallery-modal-content" onclick="event.stopPropagation()">
+                        <button class="gallery-modal-close" onclick="closeGalleryModal()">&times;</button>
+                        <button class="gallery-nav prev" onclick="navigateGallery(-1); event.stopPropagation();">❮</button>
+                        <button class="gallery-nav next" onclick="navigateGallery(1); event.stopPropagation();">❯</button>
+                        ${item.type === 'video' 
+                            ? `<video autoplay loop controls><source src="${item.src}" type="video/mp4"></video>`
+                            : `<img src="${item.src}" alt="${item.title}">`
+                        }
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+        }
+
+        function closeGalleryModal(event) {
+            if (event && event.target.id !== 'galleryModal') return;
+            const modal = document.getElementById('galleryModal');
+            if (modal) modal.remove();
+        }
+
+        function navigateGallery(direction) {
+            currentGalleryIndex += direction;
+            if (currentGalleryIndex < 0) currentGalleryIndex = galleryItems.length - 1;
+            if (currentGalleryIndex >= galleryItems.length) currentGalleryIndex = 0;
+            
+            const modal = document.getElementById('galleryModal');
+            if (modal) modal.remove();
+            openGalleryModal(currentGalleryIndex);
+        }
+
+        // Close gallery modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('galleryModal');
+                if (modal) modal.remove();
+            }
+        });
+
+        // Scroll to Gallery function
+        function scrollToGallery() {
+            const gallerySection = document.getElementById('gallery');
+            if (gallerySection) {
+                gallerySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
     </script>
 
     <!-- FRESCHE AI Chatbot -->
