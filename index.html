@@ -388,7 +388,7 @@
                 <h2 data-es=" Fotos" data-en=" Photos"> Fotos</h2>
                 <div class="gallery-grid-modal">
                     <div class="gallery-photo-item">
-                        <img src="images/poster-fresche.jpg" alt="FRESCHE Poster">
+                        <img src="images/poster-fresche.jpg" alt="FRESCHE Poster" onclick="openImageFullscreen(this)" style="cursor: pointer;">
                         <p data-es="Póster FRESCHE" data-en="FRESCHE Poster">Póster FRESCHE</p>
                     </div>
                 </div>
@@ -1685,6 +1685,47 @@
             if (event.target.classList.contains('gallery-modal')) {
                 event.target.style.display = 'none';
                 document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Open image in fullscreen
+        function openImageFullscreen(img) {
+            const fullscreenDiv = document.createElement('div');
+            fullscreenDiv.id = 'imageFullscreen';
+            fullscreenDiv.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 99999; display: flex; align-items: center; justify-content: center; cursor: zoom-out;';
+            
+            const fullImg = document.createElement('img');
+            fullImg.src = img.src;
+            fullImg.alt = img.alt;
+            fullImg.style.cssText = 'max-width: 95%; max-height: 95vh; object-fit: contain; border-radius: 10px; box-shadow: 0 0 50px rgba(212,175,55,0.5);';
+            
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '&times;';
+            closeBtn.style.cssText = 'position: absolute; top: 20px; right: 30px; background: var(--gold); color: var(--black); border: none; font-size: 40px; font-weight: bold; cursor: pointer; width: 50px; height: 50px; border-radius: 50%; transition: all 0.3s;';
+            closeBtn.onmouseover = function() { this.style.transform = 'rotate(90deg)'; };
+            closeBtn.onmouseout = function() { this.style.transform = 'rotate(0deg)'; };
+            closeBtn.onclick = function() { closeImageFullscreen(); };
+            
+            fullscreenDiv.appendChild(fullImg);
+            fullscreenDiv.appendChild(closeBtn);
+            fullscreenDiv.onclick = function(e) { if(e.target === fullscreenDiv) closeImageFullscreen(); };
+            
+            document.body.appendChild(fullscreenDiv);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageFullscreen() {
+            const fullscreen = document.getElementById('imageFullscreen');
+            if (fullscreen) {
+                fullscreen.remove();
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close fullscreen with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeImageFullscreen();
             }
         });
     </script>
