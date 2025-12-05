@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>FRESCHE - Cuidado Ãntimo Premium desde Colombia</title>
+    <title>FRESCHE - Cuidado Íntimo Premium desde Colombia</title>
     <link rel="stylesheet" href="styles.css">
     <!-- PayU integration will be server-side -->
 </head>
@@ -31,34 +31,34 @@
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#home" onclick="closeMenu()" data-es="Inicio" data-en="Home">Inicio</a></li>
                 <li><a href="#products" onclick="closeMenu()" data-es="Productos" data-en="Products">Productos</a></li>
-                <li><a href="#gallery" onclick="closeMenu()" data-es=" GalerÃ­a" data-en=" Gallery"> GalerÃ­a</a></li>
-                <li><a href="instructions.html" data-es="ðŸ“‹ Instrucciones" data-en="ðŸ“‹ Instructions">ðŸ“‹ Instrucciones</a></li>
-                <li><a href="https://wa.me/573017606723" target="_blank" data-es="âœ‰ï¸ Contacto" data-en="âœ‰ï¸ Contact">âœ‰ï¸ Contacto</a></li>
-                <li><a href="https://wa.me/573017606723" target="_blank" data-es="ðŸ“± WhatsApp" data-en="ðŸ“± WhatsApp">ðŸ“± WhatsApp</a></li>
+                <li><a href="#gallery" onclick="closeMenu()" data-es=" Galería" data-en=" Gallery"> Galería</a></li>
+                <li><a href="instructions.html" data-es="📋 Instrucciones" data-en="📋 Instructions">📋 Instrucciones</a></li>
+                <li><a href="https://wa.me/573017606723" target="_blank" data-es="✉️ Contacto" data-en="✉️ Contact">✉️ Contacto</a></li>
+                <li><a href="https://wa.me/573017606723" target="_blank" data-es="📱 WhatsApp" data-en="📱 WhatsApp">📱 WhatsApp</a></li>
                 <li class="menu-color-selector">
                     <span class="menu-color-label" data-es="Tema:" data-en="Theme:">Tema:</span>
                     <div class="menu-color-buttons">
                         <button class="menu-bg-btn active" onclick="changeBackgroundColor('black'); closeMenu();" data-color="black" title="Tema Oscuro">
-                            <span style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: #000; border-radius: 50%; color: #fff; font-size: 1.2rem;">ðŸŒ™</span>
+                            <span style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: #000; border-radius: 50%; color: #fff; font-size: 1.2rem;">🌙</span>
                         </button>
                         <button class="menu-bg-btn" onclick="changeBackgroundColor('light'); closeMenu();" data-color="light" title="Tema Claro">
-                            <span style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: linear-gradient(135deg, #e8e8e8 0%, #b8b8b8 100%); border-radius: 50%; font-size: 1.2rem;">â˜€ï¸</span>
+                            <span style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: linear-gradient(135deg, #e8e8e8 0%, #b8b8b8 100%); border-radius: 50%; font-size: 1.2rem;">☀️</span>
                         </button>
                     </div>
                 </li>
             </ul>
             <div class="nav-buttons">
-                <button class="lang-btn active" onclick="changeLang('es')" title="EspaÃ±ol">
-                    <span class="flag-emoji">ðŸ‡¨ðŸ‡´</span>
+                <button class="lang-btn active" onclick="changeLang('es')" title="Español">
+                    <span class="flag-emoji">🇨🇴</span>
                 </button>
                 <button class="lang-btn" onclick="changeLang('en')" title="English">
-                    <span class="flag-emoji">ðŸ‡ºðŸ‡¸</span>
+                    <span class="flag-emoji">🇺🇸</span>
                 </button>
             </div>
             <button class="cart-btn" onclick="openCart()">
-                ðŸ›’ <span class="cart-badge" id="cartBadge">0</span>
+                🛒 <span class="cart-badge" id="cartBadge">0</span>
             </button>
-            <button class="share-btn" onclick="shareWebsite()" data-es="ðŸ”— Compartir" data-en="ðŸ”— Share">ðŸ”— Compartir</button>
+            <button class="share-btn" onclick="shareWebsite()" data-es="🔗 Compartir" data-en="🔗 Share">🔗 Compartir</button>
         </nav>
     </header>
 
@@ -68,33 +68,33 @@
     <!-- Music Player -->
     <div class="music-player">
         <audio id="bgMusic" preload="auto"></audio>
-        <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Reproducir mÃºsica">
-            ðŸŽµ
+        <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Reproducir música">
+            🎵
         </button>
     </div>
 
     <!-- Gallery CTA Button -->
     <a href="#gallery" class="gallery-cta-btn" onclick="scrollToGallery()">
-        <span class="gallery-cta-icon">ðŸ“¸</span>
+        <span class="gallery-cta-icon">📸</span>
         <span class="gallery-cta-text">
-            <span class="gallery-cta-title" data-es="GalerÃ­a" data-en="Gallery">GalerÃ­a</span>
-            <span class="gallery-cta-subtitle" data-es="Ver mÃ¡s" data-en="View more">Ver mÃ¡s</span>
+            <span class="gallery-cta-title" data-es="Galería" data-en="Gallery">Galería</span>
+            <span class="gallery-cta-subtitle" data-es="Ver más" data-en="View more">Ver más</span>
         </span>
     </a>
 
     <!-- Coming Soon Banner -->
     <div class="banner-coming-soon">
-        <p><strong data-es="âš¡âš¡ PROXIMAMENTE / COMING SOON âš¡âš¡" data-en="âš¡âš¡ COMING SOON / MUY PRONTO âš¡âš¡">âš¡âš¡ PROXIMAMENTE / COMING SOON âš¡âš¡</strong></p>
-        <p data-es="PrÃ³ximamente podrÃ¡s realizar compras â€¢ Soon you'll be able to make purchases" data-en="Soon you'll be able to make purchases â€¢ PrÃ³ximamente podrÃ¡s realizar compras">PrÃ³ximamente podrÃ¡s realizar compras â€¢ Soon you'll be able to make purchases</p>
+        <p><strong data-es="⚡⚡ PROXIMAMENTE / COMING SOON ⚡⚡" data-en="⚡⚡ COMING SOON / MUY PRONTO ⚡⚡">⚡⚡ PROXIMAMENTE / COMING SOON ⚡⚡</strong></p>
+        <p data-es="Próximamente podrás realizar compras • Soon you'll be able to make purchases" data-en="Soon you'll be able to make purchases • Próximamente podrás realizar compras">Próximamente podrás realizar compras • Soon you'll be able to make purchases</p>
     </div>
 
     <!-- Floating Buttons -->
     <div class="floating-buttons">
         <button class="float-btn men active" onclick="changeTheme('men')">
-            <span data-es="ðŸ‘¨ PARA HOMBRES" data-en="ðŸ‘¨ FOR MEN">ðŸ‘¨ PARA HOMBRES</span>
+            <span data-es="👨 PARA HOMBRES" data-en="👨 FOR MEN">👨 PARA HOMBRES</span>
         </button>
         <button class="float-btn women" onclick="changeTheme('women')">
-            <span data-es="ðŸ‘© PARA MUJERES" data-en="ðŸ‘© FOR WOMEN">ðŸ‘© PARA MUJERES</span>
+            <span data-es="👩 PARA MUJERES" data-en="👩 FOR WOMEN">👩 PARA MUJERES</span>
         </button>
     </div>
 
@@ -122,29 +122,29 @@
         
         <!-- Content for Women -->
         <div class="hero-content hero-content-women">
-            <span class="hero-tag" data-es="â€”â€” COLECCIÃ“N PREMIUM â€”â€”" data-en="â€”â€” PREMIUM COLLECTION â€”â€”">â€”â€” PREMIUM COLLECTION â€”â€”</span>
+            <span class="hero-tag" data-es="—— COLECCIÓN PREMIUM ——" data-en="—— PREMIUM COLLECTION ——">—— PREMIUM COLLECTION ——</span>
             <h1>
                 <span data-es="Frescura y " data-en="Freshness & ">Frescura y </span><br>
                 <span class="highlight" data-es="Confianza" data-en="Confidence">Confianza</span>
             </h1>
-            <p data-es="SiÃ©ntete fresca todo el dÃ­a. ProtecciÃ³n natural que cuida de ti. Para cada momento de tu vida." data-en="Feel fresh all day. Natural protection that takes care of you. For every moment of your life.">SiÃ©ntete fresca todo el dÃ­a. ProtecciÃ³n natural que cuida de ti. Para cada momento de tu vida.</p>
+            <p data-es="Siéntete fresca todo el día. Protección natural que cuida de ti. Para cada momento de tu vida." data-en="Feel fresh all day. Natural protection that takes care of you. For every moment of your life.">Siéntete fresca todo el día. Protección natural que cuida de ti. Para cada momento de tu vida.</p>
         </div>
         
         <!-- Content for Men -->
         <div class="hero-content hero-content-men">
-            <span class="hero-tag" data-es="â€”â€” COLECCIÃ“N PREMIUM â€”â€”" data-en="â€”â€” PREMIUM COLLECTION â€”â€”">â€”â€” COLECCIÃ“N PREMIUM â€”â€”</span>
+            <span class="hero-tag" data-es="—— COLECCIÓN PREMIUM ——" data-en="—— PREMIUM COLLECTION ——">—— COLECCIÓN PREMIUM ——</span>
             <h1>
                 <span data-es="Frescura " data-en="Freshness ">Frescura </span><br>
-                <span class="highlight" data-es="Todo el DÃ­a" data-en="All Day">Todo el DÃ­a</span>
+                <span class="highlight" data-es="Todo el Día" data-en="All Day">Todo el Día</span>
             </h1>
-            <p data-es="Mantente fresco desde la maÃ±ana hasta la noche. ProtecciÃ³n efectiva y confiable. Para tu dÃ­a a dÃ­a." data-en="Stay fresh from morning to night. Effective and reliable protection. For your daily life.">Mantente fresco desde la maÃ±ana hasta la noche. ProtecciÃ³n efectiva y confiable. Para tu dÃ­a a dÃ­a.</p>
+            <p data-es="Mantente fresco desde la mañana hasta la noche. Protección efectiva y confiable. Para tu día a día." data-en="Stay fresh from morning to night. Effective and reliable protection. For your daily life.">Mantente fresco desde la mañana hasta la noche. Protección efectiva y confiable. Para tu día a día.</p>
         </div>
     </section>
 
     <!-- Products Section -->
     <section id="products" class="products-section">
         <div class="section-header">
-            <span class="section-tag" data-es=" NUESTRA GALERÃA " data-en=" OUR GALLERY ">â€”â€” NUESTRA COLECCIÃ“N â€”â€”</span>
+            <span class="section-tag" data-es=" NUESTRA GALERÍA " data-en=" OUR GALLERY ">—— NUESTRA COLECCIÓN ——</span>
             <h2 data-es="Nuestros Productos" data-en="Our Products">Nuestros Productos</h2>
             <p data-es="Aromas dulces y elegantes para cada momento" data-en="Sweet and elegant aromas for every moment">Aromas dulces y elegantes para cada momento</p>
         </div>
@@ -157,12 +157,12 @@
                 <div class="product-overlay"></div>
                 <div class="product-info-top">
                     <h3>CherryMood</h3>
-                    <p data-es="Dulzura vibrante que eleva tu Ã¡nimo y te envuelve en frescura deliciosa." data-en="Vibrant sweetness that lifts your mood and envelops you in delicious freshness.">Dulzura vibrante que eleva tu Ã¡nimo y te envuelve en frescura deliciosa.</p>
+                    <p data-es="Dulzura vibrante que eleva tu ánimo y te envuelve en frescura deliciosa." data-en="Vibrant sweetness that lifts your mood and envelops you in delicious freshness.">Dulzura vibrante que eleva tu ánimo y te envuelve en frescura deliciosa.</p>
                 </div>
                 <div class="product-info-bottom">
                     <span class="product-size">1oz</span>
                     <span class="product-price">
-                        <span data-es="Precio prÃ³ximamente" data-en="Price coming soon">Precio prÃ³ximamente</span>
+                        <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span>
                     </span>
                 </div>
             </div>
@@ -174,12 +174,12 @@
                 <div class="product-overlay"></div>
                 <div class="product-info-top">
                     <h3>Velvet</h3>
-                    <p data-es="SofisticaciÃ³n suave como terciopelo con notas cÃ­tricas dulces y florales." data-en="Soft sophistication like velvet with sweet citrus and floral notes.">SofisticaciÃ³n suave como terciopelo con notas cÃ­tricas dulces y florales.</p>
+                    <p data-es="Sofisticación suave como terciopelo con notas cítricas dulces y florales." data-en="Soft sophistication like velvet with sweet citrus and floral notes.">Sofisticación suave como terciopelo con notas cítricas dulces y florales.</p>
                 </div>
                 <div class="product-info-bottom">
                     <span class="product-size">1oz</span>
                     <span class="product-price">
-                        <span data-es="Precio prÃ³ximamente" data-en="Price coming soon">Precio prÃ³ximamente</span>
+                        <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span>
                     </span>
                 </div>
             </div>
@@ -196,14 +196,14 @@
                 <div class="product-info-bottom">
                     <span class="product-size">1oz</span>
                     <span class="product-price">
-                        <span data-es="Precio prÃ³ximamente" data-en="Price coming soon">Precio prÃ³ximamente</span>
+                        <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span>
                     </span>
                 </div>
             </div>
 
             <!-- Product 4 - Eclipse (FOR MEN) -->
             <div class="product-card product-men" data-gender="men" onclick="openProductModal('eclipse')">
-                <span class="product-badge" data-es="ClÃ¡sico" data-en="Classic">ClÃ¡sico</span>
+                <span class="product-badge" data-es="Clásico" data-en="Classic">Clásico</span>
                 <img src="images/eclipse.jpg" alt="FRESCHE Eclipse" onerror="this.src='https://images.unsplash.com/photo-1511381939415-e44015466834?w=600'">
                 <div class="product-overlay"></div>
                 <div class="product-info-top">
@@ -213,7 +213,7 @@
                 <div class="product-info-bottom">
                     <span class="product-size">1oz</span>
                     <span class="product-price">
-                        <span data-es="Precio prÃ³ximamente" data-en="Price coming soon">Precio prÃ³ximamente</span>
+                        <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span>
                     </span>
                 </div>
             </div>
@@ -230,7 +230,7 @@
                 <div class="product-info-bottom">
                     <span class="product-size">1oz</span>
                     <span class="product-price">
-                        <span data-es="Precio prÃ³ximamente" data-en="Price coming soon">Precio prÃ³ximamente</span>
+                        <span data-es="Precio próximamente" data-en="Price coming soon">Precio próximamente</span>
                     </span>
                 </div>
             </div>
@@ -240,18 +240,18 @@
     <!-- Values Section -->
     <section class="values-section">
         <h2 data-es="Nuestro Compromiso" data-en="Our Commitment">Nuestro Compromiso</h2>
-        <p data-es="Calidad, Ã©tica y responsabilidad en cada producto" data-en="Quality, ethics and responsibility in every product">Calidad, Ã©tica y responsabilidad en cada producto</p>
+        <p data-es="Calidad, ética y responsabilidad en cada producto" data-en="Quality, ethics and responsibility in every product">Calidad, ética y responsabilidad en cada producto</p>
         <div class="values-grid">
             <div class="value-card">
-                <div class="value-icon green">ðŸŒ±</div>
+                <div class="value-icon green">🌱</div>
                 <h3 data-es="Producto vegano" data-en="Vegan product">Producto vegano</h3>
             </div>
             <div class="value-card">
-                <div class="value-icon blue">ðŸ¶</div>
+                <div class="value-icon blue">🐶</div>
                 <h3 data-es="No probado en animales" data-en="Not tested on animals">No probado en animales</h3>
             </div>
             <div class="value-card">
-                <div class="value-icon gold">â™»ï¸</div>
+                <div class="value-icon gold">♻️</div>
                 <h3 data-es="Reciclable" data-en="Recyclable">Reciclable</h3>
             </div>
             <div class="value-card">
@@ -265,63 +265,63 @@
     <section class="benefits-section">
         <div class="benefits-container">
             <div class="benefits-header">
-                <h2 data-es="GalerÃ­a FRESCHE" data-en="FRESCHE Gallery">Ventajas de usar FRESCHE</h2>
-                <p data-es="Cuidado Ã­ntimo de alta calidad con resultados comprobados" data-en="High quality intimate care with proven results">Cuidado Ã­ntimo de alta calidad con resultados comprobados</p>
+                <h2 data-es="Galería FRESCHE" data-en="FRESCHE Gallery">Ventajas de usar FRESCHE</h2>
+                <p data-es="Cuidado íntimo de alta calidad con resultados comprobados" data-en="High quality intimate care with proven results">Cuidado íntimo de alta calidad con resultados comprobados</p>
             </div>
             <div class="benefits-grid">
                 <div class="benefit-item">
-                    <div class="benefit-icon">ðŸ’§</div>
+                    <div class="benefit-icon">💧</div>
                     <div>
-                        <h3 data-es="Disminuye la sudoraciÃ³n" data-en="Reduces perspiration">Disminuye la sudoraciÃ³n</h3>
+                        <h3 data-es="Disminuye la sudoración" data-en="Reduces perspiration">Disminuye la sudoración</h3>
                         <p data-es="Controla la humedad de forma natural" data-en="Controls moisture naturally">Controla la humedad de forma natural</p>
                     </div>
                 </div>
                 <div class="benefit-item">
                     <div class="benefit-icon benefit-icon-odor">
-                        <span class="icon-men">ðŸš«ðŸ’¨</span>
-                        <span class="icon-women">ðŸŒ¼</span>
+                        <span class="icon-men">🚫💨</span>
+                        <span class="icon-women">🌼</span>
                     </div>
                     <div>
                         <h3 data-es="Evita malos olores" data-en="Prevents bad odors">Evita malos olores</h3>
-                        <p data-es="Frescura duradera todo el dÃ­a" data-en="Lasting freshness all day">Frescura duradera todo el dÃ­a</p>
+                        <p data-es="Frescura duradera todo el día" data-en="Lasting freshness all day">Frescura duradera todo el día</p>
                     </div>
                 </div>
                 <div class="benefit-item">
-                    <div class="benefit-icon">âœ¨</div>
+                    <div class="benefit-icon">✨</div>
                     <div>
                         <h3 data-es="Suaviza la piel" data-en="Softens the skin">Suaviza la piel</h3>
                         <p data-es="Textura sedosa y tersa al tacto" data-en="Silky smooth texture to the touch">Textura sedosa y tersa al tacto</p>
                     </div>
                 </div>
                 <div class="benefit-item">
-                    <div class="benefit-icon">ðŸª’</div>
+                    <div class="benefit-icon">🪒</div>
                     <div>
-                        <h3 data-es="Post-depilaciÃ³n" data-en="Post-waxing">Post-depilaciÃ³n</h3>
-                        <p data-es="Ideal despuÃ©s de depilarte" data-en="Ideal after waxing">Ideal despuÃ©s de depilarte</p>
+                        <h3 data-es="Post-depilación" data-en="Post-waxing">Post-depilación</h3>
+                        <p data-es="Ideal después de depilarte" data-en="Ideal after waxing">Ideal después de depilarte</p>
                     </div>
                 </div>
                 <div class="benefit-item">
-                    <div class="benefit-icon">ðŸƒ</div>
+                    <div class="benefit-icon">🍃</div>
                     <div>
                         <h3 data-es="100% Natural" data-en="100% Natural">100% Natural</h3>
                         <p data-es="Ingredientes naturales premium" data-en="Premium natural ingredients">Ingredientes naturales premium</p>
                     </div>
                 </div>
                 <div class="benefit-item">
-                    <div class="benefit-icon">ðŸ’¦</div>
+                    <div class="benefit-icon">💦</div>
                     <div>
                         <h3 data-es="Hidratante" data-en="Moisturizing">Hidratante</h3>
-                        <p data-es="HidrataciÃ³n profunda y duradera" data-en="Deep and lasting hydration">HidrataciÃ³n profunda y duradera</p>
+                        <p data-es="Hidratación profunda y duradera" data-en="Deep and lasting hydration">Hidratación profunda y duradera</p>
                     </div>
                 </div>
                 <div class="benefit-item">
                     <div class="benefit-icon benefit-icon-sport">
-                        <span class="icon-men">ðŸ‹ï¸</span>
-                        <span class="icon-women">ðŸ§˜â€â™€ï¸</span>
+                        <span class="icon-men">🏋️</span>
+                        <span class="icon-women">🧘‍♀️</span>
                     </div>
                     <div>
                         <h3 data-es="Ideal para deportistas" data-en="Ideal for athletes">Ideal para deportistas</h3>
-                        <p data-es="ProtecciÃ³n activa durante el ejercicio" data-en="Active protection during exercise">ProtecciÃ³n activa durante el ejercicio</p>
+                        <p data-es="Protección activa durante el ejercicio" data-en="Active protection during exercise">Protección activa durante el ejercicio</p>
                     </div>
                 </div>
             </div>
@@ -331,29 +331,29 @@
     <!-- Gallery Section -->
     <section id="gallery" class="gallery-section">
         <div class="section-header">
-            <span class="section-tag" data-es=" NUESTRA GALERÃA " data-en=" OUR GALLERY "> NUESTRA GALERÃA </span>
-            <h2 data-es="GalerÃ­a FRESCHE" data-en="FRESCHE Gallery">GalerÃ­a FRESCHE</h2>
+            <span class="section-tag" data-es=" NUESTRA GALERÍA " data-en=" OUR GALLERY "> NUESTRA GALERÍA </span>
+            <h2 data-es="Galería FRESCHE" data-en="FRESCHE Gallery">Galería FRESCHE</h2>
             <p data-es="Explora nuestro contenido exclusivo" data-en="Explore our exclusive content">Explora nuestro contenido exclusivo</p>
         </div>
 
         <div class="gallery-categories">
             <!-- Videos Category -->
-            <div class="gallery-category" onclick="openGallerySection('videos')">
-                <div class="category-icon"></div>
+            <div class="gallery-category" onclick="openGallerySection('videos')" style="background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.85)), url('images/cherry.jpg') center/cover;">
+                <div class="category-icon" style="font-size: 3rem;"></div>
                 <h3 data-es="Videos" data-en="Videos">Videos</h3>
                 <p data-es="Descubre nuestras colecciones en movimiento" data-en="Discover our collections in motion">Descubre nuestras colecciones en movimiento</p>
             </div>
 
             <!-- Photos Category -->
-            <div class="gallery-category" onclick="openGallerySection('photos')">
-                <div class="category-icon"></div>
+            <div class="gallery-category" onclick="openGallerySection('photos')" style="background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.85)), url('images/poster-fresche.jpg') center/cover;">
+                <div class="category-icon" style="font-size: 3rem;"></div>
                 <h3 data-es="Fotos" data-en="Photos">Fotos</h3>
                 <p data-es="Momentos especiales capturados" data-en="Special moments captured">Momentos especiales capturados</p>
             </div>
 
             <!-- Ads Category -->
-            <div class="gallery-category" onclick="openGallerySection('ads')">
-                <div class="category-icon"></div>
+            <div class="gallery-category" onclick="openGallerySection('ads')" style="background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.85)), url('images/jar-pink.jpg') center/cover;">
+                <div class="category-icon" style="font-size: 3rem;"></div>
                 <h3 data-es="Publicidad" data-en="Advertising">Publicidad</h3>
                 <p data-es="Contenido promocional exclusivo" data-en="Exclusive promotional content">Contenido promocional exclusivo</p>
             </div>
@@ -362,20 +362,20 @@
         <!-- Videos Modal -->
         <div id="videosModal" class="gallery-modal">
             <div class="gallery-modal-content">
-                <span class="close-modal" onclick="closeGalleryModal('photos')">&times;</span>
+                <span class="close-modal" onclick="closeGalleryModal('videos')">&times;</span>
                 <h2 data-es=" Videos" data-en=" Videos"> Videos</h2>
                 <div class="gallery-grid-modal">
                     <div class="gallery-video-item">
                         <video controls>
                             <source src="images/background-women.mp4" type="video/mp4">
                         </video>
-                        <p data-es="ColecciÃ³n Femenina" data-en="Women's Collection">ColecciÃ³n Femenina</p>
+                        <p data-es="Colección Femenina" data-en="Women's Collection">Colección Femenina</p>
                     </div>
                     <div class="gallery-video-item">
                         <video controls>
                             <source src="images/background-men.mp4" type="video/mp4">
                         </video>
-                        <p data-es="ColecciÃ³n Masculina" data-en="Men's Collection">ColecciÃ³n Masculina</p>
+                        <p data-es="Colección Masculina" data-en="Men's Collection">Colección Masculina</p>
                     </div>
                 </div>
             </div>
@@ -385,22 +385,15 @@
         <div id="photosModal" class="gallery-modal">
             <div class="gallery-modal-content">
                 <span class="close-modal" onclick="closeGalleryModal('photos')">&times;</span>
-photos
-)">&times;</span>
                 <h2 data-es=" Fotos" data-en=" Photos"> Fotos</h2>
                 <div class="gallery-grid-modal">
                     <div class="gallery-photo-item">
                         <img src="images/poster-fresche.jpg" alt="FRESCHE Poster" onclick="openImageFullscreen(this)" style="cursor: pointer;">
-                        <p data-es="PÃ³ster FRESCHE" data-en="FRESCHE Poster">PÃ³ster FRESCHE</p>
-                    </div>
-                    <div class="gallery-photo-item">
-                        <img src="images/fresche-info.png" alt="InformaciÃ³n FRESCHE" onclick="openImageFullscreen(this)" style="cursor: pointer;">
-                        <p data-es="InformaciÃ³n de Productos" data-en="Product Information">InformaciÃ³n de Productos</p>
+                        <p data-es="Póster FRESCHE" data-en="FRESCHE Poster">Póster FRESCHE</p>
                     </div>
                 </div>
             </div>
         </div>
-
 
         <!-- Ads Modal -->
         <div id="adsModal" class="gallery-modal">
@@ -409,7 +402,7 @@ photos
                 <h2 data-es=" Publicidad" data-en=" Advertising"> Publicidad</h2>
                 <div class="coming-soon-message">
                     <span class="soon-icon"></span>
-                    <p data-es="PrÃ³ximamente contenido publicitario exclusivo" data-en="Exclusive advertising content coming soon">PrÃ³ximamente contenido publicitario exclusivo</p>
+                    <p data-es="Próximamente contenido publicitario exclusivo" data-en="Exclusive advertising content coming soon">Próximamente contenido publicitario exclusivo</p>
                 </div>
             </div>
         </div>
@@ -418,49 +411,49 @@ photos
     <!-- International Shipping Section -->
     <section class="shipping-section">
         <div class="shipping-header">
-            <span class="shipping-badge" data-es="â”â”â”â”â” ENVIAMOS DESDE COLOMBIA AL MUNDO â”â”â”â”â”" data-en="â”â”â”â”â” WE DELIVER FROM COLOMBIA WORLDWIDE â”â”â”â”â”">â”â”â”â”â” ENVIAMOS DESDE COLOMBIA AL MUNDO â”â”â”â”â”</span>
-            <h2 data-es="EnvÃ­os Internacionales" data-en="International Shipping">EnvÃ­os Internacionales</h2>
+            <span class="shipping-badge" data-es="━━━━━ ENVIAMOS DESDE COLOMBIA AL MUNDO ━━━━━" data-en="━━━━━ WE DELIVER FROM COLOMBIA WORLDWIDE ━━━━━">━━━━━ ENVIAMOS DESDE COLOMBIA AL MUNDO ━━━━━</span>
+            <h2 data-es="Envíos Internacionales" data-en="International Shipping">Envíos Internacionales</h2>
             <p class="shipping-subtitle" data-es="Enviamos desde Colombia a todo el mundo" data-en="We deliver from Colombia worldwide">Enviamos desde Colombia a todo el mundo</p>
         </div>
         <div class="shipping-grid">
             <div class="shipping-card" style="background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(0,0,0,0.9)), url('images/colombia.jpg') center/cover;">
                 <h3 data-es="Colombia" data-en="Colombia">Colombia</h3>
-                <p class="shipping-contact" data-es="Consulta vÃ­a WhatsApp" data-en="Consult via WhatsApp">Consulta vÃ­a WhatsApp</p>
-                <span class="shipping-days" data-es="2-3 dÃ­as" data-en="2-3 days">2-3 dÃ­as</span>
+                <p class="shipping-contact" data-es="Consulta vía WhatsApp" data-en="Consult via WhatsApp">Consulta vía WhatsApp</p>
+                <span class="shipping-days" data-es="2-3 días" data-en="2-3 days">2-3 días</span>
             </div>
             <div class="shipping-card" style="background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(0,0,0,0.9)), url('images/southamerica.png') center/cover;">
-                <h3 data-es="SudamÃ©rica" data-en="South America">SudamÃ©rica</h3>
-                <p class="shipping-contact" data-es="Consulta vÃ­a WhatsApp" data-en="Consult via WhatsApp">Consulta vÃ­a WhatsApp</p>
-                <span class="shipping-days" data-es="5-7 dÃ­as" data-en="5-7 days">5-7 dÃ­as</span>
+                <h3 data-es="Sudamérica" data-en="South America">Sudamérica</h3>
+                <p class="shipping-contact" data-es="Consulta vía WhatsApp" data-en="Consult via WhatsApp">Consulta vía WhatsApp</p>
+                <span class="shipping-days" data-es="5-7 días" data-en="5-7 days">5-7 días</span>
             </div>
             <div class="shipping-card" style="background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(0,0,0,0.9)), url('images/asia.jpg') center/cover;">
-                <h3 data-es="NorteamÃ©rica" data-en="North America">NorteamÃ©rica</h3>
-                <p class="shipping-contact" data-es="Consulta vÃ­a WhatsApp" data-en="Consult via WhatsApp">Consulta vÃ­a WhatsApp</p>
-                <span class="shipping-days" data-es="7-10 dÃ­as" data-en="7-10 days">7-10 dÃ­as</span>
+                <h3 data-es="Norteamérica" data-en="North America">Norteamérica</h3>
+                <p class="shipping-contact" data-es="Consulta vía WhatsApp" data-en="Consult via WhatsApp">Consulta vía WhatsApp</p>
+                <span class="shipping-days" data-es="7-10 días" data-en="7-10 days">7-10 días</span>
             </div>
             <div class="shipping-card" style="background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(0,0,0,0.9)), url('images/europa.jpg') center/cover;">
                 <h3 data-es="Europa" data-en="Europe">Europa</h3>
-                <p class="shipping-contact" data-es="Consulta vÃ­a WhatsApp" data-en="Consult via WhatsApp">Consulta vÃ­a WhatsApp</p>
-                <span class="shipping-days" data-es="10-15 dÃ­as" data-en="10-15 days">10-15 dÃ­as</span>
+                <p class="shipping-contact" data-es="Consulta vía WhatsApp" data-en="Consult via WhatsApp">Consulta vía WhatsApp</p>
+                <span class="shipping-days" data-es="10-15 días" data-en="10-15 days">10-15 días</span>
             </div>
         </div>
         <div class="shipping-note">
-            <p data-es="* Precios de envÃ­o disponibles prÃ³ximamente. ContÃ¡ctanos por WhatsApp para cotizaciones personalizadas." data-en="* Shipping prices available soon. Contact us via WhatsApp for personalized quotes.">* Precios de envÃ­o disponibles prÃ³ximamente. ContÃ¡ctanos por WhatsApp para cotizaciones personalizadas.</p>
+            <p data-es="* Precios de envío disponibles próximamente. Contáctanos por WhatsApp para cotizaciones personalizadas." data-en="* Shipping prices available soon. Contact us via WhatsApp for personalized quotes.">* Precios de envío disponibles próximamente. Contáctanos por WhatsApp para cotizaciones personalizadas.</p>
         </div>
         <div class="shipping-calculator">
-            <span class="calculator-icon">ðŸ“¦</span>
-            <p data-es="Calculadora de envÃ­os prÃ³ximamente" data-en="Shipping calculator coming soon">Calculadora de envÃ­os prÃ³ximamente</p>
-            <a href="https://wa.me/573017606723" target="_blank" data-es="Consulta costos de envÃ­o por WhatsApp: +57 301 760 6723" data-en="Consult shipping costs via WhatsApp: +57 301 760 6723">Consulta costos de envÃ­o por WhatsApp: +57 301 760 6723</a>
+            <span class="calculator-icon">📦</span>
+            <p data-es="Calculadora de envíos próximamente" data-en="Shipping calculator coming soon">Calculadora de envíos próximamente</p>
+            <a href="https://wa.me/573017606723" target="_blank" data-es="Consulta costos de envío por WhatsApp: +57 301 760 6723" data-en="Consult shipping costs via WhatsApp: +57 301 760 6723">Consulta costos de envío por WhatsApp: +57 301 760 6723</a>
         </div>
     </section>
 
     <!-- Coming Soon Section -->
     <section class="coming-soon-section">
         <div class="coming-soon-box">
-            <span class="sparkle">âœ¨</span>
-            <h2 data-es="PrÃ³ximamente" data-en="Coming Soon">PrÃ³ximamente</h2>
-            <p data-es="RegÃ­strate para recibir notificaciones cuando lancemos nuestra colecciÃ³n premium" data-en="Sign up to receive notifications when we launch our premium collection">RegÃ­strate para recibir notificaciones cuando lancemos nuestra colecciÃ³n premium</p>
-            <button class="btn-whatsapp" onclick="window.open('https://wa.me/573017606723', '_blank')" data-es="ðŸ’¬ Notificarme por WhatsApp" data-en="ðŸ’¬ Notify me on WhatsApp">ðŸ’¬ Notificarme por WhatsApp</button>
+            <span class="sparkle">✨</span>
+            <h2 data-es="Próximamente" data-en="Coming Soon">Próximamente</h2>
+            <p data-es="Regístrate para recibir notificaciones cuando lancemos nuestra colección premium" data-en="Sign up to receive notifications when we launch our premium collection">Regístrate para recibir notificaciones cuando lancemos nuestra colección premium</p>
+            <button class="btn-whatsapp" onclick="window.open('https://wa.me/573017606723', '_blank')" data-es="💬 Notificarme por WhatsApp" data-en="💬 Notify me on WhatsApp">💬 Notificarme por WhatsApp</button>
         </div>
     </section>
 
@@ -472,7 +465,7 @@ photos
                     <img src="images/1758372322944blob.jpg" alt="FRESCHE Logo" class="logo-img-footer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="width: 120px;">
                     <div class="logo-icon" style="display:none;">F</div>
                 </div>
-                <p data-es="Cuidado Ã­ntimo premium para hombres y mujeres desde Colombia al mundo." data-en="Premium men's and women's intimate care from Colombia to the world.">Cuidado Ã­ntimo premium para hombres y mujeres desde Colombia al mundo.</p>
+                <p data-es="Cuidado íntimo premium para hombres y mujeres desde Colombia al mundo." data-en="Premium men's and women's intimate care from Colombia to the world.">Cuidado íntimo premium para hombres y mujeres desde Colombia al mundo.</p>
             </div>
             <div class="footer-col">
                 <h4 data-es="Productos" data-en="Products">Productos</h4>
@@ -487,31 +480,31 @@ photos
             <div class="footer-col">
                 <h4 data-es="Soporte" data-en="Support">Soporte</h4>
                 <ul>
-                    <li><a href="#" onclick="openContactModal(); return false;" style="cursor: pointer;" data-es="âœ‰ï¸ Contacto" data-en="âœ‰ï¸ Contact">âœ‰ï¸ Contacto</a></li>
+                    <li><a href="#" onclick="openContactModal(); return false;" style="cursor: pointer;" data-es="✉️ Contacto" data-en="✉️ Contact">✉️ Contacto</a></li>
                     <li><a href="#" onclick="openAboutModal(); return false;" style="cursor: pointer;" data-es="Acerca de Nosotros" data-en="About Us">Acerca de Nosotros</a></li>
-                    <li><a href="#shipping" style="cursor: pointer;" data-es="EnvÃ­os" data-en="Shipping">EnvÃ­os</a></li>
-                    <li><a href="instructions.html" style="cursor: pointer;" data-es="ðŸ“‹ Instrucciones de Uso" data-en="ðŸ“‹ Instructions for Use">ðŸ“‹ Instrucciones de Uso</a></li>
-                    <li><a href="https://wa.me/573017606723" target="_blank" style="cursor: pointer;" data-es="ðŸ’¬ Mensajes Directos" data-en="ðŸ’¬ Direct Messages">ðŸ’¬ Mensajes Directos</a></li>
+                    <li><a href="#shipping" style="cursor: pointer;" data-es="Envíos" data-en="Shipping">Envíos</a></li>
+                    <li><a href="instructions.html" style="cursor: pointer;" data-es="📋 Instrucciones de Uso" data-en="📋 Instructions for Use">📋 Instrucciones de Uso</a></li>
+                    <li><a href="https://wa.me/573017606723" target="_blank" style="cursor: pointer;" data-es="💬 Mensajes Directos" data-en="💬 Direct Messages">💬 Mensajes Directos</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4 data-es="SÃ­guenos" data-en="Follow Us">SÃ­guenos</h4>
+                <h4 data-es="Síguenos" data-en="Follow Us">Síguenos</h4>
                 <a href="https://instagram.com/fresche1" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
                     <p>@fresche1</p>
                 </a>
                 <a href="https://instagram.com/fresche1" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
-                    <p data-es="SÃ­guenos en Instagram" data-en="Follow us on Instagram">SÃ­guenos en Instagram</p>
+                    <p data-es="Síguenos en Instagram" data-en="Follow us on Instagram">Síguenos en Instagram</p>
                 </a>
                 <a href="https://instagram.com/fresche1" target="_blank" rel="noopener noreferrer">
                     <div class="qr-code">
                         <img src="images/qr-pink.png" alt="QR Code" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://instagram.com/fresche1'">
-                        <p data-es="ðŸ“± Escanea para seguirnos" data-en="ðŸ“± Scan to follow us">ðŸ“± Escanea para seguirnos</p>
+                        <p data-es="📱 Escanea para seguirnos" data-en="📱 Scan to follow us">📱 Escanea para seguirnos</p>
                     </div>
                 </a>
             </div>
         </div>
         <div class="footer-bottom">
-            <p data-es="Â© 2025 FRESCHE. Todos los derechos reservados. Hecho en Colombia ðŸ‡¨ðŸ‡´" data-en="Â© 2025 FRESCHE. All rights reserved. Made in Colombia ðŸ‡¨ðŸ‡´">Â© 2025 FRESCHE. Todos los derechos reservados. Hecho en Colombia ðŸ‡¨ðŸ‡´</p>
+            <p data-es="© 2025 FRESCHE. Todos los derechos reservados. Hecho en Colombia 🇨🇴" data-en="© 2025 FRESCHE. All rights reserved. Made in Colombia 🇨🇴">© 2025 FRESCHE. Todos los derechos reservados. Hecho en Colombia 🇨🇴</p>
         </div>
     </footer>
 
@@ -534,13 +527,13 @@ photos
                     <img src="images/1758372322944blob.jpg" alt="FRESCHE Logo" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 250px; opacity: 0.15; filter: brightness(1.6);">
                     <div style="position: relative; z-index: 2;">
                         <h2 style="color: rgb(212,175,55); font-size: 2.5rem; margin-bottom: 1.5rem; text-shadow: 0 0 20px rgba(212,175,55,0.5);" data-es="Acerca de FRESCHE" data-en="About FRESCHE">Acerca de FRESCHE</h2>
-                        <p style="color: #fff; font-size: 1.2rem; line-height: 1.8; margin-bottom: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);" data-es="FRESCHE es una marca colombiana pionera en el cuidado Ã­ntimo premium. Nacimos con la misiÃ³n de revolucionar la higiene personal a travÃ©s de fÃ³rmulas innovadoras y fragancias sofisticadas." data-en="FRESCHE is a Colombian brand pioneering in premium intimate care. We were born with the mission to revolutionize personal hygiene through innovative formulas and sophisticated fragrances.">FRESCHE es una marca colombiana pionera en el cuidado Ã­ntimo premium. Nacimos con la misiÃ³n de revolucionar la higiene personal a travÃ©s de fÃ³rmulas innovadoras y fragancias sofisticadas.</p>
-                        <p style="color: #fff; font-size: 1.2rem; line-height: 1.8; margin-bottom: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);" data-es="Nuestras cremas Ã­ntimas estÃ¡n elaboradas con ingredientes naturales premium, ofreciendo protecciÃ³n de 24 horas, frescura duradera y fragancias Ãºnicas diseÃ±adas tanto para hombres como para mujeres." data-en="Our intimate creams are made with premium natural ingredients, offering 24-hour protection, lasting freshness, and unique fragrances designed for both men and women.">Nuestras cremas Ã­ntimas estÃ¡n elaboradas con ingredientes naturales premium, ofreciendo protecciÃ³n de 24 horas, frescura duradera y fragancias Ãºnicas diseÃ±adas tanto para hombres como para mujeres.</p>
-                        <p style="color: rgb(212,175,55); font-size: 1.3rem; font-weight: 600; text-shadow: 0 0 15px rgba(212,175,55,0.6);" data-es="Desde Colombia para el mundo ðŸ‡¨ðŸ‡´âœ¨" data-en="From Colombia to the world ðŸ‡¨ðŸ‡´âœ¨">Desde Colombia para el mundo ðŸ‡¨ðŸ‡´âœ¨</p>
+                        <p style="color: #fff; font-size: 1.2rem; line-height: 1.8; margin-bottom: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);" data-es="FRESCHE es una marca colombiana pionera en el cuidado íntimo premium. Nacimos con la misión de revolucionar la higiene personal a través de fórmulas innovadoras y fragancias sofisticadas." data-en="FRESCHE is a Colombian brand pioneering in premium intimate care. We were born with the mission to revolutionize personal hygiene through innovative formulas and sophisticated fragrances.">FRESCHE es una marca colombiana pionera en el cuidado íntimo premium. Nacimos con la misión de revolucionar la higiene personal a través de fórmulas innovadoras y fragancias sofisticadas.</p>
+                        <p style="color: #fff; font-size: 1.2rem; line-height: 1.8; margin-bottom: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);" data-es="Nuestras cremas íntimas están elaboradas con ingredientes naturales premium, ofreciendo protección de 24 horas, frescura duradera y fragancias únicas diseñadas tanto para hombres como para mujeres." data-en="Our intimate creams are made with premium natural ingredients, offering 24-hour protection, lasting freshness, and unique fragrances designed for both men and women.">Nuestras cremas íntimas están elaboradas con ingredientes naturales premium, ofreciendo protección de 24 horas, frescura duradera y fragancias únicas diseñadas tanto para hombres como para mujeres.</p>
+                        <p style="color: rgb(212,175,55); font-size: 1.3rem; font-weight: 600; text-shadow: 0 0 15px rgba(212,175,55,0.6);" data-es="Desde Colombia para el mundo 🇨🇴✨" data-en="From Colombia to the world 🇨🇴✨">Desde Colombia para el mundo 🇨🇴✨</p>
                         <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid rgba(212,175,55,0.3);">
-                            <p style="color: #fff; font-size: 1.1rem; margin-bottom: 0.5rem;">ðŸŒ± <span data-es="Producto vegano" data-en="Vegan product">Producto vegano</span></p>
-                            <p style="color: #fff; font-size: 1.1rem; margin-bottom: 0.5rem;">ðŸ¶ <span data-es="No testeado en animales" data-en="Not tested on animals">No testeado en animales</span></p>
-                            <p style="color: #fff; font-size: 1.1rem; margin-bottom: 0.5rem;">â™»ï¸ <span data-es="Reciclable" data-en="Recyclable">Reciclable</span></p>
+                            <p style="color: #fff; font-size: 1.1rem; margin-bottom: 0.5rem;">🌱 <span data-es="Producto vegano" data-en="Vegan product">Producto vegano</span></p>
+                            <p style="color: #fff; font-size: 1.1rem; margin-bottom: 0.5rem;">🐶 <span data-es="No testeado en animales" data-en="Not tested on animals">No testeado en animales</span></p>
+                            <p style="color: #fff; font-size: 1.1rem; margin-bottom: 0.5rem;">♻️ <span data-es="Reciclable" data-en="Recyclable">Reciclable</span></p>
                         </div>
                     </div>
                 </div>
@@ -553,17 +546,17 @@ photos
         <div class="modal-content">
             <span class="close-modal" onclick="closeContactModal()">&times;</span>
             <div id="contactModalBody" style="text-align: center; padding: 2rem;">
-                <h2 style="color: rgb(212,175,55); margin-bottom: 2rem;" data-es="Selecciona tu mÃ©todo de contacto" data-en="Select your contact method">Selecciona tu mÃ©todo de contacto</h2>
+                <h2 style="color: rgb(212,175,55); margin-bottom: 2rem;" data-es="Selecciona tu método de contacto" data-en="Select your contact method">Selecciona tu método de contacto</h2>
                 <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 400px; margin: 0 auto;">
                     <a href="mailto:fresche@fresche1.com" style="display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.2) 100%); border: 2px solid rgb(212,175,55); border-radius: 10px; color: #fff; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(212,175,55,0.3) 0%, rgba(212,175,55,0.4) 100%)'; this.style.transform='translateY(-5px)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.2) 100%)'; this.style.transform='translateY(0)';">
-                        <span style="font-size: 2rem;">âœ‰ï¸</span>
+                        <span style="font-size: 2rem;">✉️</span>
                         <div style="text-align: left;">
                             <div style="font-weight: 600;" data-es="Enviar Email" data-en="Send Email">Enviar Email</div>
                             <div style="font-size: 0.9rem; opacity: 0.8;">fresche@fresche1.com</div>
                         </div>
                     </a>
                     <a href="https://wa.me/573017606723" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(37,211,102,0.1) 0%, rgba(37,211,102,0.2) 100%); border: 2px solid #25D366; border-radius: 10px; color: #fff; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(37,211,102,0.3) 0%, rgba(37,211,102,0.4) 100%)'; this.style.transform='translateY(-5px)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(37,211,102,0.1) 0%, rgba(37,211,102,0.2) 100%)'; this.style.transform='translateY(0)';">
-                        <span style="font-size: 2rem;">ðŸ“±</span>
+                        <span style="font-size: 2rem;">📱</span>
                         <div style="text-align: left;">
                             <div style="font-weight: 600;" data-es="WhatsApp" data-en="WhatsApp">WhatsApp</div>
                             <div style="font-size: 0.9rem; opacity: 0.8;">+57 301 760 6723</div>
@@ -579,17 +572,17 @@ photos
         <div class="modal-content">
             <span class="close-modal" onclick="closeCart()">&times;</span>
             <div id="cartModalBody" style="padding: 2rem;">
-                <h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;" data-es="ðŸ›’ Carrito de Compras" data-en="ðŸ›’ Shopping Cart">ðŸ›’ Carrito de Compras</h2>
+                <h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;" data-es="🛒 Carrito de Compras" data-en="🛒 Shopping Cart">🛒 Carrito de Compras</h2>
                 <div id="cartItems"></div>
                 <div id="cartTotal" style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--gold);"></div>
                 <button id="checkoutBtn" class="btn-checkout" onclick="checkout()" style="display: none; width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 600; cursor: pointer; margin-top: 1.5rem; transition: all 0.3s;">
-                    <span data-es="ðŸ’³ Pagar con PayU" data-en="ðŸ’³ Pay with PayU">ðŸ’³ Pagar con PayU</span>
+                    <span data-es="💳 Pagar con PayU" data-en="💳 Pay with PayU">💳 Pagar con PayU</span>
                 </button>
                 <button id="whatsappBtn" class="btn-whatsapp" onclick="checkoutViaWhatsApp()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="white" style="flex-shrink: 0;">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
                     </svg>
-                    <span data-es="ðŸ“² Ordenar por WhatsApp" data-en="ðŸ“² Order via WhatsApp">ðŸ“² Ordenar por WhatsApp</span>
+                    <span data-es="📲 Ordenar por WhatsApp" data-en="📲 Order via WhatsApp">📲 Ordenar por WhatsApp</span>
                 </button>
             </div>
         </div>
@@ -614,11 +607,11 @@ photos
                 image: 'images/cherry.jpg',
                 size: '1oz',
                 description: {
-                    es: 'Dulzura vibrante que eleva tu Ã¡nimo y te envuelve en frescura deliciosa.',
+                    es: 'Dulzura vibrante que eleva tu ánimo y te envuelve en frescura deliciosa.',
                     en: 'Vibrant sweetness that lifts your mood and envelops you in delicious freshness.'
                 },
                 features: {
-                    es: ['FormulaciÃ³n premium', 'ProtecciÃ³n 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
+                    es: ['Formulación premium', 'Protección 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
                     en: ['Premium formulation', '24h protection', 'Natural ingredients', 'Made in Colombia']
                 }
             },
@@ -627,11 +620,11 @@ photos
                 image: 'images/velvet.jpg',
                 size: '1oz',
                 description: {
-                    es: 'SofisticaciÃ³n suave como terciopelo con notas cÃ­tricas dulces y florales.',
+                    es: 'Sofisticación suave como terciopelo con notas cítricas dulces y florales.',
                     en: 'Soft sophistication like velvet with sweet citrus and floral notes.'
                 },
                 features: {
-                    es: ['FormulaciÃ³n premium', 'ProtecciÃ³n 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
+                    es: ['Formulación premium', 'Protección 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
                     en: ['Premium formulation', '24h protection', 'Natural ingredients', 'Made in Colombia']
                 }
             },
@@ -644,7 +637,7 @@ photos
                     en: 'Sweet and tropical, this fragrance combines smooth coconut with creamy vanilla.'
                 },
                 features: {
-                    es: ['FormulaciÃ³n premium', 'ProtecciÃ³n 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
+                    es: ['Formulación premium', 'Protección 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
                     en: ['Premium formulation', '24h protection', 'Natural ingredients', 'Made in Colombia']
                 }
             },
@@ -657,7 +650,7 @@ photos
                     en: 'Masculine and sophisticated fragrance. Fresh and good-smelling. No sweat.'
                 },
                 features: {
-                    es: ['FormulaciÃ³n premium', 'ProtecciÃ³n 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
+                    es: ['Formulación premium', 'Protección 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
                     en: ['Premium formulation', '24h protection', 'Natural ingredients', 'Made in Colombia']
                 }
             },
@@ -670,7 +663,7 @@ photos
                     en: 'Elegant and masculine with notes of sweet tobacco. A sophisticated and timeless aroma.'
                 },
                 features: {
-                    es: ['FormulaciÃ³n premium', 'ProtecciÃ³n 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
+                    es: ['Formulación premium', 'Protección 24h', 'Ingredientes naturales', 'Hecho en Colombia'],
                     en: ['Premium formulation', '24h protection', 'Natural ingredients', 'Made in Colombia']
                 }
             }
@@ -683,7 +676,7 @@ photos
             const modal = document.getElementById('productModal');
             const modalBody = document.getElementById('modalBody');
             
-            const features = product.features[lang].map(f => `<li>âœ“ ${f}</li>`).join('');
+            const features = product.features[lang].map(f => `<li>✓ ${f}</li>`).join('');
             
             modalBody.innerHTML = `
                 <img src="${product.image}" alt="${product.name}" class="modal-product-image">
@@ -692,21 +685,21 @@ photos
                 
                 <div class="modal-product-info">
                     <div class="modal-size-section">
-                        <span class="modal-size-label">${lang === 'es' ? 'TamaÃ±o' : 'Size'}</span>
+                        <span class="modal-size-label">${lang === 'es' ? 'Tamaño' : 'Size'}</span>
                         <span class="modal-size-value">${product.size}</span>
                     </div>
                     <div class="modal-price-section">
-                        <span class="modal-price-label">${lang === 'es' ? 'Precio prÃ³ximamente' : 'Price coming soon'}</span>
-                        <span class="modal-price-sublabel">${lang === 'es' ? 'Â¡Disponible pronto para compra!' : 'Available for purchase soon!'}</span>
+                        <span class="modal-price-label">${lang === 'es' ? 'Precio próximamente' : 'Price coming soon'}</span>
+                        <span class="modal-price-sublabel">${lang === 'es' ? '¡Disponible pronto para compra!' : 'Available for purchase soon!'}</span>
                     </div>
                 </div>
 
                 <div class="modal-tabs">
                     <button class="modal-tab active" onclick="showTab('details')">
-                        <span class="tab-icon">â­•</span> ${lang === 'es' ? 'Detalles del producto' : 'Product details'}
+                        <span class="tab-icon">⭕</span> ${lang === 'es' ? 'Detalles del producto' : 'Product details'}
                     </button>
                     <button class="modal-tab" onclick="showTab('instructions')">
-                        <span class="tab-icon">ðŸ“‹</span> ${lang === 'es' ? 'Instrucciones de Uso' : 'Instructions for Use'}
+                        <span class="tab-icon">📋</span> ${lang === 'es' ? 'Instrucciones de Uso' : 'Instructions for Use'}
                     </button>
                 </div>
 
@@ -717,28 +710,28 @@ photos
                 <div id="tab-instructions" class="modal-tab-content">
                     <div style="padding: 1.5rem; background: rgba(212,175,55,0.05); border-radius: 10px; margin-top: 1rem;">
                         <h3 style="color: var(--gold); font-size: 1.3rem; margin-bottom: 1rem;">
-                            ${lang === 'es' ? 'ðŸ“ CÃ³mo Usar' : 'ðŸ“ How to Use'}
+                            ${lang === 'es' ? '📍 Cómo Usar' : '📍 How to Use'}
                         </h3>
                         <ol style="color: var(--white); line-height: 1.8; padding-left: 1.5rem;">
                             <li style="margin-bottom: 0.8rem;">
-                                ${lang === 'es' ? 'Aplica suavemente en el Ã¡rea Ã­ntima externa con movimientos circulares.' : 'Gently apply to the external intimate area with circular motions.'}
+                                ${lang === 'es' ? 'Aplica suavemente en el área íntima externa con movimientos circulares.' : 'Gently apply to the external intimate area with circular motions.'}
                             </li>
                             <li style="margin-bottom: 0.8rem;">
                                 ${lang === 'es' ? 'Masajea hasta que se absorba completamente. No enjuagar.' : 'Massage until completely absorbed. Do not rinse.'}
                             </li>
                             <li style="margin-bottom: 0.8rem;">
-                                ${lang === 'es' ? 'Usar diariamente o despuÃ©s de la ducha para mejores resultados.' : 'Use daily or after showering for best results.'}
+                                ${lang === 'es' ? 'Usar diariamente o después de la ducha para mejores resultados.' : 'Use daily or after showering for best results.'}
                             </li>
                         </ol>
                         <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,193,7,0.1); border-left: 3px solid var(--gold); border-radius: 5px;">
                             <p style="color: var(--gold); font-size: 0.95rem; margin: 0;">
-                                <strong>âš ï¸ ${lang === 'es' ? 'Importante:' : 'Important:'}</strong>
-                                ${lang === 'es' ? 'Solo para uso externo. Evitar contacto con mucosas internas. Discontinuar si hay irritaciÃ³n.' : 'For external use only. Avoid contact with internal mucous membranes. Discontinue if irritation occurs.'}
+                                <strong>⚠️ ${lang === 'es' ? 'Importante:' : 'Important:'}</strong>
+                                ${lang === 'es' ? 'Solo para uso externo. Evitar contacto con mucosas internas. Discontinuar si hay irritación.' : 'For external use only. Avoid contact with internal mucous membranes. Discontinue if irritation occurs.'}
                             </p>
                         </div>
                         <div style="margin-top: 1rem; text-align: center;">
                             <a href="instructions.html" style="display: inline-block; padding: 0.8rem 2rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); text-decoration: none; border-radius: 25px; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(212,175,55,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-                                ${lang === 'es' ? 'ðŸ“ Ver Instrucciones Completas' : 'ðŸ“ View Full Instructions'}
+                                ${lang === 'es' ? '📝 Ver Instrucciones Completas' : '📝 View Full Instructions'}
                             </a>
                         </div>
                     </div>
@@ -746,15 +739,15 @@ photos
 
                 <div class="modal-values">
                     <div class="modal-value-item">
-                        <span class="modal-value-icon">ðŸŒ±</span>
+                        <span class="modal-value-icon">🌱</span>
                         <span class="modal-value-text">${lang === 'es' ? 'Producto vegano' : 'Vegan product'}</span>
                     </div>
                     <div class="modal-value-item">
-                        <span class="modal-value-icon">ðŸ¶</span>
+                        <span class="modal-value-icon">🐶</span>
                         <span class="modal-value-text">${lang === 'es' ? 'No testeado en animales' : 'Not tested on animals'}</span>
                     </div>
                     <div class="modal-value-item">
-                        <span class="modal-value-icon">â™»ï¸</span>
+                        <span class="modal-value-icon">♻️</span>
                         <span class="modal-value-text">${lang === 'es' ? 'Reciclable' : 'Recyclable'}</span>
                     </div>
                     <div class="modal-value-item">
@@ -767,7 +760,7 @@ photos
                     <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background: rgba(212,175,55,0.1); border-radius: 10px; border: 1px solid var(--gold);">
                         <label style="color: var(--gold); font-weight: 600; font-size: 1.1rem;">${lang === 'es' ? 'Cantidad:' : 'Quantity:'}</label>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <button onclick="changeModalQuantity(-1)" style="width: 40px; height: 40px; background: var(--gold); color: var(--black); border: none; border-radius: 8px; font-size: 1.5rem; font-weight: bold; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">âˆ’</button>
+                            <button onclick="changeModalQuantity(-1)" style="width: 40px; height: 40px; background: var(--gold); color: var(--black); border: none; border-radius: 8px; font-size: 1.5rem; font-weight: bold; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">−</button>
                             <input type="number" id="modal-quantity" value="1" min="1" max="99" style="width: 80px; height: 40px; text-align: center; font-size: 1.3rem; font-weight: 600; border: 2px solid var(--gold); background: rgba(0,0,0,0.5); color: var(--gold); border-radius: 8px; outline: none;" readonly>
                             <button onclick="changeModalQuantity(1)" style="width: 40px; height: 40px; background: var(--gold); color: var(--black); border: none; border-radius: 8px; font-size: 1.5rem; font-weight: bold; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">+</button>
                         </div>
@@ -775,10 +768,10 @@ photos
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                         <button class="btn-add-to-cart" onclick="addToCartWithQuantity('${productId}')" style="padding: 0.8rem 1rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(212,175,55,0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(212,175,55,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(212,175,55,0.3)'">
-                            ðŸ›’ ${lang === 'es' ? 'Agregar al Carrito' : 'Add to Cart'}
+                            🛒 ${lang === 'es' ? 'Agregar al Carrito' : 'Add to Cart'}
                         </button>
-                        <button class="btn-whatsapp-modal" onclick="window.open('https://wa.me/573017606723?text=${encodeURIComponent(lang === 'es' ? 'Â¡Hola! Me interesa ' + product.name : 'Hello! I am interested in ' + product.name)}', '_blank')" style="padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #25D366, #128C7E); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(37,211,102,0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(37,211,102,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(37,211,102,0.3)'">
-                            ðŸ’¬ ${lang === 'es' ? 'Consultar por WhatsApp' : 'Ask on WhatsApp'}
+                        <button class="btn-whatsapp-modal" onclick="window.open('https://wa.me/573017606723?text=${encodeURIComponent(lang === 'es' ? '¡Hola! Me interesa ' + product.name : 'Hello! I am interested in ' + product.name)}', '_blank')" style="padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #25D366, #128C7E); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(37,211,102,0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(37,211,102,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(37,211,102,0.3)'">
+                            💬 ${lang === 'es' ? 'Consultar por WhatsApp' : 'Ask on WhatsApp'}
                         </button>
                     </div>
                 </div>
@@ -889,8 +882,8 @@ photos
         // Share Website Function
         async function shareWebsite() {
             const shareData = {
-                title: 'FRESCHE - Cuidado Ãntimo Premium',
-                text: 'Descubre FRESCHE: Cuidado Ã­ntimo premium con aromas elegantes. 100% natural, vegano y hecho en Colombia. ðŸ‡¨ðŸ‡´âœ¨',
+                title: 'FRESCHE - Cuidado Íntimo Premium',
+                text: 'Descubre FRESCHE: Cuidado íntimo premium con aromas elegantes. 100% natural, vegano y hecho en Colombia. 🇨🇴✨',
                 url: window.location.href
             };
 
@@ -906,7 +899,7 @@ photos
                     // Show custom share menu
                     const lang = document.documentElement.getAttribute('data-lang') || 'es';
                     const message = lang === 'es' 
-                        ? 'Â¡Enlace copiado! Ahora puedes pegarlo en cualquier aplicaciÃ³n.' 
+                        ? '¡Enlace copiado! Ahora puedes pegarlo en cualquier aplicación.' 
                         : 'Link copied! You can now paste it in any app.';
                     
                     alert(message);
@@ -918,7 +911,7 @@ photos
                     await navigator.clipboard.writeText(window.location.href);
                     const lang = document.documentElement.getAttribute('data-lang') || 'es';
                     const message = lang === 'es' 
-                        ? 'Â¡Enlace copiado al portapapeles!' 
+                        ? '¡Enlace copiado al portapapeles!' 
                         : 'Link copied to clipboard!';
                     alert(message);
                 } catch (clipErr) {
@@ -960,7 +953,7 @@ photos
             
             // Update page title
             if (lang === 'es') {
-                document.title = 'FRESCHE - Cuidado Ãntimo Premium desde Colombia';
+                document.title = 'FRESCHE - Cuidado Íntimo Premium desde Colombia';
             } else {
                 document.title = 'FRESCHE - Premium Intimate Care from Colombia';
             }
@@ -1021,7 +1014,7 @@ photos
             const btn = document.getElementById('musicBtn');
             
             if (audio.paused) {
-                // Cambiar a la siguiente canciÃ³n al reproducir
+                // Cambiar a la siguiente canción al reproducir
                 currentTrack = (currentTrack + 1) % playlist.length;
                 audio.src = playlist[currentTrack];
                 
@@ -1030,8 +1023,8 @@ photos
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
                         isPlaying = true;
-                        btn.textContent = 'ðŸ”‡';
-                        btn.title = 'Pausar mÃºsica';
+                        btn.textContent = '🔇';
+                        btn.title = 'Pausar música';
                     }).catch(err => {
                         console.error('Error al reproducir:', err);
                     });
@@ -1039,8 +1032,8 @@ photos
             } else {
                 audio.pause();
                 isPlaying = false;
-                btn.textContent = 'ðŸŽµ';
-                btn.title = 'Reproducir mÃºsica';
+                btn.textContent = '🎵';
+                btn.title = 'Reproducir música';
             }
         }
         
@@ -1126,49 +1119,49 @@ photos
                 cherrymood: {
                     nombre: "CherryMood",
                     tipo: "Femenino",
-                    descripcion: "Perfume Ã­ntimo con aroma a cereza, diseÃ±ado especialmente para mujeres",
-                    beneficios: ["Aroma seductor", "Larga duraciÃ³n", "pH balanceado", "SensaciÃ³n de frescura"],
+                    descripcion: "Perfume íntimo con aroma a cereza, diseñado especialmente para mujeres",
+                    beneficios: ["Aroma seductor", "Larga duración", "pH balanceado", "Sensación de frescura"],
                     precio: "Consultar disponibilidad"
                 },
                 velvet: {
                     nombre: "Velvet",
                     tipo: "Femenino",
-                    descripcion: "Fragancia Ã­ntima suave y sofisticada para la mujer moderna",
-                    beneficios: ["Textura sedosa", "Elegante aroma", "HidrataciÃ³n", "SensaciÃ³n aterciopelada"],
+                    descripcion: "Fragancia íntima suave y sofisticada para la mujer moderna",
+                    beneficios: ["Textura sedosa", "Elegante aroma", "Hidratación", "Sensación aterciopelada"],
                     precio: "Consultar disponibilidad"
                 },
                 coco: {
                     nombre: "Coco & Vainilla",
                     tipo: "Unisex",
-                    descripcion: "Perfume Ã­ntimo con combinaciÃ³n tropical de coco y vainilla",
-                    beneficios: ["Aroma dulce y tropical", "Para Ã©l y ella", "Larga duraciÃ³n", "SensaciÃ³n refrescante"],
+                    descripcion: "Perfume íntimo con combinación tropical de coco y vainilla",
+                    beneficios: ["Aroma dulce y tropical", "Para él y ella", "Larga duración", "Sensación refrescante"],
                     precio: "Consultar disponibilidad"
                 },
                 eclipse: {
                     nombre: "Eclipse",
                     tipo: "Unisex",
-                    descripcion: "Fragancia Ã­ntima misteriosa y cautivadora",
-                    beneficios: ["Aroma Ãºnico", "VersÃ¡til", "Sofisticado", "Efecto prolongado"],
+                    descripcion: "Fragancia íntima misteriosa y cautivadora",
+                    beneficios: ["Aroma único", "Versátil", "Sofisticado", "Efecto prolongado"],
                     precio: "Consultar disponibilidad"
                 },
                 tobacco: {
                     nombre: "Dulce Tobacco",
                     tipo: "Masculino",
-                    descripcion: "Perfume Ã­ntimo con notas de tabaco dulce, ideal para hombres",
-                    beneficios: ["Aroma varonil", "Notas amaderadas", "Masculino y elegante", "DuraciÃ³n extendida"],
+                    descripcion: "Perfume íntimo con notas de tabaco dulce, ideal para hombres",
+                    beneficios: ["Aroma varonil", "Notas amaderadas", "Masculino y elegante", "Duración extendida"],
                     precio: "Consultar disponibilidad"
                 }
             },
             instrucciones: [
-                "1. Lavar y secar completamente el Ã¡rea Ã­ntima",
-                "2. Aplicar 1-2 gotas del perfume Ã­ntimo",
+                "1. Lavar y secar completamente el área íntima",
+                "2. Aplicar 1-2 gotas del perfume íntimo",
                 "3. Masajear suavemente en la zona externa",
                 "4. Dejar absorber durante unos segundos",
                 "5. Disfrutar del aroma fresco y duradero"
             ],
             envios: {
-                colombia: "EnvÃ­os a toda Colombia",
-                internacional: "EnvÃ­os internacionales a SudamÃ©rica, Asia y Europa",
+                colombia: "Envíos a toda Colombia",
+                internacional: "Envíos internacionales a Sudamérica, Asia y Europa",
                 contacto: "+57 301 760 6723"
             },
             contacto: {
@@ -1207,7 +1200,7 @@ photos
             if (type === 'bot') {
                 messageDiv.innerHTML = `<strong>FRESCHE AI:</strong> ${text}`;
             } else {
-                messageDiv.innerHTML = `<strong>TÃº:</strong> ${text}`;
+                messageDiv.innerHTML = `<strong>Tú:</strong> ${text}`;
             }
             
             messagesContainer.appendChild(messageDiv);
@@ -1219,78 +1212,78 @@ photos
             
             // Saludos
             if (msg.match(/hola|buenos|buenas|hey|hi|hello/)) {
-                return "Â¡Hola! ðŸ‘‹ Soy el asistente virtual de FRESCHE. Puedo ayudarte con informaciÃ³n sobre nuestros perfumes Ã­ntimos, instrucciones de uso, envÃ­os y mÃ¡s. Â¿QuÃ© te gustarÃ­a saber?";
+                return "¡Hola! 👋 Soy el asistente virtual de FRESCHE. Puedo ayudarte con información sobre nuestros perfumes íntimos, instrucciones de uso, envíos y más. ¿Qué te gustaría saber?";
             }
             
-            // Productos especÃ­ficos
+            // Productos específicos
             if (msg.includes('cherry') || msg.includes('cereza')) {
                 const p = chatbotKnowledge.productos.cherrymood;
-                return `âœ¨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Â¿Te gustarÃ­a saber cÃ³mo usarlo?`;
+                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. ¿Te gustaría saber cómo usarlo?`;
             }
             if (msg.includes('velvet')) {
                 const p = chatbotKnowledge.productos.velvet;
-                return `âœ¨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Perfecto para la mujer elegante.`;
+                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Perfecto para la mujer elegante.`;
             }
             if (msg.includes('coco') || msg.includes('vanilla') || msg.includes('vainilla')) {
                 const p = chatbotKnowledge.productos.coco;
-                return `âœ¨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Ideal para parejas.`;
+                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Ideal para parejas.`;
             }
             if (msg.includes('eclipse')) {
                 const p = chatbotKnowledge.productos.eclipse;
-                return `âœ¨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Misterioso y cautivador.`;
+                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Misterioso y cautivador.`;
             }
             if (msg.includes('tobacco') || msg.includes('tabaco')) {
                 const p = chatbotKnowledge.productos.tobacco;
-                return `âœ¨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Masculinidad y elegancia.`;
+                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Masculinidad y elegancia.`;
             }
             
             // Productos en general
             if (msg.match(/producto|perfume|fragancia|catalogo|que tienen|que venden/)) {
-                return "Tenemos 5 perfumes Ã­ntimos premium:<br><br>ðŸ‘© <strong>Para Mujeres:</strong> CherryMood y Velvet<br>ðŸ‘« <strong>Unisex:</strong> Coco & Vainilla y Eclipse<br>ðŸ‘¨ <strong>Para Hombres:</strong> Dulce Tobacco<br><br>Â¿Sobre cuÃ¡l te gustarÃ­a saber mÃ¡s?";
+                return "Tenemos 5 perfumes íntimos premium:<br><br>👩 <strong>Para Mujeres:</strong> CherryMood y Velvet<br>👫 <strong>Unisex:</strong> Coco & Vainilla y Eclipse<br>👨 <strong>Para Hombres:</strong> Dulce Tobacco<br><br>¿Sobre cuál te gustaría saber más?";
             }
             
             // Instrucciones
             if (msg.match(/usar|aplicar|instrucciones|como se usa|modo de uso/)) {
-                return `ðŸ“‹ <strong>Instrucciones de uso:</strong><br><br>${chatbotKnowledge.instrucciones.join('<br>')}`;
+                return `📋 <strong>Instrucciones de uso:</strong><br><br>${chatbotKnowledge.instrucciones.join('<br>')}`;
             }
             
-            // EnvÃ­os
+            // Envíos
             if (msg.match(/envio|enviar|delivery|shipping|entreg|donde envian/)) {
-                return `ðŸ“¦ <strong>EnvÃ­os:</strong><br><br>ðŸ‡¨ðŸ‡´ ${chatbotKnowledge.envios.colombia}<br>ðŸŒŽ ${chatbotKnowledge.envios.internacional}<br><br>ContÃ¡ctanos: ${chatbotKnowledge.envios.contacto}`;
+                return `📦 <strong>Envíos:</strong><br><br>🇨🇴 ${chatbotKnowledge.envios.colombia}<br>🌎 ${chatbotKnowledge.envios.internacional}<br><br>Contáctanos: ${chatbotKnowledge.envios.contacto}`;
             }
             
             // Precios
             if (msg.match(/precio|costo|valor|cuanto cuesta|cuanto vale/)) {
-                return "ðŸ’° Para conocer precios y promociones actuales, por favor contÃ¡ctanos:<br><br>ðŸ“± WhatsApp: +57 301 760 6723<br>ðŸ“§ Email: contacto@fresche.com<br><br>Â¡Tenemos ofertas especiales!";
+                return "💰 Para conocer precios y promociones actuales, por favor contáctanos:<br><br>📱 WhatsApp: +57 301 760 6723<br>📧 Email: contacto@fresche.com<br><br>¡Tenemos ofertas especiales!";
             }
             
             // Contacto
             if (msg.match(/contacto|contactar|llamar|escribir|telefono|whatsapp|email/)) {
-                return `ðŸ“ž <strong>ContÃ¡ctanos:</strong><br><br>ðŸ“± WhatsApp: ${chatbotKnowledge.contacto.whatsapp}<br>ðŸ“§ Email: ${chatbotKnowledge.contacto.email}<br><br>Â¡Estamos aquÃ­ para ayudarte!`;
+                return `📞 <strong>Contáctanos:</strong><br><br>📱 WhatsApp: ${chatbotKnowledge.contacto.whatsapp}<br>📧 Email: ${chatbotKnowledge.contacto.email}<br><br>¡Estamos aquí para ayudarte!`;
             }
             
             // Beneficios generales
             if (msg.match(/beneficio|ventaja|por que|para que sirve/)) {
-                return "âœ¨ <strong>Beneficios de los perfumes Ã­ntimos FRESCHE:</strong><br><br>â€¢ pH balanceado<br>â€¢ Aromas sofisticados y duraderos<br>â€¢ Aumentan la confianza<br>â€¢ FÃ³rmulas dermatolÃ³gicamente probadas<br>â€¢ Ingredientes de alta calidad<br>â€¢ SensaciÃ³n de frescura prolongada";
+                return "✨ <strong>Beneficios de los perfumes íntimos FRESCHE:</strong><br><br>• pH balanceado<br>• Aromas sofisticados y duraderos<br>• Aumentan la confianza<br>• Fórmulas dermatológicamente probadas<br>• Ingredientes de alta calidad<br>• Sensación de frescura prolongada";
             }
             
             // Mujer
             if (msg.match(/mujer|femenino|ella|chica/)) {
-                return "ðŸ‘© <strong>Para Mujeres:</strong><br><br>ðŸ’ <strong>CherryMood</strong> - Aroma seductor a cereza<br>ðŸ’Ž <strong>Velvet</strong> - SofisticaciÃ³n y elegancia<br><br>Ambos productos tienen pH balanceado y larga duraciÃ³n. Â¿Te gustarÃ­a mÃ¡s detalles?";
+                return "👩 <strong>Para Mujeres:</strong><br><br>🍒 <strong>CherryMood</strong> - Aroma seductor a cereza<br>💎 <strong>Velvet</strong> - Sofisticación y elegancia<br><br>Ambos productos tienen pH balanceado y larga duración. ¿Te gustaría más detalles?";
             }
             
             // Hombre
             if (msg.match(/hombre|masculino|el|chico/)) {
-                return "ðŸ‘¨ <strong>Para Hombres:</strong><br><br>ðŸ‚ <strong>Dulce Tobacco</strong> - Notas amaderadas y masculinas<br><br>TambiÃ©n tenemos opciones unisex como Eclipse y Coco & Vainilla. Â¿Quieres saber mÃ¡s?";
+                return "👨 <strong>Para Hombres:</strong><br><br>🍂 <strong>Dulce Tobacco</strong> - Notas amaderadas y masculinas<br><br>También tenemos opciones unisex como Eclipse y Coco & Vainilla. ¿Quieres saber más?";
             }
             
             // Agradecimiento
             if (msg.match(/gracias|thanks|thank you/)) {
-                return "Â¡De nada! ðŸ˜Š Estoy aquÃ­ para ayudarte. Â¿Hay algo mÃ¡s sobre FRESCHE que te gustarÃ­a saber?";
+                return "¡De nada! 😊 Estoy aquí para ayudarte. ¿Hay algo más sobre FRESCHE que te gustaría saber?";
             }
             
             // Respuesta por defecto
-            return "Puedo ayudarte con:<br><br>â€¢ InformaciÃ³n sobre nuestros productos<br>â€¢ Instrucciones de uso<br>â€¢ EnvÃ­os y entregas<br>â€¢ Precios y contacto<br><br>Â¿Sobre quÃ© te gustarÃ­a saber mÃ¡s?";
+            return "Puedo ayudarte con:<br><br>• Información sobre nuestros productos<br>• Instrucciones de uso<br>• Envíos y entregas<br>• Precios y contacto<br><br>¿Sobre qué te gustaría saber más?";
         }
 
         // Shopping Cart Functions
@@ -1359,7 +1352,7 @@ photos
             updateCartBadge();
             
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
-            alert(lang === 'es' ? `âœ… ${quantity} producto(s) agregado(s) al carrito` : `âœ… ${quantity} product(s) added to cart`);
+            alert(lang === 'es' ? `✅ ${quantity} producto(s) agregado(s) al carrito` : `✅ ${quantity} product(s) added to cart`);
             
             // Reset quantity to 1
             quantityInput.value = 1;
@@ -1393,7 +1386,7 @@ photos
             updateCartBadge();
             
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
-            alert(lang === 'es' ? 'âœ… Producto agregado al carrito' : 'âœ… Product added to cart');
+            alert(lang === 'es' ? '✅ Producto agregado al carrito' : '✅ Product added to cart');
         }
 
         function removeFromCart(productId) {
@@ -1423,7 +1416,7 @@ photos
             const checkoutBtn = document.getElementById('checkoutBtn');
             
             if (cart.length === 0) {
-                cartItems.innerHTML = `<p style="text-align: center; color: var(--gray); padding: 3rem;">${lang === 'es' ? 'Tu carrito estÃ¡ vacÃ­o' : 'Your cart is empty'}</p>`;
+                cartItems.innerHTML = `<p style="text-align: center; color: var(--gray); padding: 3rem;">${lang === 'es' ? 'Tu carrito está vacío' : 'Your cart is empty'}</p>`;
                 cartTotal.innerHTML = '';
                 checkoutBtn.style.display = 'none';
                 return;
@@ -1441,7 +1434,7 @@ photos
                             <span style="color: var(--white); font-size: 1.1rem; min-width: 30px; text-align: center;">${item.quantity}</span>
                             <button onclick="updateQuantity('${item.id}', 1)" style="width: 30px; height: 30px; background: var(--gold); color: var(--black); border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">+</button>
                         </div>
-                        <button onclick="removeFromCart('${item.id}')" style="padding: 0.5rem 1rem; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">ðŸ—‘ï¸</button>
+                        <button onclick="removeFromCart('${item.id}')" style="padding: 0.5rem 1rem; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">🗑️</button>
                     </div>
                 `;
             }).join('');
@@ -1475,7 +1468,7 @@ photos
         function checkout() {
             if (cart.length === 0) {
                 const lang = document.documentElement.getAttribute('data-lang') || 'es';
-                alert(lang === 'es' ? 'Tu carrito estÃ¡ vacÃ­o' : 'Your cart is empty');
+                alert(lang === 'es' ? 'Tu carrito está vacío' : 'Your cart is empty');
                 return;
             }
             
@@ -1485,7 +1478,7 @@ photos
             // Show loading message
             const checkoutBtn = document.getElementById('checkoutBtn');
             checkoutBtn.disabled = true;
-            checkoutBtn.innerHTML = lang === 'es' ? 'â³ Procesando...' : 'â³ Processing...';
+            checkoutBtn.innerHTML = lang === 'es' ? '⏳ Procesando...' : '⏳ Processing...';
             
             // Calculate totals
             const total = cart.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0);
@@ -1511,12 +1504,12 @@ photos
             // In production, send this to your server to generate PayU signature
             setTimeout(() => {
                 checkoutBtn.disabled = false;
-                checkoutBtn.innerHTML = lang === 'es' ? 'ðŸ’³ Pagar con PayU' : 'ðŸ’³ Pay with PayU';
+                checkoutBtn.innerHTML = lang === 'es' ? '💳 Pagar con PayU' : '💳 Pay with PayU';
                 
                 alert(
                     lang === 'es' 
-                    ? 'ðŸ”§ Para completar el pago con PayU, necesitas:\n\n1. Crear cuenta en payu.com/co\n2. Obtener Merchant ID y API Key\n3. Configurar un servidor backend para firmar pagos\n4. Costos: 3.49% + $900 COP\n\nâœ… PayU soporta:\nâ€¢ Tarjetas internacionales (COP/USD)\nâ€¢ PSE, Efecty, Baloto\nâ€¢ Precios dinÃ¡micos por paÃ­s\n\nPor ahora, usa WhatsApp para pedidos.' 
-                    : 'ðŸ”§ To complete PayU payment, you need:\n\n1. Create account at payu.com/co\n2. Get Merchant ID and API Key\n3. Set up backend server to sign payments\n4. Costs: 3.49% + $900 COP\n\nâœ… PayU supports:\nâ€¢ International cards (COP/USD)\nâ€¢ PSE, Efecty, Baloto\nâ€¢ Dynamic pricing per country\n\nFor now, use WhatsApp for orders.'
+                    ? '🔧 Para completar el pago con PayU, necesitas:\n\n1. Crear cuenta en payu.com/co\n2. Obtener Merchant ID y API Key\n3. Configurar un servidor backend para firmar pagos\n4. Costos: 3.49% + $900 COP\n\n✅ PayU soporta:\n• Tarjetas internacionales (COP/USD)\n• PSE, Efecty, Baloto\n• Precios dinámicos por país\n\nPor ahora, usa WhatsApp para pedidos.' 
+                    : '🔧 To complete PayU payment, you need:\n\n1. Create account at payu.com/co\n2. Get Merchant ID and API Key\n3. Set up backend server to sign payments\n4. Costs: 3.49% + $900 COP\n\n✅ PayU supports:\n• International cards (COP/USD)\n• PSE, Efecty, Baloto\n• Dynamic pricing per country\n\nFor now, use WhatsApp for orders.'
                 );
                 
                 // Fallback to WhatsApp
@@ -1527,44 +1520,44 @@ photos
         function checkoutViaWhatsApp() {
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
             const greeting = lang === 'es' 
-                ? 'Â¡Hola! ðŸ‘‹ Me gustarÃ­a ordenar lo siguiente:\n\n' 
-                : 'Hello! ðŸ‘‹ I would like to order the following:\n\n';
+                ? '¡Hola! 👋 Me gustaría ordenar lo siguiente:\n\n' 
+                : 'Hello! 👋 I would like to order the following:\n\n';
             
             let message = lang === 'es' 
-                ? '*ðŸ›’ MI PEDIDO FRESCHE*\n' + 'â•'.repeat(25) + '\n\n' 
-                : '*ðŸ›’ MY FRESCHE ORDER*\n' + 'â•'.repeat(25) + '\n\n';
+                ? '*🛒 MI PEDIDO FRESCHE*\n' + '═'.repeat(25) + '\n\n' 
+                : '*🛒 MY FRESCHE ORDER*\n' + '═'.repeat(25) + '\n\n';
             
             let totalItems = 0;
             
             cart.forEach((item, index) => {
                 totalItems += item.quantity;
                 message += `${index + 1}. *${item.name}*\n`;
-                message += `   ${lang === 'es' ? 'ðŸ“¦ Cantidad' : 'ðŸ“¦ Quantity'}: ${item.quantity} ${item.quantity > 1 ? (lang === 'es' ? 'unidades' : 'units') : (lang === 'es' ? 'unidad' : 'unit')}\n\n`;
+                message += `   ${lang === 'es' ? '📦 Cantidad' : '📦 Quantity'}: ${item.quantity} ${item.quantity > 1 ? (lang === 'es' ? 'unidades' : 'units') : (lang === 'es' ? 'unidad' : 'unit')}\n\n`;
             });
             
-            message += 'â”€'.repeat(25) + '\n';
-            message += `ðŸ“Š *${lang === 'es' ? 'RESUMEN' : 'SUMMARY'}*\n`;
+            message += '─'.repeat(25) + '\n';
+            message += `📊 *${lang === 'es' ? 'RESUMEN' : 'SUMMARY'}*\n`;
             message += `${lang === 'es' ? 'Total de productos' : 'Total items'}: *${totalItems}* ${totalItems > 1 ? (lang === 'es' ? 'unidades' : 'units') : (lang === 'es' ? 'unidad' : 'unit')}\n\n`;
-            message += 'â”€'.repeat(25) + '\n\n';
+            message += '─'.repeat(25) + '\n\n';
             
             if (lang === 'es') {
-                message += 'ðŸ“ *InformaciÃ³n de envÃ­o:*\n';
-                message += 'â€¢ Nombre completo:\n';
-                message += 'â€¢ DirecciÃ³n:\n';
-                message += 'â€¢ Ciudad:\n';
-                message += 'â€¢ TelÃ©fono:\n\n';
-                message += 'ðŸ’¬ *Comentarios adicionales:*\n';
-                message += '(Escribe aquÃ­ si tienes alguna preferencia)\n\n';
-                message += 'âœ¨ Â¡Gracias por tu pedido! Nos comunicaremos pronto contigo. ðŸ‡¨ðŸ‡´';
+                message += '📍 *Información de envío:*\n';
+                message += '• Nombre completo:\n';
+                message += '• Dirección:\n';
+                message += '• Ciudad:\n';
+                message += '• Teléfono:\n\n';
+                message += '💬 *Comentarios adicionales:*\n';
+                message += '(Escribe aquí si tienes alguna preferencia)\n\n';
+                message += '✨ ¡Gracias por tu pedido! Nos comunicaremos pronto contigo. 🇨🇴';
             } else {
-                message += 'ðŸ“ *Shipping information:*\n';
-                message += 'â€¢ Full name:\n';
-                message += 'â€¢ Address:\n';
-                message += 'â€¢ City:\n';
-                message += 'â€¢ Phone:\n\n';
-                message += 'ðŸ’¬ *Additional comments:*\n';
+                message += '📍 *Shipping information:*\n';
+                message += '• Full name:\n';
+                message += '• Address:\n';
+                message += '• City:\n';
+                message += '• Phone:\n\n';
+                message += '💬 *Additional comments:*\n';
                 message += '(Write here if you have any preferences)\n\n';
-                message += 'âœ¨ Thank you for your order! We will contact you soon. ðŸ‡¨ðŸ‡´';
+                message += '✨ Thank you for your order! We will contact you soon. 🇨🇴';
             }
             
             const whatsappUrl = `https://wa.me/573017606723?text=${encodeURIComponent(greeting + message)}`;
@@ -1589,10 +1582,10 @@ photos
             { type: 'photo', src: 'images/velvet.jpg', title: 'Velvet Elegance' },
             { type: 'photo', src: 'images/coco.jpg', title: 'Coco & Vanilla' },
             { type: 'photo', src: 'images/eclipse.jpg', title: 'Eclipse Luxury' },
-            { type: 'video', src: 'images/background-women.mp4', title: 'ColecciÃ³n Femenina' },
-            { type: 'video', src: 'images/background-men.mp4', title: 'ColecciÃ³n Masculina' },
+            { type: 'video', src: 'images/background-women.mp4', title: 'Colección Femenina' },
+            { type: 'video', src: 'images/background-men.mp4', title: 'Colección Masculina' },
             { type: 'photo', src: 'images/tobacco.jpg', title: 'Dulce Tobacco' },
-            { type: 'photo', src: 'images/jar-pink.jpg', title: 'PromociÃ³n Especial' }
+            { type: 'photo', src: 'images/jar-pink.jpg', title: 'Promoción Especial' }
         ];
 
         function filterGallery(filter) {
@@ -1623,8 +1616,8 @@ photos
                 <div class="gallery-modal active" id="galleryModal" onclick="closeGalleryModal(event)">
                     <div class="gallery-modal-content" onclick="event.stopPropagation()">
                         <button class="gallery-modal-close" onclick="closeGalleryModal()">&times;</button>
-                        <button class="gallery-nav prev" onclick="navigateGallery(-1); event.stopPropagation();">â®</button>
-                        <button class="gallery-nav next" onclick="navigateGallery(1); event.stopPropagation();">â¯</button>
+                        <button class="gallery-nav prev" onclick="navigateGallery(-1); event.stopPropagation();">❮</button>
+                        <button class="gallery-nav next" onclick="navigateGallery(1); event.stopPropagation();">❯</button>
                         ${item.type === 'video' 
                             ? `<video autoplay loop controls><source src="${item.src}" type="video/mp4"></video>`
                             : `<img src="${item.src}" alt="${item.title}">`
@@ -1763,7 +1756,7 @@ photos
             
             <div class="chatbot-messages" id="chatbot-messages">
                 <div class="bot-message">
-                    <strong>FRESCHE AI:</strong> Â¡Hola! ðŸ‘‹ Soy el asistente virtual de FRESCHE. Â¿En quÃ© puedo ayudarte hoy?
+                    <strong>FRESCHE AI:</strong> ¡Hola! 👋 Soy el asistente virtual de FRESCHE. ¿En qué puedo ayudarte hoy?
                 </div>
             </div>
             
