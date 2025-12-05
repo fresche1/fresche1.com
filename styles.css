@@ -1372,6 +1372,36 @@ body.theme-women .benefit-item h3 {
     font-size: 1.1rem;
 }
 
+
+/* Gallery Photo Item */
+.gallery-photo-item {
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.gallery-photo-item:hover {
+    border-color: var(--gold);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+    transform: translateY(-5px);
+}
+
+.gallery-photo-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.gallery-photo-item p {
+    padding: 1rem;
+    text-align: center;
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
 /* Coming Soon Message */
 .coming-soon-message {
     text-align: center;
