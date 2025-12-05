@@ -1667,6 +1667,7 @@
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
             }
         }
 
@@ -1675,15 +1676,17 @@
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
         }
 
         // Close modals when clicking outside
-        window.onclick = function(event) {
+        document.addEventListener('click', function(event) {
             if (event.target.classList.contains('gallery-modal')) {
                 event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
-        }
+        });
     </script>
 
     <!-- FRESCHE AI Chatbot -->
