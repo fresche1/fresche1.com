@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" data-lang="es">
 <head>
     <meta charset="UTF-8">
@@ -1658,6 +1658,30 @@
             const gallerySection = document.getElementById('gallery');
             if (gallerySection) {
                 gallerySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Gallery Section Functions
+        function openGallerySection(section) {
+            const modalId = section + 'Modal';
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        }
+
+        function closeGalleryModal(section) {
+            const modalId = section + 'Modal';
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('gallery-modal')) {
+                event.target.style.display = 'none';
             }
         }
     </script>
