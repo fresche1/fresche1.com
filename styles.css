@@ -1,4 +1,4 @@
-﻿* {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -1260,6 +1260,18 @@ body.theme-women .benefit-item h3 {
     margin-bottom: 1.5rem;
     display: block;
     filter: drop-shadow(0 4px 10px rgba(212, 175, 55, 0.4));
+}
+
+.gallery-category:nth-child(1) .category-icon::before {
+    content: '';
+}
+
+.gallery-category:nth-child(2) .category-icon::before {
+    content: '';
+}
+
+.gallery-category:nth-child(3) .category-icon::before {
+    content: '';
 }
 
 .gallery-category h3 {
