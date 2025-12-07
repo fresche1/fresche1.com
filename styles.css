@@ -46,8 +46,8 @@ body {
 
 /* Background Color Themes */
 body.bg-white {
-    background: linear-gradient(135deg, #f5f3f0 0%, #e8dfd6 100%);
-    color: #2c2c2c;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f6f3 100%);
+    color: #333;
 }
 
 body.bg-white .hero,
@@ -55,16 +55,26 @@ body.bg-white .products-section,
 body.bg-white .shipping-section,
 body.bg-white .values-section,
 body.bg-white footer {
-    background: linear-gradient(135deg, #f5f3f0 0%, #e8dfd6 100%);
-    color: #2c2c2c;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f6f3 100%);
+    color: #333;
 }
 
 body.bg-white .product-card,
 body.bg-white .value-card,
 body.bg-white .benefit-item {
-    background: rgba(255, 255, 255, 0.85);
-    color: #2c2c2c;
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    background: rgba(255, 255, 255, 1);
+    color: #333;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+body.bg-white .product-card:hover,
+body.bg-white .value-card:hover,
+body.bg-white .benefit-item:hover {
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+    border-color: rgba(212, 175, 55, 0.6);
+    transform: translateY(-2px);
 }
 
 body.bg-white .product-card h3,
@@ -74,13 +84,15 @@ body.bg-white h1,
 body.bg-white h2,
 body.bg-white h3 {
     color: #1a1a1a !important;
+    font-weight: 700;
 }
 
 body.bg-white .hero-content-men,
 body.bg-white .hero-content-women {
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: rgba(255, 255, 255, 0.98) !important;
     color: #1a1a1a !important;
     border: 2px solid var(--gold) !important;
+    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.2) !important;
 }
 
 body.bg-white .hero-content-men h1,
@@ -100,12 +112,16 @@ body.bg-white .highlight {
 body.bg-white footer,
 body.bg-white .footer-col p,
 body.bg-white .footer-col a {
-    color: #1a1a1a !important;
+    color: #333 !important;
+}
+
+body.bg-white .section-tag {
+    color: var(--gold) !important;
 }
 
 body.bg-light {
-    background: linear-gradient(135deg, #f5f3f0 0%, #e8dfd6 100%);
-    color: #2c2c2c;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f6f3 100%);
+    color: #333;
 }
 
 body.bg-light .hero,
@@ -113,16 +129,26 @@ body.bg-light .products-section,
 body.bg-light .shipping-section,
 body.bg-light .values-section,
 body.bg-light footer {
-    background: linear-gradient(135deg, #f5f3f0 0%, #e8dfd6 100%);
-    color: #2c2c2c;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f6f3 100%);
+    color: #333;
 }
 
 body.bg-light .product-card,
 body.bg-light .value-card,
 body.bg-light .benefit-item {
-    background: rgba(255, 255, 255, 0.9);
-    color: #2c2c2c;
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    background: rgba(255, 255, 255, 1);
+    color: #333;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+body.bg-light .product-card:hover,
+body.bg-light .value-card:hover,
+body.bg-light .benefit-item:hover {
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+    border-color: rgba(212, 175, 55, 0.6);
+    transform: translateY(-2px);
 }
 
 body.bg-light .product-card h3,
@@ -132,13 +158,15 @@ body.bg-light h1,
 body.bg-light h2,
 body.bg-light h3 {
     color: #1a1a1a !important;
+    font-weight: 700;
 }
 
 body.bg-light .hero-content-men,
 body.bg-light .hero-content-women {
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: rgba(255, 255, 255, 0.98) !important;
     color: #1a1a1a !important;
     border: 2px solid var(--gold) !important;
+    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.2) !important;
 }
 
 body.bg-light .hero-content-men h1,
@@ -158,30 +186,59 @@ body.bg-light .highlight {
 body.bg-light footer,
 body.bg-light .footer-col p,
 body.bg-light .footer-col a {
-    color: #2c2c2c !important;
+    color: #333 !important;
 }
 
-body.bg-light .nav-menu,
-body.bg-light .nav-menu a,
-body.bg-light p,
-body.bg-light span,
-body.bg-light li,
-body.bg-light .product-card p,
-body.bg-light .value-card p,
-body.bg-light .benefit-item p,
-body.bg-light .shipping-info p,
-body.bg-light .footer-col h3 {
-    color: #2c2c2c !important;
-}
-
-body.bg-light .nav-menu {
-    background: rgba(245, 243, 240, 0.98) !important;
-    backdrop-filter: blur(15px);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-}
-
-body.bg-light .nav-menu a:hover {
+body.bg-white .section-tag {
     color: var(--gold) !important;
+}
+
+body.bg-white .navbar {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3) !important;
+}
+
+body.bg-white .navbar a,
+body.bg-white .navbar span {
+    color: #333 !important;
+}
+
+body.bg-white .navbar a:hover {
+    color: var(--gold) !important;
+}
+
+body.bg-white .section-header h2 {
+    color: #1a1a1a !important;
+}
+
+body.bg-white .section-header p {
+    color: #555 !important;
+}
+
+body.bg-light .section-tag {
+    color: var(--gold) !important;
+}
+
+body.bg-light .navbar {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3) !important;
+}
+
+body.bg-light .navbar a,
+body.bg-light .navbar span {
+    color: #333 !important;
+}
+
+body.bg-light .navbar a:hover {
+    color: var(--gold) !important;
+}
+
+body.bg-light .section-header h2 {
+    color: #1a1a1a !important;
+}
+
+body.bg-light .section-header p {
+    color: #555 !important;
 }
 
 body.theme-men .footer-col h4,
