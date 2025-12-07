@@ -1746,108 +1746,287 @@
         </div>
     </div>
 
-    <!-- Modal de Bienvenida -->
-    <div id="welcomeModal" class="welcome-modal">
-        <div class="welcome-modal-content">
-            <div class="welcome-header">
-                <img src="images/1758372322944blob.jpg" alt="FRESCHE Logo" class="welcome-logo">
-                <h2>¡Bienvenido a FRESCHE!</h2>
-                <p>Welcome to FRESCHE!</p>
-            </div>
-            
-            <div class="welcome-section">
-                <h3>Selecciona tu idioma / Select your language</h3>
-                <div class="welcome-buttons">
-                    <button class="welcome-btn lang-select active" data-lang="es" onclick="selectWelcomeLang('es')">
-                        <span class="flag-emoji">🇨🇴</span>
-                        <span>Español</span>
-                    </button>
-                    <button class="welcome-btn lang-select" data-lang="en" onclick="selectWelcomeLang('en')">
-                        <span class="flag-emoji">🇺🇸</span>
-                        <span>English</span>
-                    </button>
+    <!-- Modal de Bienvenida Ultra Profesional -->
+    <div id="welcomeModal" class="welcome-modal-pro">
+        <div class="welcome-particles"></div>
+        <div class="welcome-modal-content-pro">
+            <!-- Paso 1: Detectando ubicación -->
+            <div class="welcome-step active" id="step1">
+                <div class="location-detector">
+                    <div class="pulse-ring"></div>
+                    <div class="location-icon">🌍</div>
+                </div>
+                <h2 class="welcome-title">Detectando tu ubicación...</h2>
+                <p class="welcome-subtitle">Preparing your personalized experience</p>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
                 </div>
             </div>
-            
-            <div class="welcome-section">
-                <h3 id="themeQuestion">Selecciona tu tema</h3>
-                <div class="welcome-buttons">
-                    <button class="welcome-btn theme-select active" data-theme="black" onclick="selectWelcomeTheme('black')">
-                        <span style="font-size: 2rem;">🌙</span>
-                        <span id="themeDark">Tema Oscuro</span>
-                    </button>
-                    <button class="welcome-btn theme-select" data-theme="light" onclick="selectWelcomeTheme('light')">
-                        <span style="font-size: 2rem;">☀️</span>
-                        <span id="themeLight">Tema Claro</span>
-                    </button>
+
+            <!-- Paso 2: Bienvenida personalizada -->
+            <div class="welcome-step" id="step2">
+                <div class="welcome-hero">
+                    <div class="logo-glow">
+                        <img src="images/1758372322944blob.jpg" alt="FRESCHE" class="welcome-logo-pro">
+                    </div>
+                    <h1 class="brand-title">FRESCHE</h1>
+                    <p class="brand-tagline" id="tagline">Cuidado Íntimo Premium</p>
                 </div>
+                
+                <div class="location-badge" id="locationBadge">
+                    <span class="location-flag" id="locationFlag">🇨🇴</span>
+                    <span class="location-text" id="locationText">Detectado en Colombia</span>
+                </div>
+
+                <div class="welcome-benefits">
+                    <div class="benefit-pill">
+                        <span class="benefit-icon">✨</span>
+                        <span id="benefit1">100% Natural</span>
+                    </div>
+                    <div class="benefit-pill">
+                        <span class="benefit-icon">🌿</span>
+                        <span id="benefit2">Ingredientes Premium</span>
+                    </div>
+                    <div class="benefit-pill">
+                        <span class="benefit-icon">🇨🇴</span>
+                        <span id="benefit3">Hecho en Colombia</span>
+                    </div>
+                </div>
+
+                <button class="welcome-cta" onclick="nextStep(3)">
+                    <span id="ctaText">Continuar</span>
+                    <span class="cta-arrow">→</span>
+                </button>
             </div>
-            
-            <button class="welcome-continue-btn" onclick="closeWelcomeModal()">
-                <span id="continueBtn">Continuar</span>
+
+            <!-- Paso 3: Preferencias -->
+            <div class="welcome-step" id="step3">
+                <h2 class="welcome-title-small" id="preferencesTitle">Personaliza tu experiencia</h2>
+                
+                <div class="preference-section">
+                    <h3 class="preference-label" id="genderLabel">¿Para quién es?</h3>
+                    <div class="preference-cards">
+                        <div class="preference-card" onclick="selectGender('men')" data-gender="men">
+                            <div class="card-icon">👨</div>
+                            <h4 id="menLabel">Para Hombres</h4>
+                            <p id="menDesc">Frescura y protección masculina</p>
+                            <div class="card-checkmark">✓</div>
+                        </div>
+                        <div class="preference-card" onclick="selectGender('women')" data-gender="women">
+                            <div class="card-icon">👩</div>
+                            <h4 id="womenLabel">Para Mujeres</h4>
+                            <p id="womenDesc">Cuidado delicado y femenino</p>
+                            <div class="card-checkmark">✓</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preference-section">
+                    <h3 class="preference-label" id="themeLabel">Tema de color</h3>
+                    <div class="theme-toggle">
+                        <button class="theme-option active" onclick="selectTheme('black')" data-theme="black">
+                            <span class="theme-icon">🌙</span>
+                            <span id="darkLabel">Oscuro</span>
+                        </button>
+                        <button class="theme-option" onclick="selectTheme('light')" data-theme="light">
+                            <span class="theme-icon">☀️</span>
+                            <span id="lightLabel">Claro</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="welcome-cta" onclick="finishWelcome()">
+                    <span id="startBtn">Comenzar Experiencia</span>
+                    <span class="cta-sparkle">✨</span>
+                </button>
+
+                <p class="privacy-note" id="privacyNote">
+                    🔒 Tu privacidad es importante. Solo guardamos tus preferencias localmente.
+                </p>
+            </div>
+
+            <!-- Botón cerrar (solo visible después del paso 2) -->
+            <button class="welcome-close" id="welcomeClose" onclick="skipWelcome()" style="display: none;">
+                <span>×</span>
             </button>
         </div>
     </div>
 
     <script>
-        // Variables globales para selecciones de bienvenida
-        let selectedLang = 'es';
+        // Variables globales para el modal de bienvenida
+        let currentStep = 1;
+        let userCountry = 'CO'; // Por defecto Colombia
+        let selectedGender = 'men';
         let selectedTheme = 'black';
+        let selectedLanguage = 'es';
 
-        // Mostrar modal de bienvenida al cargar la página
-        window.addEventListener('load', function() {
-            // Verificar si es la primera visita
+        // Detectar ubicación del usuario usando API de geolocalización
+        async function detectUserLocation() {
+            try {
+                // Intentar obtener ubicación por IP usando ipapi.co (gratis)
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                userCountry = data.country_code || 'CO';
+                
+                // Si es Estados Unidos, cambiar idioma por defecto a inglés
+                if (userCountry === 'US') {
+                    selectedLanguage = 'en';
+                }
+                
+                // Actualizar badge de ubicación
+                updateLocationBadge();
+                
+            } catch (error) {
+                console.log('No se pudo detectar ubicación, usando Colombia por defecto');
+                userCountry = 'CO';
+                selectedLanguage = 'es';
+            }
+        }
+
+        // Actualizar badge de ubicación
+        function updateLocationBadge() {
+            const flag = document.getElementById('locationFlag');
+            const text = document.getElementById('locationText');
+            const tagline = document.getElementById('tagline');
+            
+            if (userCountry === 'US') {
+                flag.textContent = '🇺🇸';
+                text.textContent = 'Detected in United States';
+                tagline.textContent = 'Premium Intimate Care';
+                updateTextsToEnglish();
+            } else if (userCountry === 'CO') {
+                flag.textContent = '🇨🇴';
+                text.textContent = 'Detectado en Colombia';
+                tagline.textContent = 'Cuidado Íntimo Premium';
+                updateTextsToSpanish();
+            } else {
+                // Otros países, usar español por defecto
+                flag.textContent = '🌎';
+                text.textContent = 'Bienvenido / Welcome';
+                tagline.textContent = 'Cuidado Íntimo Premium';
+            }
+        }
+
+        // Actualizar textos a inglés
+        function updateTextsToEnglish() {
+            document.getElementById('benefit1').textContent = '100% Natural';
+            document.getElementById('benefit2').textContent = 'Premium Ingredients';
+            document.getElementById('benefit3').textContent = 'Made in Colombia';
+            document.getElementById('ctaText').textContent = 'Continue';
+            document.getElementById('preferencesTitle').textContent = 'Customize your experience';
+            document.getElementById('genderLabel').textContent = 'Who is it for?';
+            document.getElementById('menLabel').textContent = 'For Men';
+            document.getElementById('menDesc').textContent = 'Masculine freshness and protection';
+            document.getElementById('womenLabel').textContent = 'For Women';
+            document.getElementById('womenDesc').textContent = 'Delicate and feminine care';
+            document.getElementById('themeLabel').textContent = 'Color theme';
+            document.getElementById('darkLabel').textContent = 'Dark';
+            document.getElementById('lightLabel').textContent = 'Light';
+            document.getElementById('startBtn').textContent = 'Start Experience';
+            document.getElementById('privacyNote').textContent = '🔒 Your privacy matters. We only save your preferences locally.';
+        }
+
+        // Actualizar textos a español
+        function updateTextsToSpanish() {
+            document.getElementById('benefit1').textContent = '100% Natural';
+            document.getElementById('benefit2').textContent = 'Ingredientes Premium';
+            document.getElementById('benefit3').textContent = 'Hecho en Colombia';
+            document.getElementById('ctaText').textContent = 'Continuar';
+            document.getElementById('preferencesTitle').textContent = 'Personaliza tu experiencia';
+            document.getElementById('genderLabel').textContent = '¿Para quién es?';
+            document.getElementById('menLabel').textContent = 'Para Hombres';
+            document.getElementById('menDesc').textContent = 'Frescura y protección masculina';
+            document.getElementById('womenLabel').textContent = 'Para Mujeres';
+            document.getElementById('womenDesc').textContent = 'Cuidado delicado y femenino';
+            document.getElementById('themeLabel').textContent = 'Tema de color';
+            document.getElementById('darkLabel').textContent = 'Oscuro';
+            document.getElementById('lightLabel').textContent = 'Claro';
+            document.getElementById('startBtn').textContent = 'Comenzar Experiencia';
+            document.getElementById('privacyNote').textContent = '🔒 Tu privacidad es importante. Solo guardamos tus preferencias localmente.';
+        }
+
+        // Mostrar modal al cargar
+        window.addEventListener('load', async function() {
             const hasVisited = localStorage.getItem('freschefirstVisit');
             if (!hasVisited) {
                 document.getElementById('welcomeModal').style.display = 'flex';
+                
+                // Detectar ubicación
+                await detectUserLocation();
+                
+                // Esperar 2 segundos simulando carga
+                setTimeout(() => {
+                    nextStep(2);
+                }, 2000);
             }
         });
 
-        // Seleccionar idioma en modal de bienvenida
-        function selectWelcomeLang(lang) {
-            selectedLang = lang;
-            document.querySelectorAll('.lang-select').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`.lang-select[data-lang="${lang}"]`).classList.add('active');
+        // Navegar entre pasos
+        function nextStep(step) {
+            document.querySelectorAll('.welcome-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`step${step}`).classList.add('active');
+            currentStep = step;
             
-            // Actualizar textos del modal
-            if (lang === 'es') {
-                document.getElementById('themeQuestion').textContent = 'Selecciona tu tema';
-                document.getElementById('themeDark').textContent = 'Tema Oscuro';
-                document.getElementById('themeLight').textContent = 'Tema Claro';
-                document.getElementById('continueBtn').textContent = 'Continuar';
-            } else {
-                document.getElementById('themeQuestion').textContent = 'Select your theme';
-                document.getElementById('themeDark').textContent = 'Dark Theme';
-                document.getElementById('themeLight').textContent = 'Light Theme';
-                document.getElementById('continueBtn').textContent = 'Continue';
+            // Mostrar botón cerrar después del paso 1
+            if (step > 1) {
+                document.getElementById('welcomeClose').style.display = 'flex';
             }
         }
 
-        // Seleccionar tema en modal de bienvenida
-        function selectWelcomeTheme(theme) {
-            selectedTheme = theme;
-            document.querySelectorAll('.theme-select').forEach(btn => {
-                btn.classList.remove('active');
+        // Seleccionar género
+        function selectGender(gender) {
+            selectedGender = gender;
+            document.querySelectorAll('.preference-card').forEach(card => {
+                card.classList.remove('selected');
             });
-            document.querySelector(`.theme-select[data-theme="${theme}"]`).classList.add('active');
+            document.querySelector(`.preference-card[data-gender="${gender}"]`).classList.add('selected');
         }
 
-        // Cerrar modal y aplicar selecciones
-        function closeWelcomeModal() {
-            // Aplicar idioma
-            changeLang(selectedLang);
-            
-            // Aplicar tema
+        // Seleccionar tema
+        function selectTheme(theme) {
+            selectedTheme = theme;
+            document.querySelectorAll('.theme-option').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.theme-option[data-theme="${theme}"]`).classList.add('active');
+        }
+
+        // Finalizar bienvenida
+        function finishWelcome() {
+            // Aplicar preferencias
+            changeTheme(selectedGender);
             changeBackgroundColor(selectedTheme);
+            changeLang(selectedLanguage);
             
-            // Marcar que ya visitó
+            // Guardar en analytics/localStorage
             localStorage.setItem('freschefirstVisit', 'true');
+            localStorage.setItem('frescheuserCountry', userCountry);
+            localStorage.setItem('frescheuserGender', selectedGender);
+            localStorage.setItem('frescheuserTheme', selectedTheme);
+            localStorage.setItem('frescheuserLanguage', selectedLanguage);
             
-            // Cerrar modal
+            // Cerrar modal con animación
+            document.getElementById('welcomeModal').style.animation = 'fadeOut 0.5s ease';
+            setTimeout(() => {
+                document.getElementById('welcomeModal').style.display = 'none';
+            }, 500);
+        }
+
+        // Saltar bienvenida
+        function skipWelcome() {
+            localStorage.setItem('freschefirstVisit', 'true');
             document.getElementById('welcomeModal').style.display = 'none';
         }
+
+        // Animación de fadeOut
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 
 </body>
