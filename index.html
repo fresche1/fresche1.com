@@ -1945,20 +1945,18 @@
             document.getElementById('privacyNote').textContent = '🔒 Tu privacidad es importante. Solo guardamos tus preferencias localmente.';
         }
 
-        // Mostrar modal al cargar
+        // Mostrar modal al cargar - SIEMPRE
         window.addEventListener('load', async function() {
-            const hasVisited = localStorage.getItem('freschefirstVisit');
-            if (!hasVisited) {
-                document.getElementById('welcomeModal').style.display = 'flex';
-                
-                // Detectar ubicación
-                await detectUserLocation();
-                
-                // Esperar 2 segundos simulando carga
-                setTimeout(() => {
-                    nextStep(2);
-                }, 2000);
-            }
+            // Mostrar modal cada vez que carga la página
+            document.getElementById('welcomeModal').style.display = 'flex';
+            
+            // Detectar ubicación
+            await detectUserLocation();
+            
+            // Esperar 2 segundos simulando carga
+            setTimeout(() => {
+                nextStep(2);
+            }, 2000);
         });
 
         // Navegar entre pasos
@@ -1998,8 +1996,7 @@
             changeBackgroundColor(selectedTheme);
             changeLang(selectedLanguage);
             
-            // Guardar en analytics/localStorage
-            localStorage.setItem('freschefirstVisit', 'true');
+            // Guardar en analytics/localStorage (sin firstVisit)
             localStorage.setItem('frescheuserCountry', userCountry);
             localStorage.setItem('frescheuserGender', selectedGender);
             localStorage.setItem('frescheuserTheme', selectedTheme);
@@ -2014,7 +2011,6 @@
 
         // Saltar bienvenida
         function skipWelcome() {
-            localStorage.setItem('freschefirstVisit', 'true');
             document.getElementById('welcomeModal').style.display = 'none';
         }
 
