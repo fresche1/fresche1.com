@@ -1746,6 +1746,110 @@
         </div>
     </div>
 
+    <!-- Modal de Bienvenida -->
+    <div id="welcomeModal" class="welcome-modal">
+        <div class="welcome-modal-content">
+            <div class="welcome-header">
+                <img src="images/1758372322944blob.jpg" alt="FRESCHE Logo" class="welcome-logo">
+                <h2>¡Bienvenido a FRESCHE!</h2>
+                <p>Welcome to FRESCHE!</p>
+            </div>
+            
+            <div class="welcome-section">
+                <h3>Selecciona tu idioma / Select your language</h3>
+                <div class="welcome-buttons">
+                    <button class="welcome-btn lang-select active" data-lang="es" onclick="selectWelcomeLang('es')">
+                        <span class="flag-emoji">🇨🇴</span>
+                        <span>Español</span>
+                    </button>
+                    <button class="welcome-btn lang-select" data-lang="en" onclick="selectWelcomeLang('en')">
+                        <span class="flag-emoji">🇺🇸</span>
+                        <span>English</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="welcome-section">
+                <h3 id="themeQuestion">Selecciona tu tema</h3>
+                <div class="welcome-buttons">
+                    <button class="welcome-btn theme-select active" data-theme="black" onclick="selectWelcomeTheme('black')">
+                        <span style="font-size: 2rem;">🌙</span>
+                        <span id="themeDark">Tema Oscuro</span>
+                    </button>
+                    <button class="welcome-btn theme-select" data-theme="light" onclick="selectWelcomeTheme('light')">
+                        <span style="font-size: 2rem;">☀️</span>
+                        <span id="themeLight">Tema Claro</span>
+                    </button>
+                </div>
+            </div>
+            
+            <button class="welcome-continue-btn" onclick="closeWelcomeModal()">
+                <span id="continueBtn">Continuar</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales para selecciones de bienvenida
+        let selectedLang = 'es';
+        let selectedTheme = 'black';
+
+        // Mostrar modal de bienvenida al cargar la página
+        window.addEventListener('load', function() {
+            // Verificar si es la primera visita
+            const hasVisited = localStorage.getItem('freschefirstVisit');
+            if (!hasVisited) {
+                document.getElementById('welcomeModal').style.display = 'flex';
+            }
+        });
+
+        // Seleccionar idioma en modal de bienvenida
+        function selectWelcomeLang(lang) {
+            selectedLang = lang;
+            document.querySelectorAll('.lang-select').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.lang-select[data-lang="${lang}"]`).classList.add('active');
+            
+            // Actualizar textos del modal
+            if (lang === 'es') {
+                document.getElementById('themeQuestion').textContent = 'Selecciona tu tema';
+                document.getElementById('themeDark').textContent = 'Tema Oscuro';
+                document.getElementById('themeLight').textContent = 'Tema Claro';
+                document.getElementById('continueBtn').textContent = 'Continuar';
+            } else {
+                document.getElementById('themeQuestion').textContent = 'Select your theme';
+                document.getElementById('themeDark').textContent = 'Dark Theme';
+                document.getElementById('themeLight').textContent = 'Light Theme';
+                document.getElementById('continueBtn').textContent = 'Continue';
+            }
+        }
+
+        // Seleccionar tema en modal de bienvenida
+        function selectWelcomeTheme(theme) {
+            selectedTheme = theme;
+            document.querySelectorAll('.theme-select').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.theme-select[data-theme="${theme}"]`).classList.add('active');
+        }
+
+        // Cerrar modal y aplicar selecciones
+        function closeWelcomeModal() {
+            // Aplicar idioma
+            changeLang(selectedLang);
+            
+            // Aplicar tema
+            changeBackgroundColor(selectedTheme);
+            
+            // Marcar que ya visitó
+            localStorage.setItem('freschefirstVisit', 'true');
+            
+            // Cerrar modal
+            document.getElementById('welcomeModal').style.display = 'none';
+        }
+    </script>
+
 </body>
 </html>
 
