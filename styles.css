@@ -204,6 +204,29 @@ body.bg-light.theme-men .close-modal {
     border: 2px solid #d4af37;
 }
 
+/* Quitar fondos negros en valores y galería - tema claro hombres */
+body.bg-light.theme-men .values-section {
+    background: #ffffff !important;
+}
+
+body.bg-light.theme-men .gallery-section {
+    background: #ffffff !important;
+}
+
+body.bg-light.theme-men .gallery-section::before {
+    display: none !important;
+}
+
+body.bg-light.theme-men .gallery-category {
+    background: #ffffff !important;
+    border: 3px solid #d4af37 !important;
+}
+
+body.bg-light.theme-men .gallery-category h3,
+body.bg-light.theme-men .gallery-category p {
+    color: #000000 !important;
+}
+
 /* ===== TEMA CLARO - MUJERES (Rosa + Dorado) ===== */
 body.bg-light.theme-women {
     background: #ffffff;
