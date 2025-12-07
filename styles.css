@@ -44,10 +44,10 @@ body {
     transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* ===== TEMA CLARO - PROFESIONAL Y ELEGANTE ===== */
+/* ===== TEMA CLARO - BLANCO PURO CON BORDES DORADOS ===== */
 body.bg-light {
-    background: #faf9f7;
-    color: #2c2c2c;
+    background: #ffffff;
+    color: #000000;
 }
 
 body.bg-light .hero,
@@ -55,217 +55,293 @@ body.bg-light .products-section,
 body.bg-light .shipping-section,
 body.bg-light .values-section,
 body.bg-light .gallery-section {
-    background: #faf9f7;
-    color: #2c2c2c;
+    background: #ffffff;
+    color: #000000;
 }
 
 body.bg-light footer {
-    background: #f0ebe5;
-    border-top: 2px solid #e8dfd5;
+    background: #ffffff;
+    border-top: 2px solid #d4af37;
 }
 
-/* Cards tema claro - Blancas elegantes con sombra pronunciada */
-body.bg-light .product-card,
-body.bg-light .value-card,
-body.bg-light .benefit-item {
+/* ===== TEMA CLARO - HOMBRES (Negro + Dorado) ===== */
+body.bg-light.theme-men {
     background: #ffffff;
-    color: #2c2c2c;
-    border: none;
+    color: #000000;
+}
+
+body.bg-light.theme-men p,
+body.bg-light.theme-men span,
+body.bg-light.theme-men .hero p,
+body.bg-light.theme-men .section-header p {
+    color: #000000 !important;
+}
+
+body.bg-light.theme-men h1,
+body.bg-light.theme-men h2,
+body.bg-light.theme-men h3,
+body.bg-light.theme-men .product-card h3,
+body.bg-light.theme-men .value-card h3,
+body.bg-light.theme-men .hero h1,
+body.bg-light.theme-men .section-header h2 {
+    color: #000000 !important;
+}
+
+body.bg-light.theme-men .product-card,
+body.bg-light.theme-men .value-card,
+body.bg-light.theme-men .benefit-item {
+    background: #ffffff;
+    color: #000000;
+    border: 3px solid #d4af37 !important;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
 }
 
-body.bg-light .product-card:hover,
-body.bg-light .value-card:hover,
-body.bg-light .benefit-item:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 16px 40px rgba(0, 0, 0, 0.16);
-    border-color: transparent;
-    transform: translateY(-6px);
+body.bg-light.theme-men .product-card:hover,
+body.bg-light.theme-men .value-card:hover,
+body.bg-light.theme-men .benefit-item:hover {
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
+    transform: translateY(-4px);
 }
 
-/* Títulos tema claro - Negro puro */
-body.bg-light .product-card h3,
-body.bg-light .value-card h3,
-body.bg-light .benefit-item h3,
-body.bg-light h1,
-body.bg-light h2,
-body.bg-light h3,
-body.bg-light .hero h1 {
-    color: #1a1a1a !important;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-}
-
-body.bg-light .section-header h2 {
-    color: #1a1a1a !important;
-    font-weight: 800;
-    font-size: 3rem;
-    letter-spacing: -1px;
-}
-
-body.bg-light .hero h1 {
-    color: #1a1a1a !important;
-    font-size: 3.5rem !important;
-    font-weight: 800;
-}
-
-/* Párrafos tema claro */
-body.bg-light p,
-body.bg-light .hero p {
-    color: #4a4a4a !important;
-    font-size: 1rem;
-    line-height: 1.6;
-}
-
-/* Hero content tema claro - Cards destacadas */
-body.bg-light .hero-content-men,
-body.bg-light .hero-content-women {
+body.bg-light.theme-men .hero-content-men,
+body.bg-light.theme-men .hero-content-women {
     background: #ffffff !important;
-    color: #1a1a1a !important;
-    border: 2px solid #d4af37 !important;
+    color: #000000 !important;
+    border: 3px solid #d4af37 !important;
     border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(212, 175, 55, 0.15) !important;
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25) !important;
 }
 
-body.bg-light .hero-content-men h1,
-body.bg-light .hero-content-men p,
-body.bg-light .hero-content-women h1,
-body.bg-light .hero-content-women p {
-    color: #1a1a1a !important;
+body.bg-light.theme-men .hero-content-men h1,
+body.bg-light.theme-men .hero-content-men p,
+body.bg-light.theme-men .hero-content-women h1,
+body.bg-light.theme-men .hero-content-women p {
+    color: #000000 !important;
     text-shadow: none !important;
 }
 
-body.bg-light .hero-content-men h1,
-body.bg-light .hero-content-women h1 {
-    color: #d4af37 !important;
-    font-weight: 800;
-}
-
-/* Navbar tema claro - Limpio y elegante */
-body.bg-light header {
+body.bg-light.theme-men header {
     background: #ffffff !important;
-    border-bottom: 2px solid #e8dfd5 !important;
+    border-bottom: 3px solid #d4af37 !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-body.bg-light .navbar {
-    background: transparent !important;
-    border: none !important;
-}
-
-body.bg-light .navbar a,
-body.bg-light .navbar span,
-body.bg-light .navbar button {
-    color: #2c2c2c !important;
+body.bg-light.theme-men .navbar a,
+body.bg-light.theme-men .navbar span,
+body.bg-light.theme-men .navbar button {
+    color: #000000 !important;
     font-weight: 500;
 }
 
-body.bg-light .navbar a:hover {
+body.bg-light.theme-men .navbar a:hover {
     color: #d4af37 !important;
     font-weight: 600;
 }
 
-/* Botones tema claro */
-body.bg-light .btn-primary {
+body.bg-light.theme-men .btn-primary {
     background: #d4af37 !important;
-    color: #1a1a1a !important;
+    color: #000000 !important;
     border: 2px solid #d4af37 !important;
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
 }
 
-body.bg-light .btn-primary:hover {
+body.bg-light.theme-men .btn-primary:hover {
     background: #e6b84d !important;
     box-shadow: 0 8px 20px rgba(212, 175, 55, 0.35);
 }
 
-body.bg-light .btn-secondary {
-    background: #f0ebe5 !important;
-    color: #1a1a1a !important;
+body.bg-light.theme-men .btn-secondary {
+    background: #ffffff !important;
+    color: #000000 !important;
     border: 2px solid #d4af37 !important;
 }
 
-body.bg-light .btn-secondary:hover {
+body.bg-light.theme-men .btn-secondary:hover {
     background: #d4af37 !important;
-    color: #1a1a1a !important;
+    color: #000000 !important;
 }
 
-body.bg-light .cart-btn,
-body.bg-light .pronto-btn {
+body.bg-light.theme-men .cart-btn,
+body.bg-light.theme-men .pronto-btn {
     border: 2px solid #d4af37 !important;
     color: #d4af37 !important;
 }
 
-body.bg-light .cart-btn:hover,
-body.bg-light .pronto-btn:hover {
+body.bg-light.theme-men .cart-btn:hover,
+body.bg-light.theme-men .pronto-btn:hover {
     background: #d4af37 !important;
-    color: #1a1a1a !important;
+    color: #000000 !important;
 }
 
-/* Secciones tema claro */
-body.bg-light .section-tag {
+body.bg-light.theme-men .section-tag {
     color: #d4af37 !important;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-body.bg-light .section-header p {
-    color: #4a4a4a !important;
-    font-size: 1.2rem;
-    line-height: 1.8;
-    font-weight: 500;
+body.bg-light.theme-men footer p,
+body.bg-light.theme-men .footer-col p,
+body.bg-light.theme-men .footer-col a,
+body.bg-light.theme-men footer h4 {
+    color: #000000 !important;
 }
 
-/* Footer tema claro */
-body.bg-light footer p,
-body.bg-light .footer-col p,
-body.bg-light .footer-col a,
-body.bg-light footer h4 {
-    color: #2c2c2c !important;
-}
-
-body.bg-light .footer-col h4 {
-    color: #1a1a1a !important;
-    font-weight: 700;
-}
-
-body.bg-light .footer-col a:hover {
+body.bg-light.theme-men .footer-col a:hover {
     color: #d4af37 !important;
     font-weight: 600;
 }
 
-body.bg-light .footer-bottom {
-    background: #e8dfd5;
-    border-top: 2px solid #d4af37;
-}
-
-body.bg-light .footer-bottom p {
-    color: #2c2c2c !important;
-}
-
-/* Modales y overlays tema claro */
-body.bg-light .gallery-modal {
-    background: rgba(0, 0, 0, 0.7);
-}
-
-body.bg-light .gallery-modal-content {
+body.bg-light.theme-men .gallery-modal-content {
     background: #ffffff;
-    border: 2px solid #d4af37;
+    border: 3px solid #d4af37;
 }
 
-body.bg-light .gallery-modal-content h2 {
-    color: #d4af37;
-}
-
-body.bg-light .close-modal {
+body.bg-light.theme-men .close-modal {
     color: #d4af37;
     border: 2px solid #d4af37;
 }
 
-body.bg-light .close-modal:hover {
-    background: #d4af37;
-    color: #ffffff;
+/* ===== TEMA CLARO - MUJERES (Rosa + Dorado) ===== */
+body.bg-light.theme-women {
+    background: #ffffff;
+    color: #ff69b4;
+}
+
+body.bg-light.theme-women p,
+body.bg-light.theme-women span,
+body.bg-light.theme-women .hero p,
+body.bg-light.theme-women .section-header p {
+    color: #ff69b4 !important;
+}
+
+body.bg-light.theme-women h1,
+body.bg-light.theme-women h2,
+body.bg-light.theme-women h3,
+body.bg-light.theme-women .product-card h3,
+body.bg-light.theme-women .value-card h3,
+body.bg-light.theme-women .hero h1,
+body.bg-light.theme-women .section-header h2 {
+    color: #ff69b4 !important;
+}
+
+body.bg-light.theme-women .product-card,
+body.bg-light.theme-women .value-card,
+body.bg-light.theme-women .benefit-item {
+    background: #ffffff;
+    color: #ff69b4;
+    border: 3px solid #d4af37 !important;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+body.bg-light.theme-women .product-card:hover,
+body.bg-light.theme-women .value-card:hover,
+body.bg-light.theme-women .benefit-item:hover {
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
+    transform: translateY(-4px);
+}
+
+body.bg-light.theme-women .hero-content-men,
+body.bg-light.theme-women .hero-content-women {
+    background: #ffffff !important;
+    color: #ff69b4 !important;
+    border: 3px solid #d4af37 !important;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25) !important;
+}
+
+body.bg-light.theme-women .hero-content-men h1,
+body.bg-light.theme-women .hero-content-men p,
+body.bg-light.theme-women .hero-content-women h1,
+body.bg-light.theme-women .hero-content-women p {
+    color: #ff69b4 !important;
+    text-shadow: none !important;
+}
+
+body.bg-light.theme-women header {
+    background: #ffffff !important;
+    border-bottom: 3px solid #d4af37 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+body.bg-light.theme-women .navbar a,
+body.bg-light.theme-women .navbar span,
+body.bg-light.theme-women .navbar button {
+    color: #ff69b4 !important;
+    font-weight: 500;
+}
+
+body.bg-light.theme-women .navbar a:hover {
+    color: #d4af37 !important;
+    font-weight: 600;
+}
+
+body.bg-light.theme-women .btn-primary {
+    background: #d4af37 !important;
+    color: #ff69b4 !important;
+    border: 2px solid #d4af37 !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
+}
+
+body.bg-light.theme-women .btn-primary:hover {
+    background: #e6b84d !important;
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.35);
+}
+
+body.bg-light.theme-women .btn-secondary {
+    background: #ffffff !important;
+    color: #ff69b4 !important;
+    border: 2px solid #d4af37 !important;
+}
+
+body.bg-light.theme-women .btn-secondary:hover {
+    background: #d4af37 !important;
+    color: #ff69b4 !important;
+}
+
+body.bg-light.theme-women .cart-btn,
+body.bg-light.theme-women .pronto-btn {
+    border: 2px solid #d4af37 !important;
+    color: #d4af37 !important;
+}
+
+body.bg-light.theme-women .cart-btn:hover,
+body.bg-light.theme-women .pronto-btn:hover {
+    background: #d4af37 !important;
+    color: #ff69b4 !important;
+}
+
+body.bg-light.theme-women .section-tag {
+    color: #d4af37 !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+body.bg-light.theme-women footer p,
+body.bg-light.theme-women .footer-col p,
+body.bg-light.theme-women .footer-col a,
+body.bg-light.theme-women footer h4 {
+    color: #ff69b4 !important;
+}
+
+body.bg-light.theme-women .footer-col a:hover {
+    color: #d4af37 !important;
+    font-weight: 600;
+}
+
+body.bg-light.theme-women .gallery-modal-content {
+    background: #ffffff;
+    border: 3px solid #d4af37;
+}
+
+body.bg-light.theme-women .close-modal {
+    color: #d4af37;
+    border: 2px solid #d4af37;
 }
 
 /* ===== TEMA OSCURO - SOFISTICADO (DEFAULT) ===== */
