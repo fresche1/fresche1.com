@@ -252,6 +252,39 @@ body.bg-light.theme-men .coming-soon-section {
     background: #ffffff !important;
 }
 
+/* Sección de beneficios legible - tema claro hombres */
+body.bg-light.theme-men .benefits-section {
+    background: #ffffff !important;
+}
+
+body.bg-light.theme-men .benefits-container {
+    background: #ffffff !important;
+    border: 3px solid #d4af37 !important;
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25) !important;
+}
+
+body.bg-light.theme-men .benefits-container::before {
+    display: none !important;
+}
+
+body.bg-light.theme-men .benefits-header h2 {
+    color: #000000 !important;
+    text-shadow: none !important;
+}
+
+body.bg-light.theme-men .benefits-header p {
+    color: #000000 !important;
+}
+
+body.bg-light.theme-men .benefit-item {
+    background: #ffffff !important;
+}
+
+body.bg-light.theme-men .benefit-item h3,
+body.bg-light.theme-men .benefit-item p {
+    color: #000000 !important;
+}
+
 /* ===== TEMA CLARO - MUJERES (Rosa + Dorado) ===== */
 body.bg-light.theme-women {
     background: #ffffff;
