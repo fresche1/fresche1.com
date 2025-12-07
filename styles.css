@@ -227,6 +227,31 @@ body.bg-light.theme-men .gallery-category p {
     color: #000000 !important;
 }
 
+/* Hacer legibles secciones de encabezado - tema claro hombres */
+body.bg-light.theme-men .section-header h2,
+body.bg-light.theme-men .section-tag {
+    color: #000000 !important;
+}
+
+body.bg-light.theme-men .section-header p {
+    color: #000000 !important;
+}
+
+/* Sección Próximamente legible - tema claro hombres */
+body.bg-light.theme-men .coming-soon-box {
+    background: #ffffff !important;
+    border: 3px solid #d4af37 !important;
+}
+
+body.bg-light.theme-men .coming-soon-box h2,
+body.bg-light.theme-men .coming-soon-box p {
+    color: #000000 !important;
+}
+
+body.bg-light.theme-men .coming-soon-section {
+    background: #ffffff !important;
+}
+
 /* ===== TEMA CLARO - MUJERES (Rosa + Dorado) ===== */
 body.bg-light.theme-women {
     background: #ffffff;
