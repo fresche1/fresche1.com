@@ -44,10 +44,10 @@ body {
     transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* ===== TEMA CLARO - PROFESIONAL Y MINIMALISTA ===== */
+/* ===== TEMA CLARO - PROFESIONAL Y ELEGANTE ===== */
 body.bg-light {
-    background: #ffffff;
-    color: #1a1a1a;
+    background: #faf9f7;
+    color: #2c2c2c;
 }
 
 body.bg-light .hero,
@@ -55,61 +55,77 @@ body.bg-light .products-section,
 body.bg-light .shipping-section,
 body.bg-light .values-section,
 body.bg-light .gallery-section {
-    background: #ffffff;
-    color: #1a1a1a;
+    background: #faf9f7;
+    color: #2c2c2c;
 }
 
 body.bg-light footer {
-    background: #f5f5f5;
-    border-top: 1px solid #e0e0e0;
+    background: #f0ebe5;
+    border-top: 2px solid #e8dfd5;
 }
 
-/* Cards tema claro - Elegantes y sutiles */
+/* Cards tema claro - Blancas elegantes con sombra pronunciada */
 body.bg-light .product-card,
 body.bg-light .value-card,
 body.bg-light .benefit-item {
     background: #ffffff;
-    color: #1a1a1a;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.08);
+    color: #2c2c2c;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.12);
     transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
 }
 
 body.bg-light .product-card:hover,
 body.bg-light .value-card:hover,
 body.bg-light .benefit-item:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 12px 32px rgba(212, 175, 55, 0.12);
-    border-color: #d4af37;
-    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 16px 40px rgba(0, 0, 0, 0.16);
+    border-color: transparent;
+    transform: translateY(-6px);
 }
 
-/* Títulos tema claro */
+/* Títulos tema claro - Negro puro */
 body.bg-light .product-card h3,
 body.bg-light .value-card h3,
 body.bg-light .benefit-item h3,
 body.bg-light h1,
 body.bg-light h2,
-body.bg-light h3 {
-    color: #000000 !important;
-    font-weight: 600;
+body.bg-light h3,
+body.bg-light .hero h1 {
+    color: #1a1a1a !important;
+    font-weight: 700;
     letter-spacing: -0.5px;
 }
 
 body.bg-light .section-header h2 {
-    color: #000000 !important;
-    font-weight: 700;
-    font-size: 2.5rem;
+    color: #1a1a1a !important;
+    font-weight: 800;
+    font-size: 3rem;
     letter-spacing: -1px;
 }
 
-/* Hero content tema claro */
+body.bg-light .hero h1 {
+    color: #1a1a1a !important;
+    font-size: 3.5rem !important;
+    font-weight: 800;
+}
+
+/* Párrafos tema claro */
+body.bg-light p,
+body.bg-light .hero p {
+    color: #4a4a4a !important;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Hero content tema claro - Cards destacadas */
 body.bg-light .hero-content-men,
 body.bg-light .hero-content-women {
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: #ffffff !important;
     color: #1a1a1a !important;
-    border: 1px solid #d4af37 !important;
-    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.12), 0 0 1px rgba(0, 0, 0, 0.1) !important;
-    backdrop-filter: blur(5px);
+    border: 2px solid #d4af37 !important;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(212, 175, 55, 0.15) !important;
 }
 
 body.bg-light .hero-content-men h1,
@@ -120,11 +136,17 @@ body.bg-light .hero-content-women p {
     text-shadow: none !important;
 }
 
-/* Navbar tema claro */
+body.bg-light .hero-content-men h1,
+body.bg-light .hero-content-women h1 {
+    color: #d4af37 !important;
+    font-weight: 800;
+}
+
+/* Navbar tema claro - Limpio y elegante */
 body.bg-light header {
     background: #ffffff !important;
-    border-bottom: 1px solid #e0e0e0 !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border-bottom: 2px solid #e8dfd5 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 body.bg-light .navbar {
@@ -135,38 +157,115 @@ body.bg-light .navbar {
 body.bg-light .navbar a,
 body.bg-light .navbar span,
 body.bg-light .navbar button {
-    color: #1a1a1a !important;
+    color: #2c2c2c !important;
+    font-weight: 500;
 }
 
 body.bg-light .navbar a:hover {
     color: #d4af37 !important;
+    font-weight: 600;
 }
 
-/* Acentos tema claro */
-body.bg-light .highlight,
-body.bg-light .section-tag {
+/* Botones tema claro */
+body.bg-light .btn-primary {
+    background: #d4af37 !important;
+    color: #1a1a1a !important;
+    border: 2px solid #d4af37 !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
+}
+
+body.bg-light .btn-primary:hover {
+    background: #e6b84d !important;
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.35);
+}
+
+body.bg-light .btn-secondary {
+    background: #f0ebe5 !important;
+    color: #1a1a1a !important;
+    border: 2px solid #d4af37 !important;
+}
+
+body.bg-light .btn-secondary:hover {
+    background: #d4af37 !important;
+    color: #1a1a1a !important;
+}
+
+body.bg-light .cart-btn,
+body.bg-light .pronto-btn {
+    border: 2px solid #d4af37 !important;
     color: #d4af37 !important;
 }
 
-body.bg-light .section-header p {
-    color: #666 !important;
-    font-size: 1.1rem;
-    line-height: 1.7;
+body.bg-light .cart-btn:hover,
+body.bg-light .pronto-btn:hover {
+    background: #d4af37 !important;
+    color: #1a1a1a !important;
 }
 
+/* Secciones tema claro */
+body.bg-light .section-tag {
+    color: #d4af37 !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+body.bg-light .section-header p {
+    color: #4a4a4a !important;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    font-weight: 500;
+}
+
+/* Footer tema claro */
 body.bg-light footer p,
 body.bg-light .footer-col p,
 body.bg-light .footer-col a,
 body.bg-light footer h4 {
+    color: #2c2c2c !important;
+}
+
+body.bg-light .footer-col h4 {
     color: #1a1a1a !important;
+    font-weight: 700;
 }
 
 body.bg-light .footer-col a:hover {
     color: #d4af37 !important;
+    font-weight: 600;
 }
 
-body.bg-light .section-tag {
-    color: #d4af37 !important;
+body.bg-light .footer-bottom {
+    background: #e8dfd5;
+    border-top: 2px solid #d4af37;
+}
+
+body.bg-light .footer-bottom p {
+    color: #2c2c2c !important;
+}
+
+/* Modales y overlays tema claro */
+body.bg-light .gallery-modal {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+body.bg-light .gallery-modal-content {
+    background: #ffffff;
+    border: 2px solid #d4af37;
+}
+
+body.bg-light .gallery-modal-content h2 {
+    color: #d4af37;
+}
+
+body.bg-light .close-modal {
+    color: #d4af37;
+    border: 2px solid #d4af37;
+}
+
+body.bg-light .close-modal:hover {
+    background: #d4af37;
+    color: #ffffff;
 }
 
 /* ===== TEMA OSCURO - SOFISTICADO (DEFAULT) ===== */
