@@ -9,21 +9,21 @@
         <div class="gallery-categories">
             <!-- Videos Category -->
             <div class="gallery-category" onclick="openGallerySection('videos')">
-                <div class="category-icon"></div>
+                <div class="category-icon">🎬</div>
                 <h3 data-es="Videos" data-en="Videos">Videos</h3>
                 <p data-es="Descubre nuestras colecciones en movimiento" data-en="Discover our collections in motion">Descubre nuestras colecciones en movimiento</p>
             </div>
 
             <!-- Photos Category -->
             <div class="gallery-category" onclick="openGallerySection('photos')">
-                <div class="category-icon"></div>
+                <div class="category-icon">📸</div>
                 <h3 data-es="Fotos" data-en="Photos">Fotos</h3>
                 <p data-es="Momentos especiales capturados" data-en="Special moments captured">Momentos especiales capturados</p>
             </div>
 
             <!-- Ads Category -->
             <div class="gallery-category" onclick="openGallerySection('ads')">
-                <div class="category-icon"></div>
+                <div class="category-icon">📢</div>
                 <h3 data-es="Publicidad" data-en="Advertising">Publicidad</h3>
                 <p data-es="Contenido promocional exclusivo" data-en="Exclusive promotional content">Contenido promocional exclusivo</p>
             </div>
