@@ -2924,6 +2924,13 @@ body.theme-women .qr-center img {
     line-height: 1.8;
 }
 
+@media (max-width: 768px) {
+    .instruction-box h2 {
+        justify-content: center;
+        text-align: center;
+    }
+}
+
 .product-features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
