@@ -77,6 +77,7 @@
     <div class="banner-coming-soon">
         <p><strong data-es="⚡⚡ PROXIMAMENTE / COMING SOON ⚡⚡" data-en="⚡⚡ COMING SOON / MUY PRONTO ⚡⚡">⚡⚡ PROXIMAMENTE / COMING SOON ⚡⚡</strong></p>
         <p data-es="Próximamente podrás realizar compras • Soon you'll be able to make purchases" data-en="Soon you'll be able to make purchases • Próximamente podrás realizar compras">Próximamente podrás realizar compras • Soon you'll be able to make purchases</p>
+        <div id="currencyBadge" class="currency-badge" data-es="Detectando moneda..." data-en="Detecting currency...">Detectando moneda...</div>
     </div>
 
     <!-- Floating Buttons -->
@@ -585,12 +586,69 @@
         const pricing = {
             CO: { currency: 'COP', symbol: '$', price: 0 },      // Colombia - Price TBD
             US: { currency: 'USD', symbol: '$', price: 0 },          // United States - Price TBD
+            EU: { currency: 'EUR', symbol: '€', price: 0 },         // Europe - Price TBD
             DEFAULT: { currency: 'USD', symbol: '$', price: 0 }      // International - Price TBD
         };
 
         // Current user region (will be detected)
         let userRegion = 'DEFAULT';
         let userCurrency = pricing.DEFAULT;
+
+        function detectUserRegionCurrency() {
+            try {
+                const stored = localStorage.getItem('fresche_currency');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (parsed && parsed.region && pricing[parsed.region]) {
+                        userRegion = parsed.region;
+                        userCurrency = pricing[userRegion];
+                        updateCurrencyBadge();
+                        return;
+                    }
+                }
+
+                const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+                const lang = (navigator.language || '').toLowerCase();
+                const isCO = tz.includes('Bogota') || lang.includes('co-') || lang.endsWith('-co');
+                const isUS = tz.startsWith('America/') || lang.includes('en-us') || lang.endsWith('-us');
+                const isEU = tz.startsWith('Europe/') ||
+                             lang.includes('-es') || lang.includes('-fr') || lang.includes('-de') ||
+                             lang.includes('-it') || lang.includes('-nl') || lang.includes('-pt') ||
+                             lang.includes('-pl');
+
+                if (isCO) {
+                    userRegion = 'CO';
+                } else if (isUS) {
+                    userRegion = 'US';
+                } else if (isEU) {
+                    userRegion = 'EU';
+                } else {
+                    userRegion = 'DEFAULT';
+                }
+
+                userCurrency = pricing[userRegion] || pricing.DEFAULT;
+                localStorage.setItem('fresche_currency', JSON.stringify({ region: userRegion }));
+                updateCurrencyBadge();
+            } catch (e) {
+                userRegion = 'DEFAULT';
+                userCurrency = pricing.DEFAULT;
+                updateCurrencyBadge();
+            }
+        }
+
+        function updateCurrencyBadge() {
+            const badge = document.getElementById('currencyBadge');
+            if (!badge) return;
+            const map = {
+                CO: { es: 'Moneda detectada: Pesos Colombianos', en: 'Detected currency: Colombian Pesos' },
+                US: { es: 'Moneda detectada: Dólares', en: 'Detected currency: US Dollars' },
+                EU: { es: 'Moneda detectada: Euros', en: 'Detected currency: Euros' },
+                DEFAULT: { es: 'Moneda detectada: Dólares (internacional)', en: 'Detected currency: US Dollars (intl)' }
+            };
+            const entry = map[userRegion] || map.DEFAULT;
+            const lang = (document.documentElement.getAttribute('data-lang') || 'es');
+            badge.textContent = lang === 'en' ? entry.en : entry.es;
+        }
 
         const products = {
             cherry: {
@@ -941,6 +999,8 @@
                     el.textContent = text;
                 }
             });
+
+            updateCurrencyBadge();
             
             // Update page title
             if (lang === 'es') {
@@ -1104,6 +1164,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             changeTheme('men');
             changeLang('es');
+            detectUserRegionCurrency();
         });
 
         // FRESCHE AI Chatbot
