@@ -2443,7 +2443,8 @@ body.theme-women .footer-product-men {
         padding: 0.8rem;
         display: flex;
         align-items: center;
-        text-align: left;
+        justify-content: center;
+        text-align: center;
         gap: 0.8rem;
     }
     
@@ -2464,7 +2465,7 @@ body.theme-women .footer-product-men {
     }
     
     .benefit-item > div:last-child {
-        flex: 1;
+        flex: 0 1 auto;
     }
     
     .products-grid {
