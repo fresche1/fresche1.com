@@ -392,9 +392,18 @@
             <div class="gallery-modal-content">
                 <span class="close-modal" onclick="closeGalleryModal('ads')">&times;</span>
                 <h2 data-es=" Publicidad" data-en=" Advertising"> Publicidad</h2>
-                <div class="coming-soon-message">
-                    <span class="soon-icon"></span>
-                    <p data-es="Próximamente contenido publicitario exclusivo" data-en="Exclusive advertising content coming soon">Próximamente contenido publicitario exclusivo</p>
+                <div class="gallery-grid-modal">
+                    <div class="gallery-video-item">
+                        <video controls onclick="openVideoFullscreen(this)" style="cursor: pointer; width: 100%; height: auto;">
+                            <source src="images/advertising-video.mp4" type="video/mp4">
+                            <p data-es="Tu navegador no soporta el video" data-en="Your browser does not support video">Tu navegador no soporta el video</p>
+                        </video>
+                        <p data-es="Publicidad FRESCHE Premium" data-en="FRESCHE Premium Advertising">Publicidad FRESCHE Premium</p>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; padding: 2rem; background: rgba(212,175,55,0.1); border-radius: 10px; border: 2px solid var(--gold); text-align: center;">
+                    <p style="color: var(--gold); font-size: 1.2rem; margin: 0;" data-es="¡Vive la experiencia FRESCHE!" data-en="Experience FRESCHE!">¡Vive la experiencia FRESCHE!</p>
+                    <p style="color: #fff; font-size: 0.9rem; margin-top: 0.5rem;" data-es="Descubre por qué miles de personas confían en nosotros" data-en="Discover why thousands of people trust us">Descubre por qué miles de personas confían en nosotros</p>
                 </div>
             </div>
         </div>
