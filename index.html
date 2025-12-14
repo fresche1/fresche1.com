@@ -372,6 +372,11 @@
                         <p data-es="FRESCHE Pote Etiqueta" data-en="FRESCHE Jar Label">FRESCHE Pote Etiqueta</p>
                     </div>
                 </div>
+                <div class="gallery-thumbs">
+                    <button class="gallery-thumb" onclick="jumpToItem(0)" aria-label="Video 1">🎬</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(1)" aria-label="Video 2">🎬</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(2)" aria-label="Video 3">🎬</button>
+                </div>
                 <div class="gallery-controls">
                     <button class="gallery-btn-prev" onclick="prevCarousel()">❮</button>
                     <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">3</span></span>
@@ -399,6 +404,11 @@
                         <p data-es="Publicidad FRESCHE" data-en="FRESCHE Advertising">Publicidad FRESCHE</p>
                     </div>
                 </div>
+                <div class="gallery-thumbs">
+                    <button class="gallery-thumb" onclick="jumpToItem(0)" aria-label="Foto 1">🖼️</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(1)" aria-label="Foto 2">🖼️</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(2)" aria-label="Foto 3">🖼️</button>
+                </div>
                 <div class="gallery-controls">
                     <button class="gallery-btn-prev" onclick="prevCarousel()">❮</button>
                     <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">3</span></span>
@@ -424,6 +434,9 @@
                 <div style="margin-top: 2rem; padding: 2rem; background: rgba(212,175,55,0.1); border-radius: 10px; border: 2px solid var(--gold); text-align: center;">
                     <p style="color: var(--gold); font-size: 1.2rem; margin: 0;" data-es="¡Vive la experiencia FRESCHE!" data-en="Experience FRESCHE!">¡Vive la experiencia FRESCHE!</p>
                     <p style="color: #fff; font-size: 0.9rem; margin-top: 0.5rem;" data-es="Descubre por qué miles de personas confían en nosotros" data-en="Discover why thousands of people trust us">Descubre por qué miles de personas confían en nosotros</p>
+                </div>
+                <div class="gallery-thumbs">
+                    <button class="gallery-thumb" onclick="jumpToItem(0)" aria-label="Publicidad 1">📢</button>
                 </div>
                 <div class="gallery-controls">
                     <button class="gallery-btn-prev" onclick="prevCarousel()" style="visibility: hidden;"></button>
@@ -1819,7 +1832,7 @@
             const modal = document.getElementById(section + 'Modal');
             items = Array.from(modal.querySelectorAll('.gallery-video-item, .gallery-photo-item'));
             activeModal = modal;
-            
+
             if (items.length > 0) {
                 updateCarousel();
                 addTouchListeners();
@@ -1843,7 +1856,26 @@
                 const totalEl = activeModal.querySelector('.total-items');
                 if (currentEl) currentEl.textContent = currentIndex + 1;
                 if (totalEl) totalEl.textContent = items.length;
+                updateThumbsActive();
             }
+        }
+
+        function updateThumbsActive() {
+            if (!activeModal) return;
+            const thumbs = activeModal.querySelectorAll('.gallery-thumb');
+            thumbs.forEach((t, idx) => {
+                if (idx === currentIndex) {
+                    t.classList.add('active');
+                } else {
+                    t.classList.remove('active');
+                }
+            });
+        }
+
+        function jumpToItem(index) {
+            if (!items || index < 0 || index >= items.length) return;
+            currentIndex = index;
+            updateCarousel();
         }
 
         function nextCarousel() {
@@ -1857,14 +1889,15 @@
         }
 
         function addTouchListeners() {
-            const modal = document.querySelector('.gallery-modal-content');
-            if (!modal) return;
+            if (!activeModal) return;
+            const modalContent = activeModal.querySelector('.gallery-modal-content');
+            if (!modalContent) return;
             
-            modal.addEventListener('touchstart', (e) => {
+            modalContent.addEventListener('touchstart', (e) => {
                 touchStartX = e.changedTouches[0].screenX;
             }, false);
 
-            modal.addEventListener('touchend', (e) => {
+            modalContent.addEventListener('touchend', (e) => {
                 touchEndX = e.changedTouches[0].screenX;
                 handleSwipe();
             }, false);

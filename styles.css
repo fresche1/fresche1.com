@@ -1858,6 +1858,39 @@ body.theme-women .benefit-item h3 {
     transform: translateY(-5px);
 }
 
+/* Gallery thumbnails */
+.gallery-thumbs {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 1rem 0 0.5rem;
+}
+
+.gallery-thumb {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    border: 1px solid rgba(212,175,55,0.5);
+    background: rgba(0,0,0,0.6);
+    color: var(--gold);
+    font-size: 1.3rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.gallery-thumb:hover,
+.gallery-thumb.active {
+    background: var(--gold);
+    color: var(--black);
+    box-shadow: 0 6px 18px rgba(212,175,55,0.45);
+    transform: translateY(-2px);
+}
+
 .gallery-photo-item img {
     width: 100%;
     height: auto;
