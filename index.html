@@ -58,6 +58,9 @@
             <button class="cart-btn" onclick="openCart()">
                 🛒 <span class="cart-badge" id="cartBadge">0</span>
             </button>
+            <button class="checkout-btn" onclick="goToCheckout()" style="display: none; margin-left: 0.5rem; padding: 0.8rem 1.5rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.3s;">
+                💳 <span data-es="Pagar" data-en="Checkout">Pagar</span>
+            </button>
             <button class="share-btn" onclick="shareWebsite()" data-es="🔗 Compartir" data-en="🔗 Share">🔗 Compartir</button>
         </nav>
     </header>
@@ -1808,9 +1811,24 @@
 
         function updateCartBadge() {
             const badge = document.getElementById('cartBadge');
+            const checkoutBtn = document.querySelector('.checkout-btn');
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
             badge.textContent = totalItems;
             badge.style.display = totalItems > 0 ? 'flex' : 'none';
+            
+            // Mostrar/ocultar botón de checkout
+            if (checkoutBtn) {
+                checkoutBtn.style.display = totalItems > 0 ? 'block' : 'none';
+            }
+        }
+
+        function goToCheckout() {
+            if (cart.length === 0) {
+                const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                alert(lang === 'es' ? 'El carrito está vacío' : 'Cart is empty');
+                return;
+            }
+            window.location.href = 'checkout.html';
         }
 
         function addToCart(productId) {

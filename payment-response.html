@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Pago - FRESCHE</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .response-container {
+            max-width: 600px;
+            margin: 4rem auto;
+            padding: 3rem;
+            background: rgba(30, 30, 30, 0.95);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .response-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .response-icon.success {
+            color: #4caf50;
+        }
+
+        .response-icon.pending {
+            color: #ff9800;
+        }
+
+        .response-icon.declined {
+            color: #f44336;
+        }
+
+        .response-title {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .response-message {
+            color: #fff;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .response-details {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            color: #fff;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .detail-value {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .btn-home {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--gold), #ffd700);
+            color: #000;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .btn-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="response-container">
+        <div id="response-content"></div>
+    </div>
+
+    <script>
+        function parsePayUResponse() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            const transactionState = urlParams.get('transactionState');
+            const referenceCode = urlParams.get('referenceCode');
+            const TX_VALUE = urlParams.get('TX_VALUE');
+            const currency = urlParams.get('currency');
+            const transactionId = urlParams.get('transactionId');
+            const lapPaymentMethod = urlParams.get('lapPaymentMethod');
+            const polResponseCode = urlParams.get('polResponseCode');
+
+            let icon, title, message, status;
+
+            switch(transactionState) {
+                case '4': // Aprobada
+                    icon = '✅';
+                    status = 'success';
+                    title = '¡Pago Exitoso!';
+                    message = 'Tu pago ha sido procesado correctamente. Recibirás un email de confirmación con los detalles de tu pedido.';
+                    // Limpiar carrito
+                    localStorage.removeItem('freshCart');
+                    break;
+                case '6': // Rechazada
+                    icon = '❌';
+                    status = 'declined';
+                    title = 'Pago Rechazado';
+                    message = 'Lo sentimos, tu pago fue rechazado. Por favor verifica la información de tu tarjeta e intenta nuevamente.';
+                    break;
+                case '7': // Pendiente
+                    icon = '⏳';
+                    status = 'pending';
+                    title = 'Pago Pendiente';
+                    message = 'Tu pago está siendo procesado. Te notificaremos cuando se complete la transacción.';
+                    break;
+                case '5': // Expirada
+                    icon = '⚠️';
+                    status = 'declined';
+                    title = 'Transacción Expirada';
+                    message = 'La transacción ha expirado. Por favor intenta realizar tu compra nuevamente.';
+                    break;
+                default:
+                    icon = '❓';
+                    status = 'pending';
+                    title = 'Estado Desconocido';
+                    message = 'No pudimos determinar el estado de tu pago. Por favor contacta a soporte.';
+            }
+
+            const contentDiv = document.getElementById('response-content');
+            contentDiv.innerHTML = `
+                <div class="response-icon ${status}">${icon}</div>
+                <h1 class="response-title">${title}</h1>
+                <p class="response-message">${message}</p>
+                
+                <div class="response-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Referencia:</span>
+                        <span class="detail-value">${referenceCode || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">ID Transacción:</span>
+                        <span class="detail-value">${transactionId || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Monto:</span>
+                        <span class="detail-value">$${parseFloat(TX_VALUE).toLocaleString('es-CO')} ${currency}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Método de Pago:</span>
+                        <span class="detail-value">${lapPaymentMethod || 'N/A'}</span>
+                    </div>
+                </div>
+
+                <a href="index.html" class="btn-home">🏠 Volver al Inicio</a>
+            `;
+        }
+
+        window.addEventListener('DOMContentLoaded', parsePayUResponse);
+    </script>
+</body>
+</html>
