@@ -312,7 +312,7 @@
                 </div>
                 <div class="order-total-row">
                     <span data-es="Envío" data-en="Shipping">Envío</span>
-                    <span id="shipping" data-es="Gratis" data-en="Free">Gratis</span>
+                    <span id="shipping">$10.000 COP</span>
                 </div>
                 <div class="order-total-row final">
                     <span data-es="Total" data-en="Total">Total</span>
@@ -385,8 +385,12 @@
                 `;
             }).join('');
 
+            const shippingCost = 10000;
+            const total = subtotal + shippingCost;
+
             document.getElementById('subtotal').textContent = `$${subtotal.toLocaleString('es-CO')} COP`;
-            document.getElementById('total').textContent = `$${subtotal.toLocaleString('es-CO')} COP`;
+            document.getElementById('shipping').textContent = `$${shippingCost.toLocaleString('es-CO')} COP`;
+            document.getElementById('total').textContent = `$${total.toLocaleString('es-CO')} COP`;
         }
 
         function selectPaymentMethod(element) {
@@ -415,8 +419,10 @@
                 cart: cart
             };
 
-            // Calcular total
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            // Calcular total con envío
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shippingCost = 10000;
+            const total = subtotal + shippingCost;
 
             // Crear formulario PayU
             createPayUForm(formData, total);
