@@ -4366,6 +4366,186 @@ body.theme-women .qr-center img {
     box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
 }
 
+/* Promotional Packs Section */
+.promo-packs-section {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%);
+    text-align: center;
+}
+
+.promo-packs-section h2 {
+    font-size: 2.5rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.promo-packs-section > p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 3rem;
+}
+
+.packs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.pack-card {
+    background: linear-gradient(135deg, rgba(30, 30, 30, 0.95) 0%, rgba(15, 15, 15, 0.95) 100%);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 15px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.pack-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--gold);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+}
+
+.pack-card.featured {
+    border: 3px solid var(--gold);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+}
+
+.pack-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: #000;
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+}
+
+.pack-badge.featured {
+    background: linear-gradient(90deg, var(--gold) 0%, #ffd700 100%);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.pack-image-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--gold);
+}
+
+.pack-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pack-quantity {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: var(--gold);
+    color: #000;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.3rem;
+    border: 3px solid #000;
+}
+
+.pack-name {
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.pack-pricing {
+    margin: 1.5rem 0;
+}
+
+.pack-original {
+    display: block;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: line-through;
+    margin-bottom: 0.3rem;
+}
+
+.pack-price {
+    display: block;
+    font-size: 2.5rem;
+    color: var(--gold);
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.pack-savings {
+    display: inline-block;
+    background: rgba(212, 175, 55, 0.2);
+    color: var(--gold);
+    padding: 0.3rem 1rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.pack-description {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    margin: 1.5rem 0;
+    line-height: 1.5;
+}
+
+.pack-card .cta-button {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .promo-packs-section h2 {
+        font-size: 2rem;
+    }
+    
+    .packs-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .pack-card {
+        padding: 1.5rem;
+    }
+    
+    .pack-image-container {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .pack-price {
+        font-size: 2rem;
+    }
+}
+
 .image-fullscreen-close {
     position: absolute;
     top: 20px;
