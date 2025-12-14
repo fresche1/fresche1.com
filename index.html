@@ -366,6 +366,11 @@
                         <p data-es="Colección Masculina" data-en="Men's Collection">Colección Masculina</p>
                     </div>
                 </div>
+                <div class="gallery-controls">
+                    <button class="gallery-btn-prev" onclick="prevCarousel()">❮</button>
+                    <span class="gallery-counter"><span id="current-index">1</span> / <span id="total-items">2</span></span>
+                    <button class="gallery-btn-next" onclick="nextCarousel()">❯</button>
+                </div>
             </div>
         </div>
 
@@ -383,6 +388,11 @@
                         <img src="images/poster-fresche.jpg" alt="FRESCHE Poster" onclick="openImageFullscreen(this.src, this.alt)" style="cursor: pointer;">
                         <p data-es="Póster FRESCHE" data-en="FRESCHE Poster">Póster FRESCHE</p>
                     </div>
+                </div>
+                <div class="gallery-controls">
+                    <button class="gallery-btn-prev" onclick="prevCarousel()">❮</button>
+                    <span class="gallery-counter"><span id="current-index">1</span> / <span id="total-items">2</span></span>
+                    <button class="gallery-btn-next" onclick="nextCarousel()">❯</button>
                 </div>
             </div>
         </div>
@@ -404,6 +414,11 @@
                 <div style="margin-top: 2rem; padding: 2rem; background: rgba(212,175,55,0.1); border-radius: 10px; border: 2px solid var(--gold); text-align: center;">
                     <p style="color: var(--gold); font-size: 1.2rem; margin: 0;" data-es="¡Vive la experiencia FRESCHE!" data-en="Experience FRESCHE!">¡Vive la experiencia FRESCHE!</p>
                     <p style="color: #fff; font-size: 0.9rem; margin-top: 0.5rem;" data-es="Descubre por qué miles de personas confían en nosotros" data-en="Discover why thousands of people trust us">Descubre por qué miles de personas confían en nosotros</p>
+                </div>
+                <div class="gallery-controls">
+                    <button class="gallery-btn-prev" onclick="prevCarousel()" style="visibility: hidden;"></button>
+                    <span class="gallery-counter"><span id="current-index">1</span> / <span id="total-items">1</span></span>
+                    <button class="gallery-btn-next" onclick="nextCarousel()" style="visibility: hidden;"></button>
                 </div>
             </div>
         </div>
@@ -1769,6 +1784,7 @@
             if (modal) {
                 modal.style.display = 'flex';
                 document.body.style.overflow = 'hidden';
+                initializeGalleryCarousel(section);
             }
         }
 
@@ -1781,11 +1797,92 @@
             }
         }
 
+        // Carousel functionality
+        let currentIndex = 0;
+        let items = [];
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        function initializeGalleryCarousel(section) {
+            currentIndex = 0;
+            const modal = document.getElementById(section + 'Modal');
+            items = Array.from(modal.querySelectorAll('.gallery-video-item, .gallery-photo-item'));
+            
+            if (items.length > 0) {
+                updateCarousel();
+                addTouchListeners();
+            }
+        }
+
+        function updateCarousel() {
+            items.forEach((item, index) => {
+                if (index === currentIndex) {
+                    item.style.display = 'block';
+                    item.style.transform = 'scale(1)';
+                    item.style.opacity = '1';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Update counter
+            const currentEl = document.getElementById('current-index');
+            const totalEl = document.getElementById('total-items');
+            if (currentEl) currentEl.textContent = currentIndex + 1;
+            if (totalEl) totalEl.textContent = items.length;
+        }
+
+        function nextCarousel() {
+            currentIndex = (currentIndex + 1) % items.length;
+            updateCarousel();
+        }
+
+        function prevCarousel() {
+            currentIndex = (currentIndex - 1 + items.length) % items.length;
+            updateCarousel();
+        }
+
+        function addTouchListeners() {
+            const modal = document.querySelector('.gallery-modal-content');
+            if (!modal) return;
+            
+            modal.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
+
+            modal.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, false);
+        }
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextCarousel();
+            } else if (touchEndX > touchStartX + 50) {
+                prevCarousel();
+            }
+        }
+
         // Close modals when clicking outside
         document.addEventListener('click', function(event) {
             if (event.target.classList.contains('gallery-modal')) {
                 event.target.style.display = 'none';
                 document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight') nextCarousel();
+            if (event.key === 'ArrowLeft') prevCarousel();
+            if (event.key === 'Escape') {
+                document.querySelectorAll('.gallery-modal').forEach(m => {
+                    if (m.style.display === 'flex') {
+                        m.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                });
             }
         });
 
