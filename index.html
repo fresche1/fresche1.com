@@ -73,12 +73,6 @@
         </button>
     </div>
 
-    <!-- Sales Active Banner -->
-    <div class="banner-coming-soon" style="background: linear-gradient(90deg, var(--gold) 0%, #ffd700 100%); color: #000;">
-        <p><strong data-es="🛒 ¡YA DISPONIBLE! • NOW AVAILABLE! 🛒" data-en="🛒 NOW AVAILABLE! • ¡YA DISPONIBLE! 🛒">🛒 ¡YA DISPONIBLE! • NOW AVAILABLE! 🛒</strong></p>
-        <p data-es="Compra ahora con envío a toda Colombia • Buy now with shipping across Colombia" data-en="Buy now with shipping across Colombia • Compra ahora con envío a toda Colombia">Compra ahora con envío a toda Colombia • Buy now with shipping across Colombia</p>
-    </div>
-
     <!-- Floating Buttons -->
     <div class="floating-buttons">
         <button class="float-btn men active" onclick="changeTheme('men')">
@@ -239,7 +233,7 @@
                 <div class="pack-image-container variety">
                     <div class="variety-grid duo">
                         <img src="images/cherry.jpg" alt="Variedad 1">
-                        <img src="images/velvet.jpg" alt="Variedad 2">
+                        <img src="images/coco.jpg" alt="Variedad 2">
                     </div>
                     <span class="pack-quantity">x2</span>
                     <span class="variety-badge" data-es="Elige tus fragancias" data-en="Choose your fragrances">Elige tus fragancias</span>
@@ -259,9 +253,9 @@
                 <div class="pack-badge featured" data-es="Pack Trío - Más Popular" data-en="Trio Pack - Most Popular">Pack Trío - Más Popular</div>
                 <div class="pack-image-container variety">
                     <div class="variety-grid trio">
-                        <img src="images/cherry.jpg" alt="Variedad 1">
-                        <img src="images/coco.jpg" alt="Variedad 2">
-                        <img src="images/velvet.jpg" alt="Variedad 3">
+                        <img src="images/velvet.jpg" alt="Variedad 1">
+                        <img src="images/eclipse.jpg" alt="Variedad 2">
+                        <img src="images/tobacco.jpg" alt="Variedad 3">
                     </div>
                     <span class="pack-quantity">x3</span>
                     <span class="variety-badge" data-es="Elige tus fragancias" data-en="Choose your fragrances">Elige tus fragancias</span>
@@ -284,8 +278,8 @@
                         <img src="images/cherry.jpg" alt="Para Ella" class="left-section">
                         <img src="images/velvet.jpg" alt="Para Ella" class="left-section">
                         <img src="images/coco.jpg" alt="Para Él" class="right-section">
-                        <img src="images/eclipse.jpg" alt="Para Él" class="right-section">
                         <img src="images/tobacco.jpg" alt="Para Él" class="right-section">
+                        <img src="images/eclipse.jpg" alt="Para Él" class="right-section">
                     </div>
                     <span class="pack-quantity">x5</span>
                     <span class="variety-badge special" data-es="2 👩 + 3 👨" data-en="2 👩 + 3 👨">2 👩 + 3 👨</span>
@@ -477,15 +471,20 @@
                         <img src="images/fresche-publicidad.png" alt="Publicidad FRESCHE" onclick="openImageFullscreen(this.src, this.alt)" style="cursor: pointer;">
                         <p data-es="Publicidad FRESCHE" data-en="FRESCHE Advertising">Publicidad FRESCHE</p>
                     </div>
+                    <div class="gallery-photo-item">
+                        <img src="images/invima-foto.png" alt="Registro INVIMA FRESCHE" onclick="openImageFullscreen(this.src, this.alt)" style="cursor: pointer;">
+                        <p data-es="Registro INVIMA" data-en="INVIMA Registration">Registro INVIMA</p>
+                    </div>
                 </div>
                 <div class="gallery-thumbs">
                     <button class="gallery-thumb" onclick="jumpToItem(0)" aria-label="Foto 1">🖼️</button>
                     <button class="gallery-thumb" onclick="jumpToItem(1)" aria-label="Foto 2">🖼️</button>
                     <button class="gallery-thumb" onclick="jumpToItem(2)" aria-label="Foto 3">🖼️</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(3)" aria-label="Foto 4">🖼️</button>
                 </div>
                 <div class="gallery-controls">
                     <button class="gallery-btn-prev" onclick="prevCarousel()">❮</button>
-                    <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">3</span></span>
+                    <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">4</span></span>
                     <button class="gallery-btn-next" onclick="nextCarousel()">❯</button>
                 </div>
             </div>
@@ -983,8 +982,8 @@
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <button class="btn-add-to-cart" onclick="buyNowProduct('${productId}')" style="padding: 1.2rem 1.5rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: var(--black); border: 2px solid var(--gold); border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(212,175,55,0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 25px rgba(212,175,55,0.6)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(212,175,55,0.4)'">
-                            🛒 ${lang === 'es' ? 'Comprar Ahora' : 'Buy Now'}
+                        <button class="btn-add-to-cart" onclick="addProductToCart('${productId}')" style="padding: 1.2rem 1.5rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: var(--black); border: 2px solid var(--gold); border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(212,175,55,0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 25px rgba(212,175,55,0.6)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(212,175,55,0.4)'">
+                            🛒 ${lang === 'es' ? 'Agregar al Carrito' : 'Add to Cart'}
                         </button>
                         <button class="btn-whatsapp-modal" onclick="window.open('https://wa.me/573017606723?text=${encodeURIComponent(lang === 'es' ? '¡Hola! Quiero comprar ' + product.name + ' por $29.900 COP' : 'Hello! I want to buy ' + product.name + ' for $29.900 COP')}', '_blank')" style="padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #25D366, #128C7E); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(37,211,102,0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(37,211,102,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(37,211,102,0.3)'">
                             💬 ${lang === 'es' ? 'Pedir por WhatsApp' : 'Order via WhatsApp'}
@@ -1547,6 +1546,42 @@
             if (newValue >= 1 && newValue <= 99) {
                 quantityInput.value = newValue;
             }
+        }
+
+        function addProductToCart(productId) {
+            const quantityInput = document.getElementById('modal-quantity');
+            const quantity = parseInt(quantityInput.value) || 1;
+            const product = products[productId];
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            
+            const existingItem = cart.find(item => item.id === productId && item.type !== 'pack');
+            
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    id: productId,
+                    name: product.name,
+                    image: product.image,
+                    price: 29900,
+                    currency: 'COP',
+                    quantity: quantity,
+                    type: 'product'
+                });
+            }
+            
+            localStorage.setItem('freshCart', JSON.stringify(cart));
+            updateCartBadge();
+            
+            closeProductModal();
+            
+            alert(lang === 'es' 
+                ? `✅ ${quantity} ${product.name} agregado(s) al carrito`
+                : `✅ ${quantity} ${product.name} added to cart`
+            );
+            
+            // Reset quantity
+            quantityInput.value = 1;
         }
 
         function buyNowProduct(productId) {
