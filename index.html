@@ -374,7 +374,7 @@
                 </div>
                 <div class="gallery-controls">
                     <button class="gallery-btn-prev" onclick="prevCarousel()">❮</button>
-                    <span class="gallery-counter"><span id="current-index">1</span> / <span id="total-items">3</span></span>
+                    <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">3</span></span>
                     <button class="gallery-btn-next" onclick="nextCarousel()">❯</button>
                 </div>
             </div>
@@ -401,7 +401,7 @@
                 </div>
                 <div class="gallery-controls">
                     <button class="gallery-btn-prev" onclick="prevCarousel()">❮</button>
-                    <span class="gallery-counter"><span id="current-index">1</span> / <span id="total-items">2</span></span>
+                    <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">3</span></span>
                     <button class="gallery-btn-next" onclick="nextCarousel()">❯</button>
                 </div>
             </div>
@@ -427,7 +427,7 @@
                 </div>
                 <div class="gallery-controls">
                     <button class="gallery-btn-prev" onclick="prevCarousel()" style="visibility: hidden;"></button>
-                    <span class="gallery-counter"><span id="current-index">1</span> / <span id="total-items">1</span></span>
+                    <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">1</span></span>
                     <button class="gallery-btn-next" onclick="nextCarousel()" style="visibility: hidden;"></button>
                 </div>
             </div>
@@ -1810,6 +1810,7 @@
         // Carousel functionality
         let currentIndex = 0;
         let items = [];
+        let activeModal = null;
         let touchStartX = 0;
         let touchEndX = 0;
 
@@ -1817,6 +1818,7 @@
             currentIndex = 0;
             const modal = document.getElementById(section + 'Modal');
             items = Array.from(modal.querySelectorAll('.gallery-video-item, .gallery-photo-item'));
+            activeModal = modal;
             
             if (items.length > 0) {
                 updateCarousel();
@@ -1836,10 +1838,12 @@
             });
             
             // Update counter
-            const currentEl = document.getElementById('current-index');
-            const totalEl = document.getElementById('total-items');
-            if (currentEl) currentEl.textContent = currentIndex + 1;
-            if (totalEl) totalEl.textContent = items.length;
+            if (activeModal) {
+                const currentEl = activeModal.querySelector('.current-index');
+                const totalEl = activeModal.querySelector('.total-items');
+                if (currentEl) currentEl.textContent = currentIndex + 1;
+                if (totalEl) totalEl.textContent = items.length;
+            }
         }
 
         function nextCarousel() {
