@@ -4403,6 +4403,7 @@ body.theme-women .qr-center img {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .pack-card:hover {
@@ -4469,6 +4470,65 @@ body.theme-women .qr-center img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.pack-image-container.variety {
+    overflow: hidden;
+    background: rgba(0,0,0,0.8);
+    position: relative;
+}
+
+.variety-grid {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    gap: 3px;
+}
+
+.variety-grid.duo {
+    grid-template-columns: 1fr 1fr;
+}
+
+.variety-grid.trio {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.variety-grid.elella {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.variety-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.variety-grid img:hover {
+    transform: scale(1.1);
+    z-index: 1;
+}
+
+.variety-badge {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(212, 175, 55, 0.95);
+    color: #000;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    z-index: 10;
+}
+
+.variety-badge.special {
+    background: linear-gradient(90deg, #ff69b4 0%, #4169e1 100%);
+    color: #fff;
 }
 
 .pack-image-container.dual {
@@ -4592,6 +4652,16 @@ body.theme-women .qr-center img {
     .pack-image-container.dual {
         width: 200px;
         height: 160px;
+    }
+    
+    .pack-image-container.variety {
+        width: 200px;
+        height: 140px;
+    }
+    
+    .variety-badge {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.8rem;
     }
     
     .dual-img {

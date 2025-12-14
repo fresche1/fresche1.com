@@ -234,11 +234,15 @@
         
         <div class="packs-grid">
             <!-- Pack Duo -->
-            <div class="pack-card">
+            <div class="pack-card" onclick="openPackModal('duo')">
                 <div class="pack-badge" data-es="Pack Dúo" data-en="Duo Pack">Pack Dúo</div>
-                <div class="pack-image-container">
-                    <img src="images/cherry.jpg" alt="Fresche Pack">
+                <div class="pack-image-container variety">
+                    <div class="variety-grid duo">
+                        <img src="images/cherry.jpg" alt="Variedad 1">
+                        <img src="images/velvet.jpg" alt="Variedad 2">
+                    </div>
                     <span class="pack-quantity">x2</span>
+                    <span class="variety-badge" data-es="Elige tus fragancias" data-en="Choose your fragrances">Elige tus fragancias</span>
                 </div>
                 <h3 class="pack-name" data-es="2 Unidades" data-en="2 Units">2 Unidades</h3>
                 <div class="pack-pricing">
@@ -246,16 +250,21 @@
                     <span class="pack-price">$55.000 COP</span>
                     <span class="pack-savings" data-es="Ahorras $4.800" data-en="Save $4,800">Ahorras $4.800</span>
                 </div>
-                <p class="pack-description" data-es="Elige 2 fragancias de tu preferencia" data-en="Choose 2 fragrances of your choice">Elige 2 fragancias de tu preferencia</p>
-                <button class="cta-button" onclick="window.open('https://wa.me/573017606723?text=Hola%2C%20quiero%20comprar%20el%20Pack%20D%C3%BAo%20(2%20unidades)%20por%20%2455.000%20COP', '_blank')" data-es="Comprar Pack Dúo" data-en="Buy Duo Pack">Comprar Pack Dúo</button>
+                <p class="pack-description" data-es="🎯 Click para elegir 2 fragancias" data-en="🎯 Click to choose 2 fragrances">🎯 Click para elegir 2 fragancias</p>
+                <button class="cta-button" onclick="event.stopPropagation(); openPackModal('duo')" data-es="Personalizar Pack" data-en="Customize Pack">Personalizar Pack</button>
             </div>
 
             <!-- Pack Trio -->
-            <div class="pack-card featured">
+            <div class="pack-card featured" onclick="openPackModal('trio')">
                 <div class="pack-badge featured" data-es="Pack Trío - Más Popular" data-en="Trio Pack - Most Popular">Pack Trío - Más Popular</div>
-                <div class="pack-image-container">
-                    <img src="images/velvet.jpg" alt="Fresche Pack">
+                <div class="pack-image-container variety">
+                    <div class="variety-grid trio">
+                        <img src="images/cherry.jpg" alt="Variedad 1">
+                        <img src="images/coco.jpg" alt="Variedad 2">
+                        <img src="images/velvet.jpg" alt="Variedad 3">
+                    </div>
                     <span class="pack-quantity">x3</span>
+                    <span class="variety-badge" data-es="Elige tus fragancias" data-en="Choose your fragrances">Elige tus fragancias</span>
                 </div>
                 <h3 class="pack-name" data-es="3 Unidades" data-en="3 Units">3 Unidades</h3>
                 <div class="pack-pricing">
@@ -263,17 +272,23 @@
                     <span class="pack-price">$79.000 COP</span>
                     <span class="pack-savings" data-es="Ahorras $10.700" data-en="Save $10,700">Ahorras $10.700</span>
                 </div>
-                <p class="pack-description" data-es="Elige 3 fragancias de tu preferencia" data-en="Choose 3 fragrances of your choice">Elige 3 fragancias de tu preferencia</p>
-                <button class="cta-button" onclick="window.open('https://wa.me/573017606723?text=Hola%2C%20quiero%20comprar%20el%20Pack%20Tr%C3%ADo%20(3%20unidades)%20por%20%2479.000%20COP', '_blank')" data-es="Comprar Pack Trío" data-en="Buy Trio Pack">Comprar Pack Trío</button>
+                <p class="pack-description" data-es="🎯 Click para elegir 3 fragancias" data-en="🎯 Click to choose 3 fragrances">🎯 Click para elegir 3 fragancias</p>
+                <button class="cta-button" onclick="event.stopPropagation(); openPackModal('trio')" data-es="Personalizar Pack" data-en="Customize Pack">Personalizar Pack</button>
             </div>
 
             <!-- Pack ÉL & ELLA -->
-            <div class="pack-card special">
+            <div class="pack-card special" onclick="openPackModal('elella')">
                 <div class="pack-badge special" data-es="Pack ÉL & ELLA" data-en="HIM & HER Pack">Pack ÉL & ELLA</div>
-                <div class="pack-image-container dual">
-                    <img src="images/cherry.jpg" alt="Ella" class="dual-img left">
-                    <img src="images/coco.jpg" alt="Él" class="dual-img right">
+                <div class="pack-image-container variety">
+                    <div class="variety-grid elella">
+                        <img src="images/cherry.jpg" alt="Para Ella" class="left-section">
+                        <img src="images/velvet.jpg" alt="Para Ella" class="left-section">
+                        <img src="images/coco.jpg" alt="Para Él" class="right-section">
+                        <img src="images/eclipse.jpg" alt="Para Él" class="right-section">
+                        <img src="images/tobacco.jpg" alt="Para Él" class="right-section">
+                    </div>
                     <span class="pack-quantity">x5</span>
+                    <span class="variety-badge special" data-es="2 👩 + 3 👨" data-en="2 👩 + 3 👨">2 👩 + 3 👨</span>
                 </div>
                 <h3 class="pack-name" data-es="5 Unidades" data-en="5 Units">5 Unidades</h3>
                 <div class="pack-pricing">
@@ -281,8 +296,8 @@
                     <span class="pack-price">$129.999 COP</span>
                     <span class="pack-savings" data-es="Ahorras $19.501" data-en="Save $19,501">Ahorras $19.501</span>
                 </div>
-                <p class="pack-description" data-es="2 fragancias femeninas + 3 fragancias masculinas" data-en="2 feminine fragrances + 3 masculine fragrances">2 fragancias femeninas + 3 fragancias masculinas</p>
-                <button class="cta-button" onclick="window.open('https://wa.me/573017606723?text=Hola%2C%20quiero%20comprar%20el%20Pack%20%C3%89L%20%26%20ELLA%20(5%20unidades%3A%202%20mujer%20%2B%203%20hombre)%20por%20%24129.999%20COP', '_blank')" data-es="Comprar Pack ÉL & ELLA" data-en="Buy HIM & HER Pack">Comprar Pack ÉL & ELLA</button>
+                <p class="pack-description" data-es="🎯 Click: 2 fragancias femeninas + 3 masculinas" data-en="🎯 Click: 2 feminine + 3 masculine fragrances">🎯 Click: 2 fragancias femeninas + 3 masculinas</p>
+                <button class="cta-button" onclick="event.stopPropagation(); openPackModal('elella')" data-es="Personalizar Pack" data-en="Customize Pack">Personalizar Pack</button>
             </div>
         </div>
     </section>
@@ -636,6 +651,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Pack Selection Modal -->
+    <div id="packModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <span class="close-modal" onclick="closePackModal()">&times;</span>
+            <div id="packModalBody"></div>
         </div>
     </div>
 
@@ -1570,6 +1593,182 @@
             
             // Reset quantity to 1
             quantityInput.value = 1;
+        }
+
+        // Pack Modal Functions
+        let selectedPackItems = [];
+        let currentPackType = null;
+        
+        const packConfigs = {
+            duo: { quantity: 2, price: 55000, name: 'Pack Dúo', originalPrice: 59800 },
+            trio: { quantity: 3, price: 79000, name: 'Pack Trío', originalPrice: 89700 },
+            elella: { quantity: 5, price: 129999, name: 'Pack ÉL & ELLA', originalPrice: 149500, women: 2, men: 3 }
+        };
+
+        function openPackModal(packType) {
+            currentPackType = packType;
+            selectedPackItems = [];
+            const config = packConfigs[packType];
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            const modal = document.getElementById('packModal');
+            const modalBody = document.getElementById('packModalBody');
+            
+            const savings = config.originalPrice - config.price;
+            const allProducts = Object.keys(products);
+            
+            let instructionText = '';
+            if (packType === 'elella') {
+                instructionText = lang === 'es' 
+                    ? `Selecciona ${config.women} fragancias femeninas y ${config.men} masculinas` 
+                    : `Select ${config.women} feminine and ${config.men} masculine fragrances`;
+            } else {
+                instructionText = lang === 'es' 
+                    ? `Selecciona ${config.quantity} fragancias de tu preferencia` 
+                    : `Select ${config.quantity} fragrances of your choice`;
+            }
+            
+            modalBody.innerHTML = `
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h2 style="color: var(--gold); margin-bottom: 1rem;">${config.name}</h2>
+                    <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">${instructionText}</p>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 1rem;">
+                        <span style="font-size: 1.5rem; color: var(--gold); font-weight: bold;">$${config.price.toLocaleString('es-CO')} COP</span>
+                        <span style="font-size: 1rem; color: rgba(255,255,255,0.5); text-decoration: line-through;">$${config.originalPrice.toLocaleString('es-CO')}</span>
+                        <span style="background: rgba(212,175,55,0.2); color: var(--gold); padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.9rem;">
+                            ${lang === 'es' ? 'Ahorras' : 'Save'} $${savings.toLocaleString('es-CO')}
+                        </span>
+                    </div>
+                    <div id="pack-selection-counter" style="margin-top: 1rem; font-size: 1.2rem; color: var(--gold);">
+                        ${lang === 'es' ? 'Seleccionados' : 'Selected'}: <span id="pack-counter">0</span>/${config.quantity}
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    ${allProducts.map(productId => {
+                        const product = products[productId];
+                        const isWomen = ['cherry', 'velvet'].includes(productId);
+                        const gender = isWomen ? 'women' : 'men';
+                        const genderLabel = isWomen ? '👩' : '👨';
+                        
+                        return `
+                            <div class="pack-product-option" data-product="${productId}" data-gender="${gender}" onclick="togglePackProduct('${productId}', '${gender}')" style="cursor: pointer; border: 2px solid rgba(212,175,55,0.3); border-radius: 10px; padding: 1rem; text-align: center; transition: all 0.3s; background: rgba(0,0,0,0.5);">
+                                <div style="position: relative;">
+                                    <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 0.5rem;">
+                                    <span style="position: absolute; top: 5px; right: 5px; background: var(--gold); color: #000; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem;">${genderLabel}</span>
+                                    <div class="pack-checkmark" style="position: absolute; top: 5px; left: 5px; background: var(--gold); color: #000; width: 30px; height: 30px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: bold;">✓</div>
+                                </div>
+                                <h4 style="font-size: 0.9rem; color: #fff; margin: 0.5rem 0;">${productId.charAt(0).toUpperCase() + productId.slice(1)}</h4>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <button onclick="closePackModal()" style="padding: 1rem 2rem; background: rgba(255,255,255,0.1); color: #fff; border: 2px solid rgba(255,255,255,0.3); border-radius: 10px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s;">
+                        ${lang === 'es' ? 'Cancelar' : 'Cancel'}
+                    </button>
+                    <button id="add-pack-to-cart-btn" onclick="addPackToCart()" disabled style="padding: 1rem 2rem; background: var(--gold); color: #000; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: not-allowed; transition: all 0.3s; opacity: 0.5;">
+                        🛒 ${lang === 'es' ? 'Agregar al Carrito' : 'Add to Cart'}
+                    </button>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function togglePackProduct(productId, gender) {
+            const config = packConfigs[currentPackType];
+            const index = selectedPackItems.findIndex(item => item.id === productId);
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            
+            if (index > -1) {
+                // Deselect
+                selectedPackItems.splice(index, 1);
+                const element = document.querySelector(`[data-product="${productId}"]`);
+                element.style.border = '2px solid rgba(212,175,55,0.3)';
+                element.querySelector('.pack-checkmark').style.display = 'none';
+            } else {
+                // Check limits
+                if (currentPackType === 'elella') {
+                    const womenCount = selectedPackItems.filter(item => item.gender === 'women').length;
+                    const menCount = selectedPackItems.filter(item => item.gender === 'men').length;
+                    
+                    if (gender === 'women' && womenCount >= config.women) {
+                        alert(lang === 'es' ? `Ya seleccionaste ${config.women} fragancias femeninas` : `You already selected ${config.women} feminine fragrances`);
+                        return;
+                    }
+                    if (gender === 'men' && menCount >= config.men) {
+                        alert(lang === 'es' ? `Ya seleccionaste ${config.men} fragancias masculinas` : `You already selected ${config.men} masculine fragrances`);
+                        return;
+                    }
+                } else {
+                    if (selectedPackItems.length >= config.quantity) {
+                        alert(lang === 'es' ? `Ya seleccionaste ${config.quantity} productos` : `You already selected ${config.quantity} products`);
+                        return;
+                    }
+                }
+                
+                // Select
+                selectedPackItems.push({ id: productId, gender: gender });
+                const element = document.querySelector(`[data-product="${productId}"]`);
+                element.style.border = '2px solid var(--gold)';
+                element.style.background = 'rgba(212,175,55,0.1)';
+                element.querySelector('.pack-checkmark').style.display = 'flex';
+            }
+            
+            // Update counter
+            document.getElementById('pack-counter').textContent = selectedPackItems.length;
+            
+            // Enable/disable button
+            const addButton = document.getElementById('add-pack-to-cart-btn');
+            if (selectedPackItems.length === config.quantity) {
+                addButton.disabled = false;
+                addButton.style.cursor = 'pointer';
+                addButton.style.opacity = '1';
+            } else {
+                addButton.disabled = true;
+                addButton.style.cursor = 'not-allowed';
+                addButton.style.opacity = '0.5';
+            }
+        }
+
+        function addPackToCart() {
+            const config = packConfigs[currentPackType];
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            
+            const packItem = {
+                id: `pack-${currentPackType}-${Date.now()}`,
+                name: config.name,
+                type: 'pack',
+                packType: currentPackType,
+                products: selectedPackItems.map(item => ({
+                    id: item.id,
+                    name: products[item.id].name
+                })),
+                price: config.price,
+                currency: 'COP',
+                quantity: 1
+            };
+            
+            cart.push(packItem);
+            localStorage.setItem('freshCart', JSON.stringify(cart));
+            updateCartBadge();
+            
+            closePackModal();
+            
+            const productNames = selectedPackItems.map(item => products[item.id].name.split(' ').pop()).join(', ');
+            alert(lang === 'es' 
+                ? `✅ ${config.name} agregado al carrito\n\nProductos: ${productNames}\nPrecio: $${config.price.toLocaleString('es-CO')} COP`
+                : `✅ ${config.name} added to cart\n\nProducts: ${productNames}\nPrice: $${config.price.toLocaleString('es-CO')} COP`
+            );
+        }
+
+        function closePackModal() {
+            document.getElementById('packModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            selectedPackItems = [];
+            currentPackType = null;
         }
 
         function updateCartBadge() {
