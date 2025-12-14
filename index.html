@@ -503,6 +503,13 @@
                         </video>
                         <p data-es="Publicidad FRESCHE Premium" data-en="FRESCHE Premium Advertising">Publicidad FRESCHE Premium</p>
                     </div>
+                    <div class="gallery-video-item">
+                        <video controls onclick="openVideoFullscreen(this)" style="cursor: pointer; width: 100%; height: auto;">
+                            <source src="images/fresche-bomberos.mp4" type="video/mp4">
+                            <p data-es="Tu navegador no soporta el video" data-en="Your browser does not support video">Tu navegador no soporta el video</p>
+                        </video>
+                        <p data-es="FRESCHE - Bomberos" data-en="FRESCHE - Firefighters">FRESCHE - Bomberos</p>
+                    </div>
                 </div>
                 <div style="margin-top: 2rem; padding: 2rem; background: rgba(212,175,55,0.1); border-radius: 10px; border: 2px solid var(--gold); text-align: center;">
                     <p style="color: var(--gold); font-size: 1.2rem; margin: 0;" data-es="¡Vive la experiencia FRESCHE!" data-en="Experience FRESCHE!">¡Vive la experiencia FRESCHE!</p>
@@ -510,11 +517,12 @@
                 </div>
                 <div class="gallery-thumbs">
                     <button class="gallery-thumb" onclick="jumpToItem(0)" aria-label="Publicidad 1">📢</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(1)" aria-label="Publicidad 2">📢</button>
                 </div>
                 <div class="gallery-controls">
-                    <button class="gallery-btn-prev" onclick="prevCarousel()" style="visibility: hidden;"></button>
-                    <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">1</span></span>
-                    <button class="gallery-btn-next" onclick="nextCarousel()" style="visibility: hidden;"></button>
+                    <button class="gallery-btn-prev" onclick="prevCarousel()"></button>
+                    <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">2</span></span>
+                    <button class="gallery-btn-next" onclick="nextCarousel()"></button>
                 </div>
             </div>
         </div>
