@@ -198,6 +198,66 @@
             margin-bottom: 1rem;
         }
 
+        .shipping-options {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .shipping-option {
+            padding: 1.2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .shipping-option:hover {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .shipping-option.selected {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .shipping-option-info {
+            flex: 1;
+        }
+
+        .shipping-option-name {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .shipping-option-desc {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .shipping-option-price {
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .shipping-alert {
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            color: #ff9800;
+            margin-bottom: 1rem;
+        }
+
         @media (max-width: 968px) {
             .checkout-container {
                 grid-template-columns: 1fr;
@@ -211,11 +271,6 @@
     </style>
 </head>
 <body>
-    <div class="test-mode-banner">
-        🧪 MODO PRUEBA - TEST MODE 🧪
-        <div style="font-size: 0.9rem; margin-top: 0.5rem;">Usa tarjetas de prueba - No se hará cargo real</div>
-    </div>
-
     <div class="checkout-container">
         <!-- Formulario de Checkout -->
         <div class="checkout-section">
@@ -260,8 +315,35 @@
                 </div>
 
                 <div class="form-group">
+                    <label data-es="País *" data-en="Country *">País *</label>
+                    <select id="country" required onchange="updateShippingCost()">
+                        <option value="">Selecciona un país</option>
+                        <option value="CO">🇨🇴 Colombia</option>
+                        <option value="US">🇺🇸 Estados Unidos</option>
+                        <option value="CA">🇨🇦 Canadá</option>
+                        <option value="MX">🇲🇽 México</option>
+                        <option value="ES">🇪🇸 España</option>
+                        <option value="AR">🇦🇷 Argentina</option>
+                        <option value="CL">🇨🇱 Chile</option>
+                        <option value="PE">🇵🇪 Perú</option>
+                        <option value="EC">🇪🇨 Ecuador</option>
+                        <option value="BR">🇧🇷 Brasil</option>
+                        <option value="OTHER">🌎 Otro país</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label data-es="Departamento/Estado *" data-en="State *">Departamento/Estado *</label>
                     <input type="text" id="state" required placeholder="Cundinamarca">
+                </div>
+
+                <!-- Opciones de Envío -->
+                <h3 style="color: var(--gold); margin: 2rem 0 1rem;">
+                    <span data-es="Método de Envío" data-en="Shipping Method">Método de Envío</span>
+                </h3>
+
+                <div id="shippingOptions" class="shipping-options">
+                    <!-- Se llenarán dinámicamente según el país -->
                 </div>
 
                 <!-- Método de Pago -->
@@ -324,11 +406,9 @@
                 <span data-es="🔒 Pagar Ahora" data-en="🔒 Pay Now">🔒 Pagar Ahora</span>
             </button>
 
-            <div style="margin-top: 1rem; padding: 1rem; background: rgba(255, 152, 0, 0.1); border-radius: 8px; font-size: 0.9rem; color: rgba(255, 255, 255, 0.8);">
-                <strong style="color: #ff9800;">💳 Tarjetas de Prueba:</strong><br>
-                <strong>VISA:</strong> 4097440000000004<br>
-                <strong>MasterCard:</strong> 5120280000000003<br>
-                <strong>CVV:</strong> 123 | <strong>Fecha:</strong> 12/25
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(212, 175, 55, 0.1); border-radius: 8px; font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); border: 1px solid rgba(212, 175, 55, 0.3);">
+                <strong style="color: var(--gold);">🔒 Pago Seguro</strong><br>
+                Transacción procesada por PayU, plataforma certificada de pagos en línea.
             </div>
         </div>
     </div>
@@ -336,6 +416,88 @@
     <script>
         let cart = [];
         let selectedPaymentMethod = 'VISA';
+        let selectedShippingMethod = null;
+        let shippingCost = 0;
+        let currentCurrency = 'COP'; // Moneda por defecto
+
+        // Tarifas de envío reales
+        const shippingRates = {
+            CO: [
+                { id: 'standard', name: 'Envío Estándar', desc: '5-7 días hábiles', price: 15000, currency: 'COP' },
+                { id: 'express', name: 'Envío Express', desc: '2-3 días hábiles', price: 25000, currency: 'COP' },
+                { id: 'priority', name: 'Envío Prioritario', desc: '1 día hábil', price: 35000, currency: 'COP' }
+            ],
+            US: [
+                { id: 'standard', name: 'Standard Shipping', desc: '10-15 business days', price: 12, currency: 'USD' },
+                { id: 'express', name: 'Express Shipping', desc: '5-7 business days', price: 22, currency: 'USD' },
+                { id: 'priority', name: 'Priority Shipping', desc: '3-5 business days', price: 35, currency: 'USD' }
+            ],
+            CA: [
+                { id: 'standard', name: 'Standard Shipping', desc: '10-15 business days', price: 13, currency: 'USD' },
+                { id: 'express', name: 'Express Shipping', desc: '5-7 business days', price: 24, currency: 'USD' }
+            ],
+            MX: [
+                { id: 'standard', name: 'Envío Estándar', desc: '8-12 días hábiles', price: 35000, currency: 'COP' },
+                { id: 'express', name: 'Envío Express', desc: '4-6 días hábiles', price: 65000, currency: 'COP' }
+            ],
+            ES: [
+                { id: 'standard', name: 'Envío Estándar', desc: '12-18 días hábiles', price: 15, currency: 'USD' },
+                { id: 'express', name: 'Envío Express', desc: '6-8 días hábiles', price: 26, currency: 'USD' }
+            ],
+            AR: [
+                { id: 'standard', name: 'Envío Estándar', desc: '10-15 días hábiles', price: 40000, currency: 'COP' },
+                { id: 'express', name: 'Envío Express', desc: '5-7 días hábiles', price: 75000, currency: 'COP' }
+            ],
+            CL: [
+                { id: 'standard', name: 'Envío Estándar', desc: '10-15 días hábiles', price: 40000, currency: 'COP' },
+                { id: 'express', name: 'Envío Express', desc: '5-7 días hábiles', price: 75000, currency: 'COP' }
+            ],
+            PE: [
+                { id: 'standard', name: 'Envío Estándar', desc: '8-12 días hábiles', price: 35000, currency: 'COP' },
+                { id: 'express', name: 'Envío Express', desc: '4-6 días hábiles', price: 65000, currency: 'COP' }
+            ],
+            EC: [
+                { id: 'standard', name: 'Envío Estándar', desc: '8-12 días hábiles', price: 35000, currency: 'COP' },
+                { id: 'express', name: 'Envío Express', desc: '4-6 días hábiles', price: 65000, currency: 'COP' }
+            ],
+            BR: [
+                { id: 'standard', name: 'Envío Estándar', desc: '12-18 días hábiles', price: 55000, currency: 'COP' },
+                { id: 'express', name: 'Envío Express', desc: '6-8 días hábiles', price: 95000, currency: 'COP' }
+            ],
+            OTHER: [
+                { id: 'standard', name: 'International Standard', desc: '15-25 business days', price: 18, currency: 'USD' },
+                { id: 'express', name: 'International Express', desc: '7-10 business days', price: 30, currency: 'USD' }
+            ]
+        };
+
+        // Tabla de precios dinámicos por cantidad (en dólares)
+        const priceTable = {
+            1: { USD: 18.50, COP: 29900 },
+            2: { USD: 34.99, COP: 139960 },
+            3: { USD: 44.99, COP: 179960 },
+            'pack_elella': { USD: 69.99, COP: 279960 }  // Pack El y Ella (5 unidades)
+        };
+
+        // Función para obtener precio según cantidad y tipo de producto
+        function getPricePerUnit(quantity, itemType) {
+            // Si es pack "El y Ella"
+            if (itemType === 'pack' && quantity === 1) {
+                return priceTable['pack_elella'];
+            }
+            
+            // Para productos normales, retornar tabla según cantidad
+            if (priceTable[quantity]) {
+                return priceTable[quantity];
+            }
+            
+            // Si la cantidad no está en tabla, usar precio base
+            return priceTable[1];
+        }
+
+        // Países que usan USD
+        const usdCountries = ['US', 'CA', 'ES', 'OTHER'];
+        
+
 
         // Cargar carrito
         function loadCart() {
@@ -349,48 +511,147 @@
                 return;
             }
 
+            // Detectar idioma actual
+            const language = document.documentElement.lang || 'es';
+            
+            // Establecer país por defecto Colombia
+            document.getElementById('country').value = 'CO';
+            
+            // Si está en inglés, cambiar a USD automáticamente
+            if (language === 'en') {
+                currentCurrency = 'USD';
+            } else {
+                currentCurrency = 'COP';
+            }
+            
             displayOrderSummary();
         }
 
         function displayOrderSummary() {
             const orderItemsDiv = document.getElementById('orderItems');
+            const language = document.documentElement.lang || 'es';
+            
+            // Detectar si está en inglés o si detectamos ubicación internacional
+            let useUSD = (currentCurrency === 'USD');
+            const isEnglish = language === 'en';
+            
+            // Si está en inglés, cambiar a USD automáticamente
+            if (isEnglish && currentCurrency === 'COP') {
+                currentCurrency = 'USD';
+                useUSD = true;
+            }
+            
             let subtotal = 0;
 
             orderItemsDiv.innerHTML = cart.map(item => {
                 let itemTotal;
                 let itemName;
                 let itemImage;
+                let itemQuantity = item.quantity;
+                let prices;
 
                 if (item.type === 'pack') {
-                    itemTotal = item.price * item.quantity;
+                    // Para packs, usar el precio del pack
+                    prices = getPricePerUnit(1, 'pack');
+                    itemTotal = prices[currentCurrency] * item.quantity;
                     itemName = `${item.name} (${item.products.map(p => p.id).join(', ')})`;
-                    itemImage = 'images/cherry.jpg'; // Default para packs
+                    itemImage = 'images/cherry.jpg';
                 } else {
-                    itemTotal = item.price * item.quantity;
+                    // Para productos normales
+                    prices = getPricePerUnit(itemQuantity, 'product');
+                    itemTotal = prices[currentCurrency] * item.quantity;
                     itemName = item.name;
                     itemImage = item.image;
                 }
 
                 subtotal += itemTotal;
 
+                const formattedPrice = (currentCurrency === 'USD') 
+                    ? `$${itemTotal.toFixed(2)}` 
+                    : `$${Math.round(itemTotal).toLocaleString('es-CO')}`;
+
                 return `
                     <div class="order-item">
                         <img src="${itemImage}" alt="${itemName}">
                         <div class="order-item-info">
                             <div class="order-item-name">${itemName}</div>
-                            <div class="order-item-quantity">Cantidad: ${item.quantity}</div>
+                            <div class="order-item-quantity">Cantidad: ${itemQuantity}</div>
                         </div>
-                        <div class="order-item-price">$${itemTotal.toLocaleString('es-CO')}</div>
+                        <div class="order-item-price">${formattedPrice}</div>
                     </div>
                 `;
             }).join('');
 
-            const shippingCost = 10000;
             const total = subtotal + shippingCost;
 
-            document.getElementById('subtotal').textContent = `$${subtotal.toLocaleString('es-CO')} COP`;
-            document.getElementById('shipping').textContent = `$${shippingCost.toLocaleString('es-CO')} COP`;
-            document.getElementById('total').textContent = `$${total.toLocaleString('es-CO')} COP`;
+            const formatMoney = (amount) => {
+                if (currentCurrency === 'USD') {
+                    return `$${amount.toFixed(2)} USD`;
+                } else {
+                    return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
+                }
+            };
+
+            document.getElementById('subtotal').textContent = formatMoney(subtotal);
+            document.getElementById('shipping').textContent = shippingCost > 0 ? formatMoney(shippingCost) : (isEnglish ? 'Select method' : 'Seleccione método');
+            document.getElementById('total').textContent = formatMoney(total);
+        }
+
+        function updateShippingCost() {
+            const country = document.getElementById('country').value;
+            const shippingOptionsDiv = document.getElementById('shippingOptions');
+            const language = document.documentElement.lang || 'es';
+            const isEnglish = language === 'en';
+
+            if (!country) {
+                const alertMsg = isEnglish ? 'Select a country to see shipping options' : 'Selecciona un país para ver las opciones de envío';
+                shippingOptionsDiv.innerHTML = `<div class="shipping-alert">⚠️ ${alertMsg}</div>`;
+                shippingCost = 0;
+                selectedShippingMethod = null;
+                currentCurrency = (isEnglish || country !== 'CO') ? 'USD' : 'COP';
+                displayOrderSummary();
+                return;
+            }
+
+            // Si está en inglés O si el país no es Colombia, usar USD
+            const useUSD = usdCountries.includes(country) || isEnglish || country !== 'CO';
+            currentCurrency = useUSD ? 'USD' : 'COP';
+
+            const options = shippingRates[country] || shippingRates.OTHER;
+            
+            shippingOptionsDiv.innerHTML = options.map(option => {
+                const formattedPrice = currentCurrency === 'USD' 
+                    ? `$${option.price.toFixed(2)} USD`
+                    : `$${Math.round(option.price).toLocaleString('es-CO')} COP`;
+                
+                return `
+                    <div class="shipping-option ${selectedShippingMethod === option.id ? 'selected' : ''}" 
+                         onclick="selectShippingMethod('${option.id}', ${option.price})">
+                        <div class="shipping-option-info">
+                            <div class="shipping-option-name">${option.name}</div>
+                            <div class="shipping-option-desc">📦 ${option.desc}</div>
+                        </div>
+                        <div class="shipping-option-price">${formattedPrice}</div>
+                    </div>
+                `;
+            }).join('');
+
+            // Resetear selección de envío al cambiar de país
+            selectedShippingMethod = null;
+            shippingCost = 0;
+            displayOrderSummary();
+        }
+
+        function selectShippingMethod(methodId, price) {
+            selectedShippingMethod = methodId;
+            shippingCost = price;
+            
+            // Actualizar visualmente
+            document.querySelectorAll('.shipping-option').forEach(el => el.classList.remove('selected'));
+            event.target.closest('.shipping-option').classList.add('selected');
+            
+            // Actualizar resumen
+            displayOrderSummary();
         }
 
         function selectPaymentMethod(element) {
@@ -407,6 +668,18 @@
                 return;
             }
 
+            // Validar que se haya seleccionado un método de envío
+            if (!selectedShippingMethod || shippingCost === 0) {
+                alert('Por favor selecciona un método de envío');
+                return;
+            }
+
+            const country = document.getElementById('country').value;
+            if (!country) {
+                alert('Por favor selecciona un país');
+                return;
+            }
+
             const formData = {
                 fullName: document.getElementById('fullName').value,
                 email: document.getElementById('email').value,
@@ -415,13 +688,14 @@
                 city: document.getElementById('city').value,
                 state: document.getElementById('state').value,
                 postalCode: document.getElementById('postalCode').value,
+                country: country,
+                shippingMethod: selectedShippingMethod,
                 paymentMethod: selectedPaymentMethod,
                 cart: cart
             };
 
             // Calcular total con envío
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const shippingCost = 10000;
             const total = subtotal + shippingCost;
 
             // Crear formulario PayU
@@ -429,10 +703,10 @@
         }
 
         function createPayUForm(formData, total) {
-            // PayU Test Credentials
-            const merchantId = '508029';
-            const accountId = '512321';
-            const apiKey = '4Vj8eK4rloUd272L48hsrarnUA';
+            // PayU Production Credentials - CAMBIAR POR TUS CREDENCIALES REALES
+            const merchantId = '508029'; // Reemplazar con tu merchantId real
+            const accountId = '512321'; // Reemplazar con tu accountId real
+            const apiKey = '4Vj8eK4rloUd272L48hsrarnUA'; // Reemplazar con tu apiKey real
             
             const referenceCode = 'FRESCHE-' + Date.now();
             const description = cart.map(item => {
@@ -442,8 +716,9 @@
                 return `${item.name}x${item.quantity}`;
             }).join(', ');
 
-            const currency = 'COP';
-            const amount = total;
+            // Usar la moneda actual
+            const currency = currentCurrency;
+            const amount = (currentCurrency === 'USD') ? parseFloat(total.toFixed(2)) : Math.round(total);
             const tax = 0;
             const taxReturnBase = 0;
 
@@ -454,7 +729,8 @@
             // Crear formulario dinámico
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = 'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/';
+            // PRODUCCIÓN: Cambiar a URL de producción cuando tengas credenciales reales
+            form.action = 'https://checkout.payulatam.com/ppp-web-gateway-payu/'; // URL de producción
 
             const params = {
                 merchantId: merchantId,
@@ -466,7 +742,7 @@
                 taxReturnBase: taxReturnBase,
                 currency: currency,
                 signature: signature,
-                test: '1',
+                test: '0', // 0 = Modo producción, 1 = Modo prueba
                 buyerEmail: formData.email,
                 buyerFullName: formData.fullName,
                 telephone: formData.phone,
