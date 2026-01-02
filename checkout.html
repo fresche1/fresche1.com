@@ -155,19 +155,21 @@
 
         .payment-methods {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr;
             gap: 1rem;
             margin-bottom: 1.5rem;
         }
 
         .payment-method {
-            padding: 1rem;
+            padding: 1.2rem;
             background: rgba(0, 0, 0, 0.3);
             border: 2px solid rgba(212, 175, 55, 0.3);
             border-radius: 8px;
             cursor: pointer;
-            text-align: center;
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         .payment-method:hover {
@@ -178,15 +180,26 @@
         .payment-method.selected {
             border-color: var(--gold);
             background: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
         }
 
         .payment-method-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+        }
+
+        .payment-method-info {
+            flex: 1;
         }
 
         .payment-method-name {
             color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .payment-method-desc {
+            color: rgba(255, 255, 255, 0.6);
             font-size: 0.9rem;
         }
 
@@ -353,22 +366,31 @@
                 </h3>
 
                 <div class="payment-methods">
-                    <div class="payment-method selected" data-method="VISA" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">💳</div>
-                        <div class="payment-method-name">Tarjeta</div>
+                    <div class="payment-method selected" data-method="NEQUI" onclick="selectPaymentMethod(this)">
+                        <div class="payment-method-icon">📱</div>
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">Nequi</div>
+                            <div class="payment-method-desc">Pago directo sin comisión</div>
+                        </div>
                     </div>
-                    <div class="payment-method" data-method="PSE" onclick="selectPaymentMethod(this)">
+                    <div class="payment-method" data-method="BANK" onclick="selectPaymentMethod(this)">
                         <div class="payment-method-icon">🏦</div>
-                        <div class="payment-method-name">PSE</div>
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">Transferencia Bancaria</div>
+                            <div class="payment-method-desc">Pago directo sin comisión</div>
+                        </div>
                     </div>
-                    <div class="payment-method" data-method="EFECTY" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">💵</div>
-                        <div class="payment-method-name">Efecty</div>
+                    <div class="payment-method" data-method="MERCADOPAGO" onclick="selectPaymentMethod(this)">
+                        <div class="payment-method-icon">💳</div>
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">Mercado Pago</div>
+                            <div class="payment-method-desc" style="color: #ff9800;">+ 5% comisión</div>
+                        </div>
                     </div>
-                    <div class="payment-method" data-method="BALOTO" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">🎫</div>
-                        <div class="payment-method-name">Baloto</div>
-                    </div>
+                </div>
+
+                <div id="paymentInstructions" style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(212, 175, 55, 0.1); border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 10px;">
+                    <!-- Instrucciones de pago dinámicas -->
                 </div>
 
                 <div class="form-group">
@@ -416,7 +438,7 @@
 
     <script>
         let cart = [];
-        let selectedPaymentMethod = 'VISA';
+        let selectedPaymentMethod = 'NEQUI';
         let selectedShippingMethod = null;
         let shippingCost = 0;
         let currentCurrency = 'COP'; // Moneda por defecto
@@ -662,6 +684,112 @@
             document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
             element.classList.add('selected');
             selectedPaymentMethod = element.dataset.method;
+            
+            // Mostrar instrucciones según el método
+            const instructionsDiv = document.getElementById('paymentInstructions');
+            let instructions = '';
+            
+            if (selectedPaymentMethod === 'NEQUI') {
+                instructions = `
+                    <h4 style="color: var(--gold); margin-bottom: 1rem;">📱 Pago por Nequi</h4>
+                    <div style="color: #fff; line-height: 1.8;">
+                        <p style="margin-bottom: 0.5rem;"><strong>Número Nequi:</strong> <span style="color: var(--gold); font-size: 1.2rem;">300 123 4567</span></p>
+                        <p style="margin-bottom: 0.5rem;"><strong>A nombre de:</strong> Alejandra Vela Moreno</p>
+                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, envía el comprobante al WhatsApp +57 300 123 4567</p>
+                    </div>
+                `;
+            } else if (selectedPaymentMethod === 'BANK') {
+                instructions = `
+                    <h4 style="color: var(--gold); margin-bottom: 1rem;">🏦 Transferencia Bancaria</h4>
+                    <div style="color: #fff; line-height: 1.8;">
+                        <p style="margin-bottom: 0.5rem;"><strong>Banco:</strong> Bancolombia</p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Tipo de cuenta:</strong> Ahorros</p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Número:</strong> <span style="color: var(--gold); font-size: 1.2rem;">1234567890</span></p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Titular:</strong> Alejandra Vela Moreno</p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Cédula:</strong> 123.456.789</p>
+                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, envía el comprobante al WhatsApp +57 300 123 4567</p>
+                    </div>
+                `;
+            } else if (selectedPaymentMethod === 'MERCADOPAGO') {
+                const subtotal = cart.reduce((sum, item) => {
+                    const prices = item.type === 'pack' 
+                        ? getPricePerUnit(1, 'pack') 
+                        : getPricePerUnit(item.quantity, 'product');
+                    return sum + (prices[currentCurrency] * item.quantity);
+                }, 0);
+                const commission = subtotal * 0.05;
+                const formatMoney = (amount) => {
+                    if (currentCurrency === 'USD') {
+                        return `$${amount.toFixed(2)} USD`;
+                    } else {
+                        return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
+                    }
+                };
+                instructions = `
+                    <h4 style="color: var(--gold); margin-bottom: 1rem;">💳 Pago con Mercado Pago</h4>
+                    <div style="color: #fff; line-height: 1.8;">
+                        <p style="margin-bottom: 0.5rem;">Acepta tarjetas de crédito, débito, PSE, y más.</p>
+                        <div style="background: rgba(255, 152, 0, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px solid rgba(255, 152, 0, 0.3);">
+                            <p style="color: #ff9800; margin: 0;"><strong>⚠️ Comisión del 5%:</strong> ${formatMoney(commission)}</p>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">El total a pagar será ${formatMoney(subtotal + commission + shippingCost)}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            instructionsDiv.innerHTML = instructions;
+            
+            // Actualizar el resumen del pedido con la comisión si es Mercado Pago
+            updateOrderSummaryWithCommission();
+        }
+
+        function updateOrderSummaryWithCommission() {
+            const subtotal = cart.reduce((sum, item) => {
+                const prices = item.type === 'pack' 
+                    ? getPricePerUnit(1, 'pack') 
+                    : getPricePerUnit(item.quantity, 'product');
+                return sum + (prices[currentCurrency] * item.quantity);
+            }, 0);
+
+            const commission = selectedPaymentMethod === 'MERCADOPAGO' ? subtotal * 0.05 : 0;
+            const total = subtotal + shippingCost + commission;
+
+            const formatMoney = (amount) => {
+                if (currentCurrency === 'USD') {
+                    return `$${amount.toFixed(2)} USD`;
+                } else {
+                    return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
+                }
+            };
+
+            document.getElementById('subtotal').textContent = formatMoney(subtotal);
+            document.getElementById('shipping').textContent = shippingCost > 0 ? formatMoney(shippingCost) : 'Seleccione método';
+            
+            // Actualizar total con comisión
+            const totalsDiv = document.querySelector('.order-totals');
+            let commissionRow = document.getElementById('commissionRow');
+            
+            if (commission > 0) {
+                if (!commissionRow) {
+                    commissionRow = document.createElement('div');
+                    commissionRow.id = 'commissionRow';
+                    commissionRow.className = 'order-total-row';
+                    commissionRow.innerHTML = `
+                        <span style="color: #ff9800;">Comisión Mercado Pago (5%)</span>
+                        <span id="commissionAmount"></span>
+                    `;
+                    // Insertar antes del total final
+                    const finalRow = totalsDiv.querySelector('.order-total-row.final');
+                    totalsDiv.insertBefore(commissionRow, finalRow);
+                }
+                document.getElementById('commissionAmount').textContent = formatMoney(commission);
+            } else {
+                if (commissionRow) {
+                    commissionRow.remove();
+                }
+            }
+            
+            document.getElementById('total').textContent = formatMoney(total);
         }
 
         function processPayment() {
@@ -705,10 +833,46 @@
                     : getPricePerUnit(item.quantity, 'product');
                 return sum + (prices[currentCurrency] * item.quantity);
             }, 0);
-            const total = subtotal + shippingCost;
+            
+            const commission = selectedPaymentMethod === 'MERCADOPAGO' ? subtotal * 0.05 : 0;
+            const total = subtotal + shippingCost + commission;
 
-            // Crear preferencia de Mercado Pago
-            createMercadoPagoCheckout(formData, total, subtotal);
+            // Si es Nequi o Transferencia, mostrar confirmación
+            if (selectedPaymentMethod === 'NEQUI' || selectedPaymentMethod === 'BANK') {
+                const methodName = selectedPaymentMethod === 'NEQUI' ? 'Nequi' : 'Transferencia Bancaria';
+                const formatMoney = (amount) => {
+                    if (currentCurrency === 'USD') {
+                        return `$${amount.toFixed(2)} USD`;
+                    } else {
+                        return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
+                    }
+                };
+                
+                const message = `
+¡Gracias por tu pedido!
+
+Total a pagar: ${formatMoney(total)}
+Método de pago: ${methodName}
+
+Por favor realiza el pago y envía el comprobante al WhatsApp:
++57 300 123 4567
+
+Incluye tu nombre completo: ${formData.fullName}
+                `.trim();
+                
+                alert(message);
+                
+                // Opcional: redirigir a WhatsApp
+                const whatsappMsg = encodeURIComponent(`Hola! Acabo de hacer un pedido.\n\nNombre: ${formData.fullName}\nEmail: ${formData.email}\nTotal: ${formatMoney(total)}\nMétodo: ${methodName}\n\nEnvío el comprobante de pago.`);
+                window.open(`https://wa.me/573001234567?text=${whatsappMsg}`, '_blank');
+                
+                return;
+            }
+
+            // Si es Mercado Pago, continuar con el flujo normal
+            if (selectedPaymentMethod === 'MERCADOPAGO') {
+                createMercadoPagoCheckout(formData, total, subtotal + commission);
+            }
         }
 
         async function createMercadoPagoCheckout(formData, total, subtotal) {
@@ -803,7 +967,14 @@
         }
 
         // Cargar carrito al inicio
-        window.addEventListener('DOMContentLoaded', loadCart);
+        window.addEventListener('DOMContentLoaded', () => {
+            loadCart();
+            // Inicializar instrucciones de pago
+            const defaultPaymentMethod = document.querySelector('.payment-method.selected');
+            if (defaultPaymentMethod) {
+                selectPaymentMethod(defaultPaymentMethod);
+            }
+        });
     </script>
 </body>
 </html>
