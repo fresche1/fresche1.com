@@ -365,22 +365,29 @@
                     <span data-es="Método de Pago" data-en="Payment Method">Método de Pago</span>
                 </h3>
 
-                <div class="payment-methods">
-                    <div class="payment-method selected" data-method="NEQUI" onclick="selectPaymentMethod(this)">
+                <div class="payment-methods" id="paymentMethodsContainer">
+                    <div class="payment-method selected" data-method="NEQUI" data-region="CO" onclick="selectPaymentMethod(this)">
                         <div class="payment-method-icon">📱</div>
                         <div class="payment-method-info">
                             <div class="payment-method-name">Nequi</div>
                             <div class="payment-method-desc">Pago directo sin comisión</div>
                         </div>
                     </div>
-                    <div class="payment-method" data-method="BANK" onclick="selectPaymentMethod(this)">
+                    <div class="payment-method" data-method="BANK" data-region="CO" onclick="selectPaymentMethod(this)">
                         <div class="payment-method-icon">🏦</div>
                         <div class="payment-method-info">
                             <div class="payment-method-name">Transferencia Bancaria</div>
                             <div class="payment-method-desc">Pago directo sin comisión</div>
                         </div>
                     </div>
-                    <div class="payment-method" data-method="MERCADOPAGO" onclick="selectPaymentMethod(this)">
+                    <div class="payment-method" data-method="ZELLE" data-region="US" onclick="selectPaymentMethod(this)" style="display:none;">
+                        <div class="payment-method-icon">💵</div>
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">Zelle</div>
+                            <div class="payment-method-desc">Direct payment - No fees</div>
+                        </div>
+                    </div>
+                    <div class="payment-method" data-method="MERCADOPAGO" data-region="ALL" onclick="selectPaymentMethod(this)">
                         <div class="payment-method-icon">💳</div>
                         <div class="payment-method-info">
                             <div class="payment-method-name">Mercado Pago</div>
@@ -642,6 +649,9 @@
             // Si está en inglés O si el país no es Colombia, usar USD
             const useUSD = usdCountries.includes(country) || isEnglish || country !== 'CO';
             currentCurrency = useUSD ? 'USD' : 'COP';
+            
+            // Mostrar/ocultar métodos de pago según el país
+            updatePaymentMethods(country);
 
             const options = shippingRates[country] || shippingRates.OTHER;
             
@@ -666,6 +676,53 @@
             selectedShippingMethod = null;
             shippingCost = 0;
             displayOrderSummary();
+        }
+
+        function updatePaymentMethods(country) {
+            const nequiMethod = document.querySelector('[data-method="NEQUI"]');
+            const bankMethod = document.querySelector('[data-method="BANK"]');
+            const zelleMethod = document.querySelector('[data-method="ZELLE"]');
+            
+            // Colombia: Mostrar Nequi y Transferencia, ocultar Zelle
+            if (country === 'CO') {
+                if (nequiMethod) nequiMethod.style.display = 'flex';
+                if (bankMethod) bankMethod.style.display = 'flex';
+                if (zelleMethod) zelleMethod.style.display = 'none';
+                
+                // Si Zelle estaba seleccionado, cambiar a Nequi
+                if (selectedPaymentMethod === 'ZELLE') {
+                    if (nequiMethod) {
+                        selectPaymentMethod(nequiMethod);
+                    }
+                }
+            } 
+            // USA/Canadá: Mostrar Zelle, ocultar Nequi y Transferencia
+            else if (country === 'US' || country === 'CA') {
+                if (nequiMethod) nequiMethod.style.display = 'none';
+                if (bankMethod) bankMethod.style.display = 'none';
+                if (zelleMethod) zelleMethod.style.display = 'flex';
+                
+                // Si Nequi o Bank estaba seleccionado, cambiar a Zelle
+                if (selectedPaymentMethod === 'NEQUI' || selectedPaymentMethod === 'BANK') {
+                    if (zelleMethod) {
+                        selectPaymentMethod(zelleMethod);
+                    }
+                }
+            }
+            // Otros países: Ocultar métodos locales, solo Mercado Pago
+            else {
+                if (nequiMethod) nequiMethod.style.display = 'none';
+                if (bankMethod) bankMethod.style.display = 'none';
+                if (zelleMethod) zelleMethod.style.display = 'none';
+                
+                // Cambiar a Mercado Pago si un método local estaba seleccionado
+                if (selectedPaymentMethod !== 'MERCADOPAGO') {
+                    const mercadopagoMethod = document.querySelector('[data-method="MERCADOPAGO"]');
+                    if (mercadopagoMethod) {
+                        selectPaymentMethod(mercadopagoMethod);
+                    }
+                }
+            }
         }
 
         function selectShippingMethod(methodId, price) {
@@ -693,9 +750,9 @@
                 instructions = `
                     <h4 style="color: var(--gold); margin-bottom: 1rem;">📱 Pago por Nequi</h4>
                     <div style="color: #fff; line-height: 1.8;">
-                        <p style="margin-bottom: 0.5rem;"><strong>Número Nequi:</strong> <span style="color: var(--gold); font-size: 1.2rem;">300 123 4567</span></p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Número Nequi:</strong> <span style="color: var(--gold); font-size: 1.2rem;">917 832 5649</span></p>
                         <p style="margin-bottom: 0.5rem;"><strong>A nombre de:</strong> Alejandra Vela Moreno</p>
-                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, envía el comprobante al WhatsApp +57 300 123 4567</p>
+                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, envía el comprobante al WhatsApp +1 917 832 5649</p>
                     </div>
                 `;
             } else if (selectedPaymentMethod === 'BANK') {
@@ -704,10 +761,34 @@
                     <div style="color: #fff; line-height: 1.8;">
                         <p style="margin-bottom: 0.5rem;"><strong>Banco:</strong> Bancolombia</p>
                         <p style="margin-bottom: 0.5rem;"><strong>Tipo de cuenta:</strong> Ahorros</p>
-                        <p style="margin-bottom: 0.5rem;"><strong>Número:</strong> <span style="color: var(--gold); font-size: 1.2rem;">1234567890</span></p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Número:</strong> <span style="color: var(--gold); font-size: 1.2rem;">944-0003-0698</span></p>
                         <p style="margin-bottom: 0.5rem;"><strong>Titular:</strong> Alejandra Vela Moreno</p>
-                        <p style="margin-bottom: 0.5rem;"><strong>Cédula:</strong> 123.456.789</p>
-                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, envía el comprobante al WhatsApp +57 300 123 4567</p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Cédula:</strong> 1.020.734.152</p>
+                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, envía el comprobante al WhatsApp +1 917 832 5649</p>
+                    </div>
+                `;
+            } else if (selectedPaymentMethod === 'ZELLE') {
+                const formatMoney = (amount) => {
+                    if (currentCurrency === 'USD') {
+                        return `$${amount.toFixed(2)} USD`;
+                    } else {
+                        return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
+                    }
+                };
+                const subtotal = cart.reduce((sum, item) => {
+                    const prices = item.type === 'pack' 
+                        ? getPricePerUnit(1, 'pack') 
+                        : getPricePerUnit(item.quantity, 'product');
+                    return sum + (prices[currentCurrency] * item.quantity);
+                }, 0);
+                const total = subtotal + shippingCost;
+                instructions = `
+                    <h4 style="color: var(--gold); margin-bottom: 1rem;">💵 Zelle Payment</h4>
+                    <div style="color: #fff; line-height: 1.8;">
+                        <p style="margin-bottom: 0.5rem;"><strong>Zelle Phone:</strong> <span style="color: var(--gold); font-size: 1.2rem;">+1 917 832 5649</span></p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Name:</strong> Alejandra Vela Moreno</p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Total to send:</strong> <span style="color: var(--gold); font-size: 1.2rem;">${formatMoney(total)}</span></p>
+                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ After payment, send proof to WhatsApp +1 917 832 5649</p>
                     </div>
                 `;
             } else if (selectedPaymentMethod === 'MERCADOPAGO') {
@@ -837,9 +918,9 @@
             const commission = selectedPaymentMethod === 'MERCADOPAGO' ? subtotal * 0.05 : 0;
             const total = subtotal + shippingCost + commission;
 
-            // Si es Nequi o Transferencia, mostrar confirmación
-            if (selectedPaymentMethod === 'NEQUI' || selectedPaymentMethod === 'BANK') {
-                const methodName = selectedPaymentMethod === 'NEQUI' ? 'Nequi' : 'Transferencia Bancaria';
+            // Si es Nequi, Transferencia o Zelle, mostrar confirmación
+            if (selectedPaymentMethod === 'NEQUI' || selectedPaymentMethod === 'BANK' || selectedPaymentMethod === 'ZELLE') {
+                const methodName = selectedPaymentMethod === 'NEQUI' ? 'Nequi' : selectedPaymentMethod === 'BANK' ? 'Transferencia Bancaria' : 'Zelle';
                 const formatMoney = (amount) => {
                     if (currentCurrency === 'USD') {
                         return `$${amount.toFixed(2)} USD`;
@@ -864,7 +945,7 @@ Incluye tu nombre completo: ${formData.fullName}
                 
                 // Opcional: redirigir a WhatsApp
                 const whatsappMsg = encodeURIComponent(`Hola! Acabo de hacer un pedido.\n\nNombre: ${formData.fullName}\nEmail: ${formData.email}\nTotal: ${formatMoney(total)}\nMétodo: ${methodName}\n\nEnvío el comprobante de pago.`);
-                window.open(`https://wa.me/573001234567?text=${whatsappMsg}`, '_blank');
+                window.open(`https://wa.me/19178325649?text=${whatsappMsg}`, '_blank');
                 
                 return;
             }
