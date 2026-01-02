@@ -752,7 +752,7 @@
                     <div style="color: #fff; line-height: 1.8;">
                         <p style="margin-bottom: 0.5rem;"><strong>Número Nequi:</strong> <span style="color: var(--gold); font-size: 1.2rem;">917 832 5649</span></p>
                         <p style="margin-bottom: 0.5rem;"><strong>A nombre de:</strong> Alejandra Vela Moreno</p>
-                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, envía el comprobante al WhatsApp +1 917 832 5649</p>
+                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, envía el comprobante al WhatsApp +57 301 760 6723</p>
                     </div>
                 `;
             } else if (selectedPaymentMethod === 'BANK') {
@@ -764,7 +764,7 @@
                         <p style="margin-bottom: 0.5rem;"><strong>Número:</strong> <span style="color: var(--gold); font-size: 1.2rem;">944-0003-0698</span></p>
                         <p style="margin-bottom: 0.5rem;"><strong>Titular:</strong> Alejandra Vela Moreno</p>
                         <p style="margin-bottom: 0.5rem;"><strong>Cédula:</strong> 1.020.734.152</p>
-                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, envía el comprobante al WhatsApp +1 917 832 5649</p>
+                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, envía el comprobante al WhatsApp +57 301 760 6723</p>
                     </div>
                 `;
             } else if (selectedPaymentMethod === 'ZELLE') {
@@ -788,7 +788,7 @@
                         <p style="margin-bottom: 0.5rem;"><strong>Zelle Phone:</strong> <span style="color: var(--gold); font-size: 1.2rem;">+1 917 832 5649</span></p>
                         <p style="margin-bottom: 0.5rem;"><strong>Name:</strong> Alejandra Vela Moreno</p>
                         <p style="margin-bottom: 0.5rem;"><strong>Total to send:</strong> <span style="color: var(--gold); font-size: 1.2rem;">${formatMoney(total)}</span></p>
-                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ After payment, send proof to WhatsApp +1 917 832 5649</p>
+                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ After payment, send proof to WhatsApp +57 301 760 6723</p>
                     </div>
                 `;
             } else if (selectedPaymentMethod === 'MERCADOPAGO') {
@@ -945,7 +945,7 @@ Incluye tu nombre completo: ${formData.fullName}
                 
                 // Opcional: redirigir a WhatsApp
                 const whatsappMsg = encodeURIComponent(`Hola! Acabo de hacer un pedido.\n\nNombre: ${formData.fullName}\nEmail: ${formData.email}\nTotal: ${formatMoney(total)}\nMétodo: ${methodName}\n\nEnvío el comprobante de pago.`);
-                window.open(`https://wa.me/19178325649?text=${whatsappMsg}`, '_blank');
+                window.open(`https://wa.me/573017606723?text=${whatsappMsg}`, '_blank');
                 
                 return;
             }
