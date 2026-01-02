@@ -2,7 +2,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import mercadopago from 'mercadopago';
+import { MercadoPagoConfig, Preference } from 'mercadopago';
 
 dotenv.config();
 
@@ -15,7 +15,9 @@ const ACCESS_TOKEN = process.env.MERCADOPAGO_ACCESS_TOKEN;
 if (!ACCESS_TOKEN) {
   console.warn('⚠️ MERCADOPAGO_ACCESS_TOKEN no está definido. Añádelo en .env');
 }
-mercadopago.configure({ access_token: ACCESS_TOKEN || '' });
+
+// Crear cliente de Mercado Pago con la nueva API
+const client = new MercadoPagoConfig({ accessToken: ACCESS_TOKEN || '' });
 
 app.use(cors({ origin: ALLOWED_ORIGINS, credentials: false }));
 app.use(express.json());
@@ -33,13 +35,16 @@ app.post('/api/create-preference', async (req, res) => {
       return res.status(400).json({ error: 'Preference inválida' });
     }
 
-    const response = await mercadopago.preferences.create({
+    const preferenceData = {
       ...preference,
       notification_url: preference.notification_url || `${req.protocol}://${req.get('host')}/mercadopago-webhook`,
       auto_return: preference.auto_return || 'approved'
-    });
+    };
 
-    return res.json({ init_point: response.body.init_point, id: response.body.id });
+    const preferenceInstance = new Preference(client);
+    const response = await preferenceInstance.create({ body: preferenceData });
+
+    return res.json({ init_point: response.init_point, id: response.id });
   } catch (error) {
     console.error('Error al crear preferencia:', error);
     return res.status(500).json({ error: 'Error al crear preferencia' });
