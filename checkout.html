@@ -420,6 +420,7 @@
         let selectedShippingMethod = null;
         let shippingCost = 0;
         let currentCurrency = 'COP'; // Moneda por defecto
+        const BACKEND_URL = 'http://localhost:3001'; // Cambia a tu dominio cuando lo despliegues
 
         // Tarifas de envío reales
         const shippingRates = {
@@ -768,20 +769,20 @@
                     statement_descriptor: 'FRESCHE'
                 };
 
-                // NOTA: En producción, esto debe hacerse desde tu servidor por seguridad
-                // Este es un ejemplo simplificado para pruebas
-                alert('🔑 Para usar Mercado Pago, necesitas:\n\n1. Crear cuenta en mercadopago.com\n2. Obtener tu Access Token desde el panel\n3. Configurar un backend para crear preferencias de pago\n\nPor ahora, te redirigiré a una página de ejemplo.');
-                
-                // En producción, aquí harías una llamada a tu backend:
-                // const response = await fetch('/api/create-preference', {
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify({ preference, formData })
-                // });
-                // const data = await response.json();
-                // window.location.href = data.init_point; // URL del checkout de Mercado Pago
+                // Llamar a tu backend para crear la preferencia de pago
+                const response = await fetch(`${BACKEND_URL}/api/create-preference`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ preference, formData })
+                });
 
-                // Guardar datos del pedido
+                if (!response.ok) {
+                    throw new Error('No se pudo crear la preferencia');
+                }
+
+                const data = await response.json();
+
+                // Guardar datos del pedido localmente
                 localStorage.setItem('orderData', JSON.stringify({
                     formData,
                     cart,
@@ -792,7 +793,8 @@
                     date: new Date().toISOString()
                 }));
 
-                console.log('Preferencia que se enviaría a Mercado Pago:', preference);
+                // Redirigir al checkout de Mercado Pago
+                window.location.href = data.init_point;
                 
             } catch (error) {
                 console.error('Error al crear preferencia de Mercado Pago:', error);
