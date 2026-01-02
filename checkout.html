@@ -524,7 +524,9 @@
             } else {
                 currentCurrency = 'COP';
             }
-            
+
+            // Mostrar de inmediato las opciones de envío según el país por defecto
+            updateShippingCost();
             displayOrderSummary();
         }
 
