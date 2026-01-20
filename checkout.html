@@ -417,7 +417,7 @@
             
             <div id="orderItems"></div>
 
-            <div class="order-totals">
+            <div class="order-totals" id="orderTotals" style="display: none;">
                 <div class="order-total-row">
                     <span data-es="Subtotal" data-en="Subtotal">Subtotal</span>
                     <span id="subtotal">$0</span>
@@ -430,6 +430,11 @@
                     <span data-es="Total" data-en="Total">Total</span>
                     <span id="total">$0</span>
                 </div>
+            </div>
+            
+            <div id="shippingPendingMessage" style="margin: 1.5rem 0; padding: 1rem; background: rgba(255, 152, 0, 0.1); border-radius: 8px; border: 1px solid rgba(255, 152, 0, 0.3); text-align: center; color: rgba(255, 255, 255, 0.9);">
+                <strong style="color: var(--gold);">📦</strong><br>
+                <span data-es="Complete la información de envío para ver el total" data-en="Complete shipping information to see total">Complete la información de envío para ver el total</span>
             </div>
 
             <button class="btn-pay" onclick="processPayment()">
@@ -618,11 +623,14 @@
                 document.getElementById('subtotal').textContent = formatMoney(subtotal);
                 document.getElementById('shipping').textContent = formatMoney(shippingCost);
                 document.getElementById('total').textContent = formatMoney(total);
+                
+                // Mostrar totales y ocultar mensaje pendiente
+                document.getElementById('orderTotals').style.display = 'block';
+                document.getElementById('shippingPendingMessage').style.display = 'none';
             } else {
-                const pendingMsg = isEnglish ? 'Complete shipping info' : 'Complete información de envío';
-                document.getElementById('subtotal').textContent = '-';
-                document.getElementById('shipping').textContent = '-';
-                document.getElementById('total').textContent = pendingMsg;
+                // Ocultar totales y mostrar mensaje pendiente
+                document.getElementById('orderTotals').style.display = 'none';
+                document.getElementById('shippingPendingMessage').style.display = 'block';
             }
         }
 
