@@ -379,13 +379,6 @@
                             <div class="payment-method-desc">Pago directo sin comisión</div>
                         </div>
                     </div>
-                    <div class="payment-method" data-method="BANK" data-region="CO" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">🏦</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">Transferencia Bancaria</div>
-                            <div class="payment-method-desc">Pago directo sin comisión</div>
-                        </div>
-                    </div>
                     <div class="payment-method" data-method="ZELLE" data-region="US" onclick="selectPaymentMethod(this)" style="display:none;">
                         <div class="payment-method-icon">💵</div>
                         <div class="payment-method-info">
@@ -730,13 +723,11 @@
 
         function updatePaymentMethods(country) {
             const nequiMethod = document.querySelector('[data-method="NEQUI"]');
-            const bankMethod = document.querySelector('[data-method="BANK"]');
             const zelleMethod = document.querySelector('[data-method="ZELLE"]');
             
-            // Colombia: Mostrar Nequi y Transferencia, ocultar Zelle
+            // Colombia: Mostrar Nequi, ocultar Zelle
             if (country === 'CO') {
                 if (nequiMethod) nequiMethod.style.display = 'flex';
-                if (bankMethod) bankMethod.style.display = 'flex';
                 if (zelleMethod) zelleMethod.style.display = 'none';
                 
                 // Si Zelle estaba seleccionado, cambiar a Nequi
@@ -746,14 +737,13 @@
                     }
                 }
             } 
-            // USA/Canadá: Mostrar Zelle, ocultar Nequi y Transferencia
+            // USA/Canadá: Mostrar Zelle, ocultar Nequi
             else if (country === 'US' || country === 'CA') {
                 if (nequiMethod) nequiMethod.style.display = 'none';
-                if (bankMethod) bankMethod.style.display = 'none';
                 if (zelleMethod) zelleMethod.style.display = 'flex';
                 
-                // Si Nequi o Bank estaba seleccionado, cambiar a Zelle
-                if (selectedPaymentMethod === 'NEQUI' || selectedPaymentMethod === 'BANK') {
+                // Si Nequi estaba seleccionado, cambiar a Zelle
+                if (selectedPaymentMethod === 'NEQUI') {
                     if (zelleMethod) {
                         selectPaymentMethod(zelleMethod);
                     }
@@ -762,7 +752,6 @@
             // Otros países: Ocultar métodos locales, solo Mercado Pago
             else {
                 if (nequiMethod) nequiMethod.style.display = 'none';
-                if (bankMethod) bankMethod.style.display = 'none';
                 if (zelleMethod) zelleMethod.style.display = 'none';
                 
                 // Cambiar a Mercado Pago si un método local estaba seleccionado
@@ -802,18 +791,6 @@
                     <div style="color: #fff; line-height: 1.8;">
                         <p style="margin-bottom: 0.5rem;"><strong>Número Nequi:</strong> <span style="color: var(--gold); font-size: 1.2rem;">+57 301 760 6723</span></p>
                         <p style="margin-bottom: 0.5rem;"><strong>A nombre de:</strong> Alejandra Vela Moreno</p>
-                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, envía el comprobante al WhatsApp +57 301 760 6723</p>
-                    </div>
-                `;
-            } else if (selectedPaymentMethod === 'BANK') {
-                instructions = `
-                    <h4 style="color: var(--gold); margin-bottom: 1rem;">🏦 Transferencia Bancaria</h4>
-                    <div style="color: #fff; line-height: 1.8;">
-                        <p style="margin-bottom: 0.5rem;"><strong>Banco:</strong> Bancolombia</p>
-                        <p style="margin-bottom: 0.5rem;"><strong>Tipo de cuenta:</strong> Ahorros</p>
-                        <p style="margin-bottom: 0.5rem;"><strong>Número:</strong> <span style="color: var(--gold); font-size: 1.2rem;">944-0003-0698</span></p>
-                        <p style="margin-bottom: 0.5rem;"><strong>Titular:</strong> Alejandra Vela Moreno</p>
-                        <p style="margin-bottom: 0.5rem;"><strong>Cédula:</strong> 1.020.734.152</p>
                         <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, envía el comprobante al WhatsApp +57 301 760 6723</p>
                     </div>
                 `;
@@ -1005,9 +982,9 @@
             const commission = selectedPaymentMethod === 'MERCADOPAGO' ? subtotal * 0.05 : 0;
             const total = subtotal + shippingCost + commission;
 
-            // Si es Nequi, Transferencia o Zelle, mostrar confirmación
-            if (selectedPaymentMethod === 'NEQUI' || selectedPaymentMethod === 'BANK' || selectedPaymentMethod === 'ZELLE') {
-                const methodName = selectedPaymentMethod === 'NEQUI' ? 'Nequi' : selectedPaymentMethod === 'BANK' ? 'Transferencia Bancaria' : 'Zelle';
+            // Si es Nequi o Zelle, mostrar confirmación
+            if (selectedPaymentMethod === 'NEQUI' || selectedPaymentMethod === 'ZELLE') {
+                const methodName = selectedPaymentMethod === 'NEQUI' ? 'Nequi' : 'Zelle';
                 const formatMoney = (amount) => {
                     if (currentCurrency === 'USD') {
                         return `$${amount.toFixed(2)} USD`;
