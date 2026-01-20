@@ -551,6 +551,14 @@
                 useUSD = true;
             }
             
+            // Verificar si se ha completado la información de envío
+            const country = document.getElementById('country').value;
+            const city = document.getElementById('city').value;
+            const address = document.getElementById('address').value;
+            const state = document.getElementById('state').value;
+            
+            const shippingInfoComplete = country && city && address && state && selectedShippingMethod;
+            
             let subtotal = 0;
 
             orderItemsDiv.innerHTML = cart.map(item => {
@@ -576,9 +584,12 @@
 
                 subtotal += itemTotal;
 
-                const formattedPrice = (currentCurrency === 'USD') 
-                    ? `$${itemTotal.toFixed(2)}` 
-                    : `$${Math.round(itemTotal).toLocaleString('es-CO')}`;
+                // Solo mostrar precios si la información de envío está completa
+                const formattedPrice = shippingInfoComplete 
+                    ? ((currentCurrency === 'USD') 
+                        ? `$${itemTotal.toFixed(2)}` 
+                        : `$${Math.round(itemTotal).toLocaleString('es-CO')}`)
+                    : '-';
 
                 return `
                     <div class="order-item">
@@ -602,9 +613,17 @@
                 }
             };
 
-            document.getElementById('subtotal').textContent = formatMoney(subtotal);
-            document.getElementById('shipping').textContent = shippingCost > 0 ? formatMoney(shippingCost) : (isEnglish ? 'Select method' : 'Seleccione método');
-            document.getElementById('total').textContent = formatMoney(total);
+            // Solo mostrar valores si la información de envío está completa
+            if (shippingInfoComplete) {
+                document.getElementById('subtotal').textContent = formatMoney(subtotal);
+                document.getElementById('shipping').textContent = formatMoney(shippingCost);
+                document.getElementById('total').textContent = formatMoney(total);
+            } else {
+                const pendingMsg = isEnglish ? 'Complete shipping info' : 'Complete información de envío';
+                document.getElementById('subtotal').textContent = '-';
+                document.getElementById('shipping').textContent = '-';
+                document.getElementById('total').textContent = pendingMsg;
+            }
         }
 
         function updateShippingCost() {
@@ -1071,6 +1090,20 @@ Incluye tu nombre completo: ${formData.fullName}
             if (cityInput) {
                 cityInput.addEventListener('blur', updateShippingCost);
                 cityInput.addEventListener('change', updateShippingCost);
+            }
+            
+            // Agregar listeners a campos de dirección para actualizar resumen
+            const addressInput = document.getElementById('address');
+            const stateInput = document.getElementById('state');
+            
+            if (addressInput) {
+                addressInput.addEventListener('blur', displayOrderSummary);
+                addressInput.addEventListener('change', displayOrderSummary);
+            }
+            
+            if (stateInput) {
+                stateInput.addEventListener('blur', displayOrderSummary);
+                stateInput.addEventListener('change', displayOrderSummary);
             }
         });
     </script>
