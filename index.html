@@ -2121,25 +2121,12 @@
             
             cartTotal.innerHTML = `
                 <div style="padding: 1.5rem; background: rgba(0,0,0,0.3); border-radius: 10px; margin-top: 1rem;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem; color: #fff;">
-                        <span>${lang === 'es' ? 'Subtotal:' : 'Subtotal:'}</span>
-                        <span style="color: var(--gold); font-weight: 600;">${subtotalFormatted}</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem; color: #fff;">
-                        <span>${shippingText}</span>
-                        <span style="color: var(--gold); font-weight: 600;">${shippingFormatted}</span>
-                    </div>
-                    <div style="border-top: 2px solid var(--gold); padding-top: 1rem; margin-top: 1rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <h3 style="color: var(--gold); font-size: 1.5rem; margin: 0;">${lang === 'es' ? 'Total:' : 'Total:'}</h3>
-                            <h3 style="color: var(--gold); font-size: 1.8rem; font-weight: 700; margin: 0;">${totalFormatted}</h3>
-                        </div>
-                    </div>
-                    <div style="margin-top: 1rem; padding: 1rem; background: rgba(212,175,55,0.1); border-radius: 8px; font-size: 0.9rem; color: rgba(255,255,255,0.7);">
-                        <p style="margin: 0;" data-es="📍 Moneda detectada:" data-en="📍 Detected currency:">📍 Moneda detectada: ${currency === 'COP' ? 'Pesos Colombianos' : 'Dólares USD'}</p>
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: rgba(212,175,55,0.1); border-radius: 8px; text-align: center;">
+                        <p style="margin: 0; color: var(--gold); font-size: 1.1rem; font-weight: 600;" data-es="🛒 Productos en tu carrito" data-en="🛒 Products in your cart">🛒 Productos en tu carrito</p>
+                        <p style="margin: 0.5rem 0 0 0; color: rgba(255,255,255,0.7); font-size: 0.9rem;" data-es="El precio total se calculará al finalizar la compra" data-en="Total price will be calculated at checkout">El precio total se calculará al finalizar la compra</p>
                     </div>
                     
-                    <button onclick="goToCheckout()" style="width: 100%; margin-top: 1.5rem; padding: 1.2rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: #000; border: none; border-radius: 10px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: all 0.3s;">
+                    <button onclick="goToCheckout()" style="width: 100%; padding: 1.2rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: #000; border: none; border-radius: 10px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: all 0.3s;">
                         💳 ${lang === 'es' ? 'Ir a Pagar' : 'Go to Checkout'}
                     </button>
                 </div>
