@@ -400,6 +400,13 @@
                             <div class="payment-method-desc" style="color: #ff9800;">+ 5% comisión</div>
                         </div>
                     </div>
+                    <div class="payment-method" data-method="MERCADOLIBRE" data-region="CO" onclick="selectPaymentMethod(this)">
+                        <div class="payment-method-icon">🛒</div>
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">MercadoLibre Colombia</div>
+                            <div class="payment-method-desc">Compra directa en ML</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="paymentInstructions" style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(212, 175, 55, 0.1); border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 10px;">
@@ -859,6 +866,29 @@
                         </div>
                     </div>
                 `;
+            } else if (selectedPaymentMethod === 'MERCADOLIBRE') {
+                const subtotal = cart.reduce((sum, item) => {
+                    const prices = item.type === 'pack' 
+                        ? getPricePerUnit(1, 'pack') 
+                        : getPricePerUnit(item.quantity, 'product');
+                    return sum + (prices[currentCurrency] * item.quantity);
+                }, 0);
+                const total = subtotal + shippingCost;
+                const formatMoney = (amount) => {
+                    return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
+                };
+                instructions = `
+                    <h4 style="color: var(--gold); margin-bottom: 1rem;">🛒 MercadoLibre Colombia</h4>
+                    <div style="color: #fff; line-height: 1.8;">
+                        <p style="margin-bottom: 0.5rem;">Compra directamente en nuestra tienda oficial de MercadoLibre</p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Total aproximado:</strong> ${formatMoney(total)}</p>
+                        <div style="background: rgba(0, 184, 148, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px solid rgba(0, 184, 148, 0.3);">
+                            <p style="color: #00b894; margin: 0;">✓ Protección del comprador MercadoLibre</p>
+                            <p style="color: #00b894; margin: 0.5rem 0 0 0;">✓ Todos los métodos de pago de ML</p>
+                        </div>
+                        <p style="color: #ff9800; margin-top: 1rem;">ℹ️ Serás redirigido a MercadoLibre para completar tu compra</p>
+                    </div>
+                `;
             }
             
             instructionsDiv.innerHTML = instructions;
@@ -996,15 +1026,77 @@ Incluye tu nombre completo: ${formData.fullName}
             // Si es Mercado Pago, continuar con el flujo normal
             if (selectedPaymentMethod === 'MERCADOPAGO') {
                 createMercadoPagoCheckout(formData, total, subtotal + commission);
+            } else if (selectedPaymentMethod === 'MERCADOLIBRE') {
+                redirectToMercadoLibre(formData);
+            }
+        }
+
+        function redirectToMercadoLibre(formData) {
+            // URL de tu tienda en MercadoLibre Colombia
+            // CAMBIAR por la URL real de tu tienda
+            const mercadoLibreURL = 'https://listado.mercadolibre.com.co/_CustId_1234567890'; // Reemplazar con tu tienda
+            
+            // Construir mensaje de referencia
+            const cartSummary = cart.map(item => {
+                const quantity = item.quantity;
+                const name = item.type === 'pack' ? item.name : item.name;
+                return `${name} x${quantity}`;
+            }).join(', ');
+            
+            const message = `
+📦 PEDIDO DESDE WEB:
+
+Cliente: ${formData.fullName}
+Email: ${formData.email}
+Teléfono: ${formData.phone}
+
+Dirección de envío:
+${formData.address}
+${formData.city}, ${formData.state}
+${formData.country}
+${formData.postalCode ? 'CP: ' + formData.postalCode : ''}
+
+Productos:
+${cartSummary}
+
+Por favor, envía este resumen al vendedor después de realizar tu compra en MercadoLibre.
+            `.trim();
+            
+            // Guardar información del pedido
+            localStorage.setItem('pendingMLOrder', JSON.stringify({
+                formData,
+                cart,
+                timestamp: Date.now()
+            }));
+            
+            // Mostrar mensaje con instrucciones
+            if (confirm(`Serás redirigido a MercadoLibre Colombia.\n\n${message}\n\n¿Continuar?`)) {
+                // Copiar mensaje al portapapeles
+                navigator.clipboard.writeText(message).catch(() => {});
+                
+                // Abrir MercadoLibre en nueva pestaña
+                window.open(mercadoLibreURL, '_blank');
+                
+                // Opcional: Abrir WhatsApp con el resumen
+                const whatsappMsg = encodeURIComponent(message);
+                setTimeout(() => {
+                    if (confirm('¿Deseas enviar también este resumen por WhatsApp?')) {
+                        window.open(`https://wa.me/573017606723?text=${whatsappMsg}`, '_blank');
+                    }
+                }, 1000);
             }
         }
 
         async function createMercadoPagoCheckout(formData, total, subtotal) {
-            // Mercado Pago Access Token - CAMBIAR POR TU TOKEN REAL
-            // Para pruebas, puedes usar el access token de prueba desde tu cuenta
-            const accessToken = 'TEST-TU_ACCESS_TOKEN_AQUI'; // Reemplazar con tu Access Token
-
             try {
+                // Calcular comisión del 5%
+                const commission = cart.reduce((sum, item) => {
+                    const prices = item.type === 'pack' 
+                        ? getPricePerUnit(1, 'pack') 
+                        : getPricePerUnit(item.quantity, 'product');
+                    return sum + (prices[currentCurrency] * item.quantity);
+                }, 0) * 0.05;
+                
                 // Preparar items para Mercado Pago
                 const items = cart.map(item => {
                     const prices = item.type === 'pack' 
@@ -1021,6 +1113,16 @@ Incluye tu nombre completo: ${formData.fullName}
                         currency_id: currentCurrency
                     };
                 });
+
+                // Agregar comisión como item
+                if (commission > 0) {
+                    items.push({
+                        title: 'Comisión Mercado Pago (5%)',
+                        quantity: 1,
+                        unit_price: commission,
+                        currency_id: currentCurrency
+                    });
+                }
 
                 // Agregar envío como item
                 items.push({
