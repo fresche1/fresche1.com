@@ -537,41 +537,62 @@
     <section class="shipping-section">
         <div class="shipping-header">
             <span class="shipping-badge" data-es="━━━━━ ENVIAMOS DESDE COLOMBIA AL MUNDO ━━━━━" data-en="━━━━━ WE DELIVER FROM COLOMBIA WORLDWIDE ━━━━━">━━━━━ ENVIAMOS DESDE COLOMBIA AL MUNDO ━━━━━</span>
-            <h2 data-es="Envíos Internacionales" data-en="International Shipping">Envíos Internacionales</h2>
+            <h2 data-es="Envíos Nacionales e Internacionales" data-en="Domestic and International Shipping">Envíos Nacionales e Internacionales</h2>
             <p class="shipping-subtitle" data-es="Enviamos desde Colombia a todo el mundo" data-en="We deliver from Colombia worldwide">Enviamos desde Colombia a todo el mundo</p>
         </div>
         <div class="shipping-grid">
-            <div class="shipping-card" style="background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(0,0,0,0.9)), url('images/colombia.jpg') center/cover;">
-                <h3 data-es="Colombia" data-en="Colombia">Colombia</h3>
-                <div class="shipping-prices" style="text-align: left; font-size: 0.9rem; line-height: 1.8; margin: 1rem 0;">
+            <div class="shipping-card clickable-shipping" onclick="toggleShippingDetails('national')" style="background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(0,0,0,0.9)), url('images/colombia.jpg') center/cover; cursor: pointer; transition: all 0.3s;">
+                <h3 data-es="Envíos Nacionales" data-en="Domestic Shipping">Envíos Nacionales</h3>
+                <div id="national-preview" style="text-align: center; margin: 1rem 0;">
+                    <p style="font-size: 1.1rem; color: var(--gold); font-weight: 600;" data-es="Ver detalles" data-en="View details">Ver detalles ▼</p>
+                </div>
+                <div id="national-details" style="text-align: left; font-size: 0.9rem; line-height: 1.8; margin: 1rem 0; display: none;">
                     <div style="padding: 0.5rem 0; border-bottom: 1px solid rgba(212,175,55,0.5);">
                         <span data-es="🏙️ Bogotá" data-en="🏙️ Bogotá">🏙️ Bogotá</span><br>
-                        <strong>$9.000</strong>
+                        <strong style="color: var(--gold); font-size: 1.1rem;">$9.000</strong>
                     </div>
                     <div style="padding: 0.5rem 0; border-bottom: 1px solid rgba(212,175,55,0.5);">
                         <span data-es="🌆 Colombia Central" data-en="🌆 Central Colombia">🌆 Colombia Central</span><br>
-                        <strong>$13.800</strong>
+                        <strong style="color: var(--gold); font-size: 1.1rem;">$13.800</strong>
                     </div>
                     <div style="padding: 0.5rem 0;">
                         <span data-es="📍 Larga Distancia" data-en="📍 Long Distance">📍 Larga Distancia</span><br>
-                        <strong>$21.000</strong>
+                        <strong style="color: var(--gold); font-size: 1.1rem;">$21.000</strong>
                     </div>
                 </div>
                 <span class="shipping-days" data-es="2-3 días" data-en="2-3 days">2-3 días</span>
             </div>
-            <div class="shipping-card" style="background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(0,0,0,0.9)), url('images/southamerica.png') center/cover;">
+            <div class="shipping-card clickable-shipping" onclick="toggleShippingDetails('southamerica')" style="background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(0,0,0,0.9)), url('images/southamerica.png') center/cover; cursor: pointer; transition: all 0.3s;">
                 <h3 data-es="Sudamérica" data-en="South America">Sudamérica</h3>
-                <p class="shipping-contact" data-es="Consulta vía WhatsApp" data-en="Consult via WhatsApp">Consulta vía WhatsApp</p>
+                <div id="southamerica-preview" style="text-align: center; margin: 1rem 0;">
+                    <p style="font-size: 1.1rem; color: var(--gold); font-weight: 600;" data-es="Consulta vía WhatsApp" data-en="Consult via WhatsApp">Consulta vía WhatsApp</p>
+                </div>
+                <div id="southamerica-details" style="text-align: center; font-size: 0.9rem; line-height: 1.8; margin: 1rem 0; display: none;">
+                    <p data-es="Para cotizaciones en Sudamérica contacta a:" data-en="For South America quotes contact:">Para cotizaciones en Sudamérica contacta a:</p>
+                    <a href="https://wa.me/573017606723" target="_blank" style="color: var(--gold); text-decoration: underline; font-weight: 600;">WhatsApp: +57 301 760 6723</a>
+                </div>
                 <span class="shipping-days" data-es="5-7 días" data-en="5-7 days">5-7 días</span>
             </div>
-            <div class="shipping-card" style="background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(0,0,0,0.9)), url('images/asia.jpg') center/cover;">
+            <div class="shipping-card clickable-shipping" onclick="toggleShippingDetails('northamerica')" style="background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(0,0,0,0.9)), url('images/asia.jpg') center/cover; cursor: pointer; transition: all 0.3s;">
                 <h3 data-es="Norteamérica" data-en="North America">Norteamérica</h3>
-                <p class="shipping-contact" data-es="Consulta vía WhatsApp" data-en="Consult via WhatsApp">Consulta vía WhatsApp</p>
+                <div id="northamerica-preview" style="text-align: center; margin: 1rem 0;">
+                    <p style="font-size: 1.1rem; color: var(--gold); font-weight: 600;" data-es="Consulta vía WhatsApp" data-en="Consult via WhatsApp">Consulta vía WhatsApp</p>
+                </div>
+                <div id="northamerica-details" style="text-align: center; font-size: 0.9rem; line-height: 1.8; margin: 1rem 0; display: none;">
+                    <p data-es="Para cotizaciones en Norteamérica contacta a:" data-en="For North America quotes contact:">Para cotizaciones en Norteamérica contacta a:</p>
+                    <a href="https://wa.me/573017606723" target="_blank" style="color: var(--gold); text-decoration: underline; font-weight: 600;">WhatsApp: +57 301 760 6723</a>
+                </div>
                 <span class="shipping-days" data-es="7-10 días" data-en="7-10 days">7-10 días</span>
             </div>
-            <div class="shipping-card" style="background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(0,0,0,0.9)), url('images/europa.jpg') center/cover;">
+            <div class="shipping-card clickable-shipping" onclick="toggleShippingDetails('europa')" style="background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(0,0,0,0.9)), url('images/europa.jpg') center/cover; cursor: pointer; transition: all 0.3s;">
                 <h3 data-es="Europa" data-en="Europe">Europa</h3>
-                <p class="shipping-contact" data-es="Consulta vía WhatsApp" data-en="Consult via WhatsApp">Consulta vía WhatsApp</p>
+                <div id="europa-preview" style="text-align: center; margin: 1rem 0;">
+                    <p style="font-size: 1.1rem; color: var(--gold); font-weight: 600;" data-es="Consulta vía WhatsApp" data-en="Consult via WhatsApp">Consulta vía WhatsApp</p>
+                </div>
+                <div id="europa-details" style="text-align: center; font-size: 0.9rem; line-height: 1.8; margin: 1rem 0; display: none;">
+                    <p data-es="Para cotizaciones en Europa contacta a:" data-en="For Europe quotes contact:">Para cotizaciones en Europa contacta a:</p>
+                    <a href="https://wa.me/573017606723" target="_blank" style="color: var(--gold); text-decoration: underline; font-weight: 600;">WhatsApp: +57 301 760 6723</a>
+                </div>
                 <span class="shipping-days" data-es="10-15 días" data-en="10-15 days">10-15 días</span>
             </div>
         </div>
@@ -583,6 +604,25 @@
             <p data-es="¿Duda sobre tu envío?" data-en="Doubt about your shipping?">¿Duda sobre tu envío?</p>
             <a href="https://wa.me/573017606723" target="_blank" data-es="Consulta costos de envío por WhatsApp: +57 301 760 6723" data-en="Consult shipping costs via WhatsApp: +57 301 760 6723">Consulta costos de envío por WhatsApp: +57 301 760 6723</a>
         </div>
+    </section>
+
+    <script>
+        // Toggle shipping details on card click
+        function toggleShippingDetails(region) {
+            const previewId = region + '-preview';
+            const detailsId = region + '-details';
+            const preview = document.getElementById(previewId);
+            const details = document.getElementById(detailsId);
+            
+            if (details.style.display === 'none') {
+                details.style.display = 'block';
+                preview.style.display = 'none';
+            } else {
+                details.style.display = 'none';
+                preview.style.display = 'block';
+            }
+        }
+    </script>
     </section>
 
     <!-- Buy Now Section -->
