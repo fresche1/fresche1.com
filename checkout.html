@@ -452,52 +452,29 @@
         const BACKEND_URL = 'https://fresche1-com.onrender.com';
 
         // Tarifas de envío reales
+        // Colombia: Interrapidísimo según zona
+        // Internacional: Servientrega tarifa fija
+        const colombiaCities = {
+            bogota: ['bogota', 'bogotá', 'soacha', 'chia', 'chía', 'cajica', 'cajicá', 'cota', 'funza', 'mosquera', 'madrid', 'zipaquira', 'zipaquirá'],
+            central: ['medellin', 'medellín', 'cali', 'barranquilla', 'cartagena', 'bucaramanga', 'pereira', 'manizales', 'armenia', 'ibague', 'ibagué', 'pasto', 'cucuta', 'cúcuta', 'villavicencio', 'neiva', 'popayan', 'popayán', 'santa marta', 'valledupar', 'monteria', 'montería', 'sincelejo', 'tunja', 'florencia', 'quibdo', 'quibdó'],
+            // Todas las demás ciudades son larga distancia
+        };
+        
+        function getColombiaCityZone(city) {
+            const cityLower = city.toLowerCase().trim();
+            if (colombiaCities.bogota.some(c => cityLower.includes(c))) return 'bogota';
+            if (colombiaCities.central.some(c => cityLower.includes(c))) return 'central';
+            return 'longdistance';
+        }
+        
         const shippingRates = {
             CO: [
-                { id: 'standard', name: 'Servientrega Estándar', desc: '5-7 días hábiles', price: 15000, currency: 'COP' },
-                { id: 'express', name: 'Servientrega Express', desc: '2-3 días hábiles', price: 25000, currency: 'COP' },
-                { id: 'priority', name: 'Servientrega Prioritario', desc: '1 día hábil', price: 35000, currency: 'COP' }
+                { id: 'bogota', name: 'Interrapidísimo - Bogotá', desc: '2-4 días hábiles', price: 9000, currency: 'COP', zone: 'bogota' },
+                { id: 'central', name: 'Interrapidísimo - Colombia Central', desc: '3-5 días hábiles', price: 13800, currency: 'COP', zone: 'central' },
+                { id: 'longdistance', name: 'Interrapidísimo - Larga Distancia', desc: '4-7 días hábiles', price: 21000, currency: 'COP', zone: 'longdistance' }
             ],
-            US: [
-                { id: 'standard', name: 'FedEx International Economy', desc: '10-15 business days', price: 12, currency: 'USD' },
-                { id: 'express', name: 'FedEx International Priority', desc: '5-7 business days', price: 22, currency: 'USD' },
-                { id: 'priority', name: 'FedEx International First', desc: '3-5 business days', price: 35, currency: 'USD' }
-            ],
-            CA: [
-                { id: 'standard', name: 'FedEx International Economy', desc: '10-15 business days', price: 13, currency: 'USD' },
-                { id: 'express', name: 'FedEx International Priority', desc: '5-7 business days', price: 24, currency: 'USD' }
-            ],
-            MX: [
-                { id: 'standard', name: 'FedEx International Economy', desc: '8-12 días hábiles', price: 35000, currency: 'COP' },
-                { id: 'express', name: 'FedEx International Priority', desc: '4-6 días hábiles', price: 65000, currency: 'COP' }
-            ],
-            ES: [
-                { id: 'standard', name: 'FedEx International Economy', desc: '12-18 días hábiles', price: 15, currency: 'USD' },
-                { id: 'express', name: 'FedEx International Priority', desc: '6-8 días hábiles', price: 26, currency: 'USD' }
-            ],
-            AR: [
-                { id: 'standard', name: 'FedEx International Economy', desc: '10-15 días hábiles', price: 40000, currency: 'COP' },
-                { id: 'express', name: 'FedEx International Priority', desc: '5-7 días hábiles', price: 75000, currency: 'COP' }
-            ],
-            CL: [
-                { id: 'standard', name: 'FedEx International Economy', desc: '10-15 días hábiles', price: 40000, currency: 'COP' },
-                { id: 'express', name: 'FedEx International Priority', desc: '5-7 días hábiles', price: 75000, currency: 'COP' }
-            ],
-            PE: [
-                { id: 'standard', name: 'FedEx International Economy', desc: '8-12 días hábiles', price: 35000, currency: 'COP' },
-                { id: 'express', name: 'FedEx International Priority', desc: '4-6 días hábiles', price: 65000, currency: 'COP' }
-            ],
-            EC: [
-                { id: 'standard', name: 'FedEx International Economy', desc: '8-12 días hábiles', price: 35000, currency: 'COP' },
-                { id: 'express', name: 'FedEx International Priority', desc: '4-6 días hábiles', price: 65000, currency: 'COP' }
-            ],
-            BR: [
-                { id: 'standard', name: 'FedEx International Economy', desc: '12-18 días hábiles', price: 55000, currency: 'COP' },
-                { id: 'express', name: 'FedEx International Priority', desc: '6-8 días hábiles', price: 95000, currency: 'COP' }
-            ],
-            OTHER: [
-                { id: 'standard', name: 'FedEx International Economy', desc: '15-25 business days', price: 18, currency: 'USD' },
-                { id: 'express', name: 'FedEx International Priority', desc: '7-10 business days', price: 30, currency: 'USD' }
+            INTERNATIONAL: [
+                { id: 'international', name: 'Servientrega International', desc: '10-15 business days', price: 10, currency: 'USD' }
             ]
         };
 
@@ -632,6 +609,7 @@
 
         function updateShippingCost() {
             const country = document.getElementById('country').value;
+            const city = document.getElementById('city').value;
             const shippingOptionsDiv = document.getElementById('shippingOptions');
             const language = document.documentElement.lang || 'es';
             const isEnglish = language === 'en';
@@ -646,35 +624,67 @@
                 return;
             }
 
-            // Si está en inglés O si el país no es Colombia, usar USD
-            const useUSD = usdCountries.includes(country) || isEnglish || country !== 'CO';
-            currentCurrency = useUSD ? 'USD' : 'COP';
+            // Determinar moneda
+            currentCurrency = country === 'CO' ? 'COP' : 'USD';
             
             // Mostrar/ocultar métodos de pago según el país
             updatePaymentMethods(country);
 
-            const options = shippingRates[country] || shippingRates.OTHER;
+            let options;
+            let selectedOption = null;
             
-            shippingOptionsDiv.innerHTML = options.map(option => {
-                const formattedPrice = currentCurrency === 'USD' 
-                    ? `$${option.price.toFixed(2)} USD`
-                    : `$${Math.round(option.price).toLocaleString('es-CO')} COP`;
+            if (country === 'CO') {
+                // Colombia: Detectar zona automáticamente basado en ciudad
+                if (city) {
+                    const zone = getColombiaCityZone(city);
+                    selectedOption = shippingRates.CO.find(opt => opt.zone === zone);
+                    
+                    if (selectedOption) {
+                        // Auto-seleccionar el envío según la zona
+                        selectedShippingMethod = selectedOption.id;
+                        shippingCost = selectedOption.price;
+                        
+                        const formattedPrice = `$${Math.round(selectedOption.price).toLocaleString('es-CO')} COP`;
+                        const zoneName = zone === 'bogota' ? 'Bogotá' : zone === 'central' ? 'Colombia Central' : 'Larga Distancia';
+                        
+                        shippingOptionsDiv.innerHTML = `
+                            <div class="shipping-option selected">
+                                <div class="shipping-option-info">
+                                    <div class="shipping-option-name">${selectedOption.name}</div>
+                                    <div class="shipping-option-desc">📦 ${selectedOption.desc}</div>
+                                    <div style="font-size: 0.9rem; color: var(--gold); margin-top: 0.5rem;">✓ Zona detectada: ${zoneName}</div>
+                                </div>
+                                <div class="shipping-option-price">${formattedPrice}</div>
+                            </div>
+                        `;
+                    }
+                } else {
+                    // Si no hay ciudad, mostrar mensaje
+                    const alertMsg = isEnglish ? 'Enter a city to calculate shipping cost' : 'Ingresa la ciudad para calcular el costo de envío';
+                    shippingOptionsDiv.innerHTML = `<div class="shipping-alert">⚠️ ${alertMsg}</div>`;
+                    shippingCost = 0;
+                    selectedShippingMethod = null;
+                }
+            } else {
+                // Internacional: Tarifa fija
+                options = shippingRates.INTERNATIONAL;
+                selectedOption = options[0];
+                selectedShippingMethod = selectedOption.id;
+                shippingCost = selectedOption.price;
                 
-                return `
-                    <div class="shipping-option ${selectedShippingMethod === option.id ? 'selected' : ''}" 
-                         onclick="selectShippingMethod('${option.id}', ${option.price})">
+                const formattedPrice = `$${selectedOption.price.toFixed(2)} USD`;
+                
+                shippingOptionsDiv.innerHTML = `
+                    <div class="shipping-option selected">
                         <div class="shipping-option-info">
-                            <div class="shipping-option-name">${option.name}</div>
-                            <div class="shipping-option-desc">📦 ${option.desc}</div>
+                            <div class="shipping-option-name">${selectedOption.name}</div>
+                            <div class="shipping-option-desc">📦 ${selectedOption.desc}</div>
                         </div>
                         <div class="shipping-option-price">${formattedPrice}</div>
                     </div>
                 `;
-            }).join('');
+            }
 
-            // Resetear selección de envío al cambiar de país
-            selectedShippingMethod = null;
-            shippingCost = 0;
             displayOrderSummary();
         }
 
@@ -1054,6 +1064,13 @@ Incluye tu nombre completo: ${formData.fullName}
             const defaultPaymentMethod = document.querySelector('.payment-method.selected');
             if (defaultPaymentMethod) {
                 selectPaymentMethod(defaultPaymentMethod);
+            }
+            
+            // Agregar listener para actualizar envío cuando cambie la ciudad
+            const cityInput = document.getElementById('city');
+            if (cityInput) {
+                cityInput.addEventListener('blur', updateShippingCost);
+                cityInput.addEventListener('change', updateShippingCost);
             }
         });
     </script>
