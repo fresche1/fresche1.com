@@ -982,7 +982,7 @@
             const commission = selectedPaymentMethod === 'MERCADOPAGO' ? subtotal * 0.05 : 0;
             const total = subtotal + shippingCost + commission;
 
-            // Si es Nequi o Zelle, mostrar confirmación
+            // Si es Nequi o Zelle, enviar información completa por WhatsApp
             if (selectedPaymentMethod === 'NEQUI' || selectedPaymentMethod === 'ZELLE') {
                 const methodName = selectedPaymentMethod === 'NEQUI' ? 'Nequi' : 'Zelle';
                 const formatMoney = (amount) => {
@@ -993,23 +993,42 @@
                     }
                 };
                 
-                const message = `
-¡Gracias por tu pedido!
-
-Total a pagar: ${formatMoney(total)}
-Método de pago: ${methodName}
-
-Por favor realiza el pago y envía el comprobante al WhatsApp:
-+57 300 123 4567
-
-Incluye tu nombre completo: ${formData.fullName}
-                `.trim();
+                // Crear mensaje detallado con toda la información del pedido
+                let itemsText = cart.map(item => {
+                    const prices = item.type === 'pack' 
+                        ? getPricePerUnit(1, 'pack') 
+                        : getPricePerUnit(item.quantity, 'product');
+                    const itemTotal = prices[currentCurrency] * item.quantity;
+                    
+                    if (item.type === 'pack') {
+                        const productsText = item.products.map(p => `  • ${p.quantity}x ${p.fragrance}`).join('\n');
+                        return `${item.quantity}x ${item.name}\n${productsText}\n  Subtotal: ${formatMoney(itemTotal)}`;
+                    } else {
+                        return `${item.quantity}x ${item.name}\n  Subtotal: ${formatMoney(itemTotal)}`;
+                    }
+                }).join('\n\n');
                 
-                alert(message);
+                const whatsappMsg = `🛍️ *NUEVO PEDIDO - ${methodName}*\n\n` +
+                    `*DATOS DEL CLIENTE:*\n` +
+                    `Nombre: ${formData.fullName}\n` +
+                    `Email: ${formData.email}\n` +
+                    `Teléfono: ${formData.phone}\n\n` +
+                    `*DIRECCIÓN DE ENVÍO:*\n` +
+                    `${formData.address}\n` +
+                    `${formData.city}, ${formData.state}\n` +
+                    `CP: ${formData.postalCode}\n` +
+                    `País: ${formData.country}\n` +
+                    `Método de envío: ${selectedShippingMethod === 'standard' ? 'Estándar' : 'Express'}\n\n` +
+                    `*PRODUCTOS:*\n${itemsText}\n\n` +
+                    `*RESUMEN:*\n` +
+                    `Subtotal: ${formatMoney(subtotal)}\n` +
+                    `Envío: ${formatMoney(shippingCost)}\n` +
+                    `*TOTAL: ${formatMoney(total)}*\n\n` +
+                    `Método de pago: ${methodName}\n` +
+                    `${methodName === 'Nequi' ? 'Número: +57 301 760 6723' : 'Email: fresche@fresche.com'}`;
                 
-                // Opcional: redirigir a WhatsApp
-                const whatsappMsg = encodeURIComponent(`Hola! Acabo de hacer un pedido.\n\nNombre: ${formData.fullName}\nEmail: ${formData.email}\nTotal: ${formatMoney(total)}\nMétodo: ${methodName}\n\nEnvío el comprobante de pago.`);
-                window.open(`https://wa.me/573017606723?text=${whatsappMsg}`, '_blank');
+                // Redirigir directo a WhatsApp con toda la información
+                window.location.href = `https://wa.me/573017606723?text=${encodeURIComponent(whatsappMsg)}`;
                 
                 return;
             }
@@ -1036,6 +1055,12 @@ Incluye tu nombre completo: ${formData.fullName}
 
         async function createMercadoPagoCheckout(formData, total, subtotal) {
             try {
+                // Mostrar mensaje de carga
+                const loadingMsg = document.createElement('div');
+                loadingMsg.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.9); color: var(--gold); padding: 2rem 3rem; border-radius: 10px; z-index: 10000; text-align: center; font-size: 1.2rem;';
+                loadingMsg.innerHTML = '<div style="margin-bottom: 1rem;">⏳</div>Procesando pago...<br><small style="font-size: 0.8rem; opacity: 0.8;">Redirigiendo a MercadoPago</small>';
+                document.body.appendChild(loadingMsg);
+                
                 // Calcular comisión del 5%
                 const commission = cart.reduce((sum, item) => {
                     const prices = item.type === 'pack' 
@@ -1157,6 +1182,9 @@ Incluye tu nombre completo: ${formData.fullName}
                 
             } catch (error) {
                 console.error('Error al crear preferencia de Mercado Pago:', error);
+                // Remover mensaje de carga si existe
+                const loadingMsg = document.querySelector('[style*="Procesando pago"]');
+                if (loadingMsg) loadingMsg.remove();
                 alert('Error al procesar el pago. Por favor inténtalo nuevamente.');
             }
         }
