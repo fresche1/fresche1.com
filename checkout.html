@@ -867,26 +867,19 @@
                     </div>
                 `;
             } else if (selectedPaymentMethod === 'MERCADOLIBRE') {
-                const subtotal = cart.reduce((sum, item) => {
-                    const prices = item.type === 'pack' 
-                        ? getPricePerUnit(1, 'pack') 
-                        : getPricePerUnit(item.quantity, 'product');
-                    return sum + (prices[currentCurrency] * item.quantity);
-                }, 0);
-                const total = subtotal + shippingCost;
-                const formatMoney = (amount) => {
-                    return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
-                };
                 instructions = `
                     <h4 style="color: var(--gold); margin-bottom: 1rem;">🛒 MercadoLibre Colombia</h4>
                     <div style="color: #fff; line-height: 1.8;">
-                        <p style="margin-bottom: 0.5rem;">Compra directamente en nuestra tienda oficial de MercadoLibre</p>
-                        <p style="margin-bottom: 0.5rem;"><strong>Total aproximado:</strong> ${formatMoney(total)}</p>
-                        <div style="background: rgba(0, 184, 148, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px solid rgba(0, 184, 148, 0.3);">
-                            <p style="color: #00b894; margin: 0;">✓ Protección del comprador MercadoLibre</p>
-                            <p style="color: #00b894; margin: 0.5rem 0 0 0;">✓ Todos los métodos de pago de ML</p>
+                        <p style="margin-bottom: 1rem;">Serás redirigido a MercadoLibre para completar tu compra de forma 100% segura.</p>
+                        <div style="background: rgba(0, 184, 148, 0.1); padding: 1rem; border-radius: 8px; margin: 1rem 0; border: 1px solid rgba(0, 184, 148, 0.3);">
+                            <p style="color: #00b894; margin: 0; margin-bottom: 0.5rem;"><strong>✓ Beneficios de comprar en MercadoLibre:</strong></p>
+                            <p style="color: #00b894; margin: 0.3rem 0;">• Protección al comprador</p>
+                            <p style="color: #00b894; margin: 0.3rem 0;">• Todos los métodos de pago disponibles</p>
+                            <p style="color: #00b894; margin: 0.3rem 0;">• Seguimiento de envío</p>
+                            <p style="color: #00b894; margin: 0.3rem 0;">• Garantía de entrega</p>
                         </div>
-                        <p style="color: #ff9800; margin-top: 1rem;">ℹ️ Serás redirigido a MercadoLibre para completar tu compra</p>
+                        <p style="color: var(--gold); margin-top: 1rem;"><strong>👉 Haz clic en "Pagar Ahora" para ir a MercadoLibre</strong></p>
+                        <p style="color: rgba(255, 255, 255, 0.7); margin-top: 0.5rem; font-size: 0.9rem;">No es necesario completar la información de envío aquí. Lo harás en MercadoLibre.</p>
                     </div>
                 `;
             }
@@ -947,6 +940,27 @@
         }
 
         function processPayment() {
+            // Si es MercadoLibre, redirigir directamente sin validar formulario
+            if (selectedPaymentMethod === 'MERCADOLIBRE') {
+                if (cart.length === 0) {
+                    alert('Tu carrito está vacío');
+                    return;
+                }
+                
+                const cartSummary = cart.map(item => {
+                    const quantity = item.quantity;
+                    const name = item.type === 'pack' ? item.name : item.name;
+                    return `${name} x${quantity}`;
+                }).join(', ');
+                
+                const message = `¿Deseas ir a MercadoLibre para completar tu compra?\n\nProductos en tu carrito:\n${cartSummary}\n\nEn MercadoLibre podrás:\n✓ Ingresar tu dirección de envío\n✓ Elegir método de pago\n✓ Completar tu compra de forma segura`;
+                
+                if (confirm(message)) {
+                    redirectToMercadoLibre();
+                }
+                return;
+            }
+            
             const form = document.getElementById('checkoutForm');
             
             if (!form.checkValidity()) {
@@ -1026,64 +1040,21 @@ Incluye tu nombre completo: ${formData.fullName}
             // Si es Mercado Pago, continuar con el flujo normal
             if (selectedPaymentMethod === 'MERCADOPAGO') {
                 createMercadoPagoCheckout(formData, total, subtotal + commission);
-            } else if (selectedPaymentMethod === 'MERCADOLIBRE') {
-                redirectToMercadoLibre(formData);
             }
         }
 
-        function redirectToMercadoLibre(formData) {
+        function redirectToMercadoLibre() {
             // URL del producto en MercadoLibre Colombia
             const mercadoLibreURL = 'https://articulo.mercadolibre.com.co/MCO-1801564823-crema-intima-fresche-30-ml-hidratante-hipoalergenica-_JM';
             
-            // Construir mensaje de referencia
-            const cartSummary = cart.map(item => {
-                const quantity = item.quantity;
-                const name = item.type === 'pack' ? item.name : item.name;
-                return `${name} x${quantity}`;
-            }).join(', ');
-            
-            const message = `
-📦 PEDIDO DESDE WEB:
-
-Cliente: ${formData.fullName}
-Email: ${formData.email}
-Teléfono: ${formData.phone}
-
-Dirección de envío:
-${formData.address}
-${formData.city}, ${formData.state}
-${formData.country}
-${formData.postalCode ? 'CP: ' + formData.postalCode : ''}
-
-Productos:
-${cartSummary}
-
-Por favor, envía este resumen al vendedor después de realizar tu compra en MercadoLibre.
-            `.trim();
-            
-            // Guardar información del pedido
+            // Guardar carrito por si el usuario regresa
             localStorage.setItem('pendingMLOrder', JSON.stringify({
-                formData,
-                cart,
+                cart: cart,
                 timestamp: Date.now()
             }));
             
-            // Mostrar mensaje con instrucciones
-            if (confirm(`Serás redirigido a MercadoLibre Colombia.\n\n${message}\n\n¿Continuar?`)) {
-                // Copiar mensaje al portapapeles
-                navigator.clipboard.writeText(message).catch(() => {});
-                
-                // Abrir MercadoLibre en nueva pestaña
-                window.open(mercadoLibreURL, '_blank');
-                
-                // Opcional: Abrir WhatsApp con el resumen
-                const whatsappMsg = encodeURIComponent(message);
-                setTimeout(() => {
-                    if (confirm('¿Deseas enviar también este resumen por WhatsApp?')) {
-                        window.open(`https://wa.me/573017606723?text=${whatsappMsg}`, '_blank');
-                    }
-                }, 1000);
-            }
+            // Abrir MercadoLibre en la misma pestaña
+            window.location.href = mercadoLibreURL;
         }
 
         async function createMercadoPagoCheckout(formData, total, subtotal) {
