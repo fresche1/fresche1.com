@@ -400,32 +400,40 @@
         </div>
 
                         <div class="gallery-categories">
-            <!-- Videos Category -->
-            <div class="gallery-category" onclick="openGallerySection('videos')">
-                <div class="category-icon">🎬</div>
-                <h3 data-es=" Videos" data-en=" Videos"> Videos</h3>
-                <p data-es="Descubre nuestras colecciones en movimiento" data-en="Discover our collections in motion">Descubre nuestras colecciones en movimiento</p>
-            </div>
-
-            <!-- Photos Category -->
-            <div class="gallery-category" onclick="openGallerySection('photos')">
-                <div class="category-icon">📸</div>
-                <h3 data-es=" Fotos" data-en=" Photos"> Fotos</h3>
-                <p data-es="Momentos especiales capturados" data-en="Special moments captured">Momentos especiales capturados</p>
+            <!-- Products Category -->
+            <div class="gallery-category" onclick="openGallerySection('products')">
+                <div class="category-icon">🧴</div>
+                <h3 data-es="Nuestros Productos" data-en="Our Products">Nuestros Productos</h3>
+                <p data-es="Descubre nuestra línea de productos premium" data-en="Discover our premium product line">Descubre nuestra línea de productos premium</p>
             </div>
 
             <!-- Ads Category -->
             <div class="gallery-category" onclick="openGallerySection('ads')">
                 <div class="category-icon">📢</div>
-                <h3 data-es=" Publicidad" data-en=" Advertising"> Publicidad</h3>
+                <h3 data-es="Publicidad" data-en="Advertising">Publicidad</h3>
                 <p data-es="Contenido promocional exclusivo" data-en="Exclusive promotional content">Contenido promocional exclusivo</p>
             </div>
-        </div>        <!-- Videos Modal -->
-        <div id="videosModal" class="gallery-modal">
+
+            <!-- Testimonials Category -->
+            <div class="gallery-category" onclick="openGallerySection('testimonials')">
+                <div class="category-icon">⭐</div>
+                <h3 data-es="Testimonios" data-en="Testimonials">Testimonios</h3>
+                <p data-es="Lo que dicen nuestros clientes" data-en="What our customers say">Lo que dicen nuestros clientes</p>
+            </div>
+        </div>        <!-- Products Modal -->
+        <div id="productsModal" class="gallery-modal">
             <div class="gallery-modal-content">
-                <span class="close-modal" onclick="closeGalleryModal('videos')">&times;</span>
-                <h2 data-es=" Videos" data-en=" Videos"> Videos</h2>
+                <span class="close-modal" onclick="closeGalleryModal('products')">&times;</span>
+                <h2 data-es="Nuestros Productos" data-en="Our Products">Nuestros Productos</h2>
                 <div class="gallery-grid-modal">
+                    <div class="gallery-photo-item">
+                        <img src="images/fresche poster .jpg" alt="FRESCHE Poster Completo" onclick="openImageFullscreen(this.src, this.alt)" style="cursor: pointer;">
+                        <p data-es="Póster FRESCHE Completo" data-en="Complete FRESCHE Poster">Póster FRESCHE Completo</p>
+                    </div>
+                    <div class="gallery-photo-item">
+                        <img src="images/poster-fresche.jpg" alt="FRESCHE Poster" onclick="openImageFullscreen(this.src, this.alt)" style="cursor: pointer;">
+                        <p data-es="Póster FRESCHE" data-en="FRESCHE Poster">Póster FRESCHE</p>
+                    </div>
                     <div class="gallery-video-item">
                         <video controls onclick="openVideoFullscreen(this)" style="cursor: pointer;">
                             <source src="images/background-women.mp4" type="video/mp4">
@@ -444,52 +452,22 @@
                         </video>
                         <p data-es="FRESCHE Pote Etiqueta" data-en="FRESCHE Jar Label">FRESCHE Pote Etiqueta</p>
                     </div>
-                </div>
-                <div class="gallery-thumbs">
-                    <button class="gallery-thumb" onclick="jumpToItem(0)" aria-label="Video 1">🎬</button>
-                    <button class="gallery-thumb" onclick="jumpToItem(1)" aria-label="Video 2">🎬</button>
-                    <button class="gallery-thumb" onclick="jumpToItem(2)" aria-label="Video 3">🎬</button>
-                </div>
-                <div class="gallery-controls">
-                    <button class="gallery-btn-prev" onclick="prevCarousel()">❮</button>
-                    <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">3</span></span>
-                    <button class="gallery-btn-next" onclick="nextCarousel()">❯</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Photos Modal -->
-        <div id="photosModal" class="gallery-modal">
-            <div class="gallery-modal-content">
-                <span class="close-modal" onclick="closeGalleryModal('photos')">&times;</span>
-                <h2 data-es=" Fotos" data-en=" Photos"> Fotos</h2>
-                <div class="gallery-grid-modal">
-                    <div class="gallery-photo-item">
-                        <img src="images/fresche poster .jpg" alt="FRESCHE Poster Completo" onclick="openImageFullscreen(this.src, this.alt)" style="cursor: pointer;">
-                        <p data-es="Póster FRESCHE Completo" data-en="Complete FRESCHE Poster">Póster FRESCHE Completo</p>
-                    </div>
-                    <div class="gallery-photo-item">
-                        <img src="images/poster-fresche.jpg" alt="FRESCHE Poster" onclick="openImageFullscreen(this.src, this.alt)" style="cursor: pointer;">
-                        <p data-es="Póster FRESCHE" data-en="FRESCHE Poster">Póster FRESCHE</p>
-                    </div>
-                    <div class="gallery-photo-item">
-                        <img src="images/fresche-publicidad.png" alt="Publicidad FRESCHE" onclick="openImageFullscreen(this.src, this.alt)" style="cursor: pointer;">
-                        <p data-es="Publicidad FRESCHE" data-en="FRESCHE Advertising">Publicidad FRESCHE</p>
-                    </div>
                     <div class="gallery-photo-item">
                         <img src="images/invima-foto.png" alt="Registro INVIMA FRESCHE" onclick="openImageFullscreen(this.src, this.alt)" style="cursor: pointer;">
                         <p data-es="Registro INVIMA" data-en="INVIMA Registration">Registro INVIMA</p>
                     </div>
                 </div>
                 <div class="gallery-thumbs">
-                    <button class="gallery-thumb" onclick="jumpToItem(0)" aria-label="Foto 1">🖼️</button>
-                    <button class="gallery-thumb" onclick="jumpToItem(1)" aria-label="Foto 2">🖼️</button>
-                    <button class="gallery-thumb" onclick="jumpToItem(2)" aria-label="Foto 3">🖼️</button>
-                    <button class="gallery-thumb" onclick="jumpToItem(3)" aria-label="Foto 4">🖼️</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(0)" aria-label="Producto 1">🖼️</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(1)" aria-label="Producto 2">🖼️</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(2)" aria-label="Producto 3">🎬</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(3)" aria-label="Producto 4">🎬</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(4)" aria-label="Producto 5">🎬</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(5)" aria-label="Producto 6">🖼️</button>
                 </div>
                 <div class="gallery-controls">
                     <button class="gallery-btn-prev" onclick="prevCarousel()">❮</button>
-                    <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">4</span></span>
+                    <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">6</span></span>
                     <button class="gallery-btn-next" onclick="nextCarousel()">❯</button>
                 </div>
             </div>
@@ -499,8 +477,12 @@
         <div id="adsModal" class="gallery-modal">
             <div class="gallery-modal-content">
                 <span class="close-modal" onclick="closeGalleryModal('ads')">&times;</span>
-                <h2 data-es=" Publicidad" data-en=" Advertising"> Publicidad</h2>
+                <h2 data-es="Publicidad" data-en="Advertising">Publicidad</h2>
                 <div class="gallery-grid-modal">
+                    <div class="gallery-photo-item">
+                        <img src="images/fresche-publicidad.png" alt="Publicidad FRESCHE" onclick="openImageFullscreen(this.src, this.alt)" style="cursor: pointer;">
+                        <p data-es="Publicidad FRESCHE" data-en="FRESCHE Advertising">Publicidad FRESCHE</p>
+                    </div>
                     <div class="gallery-video-item">
                         <video controls onclick="openVideoFullscreen(this)" style="cursor: pointer; width: 100%; height: auto;">
                             <source src="images/advertising-video.mp4" type="video/mp4">
@@ -521,13 +503,59 @@
                     <p style="color: #fff; font-size: 0.9rem; margin-top: 0.5rem;" data-es="Descubre por qué miles de personas confían en nosotros" data-en="Discover why thousands of people trust us">Descubre por qué miles de personas confían en nosotros</p>
                 </div>
                 <div class="gallery-thumbs">
-                    <button class="gallery-thumb" onclick="jumpToItem(0)" aria-label="Publicidad 1">📢</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(0)" aria-label="Publicidad 1">🖼️</button>
                     <button class="gallery-thumb" onclick="jumpToItem(1)" aria-label="Publicidad 2">📢</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(2)" aria-label="Publicidad 3">📢</button>
                 </div>
                 <div class="gallery-controls">
-                    <button class="gallery-btn-prev" onclick="prevCarousel()"></button>
-                    <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">2</span></span>
-                    <button class="gallery-btn-next" onclick="nextCarousel()"></button>
+                    <button class="gallery-btn-prev" onclick="prevCarousel()">❮</button>
+                    <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">3</span></span>
+                    <button class="gallery-btn-next" onclick="nextCarousel()">❯</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials Modal -->
+        <div id="testimonialsModal" class="gallery-modal">
+            <div class="gallery-modal-content">
+                <span class="close-modal" onclick="closeGalleryModal('testimonials')">&times;</span>
+                <h2 data-es="Testimonios de Clientes" data-en="Customer Testimonials">Testimonios de Clientes</h2>
+                <div class="gallery-grid-modal">
+                    <!-- Aquí puedes agregar fotos de clientes con sus testimonios -->
+                    <div class="testimonial-item">
+                        <img src="images/cliente1.jpg" alt="Cliente feliz" onclick="openImageFullscreen(this.src, this.alt)" style="cursor: pointer;">
+                        <div class="testimonial-text">
+                            <p class="testimonial-quote" data-es="&quot;FRESCHE cambió mi vida, ahora me siento fresco todo el día&quot;" data-en="&quot;FRESCHE changed my life, now I feel fresh all day&quot;">"FRESCHE cambió mi vida, ahora me siento fresco todo el día"</p>
+                            <p class="testimonial-author" data-es="- María G." data-en="- María G.">- María G.</p>
+                            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item">
+                        <img src="images/cliente2.jpg" alt="Cliente satisfecho" onclick="openImageFullscreen(this.src, this.alt)" style="cursor: pointer;">
+                        <div class="testimonial-text">
+                            <p class="testimonial-quote" data-es="&quot;El mejor desodorante que he probado, 100% recomendado&quot;" data-en="&quot;The best deodorant I've tried, 100% recommended&quot;">"El mejor desodorante que he probado, 100% recomendado"</p>
+                            <p class="testimonial-author" data-es="- Carlos R." data-en="- Carlos R.">- Carlos R.</p>
+                            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item">
+                        <img src="images/cliente3.jpg" alt="Cliente feliz" onclick="openImageFullscreen(this.src, this.alt)" style="cursor: pointer;">
+                        <div class="testimonial-text">
+                            <p class="testimonial-quote" data-es="&quot;Excelente calidad y aroma duradero, lo uso todos los días&quot;" data-en="&quot;Excellent quality and long-lasting scent, I use it every day&quot;">"Excelente calidad y aroma duradero, lo uso todos los días"</p>
+                            <p class="testimonial-author" data-es="- Ana L." data-en="- Ana L.">- Ana L.</p>
+                            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-thumbs">
+                    <button class="gallery-thumb" onclick="jumpToItem(0)" aria-label="Testimonio 1">⭐</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(1)" aria-label="Testimonio 2">⭐</button>
+                    <button class="gallery-thumb" onclick="jumpToItem(2)" aria-label="Testimonio 3">⭐</button>
+                </div>
+                <div class="gallery-controls">
+                    <button class="gallery-btn-prev" onclick="prevCarousel()">❮</button>
+                    <span class="gallery-counter"><span class="current-index">1</span> / <span class="total-items">3</span></span>
+                    <button class="gallery-btn-next" onclick="nextCarousel()">❯</button>
                 </div>
             </div>
         </div>
