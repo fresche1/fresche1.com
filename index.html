@@ -749,6 +749,13 @@
                             <div style="font-size: 0.9rem; opacity: 0.8;">+57 301 760 6723</div>
                         </div>
                     </a>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(255,153,0,0.1) 0%, rgba(255,153,0,0.2) 100%); border: 2px solid #FF9900; border-radius: 10px; color: #fff; font-size: 1.2rem; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.background='linear-gradient(135deg, rgba(255,153,0,0.3) 0%, rgba(255,153,0,0.4) 100%)'; this.style.transform='translateY(-5px)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(255,153,0,0.1) 0%, rgba(255,153,0,0.2) 100%)'; this.style.transform='translateY(0)';" onclick="copyToClipboard('3017606723')">
+                        <span style="font-size: 2rem;">💳</span>
+                        <div style="text-align: left;">
+                            <div style="font-weight: 600;" data-es="Transferencia Nequi" data-en="Nequi Transfer">Transferencia Nequi</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">3017606723 (Click para copiar)</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1397,6 +1404,21 @@
             elements.forEach(el => {
                 const text = el.getAttribute(`data-${lang}`);
                 if (text) el.textContent = text;
+            });
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                alert(lang === 'es' 
+                    ? `✅ Número de Nequi copiado: ${text}` 
+                    : `✅ Nequi number copied: ${text}`);
+            }).catch(err => {
+                console.error('Error al copiar:', err);
+                const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                alert(lang === 'es' 
+                    ? `El número es: ${text}` 
+                    : `The number is: ${text}`);
             });
         }
         
