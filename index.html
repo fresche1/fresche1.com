@@ -627,11 +627,12 @@
 
     <!-- Buy Now Section -->
     <section class="coming-soon-section" style="background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%);">
-        <div class="coming-soon-box">
+        <div class="coming-soon-box" onclick="document.getElementById('products').scrollIntoView({ behavior: 'smooth' })" style="cursor: pointer; transition: all 0.3s ease; position: relative;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 60px rgba(212,175,55,0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 40px rgba(212,175,55,0.3)'">
             <span class="sparkle">🛍️</span>
             <h2 data-es="Compra Ahora" data-en="Buy Now">Compra Ahora</h2>
             <p data-es="Haz tu pedido por WhatsApp - Envíos a toda Colombia 🇨🇴" data-en="Place your order via WhatsApp - Shipping across Colombia 🇨🇴">Haz tu pedido por WhatsApp - Envíos a toda Colombia 🇨🇴</p>
-            <button class="btn-whatsapp" onclick="window.open('https://wa.me/573017606723?text=Hola%2C%20quiero%20hacer%20un%20pedido%20de%20Fresche', '_blank')" data-es="💬 Hacer Pedido por WhatsApp" data-en="💬 Order via WhatsApp">💬 Hacer Pedido por WhatsApp</button>
+            <button class="btn-whatsapp" onclick="event.stopPropagation(); window.open('https://wa.me/573017606723?text=Hola%2C%20quiero%20hacer%20un%20pedido%20de%20Fresche', '_blank')" data-es="💬 Hacer Pedido por WhatsApp" data-en="💬 Order via WhatsApp">💬 Hacer Pedido por WhatsApp</button>
+            <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--gold); text-decoration: underline;" data-es="o haz click en la tarjeta para ver nuestros productos ↓" data-en="or click on the card to view our products ↓">o haz click en la tarjeta para ver nuestros productos ↓</div>
         </div>
     </section>
 
