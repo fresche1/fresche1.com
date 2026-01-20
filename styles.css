@@ -1840,6 +1840,7 @@ body.theme-women .benefit-item h3 {
     color: var(--gold);
     font-weight: 600;
     font-size: 1.1rem;
+    display: none; /* Oculta el nombre de la imagen en la galería */
 }
 
 
@@ -1903,6 +1904,7 @@ body.theme-women .benefit-item h3 {
     color: var(--gold);
     font-weight: 600;
     font-size: 1.1rem;
+    display: none; /* Oculta el nombre de la imagen en la galería */
 }
 
 /* Testimonials Styles */
