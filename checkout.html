@@ -1110,7 +1110,29 @@ Incluye tu nombre completo: ${formData.fullName}
                 const response = await fetch(`${BACKEND_URL}/api/create-preference`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ preference, formData })
+                    body: JSON.stringify({ 
+                        preference,
+                        orderData: {
+                            customerName: formData.fullName,
+                            email: formData.email,
+                            phone: formData.phone,
+                            address: formData.address,
+                            city: formData.city,
+                            state: formData.state,
+                            zipCode: formData.postalCode,
+                            shippingMethod: formData.shippingMethod,
+                            subtotal: subtotal,
+                            shippingCost: shippingCost,
+                            total: total,
+                            currency: currentCurrency,
+                            items: cart.map(item => ({
+                                name: item.name,
+                                quantity: item.quantity,
+                                type: item.type,
+                                products: item.products
+                            }))
+                        }
+                    })
                 });
 
                 if (!response.ok) {
