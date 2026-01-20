@@ -126,6 +126,11 @@
         </div>
     </section>
 
+    <!-- Currency Badge -->
+    <div id="currencyBadge" style="position: fixed; top: 80px; right: 20px; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+        Moneda detectada: Pesos Colombianos
+    </div>
+
     <!-- Products Section -->
     <section id="products" class="products-section">
         <div class="section-header">
@@ -145,7 +150,7 @@
                 </div>
                 <div class="product-info-bottom">
                     <span class="product-size">1oz</span>
-                    <span class="product-price">
+                    <span class="product-price" data-price-cop="29900" data-price-usd="18.50">
                         <span data-es="$29.900 COP" data-en="$29.900 COP">$29.900 COP</span>
                     </span>
                 </div>
@@ -162,7 +167,7 @@
                 </div>
                 <div class="product-info-bottom">
                     <span class="product-size">1oz</span>
-                    <span class="product-price">
+                    <span class="product-price" data-price-cop="29900" data-price-usd="18.50">
                         <span data-es="$29.900 COP" data-en="$29.900 COP">$29.900 COP</span>
                     </span>
                 </div>
@@ -179,7 +184,7 @@
                 </div>
                 <div class="product-info-bottom">
                     <span class="product-size">1oz</span>
-                    <span class="product-price">
+                    <span class="product-price" data-price-cop="29900" data-price-usd="18.50">
                         <span data-es="$29.900 COP" data-en="$29.900 COP">$29.900 COP</span>
                     </span>
                 </div>
@@ -196,7 +201,7 @@
                 </div>
                 <div class="product-info-bottom">
                     <span class="product-size">1oz</span>
-                    <span class="product-price">
+                    <span class="product-price" data-price-cop="29900" data-price-usd="18.50">
                         <span data-es="$29.900 COP" data-en="$29.900 COP">$29.900 COP</span>
                     </span>
                 </div>
@@ -213,7 +218,7 @@
                 </div>
                 <div class="product-info-bottom">
                     <span class="product-size">1oz</span>
-                    <span class="product-price">
+                    <span class="product-price" data-price-cop="29900" data-price-usd="18.50">
                         <span data-es="$29.900 COP" data-en="$29.900 COP">$29.900 COP</span>
                     </span>
                 </div>
@@ -239,7 +244,7 @@
                     <span class="variety-badge" data-es="Elige tus fragancias" data-en="Choose your fragrances">Elige tus fragancias</span>
                 </div>
                 <h3 class="pack-name" data-es="2 Unidades" data-en="2 Units">2 Unidades</h3>
-                <div class="pack-pricing">
+                <div class="pack-pricing" data-price-cop="55000" data-price-usd="34.99">
                     <span class="pack-original">$59.800</span>
                     <span class="pack-price">$55.000 COP</span>
                     <span class="pack-savings" data-es="Ahorras $4.800" data-en="Save $4,800">Ahorras $4.800</span>
@@ -261,7 +266,7 @@
                     <span class="variety-badge" data-es="Elige tus fragancias" data-en="Choose your fragrances">Elige tus fragancias</span>
                 </div>
                 <h3 class="pack-name" data-es="3 Unidades" data-en="3 Units">3 Unidades</h3>
-                <div class="pack-pricing">
+                <div class="pack-pricing" data-price-cop="79000" data-price-usd="44.99">
                     <span class="pack-original">$89.700</span>
                     <span class="pack-price">$79.000 COP</span>
                     <span class="pack-savings" data-es="Ahorras $10.700" data-en="Save $10,700">Ahorras $10.700</span>
@@ -285,7 +290,7 @@
                     <span class="variety-badge special" data-es="2 👩 + 3 👨" data-en="2 👩 + 3 👨">2 👩 + 3 👨</span>
                 </div>
                 <h3 class="pack-name" data-es="5 Unidades" data-en="5 Units">5 Unidades</h3>
-                <div class="pack-pricing">
+                <div class="pack-pricing" data-price-cop="129999" data-price-usd="69.99">
                     <span class="pack-original">$149.500</span>
                     <span class="pack-price">$129.999 COP</span>
                     <span class="pack-savings" data-es="Ahorras $19.501" data-en="Save $19,501">Ahorras $19.501</span>
@@ -822,6 +827,47 @@
             const entry = map[userRegion] || map.DEFAULT;
             const lang = (document.documentElement.getAttribute('data-lang') || 'es');
             badge.textContent = lang === 'en' ? entry.en : entry.es;
+            updatePricesDisplay();
+        }
+
+        function updatePricesDisplay() {
+            const isColombia = userRegion === 'CO';
+            
+            // Update individual product prices
+            document.querySelectorAll('.product-price[data-price-cop][data-price-usd]').forEach(el => {
+                const priceCoP = el.getAttribute('data-price-cop');
+                const priceUSD = el.getAttribute('data-price-usd');
+                const priceSpan = el.querySelector('span');
+                
+                if (priceSpan) {
+                    if (isColombia) {
+                        const formattedPrice = Number(priceCoP).toLocaleString('es-CO');
+                        priceSpan.textContent = `$${formattedPrice} COP`;
+                        priceSpan.setAttribute('data-es', `$${formattedPrice} COP`);
+                        priceSpan.setAttribute('data-en', `$${formattedPrice} COP`);
+                    } else {
+                        priceSpan.textContent = `$${priceUSD} USD`;
+                        priceSpan.setAttribute('data-es', `$${priceUSD} USD`);
+                        priceSpan.setAttribute('data-en', `$${priceUSD} USD`);
+                    }
+                }
+            });
+            
+            // Update pack prices
+            document.querySelectorAll('.pack-pricing[data-price-cop][data-price-usd]').forEach(el => {
+                const priceCoP = el.getAttribute('data-price-cop');
+                const priceUSD = el.getAttribute('data-price-usd');
+                const priceSpan = el.querySelector('.pack-price');
+                
+                if (priceSpan) {
+                    if (isColombia) {
+                        const formattedPrice = Number(priceCoP).toLocaleString('es-CO');
+                        priceSpan.textContent = `$${formattedPrice} COP`;
+                    } else {
+                        priceSpan.textContent = `$${priceUSD} USD`;
+                    }
+                }
+            });
         }
 
         const products = {
@@ -899,6 +945,24 @@
             const modal = document.getElementById('productModal');
             const modalBody = document.getElementById('modalBody');
             
+            // Get product prices from the product card element
+            const productCard = document.querySelector(`[onclick="openProductModal('${productId}')"]`);
+            const priceElement = productCard.querySelector('.product-price');
+            const priceCOP = priceElement.getAttribute('data-price-cop');
+            const priceUSD = priceElement.getAttribute('data-price-usd');
+            
+            // Format price display
+            const isColombia = userRegion === 'CO';
+            let priceDisplay, whatsappPrice;
+            if (isColombia) {
+                const formattedPrice = Number(priceCOP).toLocaleString('es-CO');
+                priceDisplay = `$${formattedPrice} COP`;
+                whatsappPrice = `$${formattedPrice} COP`;
+            } else {
+                priceDisplay = `$${priceUSD} USD`;
+                whatsappPrice = `$${priceUSD} USD`;
+            }
+            
             const features = product.features[lang].map(f => `<li>✓ ${f}</li>`).join('');
             
             modalBody.innerHTML = `
@@ -912,8 +976,8 @@
                         <span class="modal-size-value">${product.size}</span>
                     </div>
                     <div class="modal-price-section">
-                        <span class="modal-price-label" style="font-size: 1.8rem; color: var(--gold);">$29.900 COP</span>
-                        <span class="modal-price-sublabel">${lang === 'es' ? 'Solo Colombia' : 'Colombia only'}</span>
+                        <span class="modal-price-label" style="font-size: 1.8rem; color: var(--gold);">${priceDisplay}</span>
+                        <span class="modal-price-sublabel">${isColombia ? (lang === 'es' ? 'Solo Colombia' : 'Colombia only') : (lang === 'es' ? 'Precio internacional' : 'International price')}</span>
                     </div>
                 </div>
 
@@ -990,10 +1054,10 @@
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <button class="btn-add-to-cart" onclick="addProductToCart('${productId}')" style="padding: 1.2rem 1.5rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: var(--black); border: 2px solid var(--gold); border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(212,175,55,0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 25px rgba(212,175,55,0.6)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(212,175,55,0.4)'">
+                        <button class="btn-add-to-cart" onclick="addProductToCart('${productId}', ${priceCOP}, ${priceUSD})" style="padding: 1.2rem 1.5rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: var(--black); border: 2px solid var(--gold); border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(212,175,55,0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 25px rgba(212,175,55,0.6)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(212,175,55,0.4)'">
                             🛒 ${lang === 'es' ? 'Agregar al Carrito' : 'Add to Cart'}
                         </button>
-                        <button class="btn-whatsapp-modal" onclick="window.open('https://wa.me/573017606723?text=${encodeURIComponent(lang === 'es' ? '¡Hola! Quiero comprar ' + product.name + ' por $29.900 COP' : 'Hello! I want to buy ' + product.name + ' for $29.900 COP')}', '_blank')" style="padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #25D366, #128C7E); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(37,211,102,0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(37,211,102,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(37,211,102,0.3)'">
+                        <button class="btn-whatsapp-modal" onclick="window.open('https://wa.me/573017606723?text=${encodeURIComponent(lang === 'es' ? '¡Hola! Quiero comprar ' + product.name + ' por ' + whatsappPrice : 'Hello! I want to buy ' + product.name + ' for ' + whatsappPrice)}', '_blank')" style="padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #25D366, #128C7E); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(37,211,102,0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(37,211,102,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(37,211,102,0.3)'">
                             💬 ${lang === 'es' ? 'Pedir por WhatsApp' : 'Order via WhatsApp'}
                         </button>
                     </div>
@@ -1556,11 +1620,16 @@
             }
         }
 
-        function addProductToCart(productId) {
+        function addProductToCart(productId, priceCOP, priceUSD) {
             const quantityInput = document.getElementById('modal-quantity');
             const quantity = parseInt(quantityInput.value) || 1;
             const product = products[productId];
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            
+            // Get price based on region
+            const isColombia = userRegion === 'CO';
+            const price = isColombia ? priceCOP : priceUSD;
+            const currency = isColombia ? 'COP' : 'USD';
             
             const existingItem = cart.find(item => item.id === productId && item.type !== 'pack');
             
@@ -1571,8 +1640,8 @@
                     id: productId,
                     name: product.name,
                     image: product.image,
-                    price: 29900,
-                    currency: 'COP',
+                    price: price,
+                    currency: currency,
                     quantity: quantity,
                     type: 'product'
                 });
@@ -1598,8 +1667,23 @@
             const product = products[productId];
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
             
-            const totalPrice = 29900 * quantity;
-            const formattedPrice = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(totalPrice);
+            // Get price based on region
+            const isColombia = userRegion === 'CO';
+            const productCard = document.querySelector(`[onclick="openProductModal('${productId}')"]`);
+            const priceElement = productCard.querySelector('.product-price');
+            const priceCOP = priceElement.getAttribute('data-price-cop');
+            const priceUSD = priceElement.getAttribute('data-price-usd');
+            const price = isColombia ? priceCOP : priceUSD;
+            const currency = isColombia ? 'COP' : 'USD';
+            
+            const totalPrice = price * quantity;
+            
+            let formattedPrice;
+            if (isColombia) {
+                formattedPrice = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(totalPrice);
+            } else {
+                formattedPrice = `$${totalPrice.toFixed(2)} USD`;
+            }
             
             const message = lang === 'es' 
                 ? `¡Hola! Quiero comprar:\n\n${product.name}\nCantidad: ${quantity} unidad(es)\nTotal: ${formattedPrice}\n\n¿Cómo procedo con el pago?`
