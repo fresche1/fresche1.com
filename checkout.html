@@ -288,7 +288,13 @@
     <div class="checkout-container">
         <!-- Formulario de Checkout -->
         <div class="checkout-section">
-            <h2 data-es="Información de Pago" data-en="Payment Information">Información de Pago</h2>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                <h2 style="margin: 0;" data-es="Información de Pago" data-en="Payment Information">Información de Pago</h2>
+                <button type="button" onclick="window.location.href='index.html'" style="padding: 0.7rem 1.5rem; background: rgba(255, 255, 255, 0.1); border: 2px solid var(--gold); border-radius: 8px; color: var(--gold); font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem;" onmouseover="this.style.background='var(--gold)'; this.style.color='#1a1a1a';" onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.color='var(--gold)';">
+                    <span>←</span>
+                    <span data-es="Regresar al Carrito" data-en="Back to Cart">Regresar al Carrito</span>
+                </button>
+            </div>
             
             <form id="checkoutForm">
                 <!-- Datos Personales -->
