@@ -49,7 +49,7 @@ app.get('/api/test-email', async (_req, res) => {
 
     const result = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
-      to: 'fresche@fresche1.com',
+      to: 'galindo243@live.com', // Test solo a tu email
       subject: '✅ Email de Prueba - FRESCHE',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -77,7 +77,7 @@ app.get('/api/test-email', async (_req, res) => {
       success: true, 
       message: 'Email de prueba enviado exitosamente',
       emailId: result.data.id,
-      to: 'fresche@fresche1.com',
+      to: 'galindo243@live.com',
       timestamp: new Date().toLocaleString('es-CO')
     });
   } catch (error) {
@@ -182,7 +182,7 @@ app.post('/api/create-preference', async (req, res) => {
       
       resend.emails.send({
         from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
-        to: 'fresche@fresche1.com',
+        to: 'galindo243@live.com', // Enviar a tu email para plan gratuito
         subject: `🛍️ Nuevo Pedido FRESCHE - ${orderData.customerName}`,
         html: emailBody
       }).then((result) => {
