@@ -1578,8 +1578,14 @@
                     tipo: "Masculino",
                     descripcion: "Perfume íntimo con notas de tabaco dulce, ideal para hombres",
                     beneficios: ["Aroma varonil", "Notas amaderadas", "Masculino y elegante", "Duración extendida"],
-                    precio: "Consultar disponibilidad"
+                    precio: "$29.900 COP / $18.50 USD"
                 }
+            },
+            paquetes: {
+                duo: { nombre: "Pack Dúo", descripcion: "2 unidades", precio: "$55.000 COP / $34.99 USD", ahorro: "$4.800" },
+                trio: { nombre: "Pack Trío", descripcion: "3 unidades", precio: "$79.000 COP / $44.99 USD", ahorro: "$10.700" },
+                elella: { nombre: "Pack ÉL & ELLA", descripcion: "5 unidades (2👩 + 3👨)", precio: "$129.999 COP / $69.99 USD", ahorro: "$19.501" },
+                pormayor: { nombre: "Al por mayor", descripcion: "De 24 a 3,000 unidades", rangos: ["24-499", "500-999", "1k-1999", "2k-3k"] }
             },
             instrucciones: [
                 "1. Lavar y secar completamente el área íntima",
@@ -1589,14 +1595,24 @@
                 "5. Disfrutar del aroma fresco y duradero"
             ],
             envios: {
-                colombia: "Envíos a toda Colombia",
-                internacional: "Envíos internacionales a Sudamérica, Asia y Europa",
+                colombia: {
+                    local: "🏠 LOCAL (Bogotá): $9.000 - 2-4 días",
+                    regional: "🚚 REGIONAL (Centro): $13.800 - 3-5 días",
+                    nacional: "✈️ NACIONAL (Larga): $21.000 - 4-7 días",
+                    nota: "1 a 10 cremas = mismo costo"
+                },
+                internacional: "$10 USD - 10-15 días",
                 contacto: "+57 301 760 6723"
+            },
+            pagos: {
+                colombia: ["Nequi (sin comisión)", "Mercado Pago (+5%)", "MercadoLibre"],
+                internacional: ["Zelle (sin comisión)", "Mercado Pago (+5%)"]
             },
             contacto: {
                 whatsapp: "+57 301 760 6723",
-                email: "contacto@fresche.com"
-            }
+                email: "fresche@fresche1.com"
+            },
+            valores: ["🌱 Vegano", "🐶 Sin crueldad", "♻️ Reciclable", "🇨🇴 Hecho en Colombia"]
         };
 
         function toggleChatbot() {
@@ -1647,28 +1663,40 @@
             // Productos específicos
             if (msg.includes('cherry') || msg.includes('cereza')) {
                 const p = chatbotKnowledge.productos.cherrymood;
-                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. ¿Te gustaría saber cómo usarlo?`;
+                return `✨ <strong>${p.nombre}</strong> (${p.tipo})<br><br>${p.descripcion}<br><br>💎 Beneficios: ${p.beneficios.join(', ')}<br>💰 Precio: ${p.precio}<br><br>¿Te gustaría saber cómo usarlo?`;
             }
             if (msg.includes('velvet')) {
                 const p = chatbotKnowledge.productos.velvet;
-                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Perfecto para la mujer elegante.`;
+                return `✨ <strong>${p.nombre}</strong> (${p.tipo})<br><br>${p.descripcion}<br><br>💎 Beneficios: ${p.beneficios.join(', ')}<br>💰 Precio: ${p.precio}`;
             }
             if (msg.includes('coco') || msg.includes('vanilla') || msg.includes('vainilla')) {
                 const p = chatbotKnowledge.productos.coco;
-                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Ideal para parejas.`;
+                return `✨ <strong>${p.nombre}</strong> (${p.tipo})<br><br>${p.descripcion}<br><br>💎 Beneficios: ${p.beneficios.join(', ')}<br>💰 Precio: ${p.precio}`;
             }
             if (msg.includes('eclipse')) {
                 const p = chatbotKnowledge.productos.eclipse;
-                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Misterioso y cautivador.`;
+                return `✨ <strong>${p.nombre}</strong> (${p.tipo})<br><br>${p.descripcion}<br><br>💎 Beneficios: ${p.beneficios.join(', ')}<br>💰 Precio: ${p.precio}`;
             }
             if (msg.includes('tobacco') || msg.includes('tabaco')) {
                 const p = chatbotKnowledge.productos.tobacco;
-                return `✨ <strong>${p.nombre}</strong> - ${p.descripcion}. Beneficios: ${p.beneficios.join(', ')}. Masculinidad y elegancia.`;
+                return `✨ <strong>${p.nombre}</strong> (${p.tipo})<br><br>${p.descripcion}<br><br>💎 Beneficios: ${p.beneficios.join(', ')}<br>💰 Precio: ${p.precio}`;
             }
             
             // Productos en general
             if (msg.match(/producto|perfume|fragancia|catalogo|que tienen|que venden/)) {
-                return "Tenemos 5 perfumes íntimos premium:<br><br>👩 <strong>Para Mujeres:</strong> CherryMood y Velvet<br>👫 <strong>Unisex:</strong> Coco & Vainilla y Eclipse<br>👨 <strong>Para Hombres:</strong> Dulce Tobacco<br><br>¿Sobre cuál te gustaría saber más?";
+                return "Tenemos 5 perfumes íntimos premium:<br><br>👩 <strong>Para Mujeres:</strong><br>• CherryMood - $29.900 COP<br>• Velvet - $29.900 COP<br><br>👫 <strong>Unisex:</strong><br>• Coco & Vainilla - $29.900 COP<br>• Eclipse - $29.900 COP<br><br>👨 <strong>Para Hombres:</strong><br>• Dulce Tobacco - $29.900 COP<br><br>¿Sobre cuál quieres saber más?";
+            }
+            
+            // Paquetes/Combos
+            if (msg.match(/paquete|pack|combo|descuento|oferta|promocion|ahorra/)) {
+                const p = chatbotKnowledge.paquetes;
+                return `🎁 <strong>Packs Promocionales:</strong><br><br>📦 <strong>${p.duo.nombre}</strong>: ${p.duo.descripcion}<br>💰 ${p.duo.precio} (Ahorras ${p.duo.ahorro})<br><br>📦 <strong>${p.trio.nombre}</strong>: ${p.trio.descripcion}<br>💰 ${p.trio.precio} (Ahorras ${p.trio.ahorro})<br><br>📦 <strong>${p.elella.nombre}</strong>: ${p.elella.descripcion}<br>💰 ${p.elella.precio} (Ahorras ${p.elella.ahorro})<br><br>¿Te interesa algún pack?`;
+            }
+            
+            // Por mayor
+            if (msg.match(/por mayor|mayoreo|distribuidor|distribuir|revender|negocio|cantidad/)) {
+                const p = chatbotKnowledge.paquetes.pormayor;
+                return `📦 <strong>Venta al por mayor:</strong><br><br>${p.descripcion}<br><br>Rangos disponibles:<br>• 24 a 499 unidades<br>• 500 a 999 unidades<br>• 1,000 a 1,999 unidades<br>• 2,000 a 3,000 unidades<br><br>📱 Cotiza directamente en WhatsApp: ${chatbotKnowledge.contacto.whatsapp}`;
             }
             
             // Instrucciones
@@ -1677,13 +1705,20 @@
             }
             
             // Envíos
-            if (msg.match(/envio|enviar|delivery|shipping|entreg|donde envian/)) {
-                return `📦 <strong>Envíos:</strong><br><br>🇨🇴 ${chatbotKnowledge.envios.colombia}<br>🌎 ${chatbotKnowledge.envios.internacional}<br><br>Contáctanos: ${chatbotKnowledge.envios.contacto}`;
+            if (msg.match(/envio|enviar|delivery|shipping|entreg|donde envian|costo de envio|tarifa/)) {
+                const e = chatbotKnowledge.envios;
+                return `📦 <strong>Envíos en Colombia:</strong><br><br>${e.colombia.local}<br>${e.colombia.regional}<br>${e.colombia.nacional}<br><br>⚠️ ${e.colombia.nota}<br><br>🌎 <strong>Internacional:</strong> ${e.internacional}<br><br>📱 WhatsApp: ${e.contacto}`;
             }
             
             // Precios
             if (msg.match(/precio|costo|valor|cuanto cuesta|cuanto vale/)) {
-                return "💰 Para conocer precios y promociones actuales, por favor contáctanos:<br><br>📱 WhatsApp: +57 301 760 6723<br>📧 Email: contacto@fresche.com<br><br>¡Tenemos ofertas especiales!";
+                return "💰 <strong>Precios FRESCHE:</strong><br><br>🧴 <strong>Producto individual:</strong> $29.900 COP / $18.50 USD<br><br>🎁 <strong>Packs:</strong><br>• Pack Dúo (2): $55.000 COP<br>• Pack Trío (3): $79.000 COP<br>• Pack ÉL & ELLA (5): $129.999 COP<br><br>📦 <strong>Al por mayor:</strong> Desde 24 unidades (contactar)<br><br>¿Quieres comprar ahora?";
+            }
+            
+            // Métodos de pago
+            if (msg.match(/pago|pagar|metodo|nequi|mercado|zelle|tarjeta|como pago/)) {
+                const p = chatbotKnowledge.pagos;
+                return `💳 <strong>Métodos de pago:</strong><br><br>🇨🇴 <strong>Colombia:</strong><br>• ${p.colombia.join('<br>• ')}<br><br>🌎 <strong>Internacional:</strong><br>• ${p.internacional.join('<br>• ')}<br><br>Compra segura en fresche1.com`;
             }
             
             // Contacto
@@ -1692,18 +1727,18 @@
             }
             
             // Beneficios generales
-            if (msg.match(/beneficio|ventaja|por que|para que sirve/)) {
-                return "✨ <strong>Beneficios de los perfumes íntimos FRESCHE:</strong><br><br>• pH balanceado<br>• Aromas sofisticados y duraderos<br>• Aumentan la confianza<br>• Fórmulas dermatológicamente probadas<br>• Ingredientes de alta calidad<br>• Sensación de frescura prolongada";
+            if (msg.match(/beneficio|ventaja|por que|para que sirve|calidad/)) {
+                return `✨ <strong>Beneficios FRESCHE:</strong><br><br>• pH balanceado<br>• Aromas sofisticados y duraderos<br>• Aumentan la confianza<br>• Dermatológicamente probados<br>• Ingredientes de alta calidad<br>• Frescura prolongada<br><br>🌟 <strong>Valores:</strong> ${chatbotKnowledge.valores.join(' • ')}`;
             }
             
             // Mujer
             if (msg.match(/mujer|femenino|ella|chica/)) {
-                return "👩 <strong>Para Mujeres:</strong><br><br>🍒 <strong>CherryMood</strong> - Aroma seductor a cereza<br>💎 <strong>Velvet</strong> - Sofisticación y elegancia<br><br>Ambos productos tienen pH balanceado y larga duración. ¿Te gustaría más detalles?";
+                return "👩 <strong>Para Mujeres:</strong><br><br>🍒 <strong>CherryMood</strong> - Aroma seductor a cereza ($29.900)<br>💎 <strong>Velvet</strong> - Sofisticación y elegancia ($29.900)<br><br>Ambos tienen pH balanceado y larga duración. ¿Más detalles?";
             }
             
             // Hombre
             if (msg.match(/hombre|masculino|el|chico/)) {
-                return "👨 <strong>Para Hombres:</strong><br><br>🍂 <strong>Dulce Tobacco</strong> - Notas amaderadas y masculinas<br><br>También tenemos opciones unisex como Eclipse y Coco & Vainilla. ¿Quieres saber más?";
+                return "👨 <strong>Para Hombres:</strong><br><br>🍂 <strong>Dulce Tobacco</strong> - Notas amaderadas y masculinas ($29.900)<br><br>También opciones unisex: Eclipse y Coco & Vainilla. ¿Quieres saber más?";
             }
             
             // Agradecimiento
