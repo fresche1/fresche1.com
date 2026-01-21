@@ -49,15 +49,24 @@ app.get('/health', (_req, res) => {
 // Test email endpoint
 app.get('/api/test-email', async (_req, res) => {
   try {
+    console.log('🧪 Test de email iniciado...');
+    console.log('SMTP_HOST:', process.env.SMTP_HOST);
+    console.log('SMTP_PORT:', process.env.SMTP_PORT);
+    console.log('SMTP_USER:', process.env.SMTP_USER ? '✓' : '✗ FALTA');
+    console.log('SMTP_PASS:', process.env.SMTP_PASS ? '✓' : '✗ FALTA');
+
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
       return res.status(500).json({ 
         error: 'Credenciales SMTP no configuradas',
         smtp_user: process.env.SMTP_USER ? 'Configurado' : 'NO configurado',
-        smtp_pass: process.env.SMTP_PASS ? 'Configurado' : 'NO configurado'
+        smtp_pass: process.env.SMTP_PASS ? 'Configurado' : 'NO configurado',
+        smtp_host: process.env.SMTP_HOST,
+        smtp_port: process.env.SMTP_PORT
       });
     }
 
-    const info = await transporter.sendMail({
+    // Crear una promesa con timeout
+    const emailPromise = transporter.sendMail({
       from: process.env.SMTP_USER,
       to: 'fresche@fresche1.com',
       subject: '✅ Email de Prueba FRESCHE',
@@ -74,19 +83,28 @@ app.get('/api/test-email', async (_req, res) => {
       `
     });
 
+    // Timeout de 10 segundos
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Timeout: Email tardó más de 10 segundos')), 10000)
+    );
+
+    const info = await Promise.race([emailPromise, timeoutPromise]);
+
     console.log('✅ Email de prueba enviado:', info.messageId);
     res.json({ 
       success: true, 
       message: 'Email de prueba enviado exitosamente',
       messageId: info.messageId,
-      to: 'fresche@fresche1.com'
+      to: 'fresche@fresche1.com',
+      timestamp: new Date().toLocaleString('es-CO')
     });
   } catch (error) {
     console.error('❌ Error al enviar email de prueba:', error);
     res.status(500).json({ 
       error: 'Error al enviar email',
       message: error.message,
-      code: error.code
+      code: error.code,
+      timestamp: new Date().toLocaleString('es-CO')
     });
   }
 });
