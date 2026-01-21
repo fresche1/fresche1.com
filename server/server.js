@@ -31,6 +31,13 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// Verificar configuración de email al iniciar
+console.log('📧 Configuración de Email:');
+console.log(`   Host: ${process.env.SMTP_HOST || 'smtp.gmail.com'}`);
+console.log(`   Port: ${process.env.SMTP_PORT || 587}`);
+console.log(`   User: ${process.env.SMTP_USER ? '✓ Configurado' : '✗ NO CONFIGURADO'}`);
+console.log(`   Pass: ${process.env.SMTP_PASS ? '✓ Configurado' : '✗ NO CONFIGURADO'}`);
+
 app.use(cors({ origin: ALLOWED_ORIGINS, credentials: false }));
 app.use(express.json());
 
@@ -61,50 +68,65 @@ app.post('/api/create-preference', async (req, res) => {
 
     // Enviar email en segundo plano (sin bloquear la respuesta)
     if (orderData && process.env.SMTP_USER && process.env.SMTP_PASS) {
+      console.log('📧 Intentando enviar email de pedido...');
       // No usar await - dejar que se envíe en segundo plano
       transporter.sendMail({
         from: process.env.SMTP_USER,
         to: 'fresche@fresche1.com',
-        subject: `Nuevo Pedido - ${orderData.customerName}`,
+        subject: `🛍️ Nuevo Pedido FRESCHE - ${orderData.customerName}`,
         html: `
-          <h2>🛍️ Nuevo Pedido Recibido</h2>
-          <p><strong>Fecha:</strong> ${new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })}</p>
-          
-          <h3>📦 Datos del Cliente</h3>
-          <ul>
-            <li><strong>Nombre:</strong> ${orderData.customerName}</li>
-            <li><strong>Email:</strong> ${orderData.email}</li>
-            <li><strong>Teléfono:</strong> ${orderData.phone}</li>
-          </ul>
-          
-          <h3>📍 Dirección de Envío</h3>
-          <ul>
-            <li><strong>Dirección:</strong> ${orderData.address}</li>
-            <li><strong>Ciudad:</strong> ${orderData.city}</li>
-            <li><strong>Departamento:</strong> ${orderData.state || 'N/A'}</li>
-            <li><strong>Código Postal:</strong> ${orderData.zipCode || 'N/A'}</li>
-            <li><strong>Método de Envío:</strong> ${orderData.shippingMethod || 'N/A'}</li>
-          </ul>
-          
-          <h3>🛒 Productos</h3>
-          <pre>${preference.items.map(item => 
-            `- ${item.title} x${item.quantity} - $${item.unit_price.toLocaleString()}`
-          ).join('\n')}</pre>
-          
-          <h3>💰 Totales</h3>
-          <ul>
-            <li><strong>Subtotal:</strong> $${orderData.subtotal || 0}</li>
-            <li><strong>Envío:</strong> $${orderData.shippingCost || 0}</li>
-            <li><strong>Total:</strong> $${orderData.total || 0}</li>
-          </ul>
-          
-          <p><em>ID de Preferencia MP: ${response.id}</em></p>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #d4af37;">🛍️ Nuevo Pedido Recibido</h2>
+            <p><strong>Fecha:</strong> ${new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })}</p>
+            <p><strong>ID de Preferencia MP:</strong> ${response.id}</p>
+            
+            <hr style="border: 1px solid #d4af37;">
+            
+            <h3 style="color: #d4af37;">📦 Datos del Cliente</h3>
+            <ul>
+              <li><strong>Nombre:</strong> ${orderData.customerName}</li>
+              <li><strong>Email:</strong> ${orderData.email}</li>
+              <li><strong>Teléfono:</strong> ${orderData.phone}</li>
+            </ul>
+            
+            <h3 style="color: #d4af37;">📍 Dirección de Envío</h3>
+            <ul>
+              <li><strong>Dirección:</strong> ${orderData.address}</li>
+              <li><strong>Ciudad:</strong> ${orderData.city}</li>
+              <li><strong>Departamento:</strong> ${orderData.state || 'N/A'}</li>
+              <li><strong>Código Postal:</strong> ${orderData.zipCode || 'N/A'}</li>
+              <li><strong>Método de Envío:</strong> ${orderData.shippingMethod || 'N/A'}</li>
+            </ul>
+            
+            <h3 style="color: #d4af37;">🛒 Productos</h3>
+            <pre style="background: #f4f4f4; padding: 10px; border-radius: 5px;">${preference.items.map(item => 
+              `- ${item.title} x${item.quantity} - $${item.unit_price.toLocaleString()}`
+            ).join('\n')}</pre>
+            
+            <h3 style="color: #d4af37;">💰 Totales</h3>
+            <ul>
+              <li><strong>Subtotal:</strong> $${orderData.subtotal || 0}</li>
+              <li><strong>Envío:</strong> $${orderData.shippingCost || 0}</li>
+              <li><strong>Total:</strong> <span style="color: #d4af37; font-size: 1.2em;">${orderData.total || 0} ${orderData.currency || 'COP'}</span></li>
+            </ul>
+            
+            <hr style="border: 1px solid #d4af37;">
+            
+            <p style="color: #666; font-size: 0.9em;">Este pedido fue realizado a través de fresche1.com</p>
+          </div>
         `
       }).then(() => {
-        console.log('✅ Email enviado a fresche@fresche1.com');
+        console.log('✅ Email enviado exitosamente a fresche@fresche1.com');
       }).catch((emailError) => {
-        console.error('⚠️ Error al enviar email:', emailError.message);
+        console.error('❌ ERROR al enviar email:', emailError);
+        console.error('   Mensaje:', emailError.message);
+        console.error('   Código:', emailError.code);
       });
+    } else {
+      console.warn('⚠️ Email NO enviado - Faltan credenciales SMTP o datos del pedido');
+      console.warn(`   orderData: ${orderData ? '✓' : '✗'}`);
+      console.warn(`   SMTP_USER: ${process.env.SMTP_USER ? '✓' : '✗'}`);
+      console.warn(`   SMTP_PASS: ${process.env.SMTP_PASS ? '✓' : '✗'}`);
     }
     
   } catch (error) {
