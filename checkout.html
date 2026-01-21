@@ -326,7 +326,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label data-es="Ciudad *" data-en="City *">Ciudad *</label>
-                        <input type="text" id="city" required placeholder="Bogotá">
+                        <input type="text" id="city" required placeholder="Bogotá" oninput="updateShippingCost()">
                     </div>
                     <div class="form-group">
                         <label data-es="Código Postal" data-en="Postal Code">Código Postal</label>
@@ -469,10 +469,41 @@
         // Tarifas de envío reales
         // Colombia: Interrapidísimo según zona
         // Internacional: Servientrega tarifa fija
+        // Zonas de envío desde Bogotá: LOCAL, REGIONAL, NACIONAL
         const colombiaCities = {
-            bogota: ['bogota', 'bogotá', 'soacha', 'chia', 'chía', 'cajica', 'cajicá', 'cota', 'funza', 'mosquera', 'madrid', 'zipaquira', 'zipaquirá'],
-            central: ['medellin', 'medellín', 'cali', 'barranquilla', 'cartagena', 'bucaramanga', 'pereira', 'manizales', 'armenia', 'ibague', 'ibagué', 'pasto', 'cucuta', 'cúcuta', 'villavicencio', 'neiva', 'popayan', 'popayán', 'santa marta', 'valledupar', 'monteria', 'montería', 'sincelejo', 'tunja', 'florencia', 'quibdo', 'quibdó'],
-            // Todas las demás ciudades son larga distancia
+            // LOCAL: Bogotá y Sabana (Cundinamarca cercana)
+            bogota: [
+                'bogota', 'bogotá', 'soacha', 'chia', 'chía', 'cajica', 'cajicá', 'cota', 'funza', 'mosquera', 
+                'madrid', 'zipaquira', 'zipaquirá', 'facatativa', 'facatativá', 'tocancipa', 'tocancipá', 
+                'tenjo', 'tabio', 'subachoque', 'el rosal', 'siberia', 'sibería', 'gachancipa', 'gachancipá',
+                'sopó', 'sopo', 'la calera', 'guasca', 'sesquilé', 'sesquile', 'nemocón', 'nemocon',
+                'bojaca', 'bojacá', 'arbelaez', 'arbeláez', 'fusagasuga', 'fusagasugá', 'girardot'
+            ],
+            // REGIONAL: Principales ciudades y departamentos cercanos (Tolima, Boyacá, Santanderes, Eje Cafetero, Valle, Antioquia)
+            central: [
+                // Antioquia
+                'medellin', 'medellín', 'envigado', 'bello', 'itagui', 'itagüí', 'sabaneta', 'rionegro', 
+                'la estrella', 'caldas', 'copacabana', 'marinilla',
+                // Valle del Cauca
+                'cali', 'palmira', 'buenaventura', 'tulua', 'tuluá', 'cartago', 'buga', 'jamundi', 'jamundí', 'yumbo',
+                // Costa Atlántica
+                'barranquilla', 'cartagena', 'santa marta', 'soledad', 'malambo', 'sabanalarga',
+                // Santanderes
+                'bucaramanga', 'floridablanca', 'giron', 'girón', 'piedecuesta', 'cucuta', 'cúcuta', 
+                'pamplona', 'villa del rosario', 'los patios', 'ocaña', 'barrancabermeja',
+                // Eje Cafetero
+                'pereira', 'dosquebradas', 'manizales', 'armenia', 'cartago', 'la virginia',
+                // Tolima
+                'ibague', 'ibagué', 'espinal', 'melgar', 'honda',
+                // Boyacá
+                'tunja', 'duitama', 'sogamoso', 'chiquinquira', 'chiquinquirá', 'paipa', 'villa de leyva',
+                // Huila
+                'neiva', 'pitalito', 'garzon', 'garzón', 'la plata',
+                // Meta
+                'villavicencio', 'acacias', 'granada', 'puerto lopez', 'puerto lópez'
+            ]
+            // NACIONAL (larga distancia): Todas las demás ciudades
+            // Ejemplos: Leticia, Mitú, San Andrés, Arauca, Yopal, Mocoa, etc.
         };
         
         function getColombiaCityZone(city) {
@@ -484,9 +515,9 @@
         
         const shippingRates = {
             CO: [
-                { id: 'bogota', name: 'Interrapidísimo - Bogotá', desc: '2-4 días hábiles', price: 9000, currency: 'COP', zone: 'bogota' },
-                { id: 'central', name: 'Interrapidísimo - Colombia Central', desc: '3-5 días hábiles', price: 13800, currency: 'COP', zone: 'central' },
-                { id: 'longdistance', name: 'Interrapidísimo - Larga Distancia', desc: '4-7 días hábiles', price: 21000, currency: 'COP', zone: 'longdistance' }
+                { id: 'bogota', name: '🏠 LOCAL - Bogotá y Sabana', desc: '2-4 días hábiles', price: 9000, currency: 'COP', zone: 'bogota' },
+                { id: 'central', name: '🚚 REGIONAL - Colombia Central', desc: '3-5 días hábiles', price: 13800, currency: 'COP', zone: 'central' },
+                { id: 'longdistance', name: '✈️ NACIONAL - Larga Distancia', desc: '4-7 días hábiles', price: 21000, currency: 'COP', zone: 'longdistance' }
             ],
             INTERNATIONAL: [
                 { id: 'international', name: 'Servientrega International', desc: '10-15 business days', price: 10, currency: 'USD' }
@@ -682,7 +713,7 @@
                         shippingCost = selectedOption.price;
                         
                         const formattedPrice = `$${Math.round(selectedOption.price).toLocaleString('es-CO')} COP`;
-                        const zoneName = zone === 'bogota' ? 'Bogotá' : zone === 'central' ? 'Colombia Central' : 'Larga Distancia';
+                        const zoneName = zone === 'bogota' ? '🏠 LOCAL (Bogotá)' : zone === 'central' ? '🚚 REGIONAL (Colombia Central)' : '✈️ NACIONAL (Larga Distancia)';
                         
                         shippingOptionsDiv.innerHTML = `
                             <div class="shipping-option selected">
