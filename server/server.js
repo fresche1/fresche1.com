@@ -20,23 +20,36 @@ if (!ACCESS_TOKEN) {
 // Crear cliente de Mercado Pago con la nueva API
 const client = new MercadoPagoConfig({ accessToken: ACCESS_TOKEN || '' });
 
-// Configurar Nodemailer
+// Configurar Nodemailer con puerto 465 (SSL) para Render
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: process.env.SMTP_PORT || 587,
-  secure: false,
+  port: 465, // Puerto 465 con SSL funciona mejor en Render
+  secure: true, // Usar SSL
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
-  }
+  },
+  logger: true, // Activar logs
+  debug: true   // Activar debug
 });
 
-// Verificar configuración de email al iniciar
-console.log('📧 Configuración de Email:');
+// Verificar credenciales al iniciar
+console.log('📧 Configuración de Email para Render:');
 console.log(`   Host: ${process.env.SMTP_HOST || 'smtp.gmail.com'}`);
-console.log(`   Port: ${process.env.SMTP_PORT || 587}`);
-console.log(`   User: ${process.env.SMTP_USER ? '✓ Configurado' : '✗ NO CONFIGURADO'}`);
-console.log(`   Pass: ${process.env.SMTP_PASS ? '✓ Configurado' : '✗ NO CONFIGURADO'}`);
+console.log(`   Port: 465 (SSL)`);
+console.log(`   User: ${process.env.SMTP_USER ? '✓' : '✗ FALTA'}`);
+console.log(`   Pass: ${process.env.SMTP_PASS ? '✓' : '✗ FALTA'}`);
+
+// Verificar conexión SMTP si hay credenciales
+if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error('❌ Error verificando SMTP:', error.message);
+    } else {
+      console.log('✅ Conexión SMTP verificada exitosamente');
+    }
+  });
+}
 
 app.use(cors({ origin: ALLOWED_ORIGINS, credentials: false }));
 app.use(express.json());
@@ -50,46 +63,33 @@ app.get('/health', (_req, res) => {
 app.get('/api/test-email', async (_req, res) => {
   try {
     console.log('🧪 Test de email iniciado...');
-    console.log('SMTP_HOST:', process.env.SMTP_HOST);
-    console.log('SMTP_PORT:', process.env.SMTP_PORT);
-    console.log('SMTP_USER:', process.env.SMTP_USER ? '✓' : '✗ FALTA');
-    console.log('SMTP_PASS:', process.env.SMTP_PASS ? '✓' : '✗ FALTA');
 
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
       return res.status(500).json({ 
-        error: 'Credenciales SMTP no configuradas',
-        smtp_user: process.env.SMTP_USER ? 'Configurado' : 'NO configurado',
-        smtp_pass: process.env.SMTP_PASS ? 'Configurado' : 'NO configurado',
-        smtp_host: process.env.SMTP_HOST,
-        smtp_port: process.env.SMTP_PORT
+        error: 'Credenciales SMTP incompletas',
+        details: {
+          SMTP_USER: process.env.SMTP_USER ? '✓' : '✗ FALTA',
+          SMTP_PASS: process.env.SMTP_PASS ? '✓' : '✗ FALTA'
+        }
       });
     }
 
-    // Crear una promesa con timeout
-    const emailPromise = transporter.sendMail({
+    const info = await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: 'fresche@fresche1.com',
-      subject: '✅ Email de Prueba FRESCHE',
+      subject: '✅ Email de Prueba - FRESCHE',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <h2 style="color: #d4af37;">✅ Email de Prueba</h2>
           <p>Este es un email de prueba del sistema FRESCHE.</p>
           <p><strong>Fecha:</strong> ${new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })}</p>
-          <p><strong>Servidor:</strong> ${process.env.SMTP_HOST}</p>
-          <p><strong>Usuario:</strong> ${process.env.SMTP_USER}</p>
+          <p><strong>Servicio:</strong> Nodemailer + Gmail (Puerto 465 SSL en Render)</p>
           <hr style="border: 1px solid #d4af37;">
           <p style="color: #666;">Si recibiste este email, el sistema de notificaciones está funcionando correctamente. ✓</p>
         </div>
       `
     });
-
-    // Timeout de 10 segundos
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Timeout: Email tardó más de 10 segundos')), 10000)
-    );
-
-    const info = await Promise.race([emailPromise, timeoutPromise]);
-
+    
     console.log('✅ Email de prueba enviado:', info.messageId);
     res.json({ 
       success: true, 
@@ -99,7 +99,7 @@ app.get('/api/test-email', async (_req, res) => {
       timestamp: new Date().toLocaleString('es-CO')
     });
   } catch (error) {
-    console.error('❌ Error al enviar email de prueba:', error);
+    console.error('❌ Error al enviar email de prueba:', error.message);
     res.status(500).json({ 
       error: 'Error al enviar email',
       message: error.message,
