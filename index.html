@@ -298,6 +298,32 @@
                 <p class="pack-description" data-es="🎯 Click: 2 fragancias femeninas + 3 masculinas" data-en="🎯 Click: 2 feminine + 3 masculine fragrances">🎯 Click: 2 fragancias femeninas + 3 masculinas</p>
                 <button class="cta-button" onclick="event.stopPropagation(); openPackModal('elella')" data-es="Personalizar Pack" data-en="Customize Pack">Personalizar Pack</button>
             </div>
+
+            <!-- Venta al por mayor -->
+            <div class="pack-card" style="border: 2px dashed var(--gold);" onclick="event.stopPropagation();">
+                <div class="pack-badge" data-es="Venta al por mayor" data-en="Wholesale">Venta al por mayor</div>
+                <div class="pack-image-container" style="background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(255,255,255,0.05)); display: flex; align-items: center; justify-content: center;">
+                    <div style="text-align: center; color: #fff;">
+                        <div style="font-size: 2.2rem; margin-bottom: 0.3rem;">📦</div>
+                        <div data-es="Para distribuidores" data-en="For distributors" style="font-weight: 700;">Para distribuidores</div>
+                    </div>
+                </div>
+                <h3 class="pack-name" data-es="Al por mayor" data-en="Wholesale">Al por mayor</h3>
+                <div class="pack-pricing">
+                    <span class="pack-price" data-es="Elige tu rango" data-en="Choose your range">Elige tu rango</span>
+                </div>
+                <p class="pack-description" data-es="Selecciona cantidades y contáctanos por WhatsApp" data-en="Select quantities and contact us via WhatsApp">Selecciona cantidades y contáctanos por WhatsApp</p>
+                <div style="display: flex; gap: 0.5rem; flex-direction: column;">
+                    <select id="wholesale-range" style="padding: 0.7rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff;">
+                        <option value="" data-es="Selecciona un rango" data-en="Select a range">Selecciona un rango</option>
+                        <option value="24-499">24 a 499 unidades</option>
+                        <option value="500-999">500 a 999 unidades</option>
+                        <option value="1000-1999">1,000 a 1,999 unidades</option>
+                        <option value="2000-3000">2,000 a 3,000 unidades</option>
+                    </select>
+                    <button class="cta-button" onclick="sendWholesaleInquiry(); event.stopPropagation();" data-es="Cotizar en WhatsApp" data-en="Quote on WhatsApp">Cotizar en WhatsApp</button>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1490,6 +1516,23 @@
             menuOverlay.classList.remove('active');
             hamburger.classList.remove('active');
             document.body.style.overflow = 'auto';
+        }
+
+        // Wholesale inquiry to WhatsApp
+        function sendWholesaleInquiry() {
+            const select = document.getElementById('wholesale-range');
+            if (!select) return;
+
+            const value = select.value;
+            const label = select.options[select.selectedIndex]?.text || '';
+
+            if (!value) {
+                alert('Selecciona un rango de unidades al por mayor');
+                return;
+            }
+
+            const whatsappMsg = `Hola! Quiero comprar al por mayor.\nRango seleccionado: ${label}\n¿Me ayudas con precios y envío?`;
+            window.open(`https://wa.me/573017606723?text=${encodeURIComponent(whatsappMsg)}`, '_blank');
         }
 
         // Set default theme and language on load
