@@ -994,17 +994,18 @@
                 };
                 
                 // Crear mensaje detallado con toda la información del pedido
-                let itemsText = cart.map(item => {
+                let itemsText = cart.map((item, index) => {
                     const prices = item.type === 'pack' 
                         ? getPricePerUnit(1, 'pack') 
                         : getPricePerUnit(item.quantity, 'product');
                     const itemTotal = prices[currentCurrency] * item.quantity;
                     
                     if (item.type === 'pack') {
-                        const productsText = item.products.map(p => `  • ${p.quantity}x ${p.fragrance}`).join('\n');
-                        return `${item.quantity}x ${item.name}\n${productsText}\n  Subtotal: ${formatMoney(itemTotal)}`;
+                        const productsText = item.products.map(p => `    • ${p.quantity}x Crema ${p.fragrance}`).join('\n');
+                        return `${index + 1}. *${item.quantity}x ${item.name}*\n${productsText}\n   💰 Subtotal: ${formatMoney(itemTotal)}`;
                     } else {
-                        return `${item.quantity}x ${item.name}\n  Subtotal: ${formatMoney(itemTotal)}`;
+                        const fragranceName = item.fragrance || item.name;
+                        return `${index + 1}. *${item.quantity}x Crema FRESCHE*\n    • Fragancia: ${fragranceName}\n   💰 Subtotal: ${formatMoney(itemTotal)}`;
                     }
                 }).join('\n\n');
                 
