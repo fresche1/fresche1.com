@@ -46,6 +46,51 @@ app.get('/health', (_req, res) => {
   res.json({ ok: true, message: 'Mercado Pago backend running' });
 });
 
+// Test email endpoint
+app.get('/api/test-email', async (_req, res) => {
+  try {
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      return res.status(500).json({ 
+        error: 'Credenciales SMTP no configuradas',
+        smtp_user: process.env.SMTP_USER ? 'Configurado' : 'NO configurado',
+        smtp_pass: process.env.SMTP_PASS ? 'Configurado' : 'NO configurado'
+      });
+    }
+
+    const info = await transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: 'fresche@fresche1.com',
+      subject: '✅ Email de Prueba FRESCHE',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h2 style="color: #d4af37;">✅ Email de Prueba</h2>
+          <p>Este es un email de prueba del sistema FRESCHE.</p>
+          <p><strong>Fecha:</strong> ${new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })}</p>
+          <p><strong>Servidor:</strong> ${process.env.SMTP_HOST}</p>
+          <p><strong>Usuario:</strong> ${process.env.SMTP_USER}</p>
+          <hr style="border: 1px solid #d4af37;">
+          <p style="color: #666;">Si recibiste este email, el sistema de notificaciones está funcionando correctamente. ✓</p>
+        </div>
+      `
+    });
+
+    console.log('✅ Email de prueba enviado:', info.messageId);
+    res.json({ 
+      success: true, 
+      message: 'Email de prueba enviado exitosamente',
+      messageId: info.messageId,
+      to: 'fresche@fresche1.com'
+    });
+  } catch (error) {
+    console.error('❌ Error al enviar email de prueba:', error);
+    res.status(500).json({ 
+      error: 'Error al enviar email',
+      message: error.message,
+      code: error.code
+    });
+  }
+});
+
 // Crear preferencia de pago
 app.post('/api/create-preference', async (req, res) => {
   try {
