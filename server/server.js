@@ -1,9 +1,9 @@
-// Backend mínimo para Mercado Pago
+// Backend mínimo para Mercado Pago + Resend
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { MercadoPagoConfig, Preference } from 'mercadopago';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
 dotenv.config();
 
@@ -11,45 +11,21 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || '*').split(',');
 
-// Configurar Mercado Pago con Access Token desde variable de entorno
+// Configurar Mercado Pago
 const ACCESS_TOKEN = process.env.MERCADOPAGO_ACCESS_TOKEN;
 if (!ACCESS_TOKEN) {
-  console.warn('⚠️ MERCADOPAGO_ACCESS_TOKEN no está definido. Añádelo en .env');
+  console.warn('⚠️ MERCADOPAGO_ACCESS_TOKEN no está definido');
 }
-
-// Crear cliente de Mercado Pago con la nueva API
 const client = new MercadoPagoConfig({ accessToken: ACCESS_TOKEN || '' });
 
-// Configurar Nodemailer con puerto 465 (SSL) para Render
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: 465, // Puerto 465 con SSL funciona mejor en Render
-  secure: true, // Usar SSL
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
-  },
-  logger: true, // Activar logs
-  debug: true   // Activar debug
-});
+// Configurar Resend para envíos de email
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Verificar credenciales al iniciar
-console.log('📧 Configuración de Email para Render:');
-console.log(`   Host: ${process.env.SMTP_HOST || 'smtp.gmail.com'}`);
-console.log(`   Port: 465 (SSL)`);
-console.log(`   User: ${process.env.SMTP_USER ? '✓' : '✗ FALTA'}`);
-console.log(`   Pass: ${process.env.SMTP_PASS ? '✓' : '✗ FALTA'}`);
-
-// Verificar conexión SMTP si hay credenciales
-if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-  transporter.verify((error, success) => {
-    if (error) {
-      console.error('❌ Error verificando SMTP:', error.message);
-    } else {
-      console.log('✅ Conexión SMTP verificada exitosamente');
-    }
-  });
-}
+// Verificar configuración al iniciar
+console.log('📧 Configuración de Email:');
+console.log(`   Servicio: Resend`);
+console.log(`   API Key: ${process.env.RESEND_API_KEY ? '✓' : '✗ FALTA'}`);
+console.log(`   Email: ${process.env.RESEND_FROM_EMAIL || 'noreply@resend.dev'}`);
 
 app.use(cors({ origin: ALLOWED_ORIGINS, credentials: false }));
 app.use(express.json());
@@ -62,20 +38,17 @@ app.get('/health', (_req, res) => {
 // Test email endpoint
 app.get('/api/test-email', async (_req, res) => {
   try {
-    console.log('🧪 Test de email iniciado...');
+    console.log('🧪 Test de email iniciado con Resend...');
 
-    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    if (!process.env.RESEND_API_KEY) {
       return res.status(500).json({ 
-        error: 'Credenciales SMTP incompletas',
-        details: {
-          SMTP_USER: process.env.SMTP_USER ? '✓' : '✗ FALTA',
-          SMTP_PASS: process.env.SMTP_PASS ? '✓' : '✗ FALTA'
-        }
+        error: 'RESEND_API_KEY no configurado',
+        message: 'Agrega RESEND_API_KEY en las variables de entorno de Render'
       });
     }
 
-    const info = await transporter.sendMail({
-      from: process.env.SMTP_USER,
+    const result = await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
       to: 'fresche@fresche1.com',
       subject: '✅ Email de Prueba - FRESCHE',
       html: `
@@ -83,18 +56,27 @@ app.get('/api/test-email', async (_req, res) => {
           <h2 style="color: #d4af37;">✅ Email de Prueba</h2>
           <p>Este es un email de prueba del sistema FRESCHE.</p>
           <p><strong>Fecha:</strong> ${new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })}</p>
-          <p><strong>Servicio:</strong> Nodemailer + Gmail (Puerto 465 SSL en Render)</p>
+          <p><strong>Servicio:</strong> Resend API</p>
           <hr style="border: 1px solid #d4af37;">
           <p style="color: #666;">Si recibiste este email, el sistema de notificaciones está funcionando correctamente. ✓</p>
         </div>
       `
     });
-    
-    console.log('✅ Email de prueba enviado:', info.messageId);
+
+    if (result.error) {
+      console.error('❌ Error de Resend:', result.error);
+      return res.status(500).json({ 
+        error: 'Error al enviar email',
+        message: result.error.message,
+        timestamp: new Date().toLocaleString('es-CO')
+      });
+    }
+
+    console.log('✅ Email de prueba enviado:', result.data.id);
     res.json({ 
       success: true, 
       message: 'Email de prueba enviado exitosamente',
-      messageId: info.messageId,
+      emailId: result.data.id,
       to: 'fresche@fresche1.com',
       timestamp: new Date().toLocaleString('es-CO')
     });
@@ -103,7 +85,6 @@ app.get('/api/test-email', async (_req, res) => {
     res.status(500).json({ 
       error: 'Error al enviar email',
       message: error.message,
-      code: error.code,
       timestamp: new Date().toLocaleString('es-CO')
     });
   }
@@ -129,17 +110,14 @@ app.post('/api/create-preference', async (req, res) => {
     // Responder inmediatamente para no bloquear la redirección
     res.json({ init_point: response.init_point, id: response.id });
 
-    // Enviar email en segundo plano (sin bloquear la respuesta)
-    if (orderData && process.env.SMTP_USER && process.env.SMTP_PASS) {
-      console.log('📧 Intentando enviar email de pedido...');
-      // No usar await - dejar que se envíe en segundo plano
-      transporter.sendMail({
-        from: process.env.SMTP_USER,
-        to: 'fresche@fresche1.com',
-        subject: `🛍️ Nuevo Pedido FRESCHE - ${orderData.customerName}`,
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #d4af37;">🛍️ Nuevo Pedido Recibido</h2>
+    // Enviar email en segundo plano con Resend
+    if (orderData && process.env.RESEND_API_KEY) {
+      console.log('📧 Intentando enviar email de pedido con Resend...');
+      
+      const emailBody = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f9f9f9;">
+          <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #d4af37;">
+            <h2 style="color: #d4af37; margin-top: 0;">🛍️ Nuevo Pedido Recibido</h2>
             <p><strong>Fecha:</strong> ${new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })}</p>
             <p><strong>ID de Preferencia MP:</strong> ${response.id}</p>
             
@@ -158,38 +136,66 @@ app.post('/api/create-preference', async (req, res) => {
               <li><strong>Ciudad:</strong> ${orderData.city}</li>
               <li><strong>Departamento:</strong> ${orderData.state || 'N/A'}</li>
               <li><strong>Código Postal:</strong> ${orderData.zipCode || 'N/A'}</li>
-              <li><strong>Método de Envío:</strong> ${orderData.shippingMethod || 'N/A'}</li>
+              <li><strong>Zona de Envío:</strong> ${orderData.shippingMethod || 'N/A'}</li>
             </ul>
             
-            <h3 style="color: #d4af37;">🛒 Productos</h3>
-            <pre style="background: #f4f4f4; padding: 10px; border-radius: 5px;">${preference.items.map(item => 
-              `- ${item.title} x${item.quantity} - $${item.unit_price.toLocaleString()}`
-            ).join('\n')}</pre>
+            <h3 style="color: #d4af37;">🛒 Productos Ordenados</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="background: #f0f0f0;">
+                  <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Producto</th>
+                  <th style="padding: 8px; text-align: center; border: 1px solid #ddd;">Cantidad</th>
+                  <th style="padding: 8px; text-align: right; border: 1px solid #ddd;">Precio Unit.</th>
+                  <th style="padding: 8px; text-align: right; border: 1px solid #ddd;">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${preference.items.map(item => `
+                  <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd;">${item.title}</td>
+                    <td style="padding: 8px; text-align: center; border: 1px solid #ddd;">${item.quantity}</td>
+                    <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">$${Number(item.unit_price).toLocaleString('es-CO')}</td>
+                    <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">$${Number(item.unit_price * item.quantity).toLocaleString('es-CO')}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
             
-            <h3 style="color: #d4af37;">💰 Totales</h3>
-            <ul>
-              <li><strong>Subtotal:</strong> $${orderData.subtotal || 0}</li>
-              <li><strong>Envío:</strong> $${orderData.shippingCost || 0}</li>
-              <li><strong>Total:</strong> <span style="color: #d4af37; font-size: 1.2em;">${orderData.total || 0} ${orderData.currency || 'COP'}</span></li>
+            <h3 style="color: #d4af37;">💰 Resumen de Pago</h3>
+            <ul style="font-size: 1.1em;">
+              <li><strong>Subtotal:</strong> $${Number(orderData.subtotal || 0).toLocaleString('es-CO')}</li>
+              <li><strong>Costo de Envío:</strong> $${Number(orderData.shippingCost || 0).toLocaleString('es-CO')}</li>
+              <li style="color: #d4af37; font-size: 1.3em; margin-top: 10px;">
+                <strong>TOTAL: $${Number(orderData.total || 0).toLocaleString('es-CO')} COP</strong>
+              </li>
             </ul>
             
-            <hr style="border: 1px solid #d4af37;">
+            <hr style="border: 1px solid #d4af37; margin: 20px 0;">
             
-            <p style="color: #666; font-size: 0.9em;">Este pedido fue realizado a través de fresche1.com</p>
+            <p style="color: #666; font-size: 0.9em; text-align: center;">
+              Pedido realizado a través de <strong>fresche1.com</strong><br>
+              Este es un email automático. Por favor no respondas a este correo.
+            </p>
           </div>
-        `
-      }).then(() => {
-        console.log('✅ Email enviado exitosamente a fresche@fresche1.com');
-      }).catch((emailError) => {
-        console.error('❌ ERROR al enviar email:', emailError);
-        console.error('   Mensaje:', emailError.message);
-        console.error('   Código:', emailError.code);
+        </div>
+      `;
+      
+      resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
+        to: 'fresche@fresche1.com',
+        subject: `🛍️ Nuevo Pedido FRESCHE - ${orderData.customerName}`,
+        html: emailBody
+      }).then((result) => {
+        if (result.error) {
+          console.error('❌ Error enviando email:', result.error);
+        } else {
+          console.log('✅ Email enviado exitosamente:', result.data.id);
+        }
+      }).catch((error) => {
+        console.error('❌ ERROR enviando email:', error.message);
       });
     } else {
-      console.warn('⚠️ Email NO enviado - Faltan credenciales SMTP o datos del pedido');
-      console.warn(`   orderData: ${orderData ? '✓' : '✗'}`);
-      console.warn(`   SMTP_USER: ${process.env.SMTP_USER ? '✓' : '✗'}`);
-      console.warn(`   SMTP_PASS: ${process.env.SMTP_PASS ? '✓' : '✗'}`);
+      console.warn('⚠️ Email NO enviado - Faltan RESEND_API_KEY o datos del pedido');
     }
     
   } catch (error) {
