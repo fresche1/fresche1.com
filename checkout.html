@@ -634,11 +634,14 @@
                 subtotal += itemTotal;
 
                 // Solo mostrar precios si la información de envío está completa
-                const formattedPrice = shippingInfoComplete 
-                    ? ((currentCurrency === 'USD') 
-                        ? `$${itemTotal.toFixed(2)}` 
-                        : `$${Math.round(itemTotal).toLocaleString('es-CO')}`)
-                    : '-';
+                let formattedPrice = '-';
+                if (shippingInfoComplete) {
+                    if (currentCurrency === 'USD') {
+                        formattedPrice = `$${itemTotal.toFixed(2)} USD`;
+                    } else {
+                        formattedPrice = `$${Math.round(itemTotal).toLocaleString('es-CO')} COP`;
+                    }
+                }
 
                 return `
                     <div class="order-item">
@@ -667,7 +670,6 @@
                 document.getElementById('subtotal').textContent = formatMoney(subtotal);
                 document.getElementById('shipping').textContent = formatMoney(shippingCost);
                 document.getElementById('total').textContent = formatMoney(total);
-                
                 // Mostrar totales y ocultar mensaje pendiente
                 document.getElementById('orderTotals').style.display = 'block';
                 document.getElementById('shippingPendingMessage').style.display = 'none';
@@ -934,7 +936,7 @@
             };
 
             document.getElementById('subtotal').textContent = formatMoney(subtotal);
-            document.getElementById('shipping').textContent = shippingCost > 0 ? formatMoney(shippingCost) : 'Seleccione método';
+            document.getElementById('shipping').textContent = shippingCost > 0 ? formatMoney(shippingCost) : (currentCurrency === 'USD' ? 'Select method' : 'Seleccione método');
             
             // Actualizar total con comisión
             const totalsDiv = document.querySelector('.order-totals');
