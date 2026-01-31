@@ -840,10 +840,15 @@
                         return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
                     }
                 };
+                // Calcular subtotal igual que en el resumen del pedido
                 const subtotal = cart.reduce((sum, item) => {
-                    const prices = item.type === 'pack' 
-                        ? getPricePerUnit(1, 'pack') 
-                        : getPricePerUnit(item.quantity, 'product');
+                    let prices;
+                    if (item.type === 'pack') {
+                        const packType = item.packType || (item.products && item.products.length === 2 ? 'duo' : item.products && item.products.length === 3 ? 'trio' : item.products && item.products.length === 5 ? 'elella' : null);
+                        prices = getPricePerUnit(1, 'pack', packType);
+                    } else {
+                        prices = getPricePerUnit(item.quantity, 'product');
+                    }
                     return sum + (prices[currentCurrency] * item.quantity);
                 }, 0);
                 const total = subtotal + shippingCost;
