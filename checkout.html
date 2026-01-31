@@ -767,42 +767,29 @@
         function updatePaymentMethods(country) {
             const nequiMethod = document.querySelector('[data-method="NEQUI"]');
             const zelleMethod = document.querySelector('[data-method="ZELLE"]');
-            
-            // Colombia: Mostrar Nequi, ocultar Zelle
+            const mercadolibreMethod = document.querySelector('[data-method="MERCADOLIBRE"]');
+            const mercadopagoMethod = document.querySelector('[data-method="MERCADOPAGO"]');
+
             if (country === 'CO') {
+                // Mostrar Nequi, MercadoPago y MercadoLibre
                 if (nequiMethod) nequiMethod.style.display = 'flex';
                 if (zelleMethod) zelleMethod.style.display = 'none';
-                
+                if (mercadopagoMethod) mercadopagoMethod.style.display = 'flex';
+                if (mercadolibreMethod) mercadolibreMethod.style.display = 'flex';
                 // Si Zelle estaba seleccionado, cambiar a Nequi
                 if (selectedPaymentMethod === 'ZELLE') {
-                    if (nequiMethod) {
-                        selectPaymentMethod(nequiMethod);
-                    }
+                    if (nequiMethod) selectPaymentMethod(nequiMethod);
                 }
-            } 
-            // USA/Canadá: Mostrar Zelle, ocultar Nequi
-            else if (country === 'US' || country === 'CA') {
+            } else {
+                // Fuera de Colombia: solo Zelle y MercadoPago
                 if (nequiMethod) nequiMethod.style.display = 'none';
                 if (zelleMethod) zelleMethod.style.display = 'flex';
-                
-                // Si Nequi estaba seleccionado, cambiar a Zelle
-                if (selectedPaymentMethod === 'NEQUI') {
-                    if (zelleMethod) {
-                        selectPaymentMethod(zelleMethod);
-                    }
-                }
-            }
-            // Otros países: Ocultar métodos locales, solo Mercado Pago
-            else {
-                if (nequiMethod) nequiMethod.style.display = 'none';
-                if (zelleMethod) zelleMethod.style.display = 'none';
-                
-                // Cambiar a Mercado Pago si un método local estaba seleccionado
-                if (selectedPaymentMethod !== 'MERCADOPAGO') {
-                    const mercadopagoMethod = document.querySelector('[data-method="MERCADOPAGO"]');
-                    if (mercadopagoMethod) {
-                        selectPaymentMethod(mercadopagoMethod);
-                    }
+                if (mercadopagoMethod) mercadopagoMethod.style.display = 'flex';
+                if (mercadolibreMethod) mercadolibreMethod.style.display = 'none';
+                // Si Nequi o MercadoLibre estaban seleccionados, cambiar a Zelle o MercadoPago
+                if (selectedPaymentMethod === 'NEQUI' || selectedPaymentMethod === 'MERCADOLIBRE') {
+                    if (zelleMethod) selectPaymentMethod(zelleMethod);
+                    else if (mercadopagoMethod) selectPaymentMethod(mercadopagoMethod);
                 }
             }
         }
