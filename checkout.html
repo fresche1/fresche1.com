@@ -442,8 +442,9 @@
                 </div>
             </div>
             
-            <div id="shippingPendingMessage" style="margin: 1.5rem 0; padding: 1rem; background: rgba(255, 152, 0, 0.1); border-radius: 8px; border: 1px solid rgba(255, 152, 0, 0.3); text-align: center; color: rgba(255, 255, 255, 0.9);">
-                <strong style="color: var(--gold);">📦</strong><br>
+            <!-- Mensaje pendiente de envío (sin subrayado rojo) -->
+            <div id="shippingPendingMessage" style="margin: 1.5rem 0; padding: 1.2rem; background: rgba(212, 175, 55, 0.10); border-radius: 12px; border: 2px solid rgba(212, 175, 55, 0.25); text-align: center; color: var(--gold); font-size: 1.15rem; font-weight: 600; box-shadow: 0 2px 16px 0 rgba(212,175,55,0.08);">
+                <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">📦</span>
                 <span data-es="Complete la información de envío para ver el total" data-en="Complete shipping information to see total">Complete la información de envío para ver el total</span>
             </div>
 
@@ -451,9 +452,11 @@
                 <span data-es="🔒 Pagar Ahora" data-en="🔒 Pay Now">🔒 Pagar Ahora</span>
             </button>
 
-            <div style="margin-top: 1rem; padding: 1rem; background: rgba(212, 175, 55, 0.1); border-radius: 8px; font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); border: 1px solid rgba(212, 175, 55, 0.3);">
-                <strong style="color: var(--gold);">🔒 Pago Seguro</strong><br>
-                Transacción procesada por Mercado Pago, plataforma líder de pagos en América Latina.
+            <!-- Mensaje de pago seguro (subrayado verde, más grande y elegante) -->
+            <div style="margin-top: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(0,184,148,0.18) 0%, rgba(212,175,55,0.10) 100%); border-radius: 14px; border: 2.5px solid #00b894; font-size: 1.15rem; color: #fff; box-shadow: 0 4px 24px 0 rgba(0,184,148,0.10); display: flex; align-items: center; gap: 1.2rem; justify-content: center;">
+                <span style="font-size: 2.2rem; color: #00b894; font-weight: bold; text-shadow: 0 2px 12px rgba(0,184,148,0.15);">🔒</span>
+                <span style="color: #00ffb0; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.5px; text-shadow: 0 2px 12px rgba(0,184,148,0.10);">Pago Seguro</span>
+                <span style="color: var(--gold); font-size: 1.1rem; font-weight: 500;">Transacción procesada por Mercado Pago, plataforma líder de pagos en América Latina.</span>
             </div>
         </div>
     </div>
