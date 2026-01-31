@@ -813,6 +813,13 @@
                 <h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;" data-es="🛒 Carrito de Compras" data-en="🛒 Shopping Cart">🛒 Carrito de Compras</h2>
                 <div id="cartItems"></div>
                 <div id="cartTotal" style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--gold);"></div>
+                            <!-- Opción de Pickup/Recoger -->
+                            <div id="pickupOption" style="margin-top: 1.5rem; padding: 1.2rem; background: rgba(0,184,148,0.10); border-radius: 12px; border: 2px solid #00b894; text-align: center; color: #00b894; font-size: 1.1rem; font-weight: 600; box-shadow: 0 2px 16px 0 rgba(0,184,148,0.08);">
+                                <label style="cursor:pointer;">
+                                    <input type="checkbox" id="pickupCartCheckbox" style="width:1.2em; height:1.2em; margin-right:0.7em; vertical-align:middle;">
+                                    <span data-es="Recoger en tienda (sin cobro extra de envío, solo pagas el valor del paquete o crema)" data-en="Pickup (no extra charge, only pay for the product)">Recoger en tienda (sin cobro extra de envío, solo pagas el valor del paquete o crema)</span>
+                                </label>
+                            </div>
                 <button id="checkoutBtn" class="btn-checkout" onclick="checkout()" style="display: none; width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 600; cursor: pointer; margin-top: 1.5rem; transition: all 0.3s;">
                     <span data-es="💳 Pagar con PayU" data-en="💳 Pay with PayU">💳 Pagar con PayU</span>
                 </button>
