@@ -518,11 +518,13 @@
         
         const shippingRates = {
             CO: [
+                { id: 'pickup', name: '🏢 <span data-es="Recoger en tienda" data-en="Pickup">Recoger en tienda</span>', desc: '<span data-es="Sin cobro extra. Solo pagas el valor del paquete o crema." data-en="No extra charge. Only pay for the product.">Sin cobro extra. Solo pagas el valor del paquete o crema.</span>', price: 0, currency: 'COP', zone: 'pickup' },
                 { id: 'bogota', name: '🏠 LOCAL - Bogotá y Sabana', desc: '2-4 días hábiles', price: 9000, currency: 'COP', zone: 'bogota' },
                 { id: 'central', name: '🚚 REGIONAL - Colombia Central', desc: '3-5 días hábiles', price: 13800, currency: 'COP', zone: 'central' },
                 { id: 'longdistance', name: '✈️ NACIONAL - Larga Distancia', desc: '4-7 días hábiles', price: 21000, currency: 'COP', zone: 'longdistance' }
             ],
             INTERNATIONAL: [
+                { id: 'pickup', name: '🏢 <span data-es="Recoger en tienda" data-en="Pickup">Recoger en tienda</span>', desc: '<span data-es="Sin cobro extra. Solo pagas el valor del paquete o crema." data-en="No extra charge. Only pay for the product.">Sin cobro extra. Solo pagas el valor del paquete o crema.</span>', price: 0, currency: 'USD', zone: 'pickup' },
                 { id: 'international', name: 'Servientrega International', desc: '10-15 business days', price: 10, currency: 'USD' }
             ]
         };
@@ -710,55 +712,68 @@
             let selectedOption = null;
             
             if (country === 'CO') {
-                // Colombia: Detectar zona automáticamente basado en ciudad
+                // Colombia: Mostrar opción Pickup siempre
+                let html = '';
+                const pickupOption = shippingRates.CO.find(opt => opt.id === 'pickup');
+                html += `<div class="shipping-option" onclick="selectShippingMethod('pickup', 0)">
+                    <div class="shipping-option-info">
+                        <div class="shipping-option-name">${pickupOption.name}</div>
+                        <div class="shipping-option-desc">📦 ${pickupOption.desc}</div>
+                    </div>
+                    <div class="shipping-option-price">$0</div>
+                </div>`;
                 if (city) {
                     const zone = getColombiaCityZone(city);
                     selectedOption = shippingRates.CO.find(opt => opt.zone === zone);
-                    
                     if (selectedOption) {
                         // Auto-seleccionar el envío según la zona
                         selectedShippingMethod = selectedOption.id;
                         shippingCost = selectedOption.price;
-                        
                         const formattedPrice = `$${Math.round(selectedOption.price).toLocaleString('es-CO')} COP`;
                         const zoneName = zone === 'bogota' ? '🏠 LOCAL (Bogotá)' : zone === 'central' ? '🚚 REGIONAL (Colombia Central)' : '✈️ NACIONAL (Larga Distancia)';
-                        
-                        shippingOptionsDiv.innerHTML = `
-                            <div class="shipping-option selected">
-                                <div class="shipping-option-info">
-                                    <div class="shipping-option-name">${selectedOption.name}</div>
-                                    <div class="shipping-option-desc">📦 ${selectedOption.desc}</div>
-                                    <div style="font-size: 0.9rem; color: var(--gold); margin-top: 0.5rem;">✓ Zona detectada: ${zoneName}</div>
-                                </div>
-                                <div class="shipping-option-price">${formattedPrice}</div>
+                        html += `<div class="shipping-option selected">
+                            <div class="shipping-option-info">
+                                <div class="shipping-option-name">${selectedOption.name}</div>
+                                <div class="shipping-option-desc">📦 ${selectedOption.desc}</div>
+                                <div style="font-size: 0.9rem; color: var(--gold); margin-top: 0.5rem;">✓ Zona detectada: ${zoneName}</div>
                             </div>
-                        `;
+                            <div class="shipping-option-price">${formattedPrice}</div>
+                        </div>`;
                     }
                 } else {
                     // Si no hay ciudad, mostrar mensaje
                     const alertMsg = isEnglish ? 'Enter a city to calculate shipping cost' : 'Ingresa la ciudad para calcular el costo de envío';
-                    shippingOptionsDiv.innerHTML = `<div class="shipping-alert">⚠️ ${alertMsg}</div>`;
-                    shippingCost = 0;
-                    selectedShippingMethod = null;
+                    html += `<div class="shipping-alert">⚠️ ${alertMsg}</div>`;
                 }
+                shippingOptionsDiv.innerHTML = html;
+                // Si el usuario selecciona Pickup, costo 0
+                if (selectedShippingMethod === 'pickup') shippingCost = 0;
             } else {
-                // Internacional: Tarifa fija
+                // Internacional: Mostrar opción Pickup siempre
+                let html = '';
+                const pickupOption = shippingRates.INTERNATIONAL.find(opt => opt.id === 'pickup');
+                html += `<div class="shipping-option" onclick="selectShippingMethod('pickup', 0)">
+                    <div class="shipping-option-info">
+                        <div class="shipping-option-name">${pickupOption.name}</div>
+                        <div class="shipping-option-desc">📦 ${pickupOption.desc}</div>
+                    </div>
+                    <div class="shipping-option-price">$0</div>
+                </div>`;
                 options = shippingRates.INTERNATIONAL;
-                selectedOption = options[0];
+                selectedOption = options.find(opt => opt.id === 'international');
                 selectedShippingMethod = selectedOption.id;
                 shippingCost = selectedOption.price;
-                
                 const formattedPrice = `$${selectedOption.price.toFixed(2)} USD`;
-                
-                shippingOptionsDiv.innerHTML = `
-                    <div class="shipping-option selected">
-                        <div class="shipping-option-info">
-                            <div class="shipping-option-name">${selectedOption.name}</div>
-                            <div class="shipping-option-desc">📦 ${selectedOption.desc}</div>
-                        </div>
-                        <div class="shipping-option-price">${formattedPrice}</div>
+                html += `<div class="shipping-option selected">
+                    <div class="shipping-option-info">
+                        <div class="shipping-option-name">${selectedOption.name}</div>
+                        <div class="shipping-option-desc">📦 ${selectedOption.desc}</div>
                     </div>
-                `;
+                    <div class="shipping-option-price">${formattedPrice}</div>
+                </div>`;
+                shippingOptionsDiv.innerHTML = html;
+                // Si el usuario selecciona Pickup, costo 0
+                if (selectedShippingMethod === 'pickup') shippingCost = 0;
             }
 
             displayOrderSummary();
