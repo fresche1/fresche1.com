@@ -1,4 +1,16 @@
-﻿* {
+﻿/* QR grande y centrado para Zelle en checkout */
+.zelle-qr-checkout {
+    display: block;
+    margin: 0 auto 1.5rem auto;
+    max-width: 320px;
+    width: 100%;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    padding: 12px;
+    border: 2px solid var(--gold);
+}
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;

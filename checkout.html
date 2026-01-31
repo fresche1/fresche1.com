@@ -839,7 +839,7 @@
                         <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, envía el comprobante al WhatsApp +57 301 760 6723</p>
                     </div>
                 `;
-            } else if (selectedPaymentMethod === 'ZELLE') {
+            if (selectedPaymentMethod === 'ZELLE') {
                 const formatMoney = (amount) => {
                     if (currentCurrency === 'USD') {
                         return `$${amount.toFixed(2)} USD`;
@@ -860,14 +860,14 @@
                 }, 0);
                 const total = subtotal + shippingCost;
                 instructions = `
-                    <h4 style="color: var(--gold); margin-bottom: 1rem;">💵 Zelle Payment</h4>
-                    <div style="color: #fff; line-height: 1.8; text-align:center;">
-                        <img src='images/zelle-qr.jpg' alt='Zelle QR' style='max-width:220px; width:100%; margin:0 auto 1rem; display:block; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.12); background:#fff;'>
-                        <p style="margin-bottom: 0.5rem; font-size:1.1rem; color:var(--gold); font-weight:600;">Escanea el código QR para pagar con Zelle</p>
-                        <p style="margin-bottom: 0.5rem; font-size:1.1rem; color:var(--gold); font-weight:600;">Scan the QR code to pay with Zelle</p>
-                        <p style="margin-bottom: 0.5rem;"><strong>Total:</strong> <span style="color: var(--gold); font-size: 1.2rem;">${formatMoney(total)}</span></p>
-                        <p style="color: #ff9800; margin-top: 1rem; font-size:1rem;">⚠️ Una vez realices el pago con Zelle, haz clic en "Pagar Ahora" para ser redireccionado y enviar el comprobante de pago por WhatsApp.</p>
-                        <p style="color: #ff9800; margin-top: 0.5rem; font-size:1rem;">⚠️ After paying with Zelle, click "Pay Now" to be redirected and send your payment receipt via WhatsApp.</p>
+                    <h4 style=\"color: var(--gold); margin-bottom: 1rem;\">💵 Zelle Payment</h4>
+                    <div style=\"color: #fff; line-height: 1.8; text-align:center;\">
+                        <img src='images/zelle-qr.jpg' alt='Zelle QR' class='zelle-qr-checkout'>
+                        <p style=\"margin-bottom: 0.5rem; font-size:1.2rem; color:var(--gold); font-weight:700;\">Escanea el código QR para pagar con Zelle</p>
+                        <p style=\"margin-bottom: 0.5rem; font-size:1.2rem; color:var(--gold); font-weight:700;\">Scan the QR code to pay with Zelle</p>
+                        <p style=\"margin-bottom: 0.5rem; font-size:1.1rem;\"><strong>Total:</strong> <span style=\"color: var(--gold); font-size: 1.3rem; font-weight:700;\">${formatMoney(total)}</span></p>
+                        <p style=\"color: #ff9800; margin-top: 1.2rem; font-size:1.05rem; font-weight:600;\">⚠️ Una vez realices el pago con Zelle, haz clic en \"Pagar Ahora\" para ser redireccionado y enviar el comprobante de pago por WhatsApp.</p>
+                        <p style=\"color: #ff9800; margin-top: 0.5rem; font-size:1.05rem; font-weight:600;\">⚠️ After paying with Zelle, click \"Pay Now\" to be redirected and send your payment receipt via WhatsApp.</p>
                     </div>
                 `;
             } else if (selectedPaymentMethod === 'MERCADOPAGO') {
