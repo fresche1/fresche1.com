@@ -532,18 +532,20 @@
             'pack_elella': { USD: 69.99, COP: 129999 }  // Pack El y Ella (5 unidades)
         };
 
-        // Función para obtener precio según cantidad y tipo de producto
-        function getPricePerUnit(quantity, itemType) {
-            // Si es pack "El y Ella"
-            if (itemType === 'pack' && quantity === 1) {
-                return priceTable['pack_elella'];
+        // Función para obtener precio según cantidad y tipo de producto o pack
+        function getPricePerUnit(quantity, itemType, packType = null) {
+            // Si es un pack, usar el tipo de pack para el precio correcto
+            if (itemType === 'pack') {
+                if (packType === 'duo') return priceTable[2];
+                if (packType === 'trio') return priceTable[3];
+                if (packType === 'elella') return priceTable['pack_elella'];
+                // fallback
+                return priceTable[quantity] || priceTable[1];
             }
-            
             // Para productos normales, retornar tabla según cantidad
             if (priceTable[quantity]) {
                 return priceTable[quantity];
             }
-            
             // Si la cantidad no está en tabla, usar precio base
             return priceTable[1];
         }
@@ -615,8 +617,9 @@
                 let prices;
 
                 if (item.type === 'pack') {
-                    // Para packs, usar el precio del pack
-                    prices = getPricePerUnit(1, 'pack');
+                    // Detectar tipo de pack (duo, trio, elella)
+                    const packType = item.packType || (item.products && item.products.length === 2 ? 'duo' : item.products && item.products.length === 3 ? 'trio' : item.products && item.products.length === 5 ? 'elella' : null);
+                    prices = getPricePerUnit(1, 'pack', packType);
                     itemTotal = prices[currentCurrency] * item.quantity;
                     itemName = `${item.name} (${item.products.map(p => p.id).join(', ')})`;
                     itemImage = 'images/cherry.jpg';
@@ -904,9 +907,13 @@
 
         function updateOrderSummaryWithCommission() {
             const subtotal = cart.reduce((sum, item) => {
-                const prices = item.type === 'pack' 
-                    ? getPricePerUnit(1, 'pack') 
-                    : getPricePerUnit(item.quantity, 'product');
+                let prices;
+                if (item.type === 'pack') {
+                    const packType = item.packType || (item.products && item.products.length === 2 ? 'duo' : item.products && item.products.length === 3 ? 'trio' : item.products && item.products.length === 5 ? 'elella' : null);
+                    prices = getPricePerUnit(1, 'pack', packType);
+                } else {
+                    prices = getPricePerUnit(item.quantity, 'product');
+                }
                 return sum + (prices[currentCurrency] * item.quantity);
             }, 0);
 
