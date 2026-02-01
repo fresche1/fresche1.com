@@ -1019,11 +1019,29 @@
             let instructions = '';
 
             if (selectedPaymentMethod === 'NEQUI') {
+                const subtotal = cart.reduce((sum, item) => {
+                    let prices;
+                    if (item.type === 'pack') {
+                        const packType = item.packType || (item.products && item.products.length === 2 ? 'duo' : item.products && item.products.length === 3 ? 'trio' : item.products && item.products.length === 5 ? 'elella' : null);
+                        prices = getPricePerUnit(1, 'pack', packType);
+                    } else {
+                        prices = getPricePerUnit(item.quantity, 'product');
+                    }
+                    return sum + (prices[currentCurrency] * item.quantity);
+                }, 0);
+                const total = subtotal + shippingCost;
+                const formatMoney = (amount) => {
+                    if (currentCurrency === 'USD') {
+                        return `$${amount.toFixed(2)} USD`;
+                    }
+                    return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
+                };
                 instructions = `
                     <h4 style="color: var(--gold); margin-bottom: 1rem;">📱 Pago por Nequi</h4>
                     <div style="color: #fff; line-height: 1.8;">
                         <p style="margin-bottom: 0.5rem;"><strong>Número Nequi:</strong> <span style="color: var(--gold); font-size: 1.2rem;">+57 301 760 6723</span></p>
                         <p style="margin-bottom: 0.5rem;"><strong>A nombre de:</strong> Alejandra Vela Moreno</p>
+                        <p style="margin-bottom: 0.5rem; font-size:1.1rem;"><strong>Total a pagar:</strong> <span style="color: var(--gold); font-size: 1.3rem; font-weight:700;">${formatMoney(total)}</span></p>
                         <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, haz clic en "Pagar Ahora" para enviar el comprobante al WhatsApp +57 301 760 6723</p>
                     </div>
                 `;
