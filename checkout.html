@@ -996,19 +996,7 @@
                         <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, haz clic en "Pagar Ahora" para enviar el comprobante al WhatsApp +57 301 760 6723</p>
                     </div>
                 `;
-            } else if (selectedPaymentMethod === 'BANCOLOMBIA') {
-                instructions = `
-                    <h4 style="color: var(--gold); margin-bottom: 1rem;">🏦 Transferencia Bancolombia</h4>
-                    <div style="color: #fff; line-height: 1.8;">
-                        <p style="margin-bottom: 0.5rem;"><strong>Banco:</strong> Bancolombia</p>
-                        <p style="margin-bottom: 0.5rem;"><strong>Tipo de cuenta:</strong> Ahorros</p>
-                        <p style="margin-bottom: 0.5rem;"><strong>Número de cuenta:</strong> <span style="color: var(--gold); font-size: 1.2rem;">12345678901</span></p>
-                        <p style="margin-bottom: 0.5rem;"><strong>A nombre de:</strong> Alejandra Vela Moreno</p>
-                        <p style="margin-bottom: 0.5rem;"><strong>Cédula:</strong> 1234567890</p>
-                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, haz clic en "Pagar Ahora" para enviar el comprobante al WhatsApp +57 301 760 6723</p>
-                    </div>
-                `;
-            if (selectedPaymentMethod === 'ZELLE') {
+            } else if (selectedPaymentMethod === 'ZELLE') {
                 const formatMoney = (amount) => {
                     if (currentCurrency === 'USD') {
                         return `$${amount.toFixed(2)} USD`;
