@@ -982,11 +982,10 @@
             document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
             element.classList.add('selected');
             selectedPaymentMethod = element.dataset.method;
-            
-            // Mostrar instrucciones según el método
+
             const instructionsDiv = document.getElementById('paymentInstructions');
             let instructions = '';
-            
+
             if (selectedPaymentMethod === 'NEQUI') {
                 instructions = `
                     <h4 style="color: var(--gold); margin-bottom: 1rem;">📱 Pago por Nequi</h4>
@@ -1000,11 +999,10 @@
                 const formatMoney = (amount) => {
                     if (currentCurrency === 'USD') {
                         return `$${amount.toFixed(2)} USD`;
-                    } else {
-                        return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
                     }
+                    return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
                 };
-                // Calcular subtotal igual que en el resumen del pedido
+
                 const subtotal = cart.reduce((sum, item) => {
                     let prices;
                     if (item.type === 'pack') {
@@ -1015,16 +1013,17 @@
                     }
                     return sum + (prices[currentCurrency] * item.quantity);
                 }, 0);
+
                 const total = subtotal + shippingCost;
                 instructions = `
-                    <h4 style=\"color: var(--gold); margin-bottom: 1rem;\">💵 Zelle Payment</h4>
-                    <div style=\"color: #fff; line-height: 1.8; text-align:center;\">
-                        <img src='images/zelle-qr.jpg' alt='Zelle QR' class='zelle-qr-checkout'>
-                        <p style=\"margin-bottom: 0.5rem; font-size:1.2rem; color:var(--gold); font-weight:700;\">Escanea el código QR para pagar con Zelle</p>
-                        <p style=\"margin-bottom: 0.5rem; font-size:1.2rem; color:var(--gold); font-weight:700;\">Scan the QR code to pay with Zelle</p>
-                        <p style=\"margin-bottom: 0.5rem; font-size:1.1rem;\"><strong>Total:</strong> <span style=\"color: var(--gold); font-size: 1.3rem; font-weight:700;\">${formatMoney(total)}</span></p>
-                        <p style=\"color: #ff9800; margin-top: 1.2rem; font-size:1.05rem; font-weight:600;\">⚠️ Una vez realices el pago con Zelle, haz clic en \"Pagar Ahora\" para ser redireccionado y enviar el comprobante de pago por WhatsApp.</p>
-                        <p style=\"color: #ff9800; margin-top: 0.5rem; font-size:1.05rem; font-weight:600;\">⚠️ After paying with Zelle, click \"Pay Now\" to be redirected and send your payment receipt via WhatsApp.</p>
+                    <h4 style="color: var(--gold); margin-bottom: 1rem;">💵 Zelle Payment</h4>
+                    <div style="color: #fff; line-height: 1.8; text-align:center;">
+                        <img src="images/zelle-qr.jpg" alt="Zelle QR" class="zelle-qr-checkout">
+                        <p style="margin-bottom: 0.5rem; font-size:1.2rem; color:var(--gold); font-weight:700;">Escanea el código QR para pagar con Zelle</p>
+                        <p style="margin-bottom: 0.5rem; font-size:1.2rem; color:var(--gold); font-weight:700;">Scan the QR code to pay with Zelle</p>
+                        <p style="margin-bottom: 0.5rem; font-size:1.1rem;"><strong>Total:</strong> <span style="color: var(--gold); font-size: 1.3rem; font-weight:700;">${formatMoney(total)}</span></p>
+                        <p style="color: #ff9800; margin-top: 1.2rem; font-size:1.05rem; font-weight:600;">⚠️ Una vez realices el pago con Zelle, haz clic en "Pagar Ahora" para ser redireccionado y enviar el comprobante de pago por WhatsApp.</p>
+                        <p style="color: #ff9800; margin-top: 0.5rem; font-size:1.05rem; font-weight:600;">⚠️ After paying with Zelle, click "Pay Now" to be redirected and send your payment receipt via WhatsApp.</p>
                     </div>
                 `;
             } else if (selectedPaymentMethod === 'BANCOLOMBIA') {
@@ -1039,8 +1038,8 @@
                 `;
             } else if (selectedPaymentMethod === 'MERCADOPAGO') {
                 const subtotal = cart.reduce((sum, item) => {
-                    const prices = item.type === 'pack' 
-                        ? getPricePerUnit(1, 'pack') 
+                    const prices = item.type === 'pack'
+                        ? getPricePerUnit(1, 'pack')
                         : getPricePerUnit(item.quantity, 'product');
                     return sum + (prices[currentCurrency] * item.quantity);
                 }, 0);
@@ -1048,9 +1047,8 @@
                 const formatMoney = (amount) => {
                     if (currentCurrency === 'USD') {
                         return `$${amount.toFixed(2)} USD`;
-                    } else {
-                        return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
                     }
+                    return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
                 };
                 instructions = `
                     <h4 style="color: var(--gold); margin-bottom: 1rem;">💳 Pago con Mercado Pago</h4>
@@ -1079,10 +1077,8 @@
                     </div>
                 `;
             }
-            
+
             instructionsDiv.innerHTML = instructions;
-            
-            // Actualizar el resumen del pedido con la comisión si es Mercado Pago
             updateOrderSummaryWithCommission();
         }
 
