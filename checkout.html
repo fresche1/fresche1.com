@@ -793,6 +793,11 @@
             shippingOptionsDiv.innerHTML = html;
             if (selectedShippingMethod === 'pickup') shippingCost = 0;
 
+            if (selectedShippingMethod === 'pickup') {
+                showPickupStoreSelector();
+                updatePickupPaymentMethods();
+            }
+
             // Si pickup está seleccionado, usar métodos de pago por tienda
             if (selectedShippingMethod === 'pickup') {
                 updatePickupPaymentMethods();
