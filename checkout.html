@@ -612,53 +612,73 @@
             
             const shippingInfoComplete = country && city && address && state && selectedShippingMethod;
             
-            let subtotal = 0;
 
-            orderItemsDiv.innerHTML = cart.map(item => {
-                let itemTotal;
-                let itemName;
-                let itemImage;
-                let itemQuantity = item.quantity;
-                let prices;
-
+            // Agrupar productos individuales (no packs)
+            let individualUnits = 0;
+            let individualItems = [];
+            let packItems = [];
+            cart.forEach(item => {
                 if (item.type === 'pack') {
-                    // Detectar tipo de pack (duo, trio, elella)
-                    const packType = item.packType || (item.products && item.products.length === 2 ? 'duo' : item.products && item.products.length === 3 ? 'trio' : item.products && item.products.length === 5 ? 'elella' : null);
-                    prices = getPricePerUnit(1, 'pack', packType);
-                    itemTotal = prices[currentCurrency] * item.quantity;
-                    itemName = `${item.name} (${item.products.map(p => p.id).join(', ')})`;
-                    itemImage = 'images/cherry.jpg';
+                    packItems.push(item);
                 } else {
-                    // Para productos normales
-                    prices = getPricePerUnit(itemQuantity, 'product');
-                    itemTotal = prices[currentCurrency] * item.quantity;
-                    itemName = item.name;
-                    itemImage = item.image;
+                    individualUnits += item.quantity;
+                    individualItems.push(item);
                 }
+            });
 
-                subtotal += itemTotal;
+            // Calcular subtotal de productos individuales (precio escalonado por total de unidades)
+            let subtotal = 0;
+            let individualPrice = getPricePerUnit(individualUnits, 'product');
+            let individualSubtotal = individualPrice ? (individualPrice[currentCurrency] * individualUnits) : 0;
+            subtotal += individualSubtotal;
 
-                // Solo mostrar precios si la información de envío está completa
-                let formattedPrice = '-';
-                if (shippingInfoComplete) {
-                    if (currentCurrency === 'USD') {
-                        formattedPrice = `$${itemTotal.toFixed(2)} USD`;
-                    } else {
-                        formattedPrice = `$${Math.round(itemTotal).toLocaleString('es-CO')} COP`;
-                    }
-                }
+            // Calcular subtotal de packs
+            let packSubtotal = 0;
+            packItems.forEach(item => {
+                const packType = item.packType || (item.products && item.products.length === 2 ? 'duo' : item.products && item.products.length === 3 ? 'trio' : item.products && item.products.length === 5 ? 'elella' : null);
+                let prices = getPricePerUnit(1, 'pack', packType);
+                packSubtotal += prices[currentCurrency] * item.quantity;
+            });
+            subtotal += packSubtotal;
 
-                return `
+            // Renderizar productos en el resumen
+            let itemsHtml = '';
+            if (individualUnits > 0) {
+                // Mostrar todos los productos individuales agrupados
+                let names = individualItems.map(i => i.name).join(', ');
+                let img = individualItems[0]?.image || 'images/cherry.jpg';
+                let formattedPrice = shippingInfoComplete ? (currentCurrency === 'USD' ? `$${individualSubtotal.toFixed(2)} USD` : `$${Math.round(individualSubtotal).toLocaleString('es-CO')} COP`) : '-';
+                itemsHtml += `
                     <div class="order-item">
-                        <img src="${itemImage}" alt="${itemName}">
+                        <img src="${img}" alt="Cremas FRESCHE">
                         <div class="order-item-info">
-                            <div class="order-item-name">${itemName}</div>
-                            <div class="order-item-quantity">Cantidad: ${itemQuantity}</div>
+                            <div class="order-item-name">${names}</div>
+                            <div class="order-item-quantity">Cantidad: ${individualUnits}</div>
                         </div>
                         <div class="order-item-price">${formattedPrice}</div>
                     </div>
                 `;
-            }).join('');
+            }
+            packItems.forEach(item => {
+                const packType = item.packType || (item.products && item.products.length === 2 ? 'duo' : item.products && item.products.length === 3 ? 'trio' : item.products && item.products.length === 5 ? 'elella' : null);
+                let prices = getPricePerUnit(1, 'pack', packType);
+                let itemTotal = prices[currentCurrency] * item.quantity;
+                let itemName = `${item.name} (${item.products.map(p => p.id).join(', ')})`;
+                let itemImage = 'images/cherry.jpg';
+                let formattedPrice = shippingInfoComplete ? (currentCurrency === 'USD' ? `$${itemTotal.toFixed(2)} USD` : `$${Math.round(itemTotal).toLocaleString('es-CO')} COP`) : '-';
+                itemsHtml += `
+                    <div class="order-item">
+                        <img src="${itemImage}" alt="${itemName}">
+                        <div class="order-item-info">
+                            <div class="order-item-name">${itemName}</div>
+                            <div class="order-item-quantity">Cantidad: ${item.quantity}</div>
+                        </div>
+                        <div class="order-item-price">${formattedPrice}</div>
+                    </div>
+                `;
+            });
+
+            orderItemsDiv.innerHTML = itemsHtml;
 
             const total = subtotal + shippingCost;
 
