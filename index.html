@@ -2142,18 +2142,45 @@
             const cartItems = document.getElementById('cartItems');
             const cartTotal = document.getElementById('cartTotal');
             const isColombia = userRegion === 'CO';
-            
+
             if (cart.length === 0) {
                 cartItems.innerHTML = `<p style="text-align: center; color: var(--gray); padding: 3rem;">${lang === 'es' ? 'Tu carrito está vacío' : 'Your cart is empty'}</p>`;
                 cartTotal.innerHTML = '';
                 return;
             }
-            
+
+            // --- Tiered pricing logic for individual products ---
+            // 1. Separate packs and individual products
+            const packs = cart.filter(item => item.type === 'pack');
+            const individuals = cart.filter(item => !item.type || item.type === 'product');
+
+            // 2. Sum total quantity of individual products
+            let totalIndividualQty = 0;
+            individuals.forEach(item => { totalIndividualQty += item.quantity; });
+
+            // 3. Determine tiered price per unit
+            let unitPrice = isColombia ? 29900 : 18.99;
+            if (isColombia) {
+                if (totalIndividualQty >= 5) unitPrice = 25999;
+                else if (totalIndividualQty >= 3) unitPrice = 26999;
+            } else {
+                if (totalIndividualQty >= 5) unitPrice = 15.99;
+                else if (totalIndividualQty >= 3) unitPrice = 16.99;
+            }
+
+            // 4. Render cart items
             cartItems.innerHTML = cart.map(item => {
-                const itemPrice = item.price || (isColombia ? 29900 : 18.50);
-                const currency = item.currency || (isColombia ? 'COP' : 'USD');
-                const itemTotal = itemPrice * item.quantity;
-                
+                let itemPrice, currency, itemTotal;
+                if (!item.type || item.type === 'product') {
+                    itemPrice = unitPrice;
+                    currency = isColombia ? 'COP' : 'USD';
+                    itemTotal = itemPrice * item.quantity;
+                } else {
+                    itemPrice = item.price || (isColombia ? 29900 : 18.99);
+                    currency = item.currency || (isColombia ? 'COP' : 'USD');
+                    itemTotal = itemPrice * item.quantity;
+                }
+
                 // Format price based on currency
                 let priceFormatted, totalFormatted;
                 if (currency === 'COP') {
@@ -2163,7 +2190,7 @@
                     priceFormatted = `$${itemPrice.toFixed(2)} USD`;
                     totalFormatted = `$${itemTotal.toFixed(2)} USD`;
                 }
-                
+
                 return `
                     <div style="display: flex; gap: 1rem; align-items: center; padding: 1rem; border-bottom: 1px solid #333; background: rgba(212,175,55,0.05); border-radius: 10px; margin-bottom: 1rem;">
                         <img src="${item.image || 'images/cherry.jpg'}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;">
@@ -2183,20 +2210,23 @@
                     </div>
                 `;
             }).join('');
-            
-            // Calculate totals based on currency
+
+            // --- Subtotal calculation with tiered pricing ---
             let subtotal = 0;
-            let currency = 'COP'; // default
-            
-            cart.forEach(item => {
-                subtotal += (item.price || (isColombia ? 29900 : 18.50)) * item.quantity;
+            let currency = isColombia ? 'COP' : 'USD';
+
+            // Add subtotal for all individual products (tiered)
+            subtotal += unitPrice * totalIndividualQty;
+            // Add subtotal for packs (fixed price)
+            packs.forEach(item => {
+                subtotal += (item.price || (isColombia ? 29900 : 18.99)) * item.quantity;
                 if (item.currency) currency = item.currency;
             });
-            
+
             // Determine shipping cost based on region
             let shippingCost = 0;
             let shippingText = '';
-            
+
             if (isColombia) {
                 shippingCost = 9000; // Bogotá por defecto
                 shippingText = lang === 'es' ? 'Envío (Bogotá):' : 'Shipping (Bogotá):';
@@ -2206,9 +2236,9 @@
                 shippingText = lang === 'es' ? 'Envío Internacional:' : 'International Shipping:';
                 currency = 'USD';
             }
-            
+
             const total = subtotal + shippingCost;
-            
+
             // Format currency display
             let subtotalFormatted, shippingFormatted, totalFormatted;
             if (currency === 'COP') {
@@ -2220,14 +2250,14 @@
                 shippingFormatted = `$${shippingCost.toFixed(2)} USD`;
                 totalFormatted = `$${total.toFixed(2)} USD`;
             }
-            
+
             cartTotal.innerHTML = `
                 <div style="padding: 1.5rem; background: rgba(0,0,0,0.3); border-radius: 10px; margin-top: 1rem;">
                     <div style="margin-bottom: 1rem; padding: 1rem; background: rgba(212,175,55,0.1); border-radius: 8px; text-align: center;">
                         <p style="margin: 0; color: var(--gold); font-size: 1.1rem; font-weight: 600;" data-es="🛒 Productos en tu carrito" data-en="🛒 Products in your cart">🛒 Productos en tu carrito</p>
                         <p style="margin: 0.5rem 0 0 0; color: rgba(255,255,255,0.7); font-size: 0.9rem;" data-es="El precio total se calculará al finalizar la compra" data-en="Total price will be calculated at checkout">El precio total se calculará al finalizar la compra</p>
                     </div>
-                    
+
                     <button onclick="goToCheckout()" style="width: 100%; padding: 1.2rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: #000; border: none; border-radius: 10px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: all 0.3s;">
                         💳 ${lang === 'es' ? 'Ir a Pagar' : 'Go to Checkout'}
                     </button>

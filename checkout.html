@@ -314,13 +314,14 @@
                 </div>
 
                 <!-- Dirección de Envío -->
-                <h3 style="color: var(--gold); margin: 2rem 0 1rem;">
-                    <span data-es="Dirección de Envío" data-en="Shipping Address">Dirección de Envío</span>
-                </h3>
+                <div id="shippingAddressSection">
+                    <h3 style="color: var(--gold); margin: 2rem 0 1rem;">
+                        <span data-es="Dirección de Envío" data-en="Shipping Address">Dirección de Envío</span>
+                    </h3>
 
-                <div class="form-group">
-                    <label data-es="Dirección *" data-en="Address *">Dirección *</label>
-                    <input type="text" id="address" required placeholder="Calle 123 #45-67">
+                    <div class="form-group">
+                        <label data-es="Dirección *" data-en="Address *">Dirección *</label>
+                        <input type="text" id="address" required placeholder="Calle 123 #45-67">
                 </div>
 
                 <div class="form-row">
@@ -355,6 +356,7 @@
                 <div class="form-group">
                     <label data-es="Departamento/Estado *" data-en="State *">Departamento/Estado *</label>
                     <input type="text" id="state" required placeholder="Cundinamarca">
+                </div>
                 </div>
 
                 <!-- Opciones de Envío -->
@@ -852,6 +854,32 @@
             // Actualizar visualmente
             document.querySelectorAll('.shipping-option').forEach(el => el.classList.remove('selected'));
             event.target.closest('.shipping-option').classList.add('selected');
+            
+            // Mostrar/ocultar campos de dirección según si es pickup
+            const addressSection = document.getElementById('shippingAddressSection');
+            const addressField = document.getElementById('address');
+            const cityField = document.getElementById('city');
+            const stateField = document.getElementById('state');
+            const countryField = document.getElementById('country');
+            const postalCodeField = document.getElementById('postalCode');
+            
+            if (methodId === 'pickup') {
+                // Ocultar sección de dirección para pickup
+                addressSection.style.display = 'none';
+                // Hacer campos opcionales
+                addressField.removeAttribute('required');
+                cityField.removeAttribute('required');
+                stateField.removeAttribute('required');
+                countryField.removeAttribute('required');
+            } else {
+                // Mostrar sección de dirección para envío normal
+                addressSection.style.display = 'block';
+                // Hacer campos requeridos
+                addressField.setAttribute('required', 'required');
+                cityField.setAttribute('required', 'required');
+                stateField.setAttribute('required', 'required');
+                countryField.setAttribute('required', 'required');
+            }
             
             // Actualizar resumen
             displayOrderSummary();
