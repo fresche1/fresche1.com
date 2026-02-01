@@ -743,13 +743,30 @@
 
             // Mostrar opción Pickup universal
             let html = '';
-            html += `<div class="shipping-option" data-method="pickup" onclick="selectShippingMethod('pickup', 0)">
+            const pickupSelected = selectedShippingMethod === 'pickup';
+            html += `<div class="shipping-option${pickupSelected ? ' selected' : ''}" data-method="pickup" onclick="selectShippingMethod('pickup', 0)">
                 <div class="shipping-option-info">
                     <div class="shipping-option-name">🏢 <span data-es="Recoger en tienda" data-en="Pickup">Recoger en tienda</span></div>
                     <div class="shipping-option-desc">📦 <span data-es="Sin cobro extra. Solo pagas el valor del paquete o crema." data-en="No extra charge. Only pay for the product.">Sin cobro extra. Solo pagas el valor del paquete o crema.</span></div>
                 </div>
                 <div class="shipping-option-price">$0</div>
             </div>`;
+
+            if (pickupSelected) {
+                html += `
+                    <div id="pickupStoreSelector" style="margin:1.5rem 0; padding:1.5rem; background:rgba(212,175,55,0.1); border-radius:12px; border:2px solid var(--gold);">
+                        <h4 style="color:var(--gold); margin-bottom:1rem; font-size:1.2rem;">📍 Selecciona la tienda para recoger</h4>
+                        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                            <button type="button" class="pickup-store-btn" data-store="CO" onclick="selectPickupStore('CO')" style="flex:1; min-width:200px; padding:1rem; background:${pickupStore === 'CO' ? 'linear-gradient(135deg, var(--gold), #ffd700)' : 'rgba(255,255,255,0.1)'}; color:${pickupStore === 'CO' ? '#000' : '#fff'}; border:${pickupStore === 'CO' ? '3px solid var(--gold)' : '2px solid rgba(255,255,255,0.3)'}; border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:all 0.3s;">
+                                🇨🇴 Tienda Colombia
+                            </button>
+                            <button type="button" class="pickup-store-btn" data-store="US" onclick="selectPickupStore('US')" style="flex:1; min-width:200px; padding:1rem; background:${pickupStore === 'US' ? 'linear-gradient(135deg, var(--gold), #ffd700)' : 'rgba(255,255,255,0.1)'}; color:${pickupStore === 'US' ? '#000' : '#fff'}; border:${pickupStore === 'US' ? '3px solid var(--gold)' : '2px solid rgba(255,255,255,0.3)'}; border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:all 0.3s;">
+                                🇺🇸 Tienda USA
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
 
             // Opciones normales de envío
             if (country === 'CO' && selectedShippingMethod !== 'pickup') {
@@ -793,12 +810,6 @@
             shippingOptionsDiv.innerHTML = html;
             if (selectedShippingMethod === 'pickup') shippingCost = 0;
 
-            if (selectedShippingMethod === 'pickup') {
-                showPickupStoreSelector();
-                updatePickupPaymentMethods();
-            }
-
-            // Si pickup está seleccionado, usar métodos de pago por tienda
             if (selectedShippingMethod === 'pickup') {
                 updatePickupPaymentMethods();
             }
@@ -872,9 +883,7 @@
                 cityField.removeAttribute('required');
                 stateField.removeAttribute('required');
                 countryField.removeAttribute('required');
-                
-                // Mostrar selector de tienda para pickup
-                showPickupStoreSelector();
+                updateShippingCost();
             } else {
                 // Mostrar sección de dirección para envío normal
                 addressSection.style.display = 'block';
@@ -886,6 +895,7 @@
                 
                 // Ocultar selector de tienda
                 hidePickupStoreSelector();
+                updateShippingCost();
             }
             
             // Actualizar resumen
