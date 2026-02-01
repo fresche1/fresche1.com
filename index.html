@@ -851,13 +851,13 @@
             try {
                 // Try IP-based geolocation first (most accurate)
                 try {
-                    const response = await fetch('https://ipapi.co/json/', {
-                        method: 'GET',
-                        headers: { 'Accept': 'application/json' }
-                    });
+                    const response = await fetch('https://ipwho.is/?fields=country_code,country');
                     
                     if (response.ok) {
                         const data = await response.json();
+                        if (data && data.success === false) {
+                            throw new Error('IP lookup failed');
+                        }
                         const countryCode = (data.country_code || '').toUpperCase();
                         
                         // Map country codes to regions
@@ -874,7 +874,7 @@
                         userCurrency = pricing[userRegion] || pricing.DEFAULT;
                         localStorage.setItem('fresche_currency', JSON.stringify({ region: userRegion, source: 'ip' }));
                         updateCurrencyBadge();
-                        console.log('Currency detected via IP:', userRegion, data.country_name);
+                        console.log('Currency detected via IP:', userRegion, data.country);
                         return;
                     }
                 } catch (ipError) {
@@ -1385,12 +1385,12 @@
         let currentTrack = 0;
         let isPlaying = false;
         const playlist = [
-            'https://www.bensound.com/bensound-music/bensound-smooth.mp3',
-            'https://www.bensound.com/bensound-music/bensound-thelounge.mp3',
-            'https://www.bensound.com/bensound-music/bensound-jazzyfrenchy.mp3',
-            'https://www.bensound.com/bensound-music/bensound-tenderness.mp3',
-            'https://www.bensound.com/bensound-music/bensound-summer.mp3',
-            'https://www.bensound.com/bensound-music/bensound-sunny.mp3'
+            'https://cdn.pixabay.com/audio/2022/03/15/audio_7c1dbe4c2d.mp3',
+            'https://cdn.pixabay.com/audio/2022/03/15/audio_c8c8a1a2d0.mp3',
+            'https://cdn.pixabay.com/audio/2022/03/15/audio_1f1c85f1c8.mp3',
+            'https://cdn.pixabay.com/audio/2022/10/25/audio_3e27f1c2a7.mp3',
+            'https://cdn.pixabay.com/audio/2022/10/25/audio_05cc9bca1d.mp3',
+            'https://cdn.pixabay.com/audio/2022/10/25/audio_2e4f3f6f13.mp3'
         ];
         
         // Initialize music player
@@ -1763,8 +1763,11 @@
         // Detect user's country and set pricing
         async function detectUserCountry() {
             try {
-                const response = await fetch('https://ipapi.co/json/');
+                const response = await fetch('https://ipwho.is/?fields=country_code');
                 const data = await response.json();
+                if (data && data.success === false) {
+                    throw new Error('IP lookup failed');
+                }
                 const countryCode = data.country_code;
                 
                 if (countryCode === 'CO') {
@@ -2804,8 +2807,11 @@
         async function detectUserLocation() {
             try {
                 // Intentar obtener ubicación por IP usando ipapi.co (gratis)
-                const response = await fetch('https://ipapi.co/json/');
+                const response = await fetch('https://ipwho.is/?fields=country_code');
                 const data = await response.json();
+                if (data && data.success === false) {
+                    throw new Error('IP lookup failed');
+                }
                 userCountry = data.country_code || 'CO';
                 
                 // Si es Estados Unidos, cambiar idioma por defecto a inglés
