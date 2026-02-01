@@ -2277,6 +2277,9 @@
                 pickupCheckbox.checked = localStorage.getItem('fresche_pickup') === 'true';
                 pickupCheckbox.onchange = () => {
                     localStorage.setItem('fresche_pickup', pickupCheckbox.checked ? 'true' : 'false');
+                    if (pickupCheckbox.checked) {
+                        goToCheckout();
+                    }
                 };
             }
             modal.style.display = 'block';
