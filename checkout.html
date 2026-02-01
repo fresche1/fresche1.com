@@ -731,22 +731,34 @@
             let options;
             let selectedOption = null;
             
-            if (country === 'CO') {
-                // Colombia: Mostrar opción Pickup siempre
-                let html = '';
-                const pickupOption = shippingRates.CO.find(opt => opt.id === 'pickup');
-                html += `<div class="shipping-option" onclick="selectShippingMethod('pickup', 0)">
-                    <div class="shipping-option-info">
-                        <div class="shipping-option-name">${pickupOption.name}</div>
-                        <div class="shipping-option-desc">📦 ${pickupOption.desc}</div>
-                    </div>
-                    <div class="shipping-option-price">$0</div>
+
+            // Mostrar opción Pickup universal
+            let html = '';
+            html += `<div class="shipping-option" onclick="selectShippingMethod('pickup', 0)">
+                <div class="shipping-option-info">
+                    <div class="shipping-option-name">🏢 <span data-es="Recoger en tienda" data-en="Pickup">Recoger en tienda</span></div>
+                    <div class="shipping-option-desc">📦 <span data-es="Sin cobro extra. Solo pagas el valor del paquete o crema." data-en="No extra charge. Only pay for the product.">Sin cobro extra. Solo pagas el valor del paquete o crema.</span></div>
+                </div>
+                <div class="shipping-option-price">$0</div>
+            </div>`;
+
+            // Selector de país para pickup (solo si pickup está seleccionado)
+            if (selectedShippingMethod === 'pickup') {
+                html += `<div id="pickupStoreSelector" style="margin:1rem 0;">
+                    <label style="color:var(--gold);font-weight:600;">¿Dónde recogerás tu pedido?</label>
+                    <select id="pickupStore" onchange="updatePickupStore()" style="margin-left:1rem;padding:0.5rem 1rem;border-radius:8px;">
+                        <option value="CO">Tienda Colombia</option>
+                        <option value="US">Tienda USA</option>
+                    </select>
                 </div>`;
+            }
+
+            // Opciones normales de envío
+            if (country === 'CO') {
                 if (city) {
                     const zone = getColombiaCityZone(city);
                     selectedOption = shippingRates.CO.find(opt => opt.zone === zone);
                     if (selectedOption) {
-                        // Auto-seleccionar el envío según la zona
                         selectedShippingMethod = selectedOption.id;
                         shippingCost = selectedOption.price;
                         const formattedPrice = `$${Math.round(selectedOption.price).toLocaleString('es-CO')} COP`;
@@ -761,40 +773,37 @@
                         </div>`;
                     }
                 } else {
-                    // Si no hay ciudad, mostrar mensaje
                     const alertMsg = isEnglish ? 'Enter a city to calculate shipping cost' : 'Ingresa la ciudad para calcular el costo de envío';
                     html += `<div class="shipping-alert">⚠️ ${alertMsg}</div>`;
                 }
-                shippingOptionsDiv.innerHTML = html;
-                // Si el usuario selecciona Pickup, costo 0
-                if (selectedShippingMethod === 'pickup') shippingCost = 0;
             } else {
-                // Internacional: Mostrar opción Pickup siempre
-                let html = '';
-                const pickupOption = shippingRates.INTERNATIONAL.find(opt => opt.id === 'pickup');
-                html += `<div class="shipping-option" onclick="selectShippingMethod('pickup', 0)">
-                    <div class="shipping-option-info">
-                        <div class="shipping-option-name">${pickupOption.name}</div>
-                        <div class="shipping-option-desc">📦 ${pickupOption.desc}</div>
-                    </div>
-                    <div class="shipping-option-price">$0</div>
-                </div>`;
                 options = shippingRates.INTERNATIONAL;
                 selectedOption = options.find(opt => opt.id === 'international');
-                selectedShippingMethod = selectedOption.id;
-                shippingCost = selectedOption.price;
-                const formattedPrice = `$${selectedOption.price.toFixed(2)} USD`;
-                html += `<div class="shipping-option selected">
-                    <div class="shipping-option-info">
-                        <div class="shipping-option-name">${selectedOption.name}</div>
-                        <div class="shipping-option-desc">📦 ${selectedOption.desc}</div>
-                    </div>
-                    <div class="shipping-option-price">${formattedPrice}</div>
-                </div>`;
-                shippingOptionsDiv.innerHTML = html;
-                // Si el usuario selecciona Pickup, costo 0
-                if (selectedShippingMethod === 'pickup') shippingCost = 0;
+                if (selectedOption) {
+                    selectedShippingMethod = selectedOption.id;
+                    shippingCost = selectedOption.price;
+                    const formattedPrice = `$${selectedOption.price.toFixed(2)} USD`;
+                    html += `<div class="shipping-option selected">
+                        <div class="shipping-option-info">
+                            <div class="shipping-option-name">${selectedOption.name}</div>
+                            <div class="shipping-option-desc">📦 ${selectedOption.desc}</div>
+                        </div>
+                        <div class="shipping-option-price">${formattedPrice}</div>
+                    </div>`;
+                }
             }
+            shippingOptionsDiv.innerHTML = html;
+            if (selectedShippingMethod === 'pickup') shippingCost = 0;
+        // Manejar el cambio de tienda pickup
+        function updatePickupStore() {
+            const store = document.getElementById('pickupStore').value;
+            // Cambiar métodos de pago según tienda
+            if (store === 'CO') {
+                updatePaymentMethods('CO');
+            } else {
+                updatePaymentMethods('US');
+            }
+        }
 
             displayOrderSummary();
         }
@@ -806,22 +815,29 @@
             const mercadopagoMethod = document.querySelector('[data-method="MERCADOPAGO"]');
 
             if (country === 'CO') {
-                // Mostrar Nequi, MercadoPago y MercadoLibre
+                // Solo métodos de pago Colombia
                 if (nequiMethod) nequiMethod.style.display = 'flex';
                 if (zelleMethod) zelleMethod.style.display = 'none';
                 if (mercadopagoMethod) mercadopagoMethod.style.display = 'flex';
                 if (mercadolibreMethod) mercadolibreMethod.style.display = 'flex';
-                // Si Zelle estaba seleccionado, cambiar a Nequi
                 if (selectedPaymentMethod === 'ZELLE') {
                     if (nequiMethod) selectPaymentMethod(nequiMethod);
                 }
+            } else if (country === 'US') {
+                // Solo métodos de pago USA
+                if (nequiMethod) nequiMethod.style.display = 'none';
+                if (zelleMethod) zelleMethod.style.display = 'flex';
+                if (mercadopagoMethod) mercadopagoMethod.style.display = 'none';
+                if (mercadolibreMethod) mercadolibreMethod.style.display = 'none';
+                if (selectedPaymentMethod !== 'ZELLE') {
+                    if (zelleMethod) selectPaymentMethod(zelleMethod);
+                }
             } else {
-                // Fuera de Colombia: solo Zelle y MercadoPago
+                // Internacional normal: solo Zelle y MercadoPago
                 if (nequiMethod) nequiMethod.style.display = 'none';
                 if (zelleMethod) zelleMethod.style.display = 'flex';
                 if (mercadopagoMethod) mercadopagoMethod.style.display = 'flex';
                 if (mercadolibreMethod) mercadolibreMethod.style.display = 'none';
-                // Si Nequi o MercadoLibre estaban seleccionados, cambiar a Zelle o MercadoPago
                 if (selectedPaymentMethod === 'NEQUI' || selectedPaymentMethod === 'MERCADOLIBRE') {
                     if (zelleMethod) selectPaymentMethod(zelleMethod);
                     else if (mercadopagoMethod) selectPaymentMethod(mercadopagoMethod);
