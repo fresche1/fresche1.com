@@ -990,27 +990,13 @@
                 `;
                 selectedPaymentMethod = 'ZELLE';
             } else {
-                // Nequi, Mercado Pago y MercadoLibre para Colombia
+                // Solo Nequi para pickup en Colombia
                 container.innerHTML = `
                     <div class="payment-method selected" data-method="NEQUI" onclick="selectPaymentMethod(this)">
                         <div class="payment-method-icon">📱</div>
                         <div class="payment-method-info">
                             <div class="payment-method-name">Nequi</div>
                             <div class="payment-method-desc">Pago directo sin comisión</div>
-                        </div>
-                    </div>
-                    <div class="payment-method" data-method="MERCADOPAGO" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">💳</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">Mercado Pago</div>
-                            <div class="payment-method-desc" style="color: #ff9800;">+ 5% comisión</div>
-                        </div>
-                    </div>
-                    <div class="payment-method" data-method="MERCADOLIBRE" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">🛒</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">MercadoLibre Colombia</div>
-                            <div class="payment-method-desc">Compra directa en ML</div>
                         </div>
                     </div>
                 `;
