@@ -368,6 +368,8 @@
                     <!-- Se llenarán dinámicamente según el país -->
                 </div>
 
+                <div id="pickupStoreContainer"></div>
+
                 <div class="shipping-alert" style="margin-top: 0.75rem;">
                     <span data-es="En Colombia, de 1 a 10 cremas el envío tiene el mismo costo." data-en="In Colombia, ordering 1 to 10 creams keeps the same shipping cost.">En Colombia, de 1 a 10 cremas el envío tiene el mismo costo.</span>
                 </div>
@@ -752,22 +754,6 @@
                 <div class="shipping-option-price">$0</div>
             </div>`;
 
-            if (pickupSelected) {
-                html += `
-                    <div id="pickupStoreSelector" style="margin:1.5rem 0; padding:1.5rem; background:rgba(212,175,55,0.1); border-radius:12px; border:2px solid var(--gold);">
-                        <h4 style="color:var(--gold); margin-bottom:1rem; font-size:1.2rem;">📍 Selecciona la tienda para recoger</h4>
-                        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                            <button type="button" class="pickup-store-btn" data-store="CO" onclick="selectPickupStore('CO')" style="flex:1; min-width:200px; padding:1rem; background:${pickupStore === 'CO' ? 'linear-gradient(135deg, var(--gold), #ffd700)' : 'rgba(255,255,255,0.1)'}; color:${pickupStore === 'CO' ? '#000' : '#fff'}; border:${pickupStore === 'CO' ? '3px solid var(--gold)' : '2px solid rgba(255,255,255,0.3)'}; border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:all 0.3s;">
-                                🇨🇴 Tienda Colombia
-                            </button>
-                            <button type="button" class="pickup-store-btn" data-store="US" onclick="selectPickupStore('US')" style="flex:1; min-width:200px; padding:1rem; background:${pickupStore === 'US' ? 'linear-gradient(135deg, var(--gold), #ffd700)' : 'rgba(255,255,255,0.1)'}; color:${pickupStore === 'US' ? '#000' : '#fff'}; border:${pickupStore === 'US' ? '3px solid var(--gold)' : '2px solid rgba(255,255,255,0.3)'}; border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:all 0.3s;">
-                                🇺🇸 Tienda USA
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }
-
             // Opciones normales de envío
             if (country === 'CO' && selectedShippingMethod !== 'pickup') {
                 if (city) {
@@ -811,7 +797,10 @@
             if (selectedShippingMethod === 'pickup') shippingCost = 0;
 
             if (selectedShippingMethod === 'pickup') {
+                renderPickupStoreSelector();
                 updatePickupPaymentMethods();
+            } else {
+                renderPickupStoreSelector();
             }
 
             displayOrderSummary();
@@ -892,9 +881,6 @@
                 cityField.setAttribute('required', 'required');
                 stateField.setAttribute('required', 'required');
                 countryField.setAttribute('required', 'required');
-                
-                // Ocultar selector de tienda
-                hidePickupStoreSelector();
                 updateShippingCost();
             }
             
@@ -902,41 +888,28 @@
             displayOrderSummary();
         }
         
-        function showPickupStoreSelector() {
-            const shippingOptions = document.getElementById('shippingOptions');
-            let selector = document.getElementById('pickupStoreSelector');
-            
-            if (!selector) {
-                selector = document.createElement('div');
-                selector.id = 'pickupStoreSelector';
-                selector.style.cssText = 'margin:1.5rem 0; padding:1.5rem; background:rgba(212,175,55,0.1); border-radius:12px; border:2px solid var(--gold);';
-                selector.innerHTML = `
+        function renderPickupStoreSelector() {
+            const container = document.getElementById('pickupStoreContainer');
+            if (!container) return;
+
+            if (selectedShippingMethod !== 'pickup') {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = `
+                <div id="pickupStoreSelector" style="margin:1.5rem 0; padding:1.5rem; background:rgba(212,175,55,0.1); border-radius:12px; border:2px solid var(--gold);">
                     <h4 style="color:var(--gold); margin-bottom:1rem; font-size:1.2rem;">📍 Selecciona la tienda para recoger</h4>
                     <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                        <button type="button" class="pickup-store-btn" data-store="CO" onclick="selectPickupStore('CO')" style="flex:1; min-width:200px; padding:1rem; background:linear-gradient(135deg, var(--gold), #ffd700); color:#000; border:3px solid var(--gold); border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:all 0.3s;">
+                        <button type="button" class="pickup-store-btn" data-store="CO" onclick="selectPickupStore('CO')" style="flex:1; min-width:200px; padding:1rem; background:${pickupStore === 'CO' ? 'linear-gradient(135deg, var(--gold), #ffd700)' : 'rgba(255,255,255,0.1)'}; color:${pickupStore === 'CO' ? '#000' : '#fff'}; border:${pickupStore === 'CO' ? '3px solid var(--gold)' : '2px solid rgba(255,255,255,0.3)'}; border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:all 0.3s;">
                             🇨🇴 Tienda Colombia
                         </button>
-                        <button type="button" class="pickup-store-btn" data-store="US" onclick="selectPickupStore('US')" style="flex:1; min-width:200px; padding:1rem; background:rgba(255,255,255,0.1); color:#fff; border:2px solid rgba(255,255,255,0.3); border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:all 0.3s;">
+                        <button type="button" class="pickup-store-btn" data-store="US" onclick="selectPickupStore('US')" style="flex:1; min-width:200px; padding:1rem; background:${pickupStore === 'US' ? 'linear-gradient(135deg, var(--gold), #ffd700)' : 'rgba(255,255,255,0.1)'}; color:${pickupStore === 'US' ? '#000' : '#fff'}; border:${pickupStore === 'US' ? '3px solid var(--gold)' : '2px solid rgba(255,255,255,0.3)'}; border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:all 0.3s;">
                             🇺🇸 Tienda USA
                         </button>
                     </div>
-                `;
-                shippingOptions.appendChild(selector);
-            }
-            selector.style.display = 'block';
-            
-            // Actualizar métodos de pago según tienda
-            updatePickupPaymentMethods();
-        }
-        
-        function hidePickupStoreSelector() {
-            const selector = document.getElementById('pickupStoreSelector');
-            if (selector) {
-                selector.style.display = 'none';
-            }
-            // Restaurar métodos de pago normales
-            const country = document.getElementById('country').value;
-            updatePaymentMethods(country);
+                </div>
+            `;
         }
         
         function selectPickupStore(store) {
@@ -1478,7 +1451,7 @@
                 selectedShippingMethod = 'pickup';
                 shippingCost = 0;
                 updateShippingCost();
-                showPickupStoreSelector();
+                renderPickupStoreSelector();
                 selectShippingMethod('pickup', 0);
             }
             // Inicializar instrucciones de pago
