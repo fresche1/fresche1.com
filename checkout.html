@@ -301,19 +301,24 @@
             
             <form id="checkoutForm">
                 <!-- Datos Personales -->
-                <div class="form-group">
-                    <label data-es="Nombre Completo *" data-en="Full Name *">Nombre Completo *</label>
-                    <input type="text" id="fullName" required placeholder="Juan Pérez">
-                </div>
+                <div id="customerInfoSection" style="display: none;">
+                    <h3 style="color: var(--gold); margin: 2rem 0 1rem;">
+                        <span data-es="Datos del Cliente" data-en="Customer Information">Datos del Cliente</span>
+                    </h3>
+                    <div class="form-group">
+                        <label data-es="Nombre Completo *" data-en="Full Name *">Nombre Completo *</label>
+                        <input type="text" id="fullName" required placeholder="Juan Pérez">
+                    </div>
 
-                <div class="form-group">
-                    <label data-es="Email *" data-en="Email *">Email *</label>
-                    <input type="email" id="email" required placeholder="tu@email.com">
-                </div>
+                    <div class="form-group">
+                        <label data-es="Email *" data-en="Email *">Email *</label>
+                        <input type="email" id="email" required placeholder="tu@email.com">
+                    </div>
 
-                <div class="form-group">
-                    <label data-es="Teléfono *" data-en="Phone *">Teléfono *</label>
-                    <input type="tel" id="phone" required placeholder="+57 300 123 4567">
+                    <div class="form-group">
+                        <label data-es="Teléfono *" data-en="Phone *">Teléfono *</label>
+                        <input type="tel" id="phone" required placeholder="+57 300 123 4567">
+                    </div>
                 </div>
 
                 <!-- Dirección de Envío -->
@@ -473,7 +478,7 @@
         let selectedPaymentMethod = 'NEQUI';
         let selectedShippingMethod = null;
         let shippingCost = 0;
-        let pickupStore = 'CO'; // CO o US para pickup
+        let pickupStore = null; // CO o US para pickup
         let currentCurrency = 'COP'; // Moneda por defecto
         const BACKEND_URL = 'https://fresche1-com.onrender.com';
 
@@ -732,7 +737,13 @@
 
             // Determinar moneda
             if (selectedShippingMethod === 'pickup') {
-                currentCurrency = pickupStore === 'US' ? 'USD' : 'COP';
+                if (pickupStore === 'US') {
+                    currentCurrency = 'USD';
+                } else if (pickupStore === 'CO') {
+                    currentCurrency = 'COP';
+                } else {
+                    currentCurrency = 'COP';
+                }
             } else {
                 currentCurrency = country === 'CO' ? 'COP' : 'USD';
             }
@@ -807,6 +818,7 @@
             }
 
             displayOrderSummary();
+            updateCustomerInfoVisibility();
         }
 
         function updatePaymentMethods(country) {
@@ -913,6 +925,14 @@
                     </div>
                 </div>
             `;
+            updateCustomerInfoVisibility();
+        }
+
+        function updateCustomerInfoVisibility() {
+            const section = document.getElementById('customerInfoSection');
+            if (!section) return;
+            const shouldShow = selectedShippingMethod && (selectedShippingMethod !== 'pickup' || pickupStore);
+            section.style.display = shouldShow ? 'block' : 'none';
         }
         
         function selectPickupStore(store) {
@@ -935,12 +955,24 @@
             // Actualizar métodos de pago
             updatePickupPaymentMethods();
             displayOrderSummary();
+            updateCustomerInfoVisibility();
         }
         
         function updatePickupPaymentMethods() {
             const container = document.getElementById('paymentMethodsContainer');
             container.innerHTML = '';
             
+            if (!pickupStore) {
+                container.innerHTML = `
+                    <div class="shipping-alert" style="margin-top: 0.75rem;">
+                        <span data-es="Selecciona la tienda para ver métodos de pago." data-en="Select the store to see payment methods.">Selecciona la tienda para ver métodos de pago.</span>
+                    </div>
+                `;
+                const instructionsDiv = document.getElementById('paymentInstructions');
+                if (instructionsDiv) instructionsDiv.innerHTML = '';
+                return;
+            }
+
             if (pickupStore === 'US') {
                 // Solo Zelle para USA
                 container.innerHTML = `
@@ -1021,7 +1053,7 @@
                 instructions = `
                     <h4 style="color: var(--gold); margin-bottom: 1rem;">💵 Zelle Payment</h4>
                     <div style="color: #fff; line-height: 1.8; text-align:center;">
-                        <img src="images/zelle-qr.jpg" alt="Zelle QR" class="zelle-qr-checkout">
+                        <img src="images/zelle-qr.jpg?v=20260131" alt="Zelle QR" class="zelle-qr-checkout">
                         <p style="margin-bottom: 0.5rem; font-size:1.2rem; color:var(--gold); font-weight:700;">Escanea el código QR para pagar con Zelle</p>
                         <p style="margin-bottom: 0.5rem; font-size:1.2rem; color:var(--gold); font-weight:700;">Scan the QR code to pay with Zelle</p>
                         <p style="margin-bottom: 0.5rem; font-size:1.1rem;"><strong>Total:</strong> <span style="color: var(--gold); font-size: 1.3rem; font-weight:700;">${formatMoney(total)}</span></p>
@@ -1437,6 +1469,7 @@
             if (pickupSelected) {
                 selectedShippingMethod = 'pickup';
                 shippingCost = 0;
+                pickupStore = null;
                 updateShippingCost();
                 renderPickupStoreSelector();
                 selectShippingMethod('pickup', 0);
@@ -1467,6 +1500,7 @@
                 stateInput.addEventListener('blur', displayOrderSummary);
                 stateInput.addEventListener('change', displayOrderSummary);
             }
+            updateCustomerInfoVisibility();
         });
     </script>
 </body>
