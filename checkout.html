@@ -1061,8 +1061,6 @@
                         <p style="margin-bottom: 0.5rem;"><strong>Banco:</strong> Bancolombia</p>
                         <p style="margin-bottom: 0.5rem;"><strong>Tipo de cuenta:</strong> Ahorros</p>
                         <p style="margin-bottom: 0.5rem;"><strong>Número de cuenta:</strong> <span style="color: var(--gold); font-size: 1.2rem;">12345678901</span></p>
-                        <p style="margin-bottom: 0.5rem;"><strong>A nombre de:</strong> Alejandra Vela Moreno</p>
-                        <p style="margin-bottom: 0.5rem;"><strong>Cédula:</strong> 1234567890</p>
                         <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, haz clic en "Pagar Ahora" para enviar el comprobante al WhatsApp +57 301 760 6723</p>
                     </div>
                 `;
@@ -1280,7 +1278,7 @@
                 } else if (selectedPaymentMethod === 'ZELLE') {
                     paymentInfo = `*Email Zelle:* fresche@fresche1.com\n*QR disponible en el checkout*`;
                 } else if (selectedPaymentMethod === 'BANCOLOMBIA') {
-                    paymentInfo = `*Banco:* Bancolombia\n*Cuenta de Ahorros:* 12345678901\n*A nombre de:* Alejandra Vela Moreno\n*Cédula:* 1234567890`;
+                    paymentInfo = `*Banco:* Bancolombia\n*Cuenta de Ahorros:* 12345678901`;
                 }
                 
                 const whatsappMsg = `🛍️ *NUEVO PEDIDO - ${methodName}*\n\n` +
