@@ -1255,15 +1255,19 @@
                 
                 // Crear mensaje detallado con toda la información del pedido
                 let itemsText = cart.map((item, index) => {
-                    const prices = item.type === 'pack' 
-                        ? getPricePerUnit(1, 'pack') 
-                        : getPricePerUnit(item.quantity, 'product');
-                    const itemTotal = prices[currentCurrency] * item.quantity;
+                    let itemTotal = 0;
                     
                     if (item.type === 'pack') {
+                        // Para packs, usar el precio del pack directamente
+                        const packType = item.packType || (item.products && item.products.length === 2 ? 'duo' : item.products && item.products.length === 3 ? 'trio' : item.products && item.products.length === 5 ? 'elella' : null);
+                        const packPrice = getPricePerUnit(1, 'pack', packType);
+                        itemTotal = packPrice[currentCurrency] * item.quantity;
                         const productsText = item.products.map(p => p.name).join(', ');
                         return `${index + 1}. *${item.quantity}x ${item.name}*\n    Fragancias: ${productsText}\n   💰 Subtotal: ${formatMoney(itemTotal)}`;
                     } else {
+                        // Para productos individuales
+                        const prices = getPricePerUnit(item.quantity, 'product');
+                        itemTotal = prices[currentCurrency] * item.quantity;
                         const fragranceName = item.name;
                         return `${index + 1}. *${item.quantity}x ${fragranceName}*\n   💰 Subtotal: ${formatMoney(itemTotal)}`;
                     }
