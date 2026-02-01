@@ -624,6 +624,7 @@
             const state = document.getElementById('state').value;
             
             const shippingInfoComplete = country && city && address && state && selectedShippingMethod;
+            const hidePrices = country === 'US' || pickupStore === 'US';
             
 
             // Agrupar productos individuales (no packs)
@@ -661,6 +662,7 @@
                 let names = individualItems.map(i => i.name).join(', ');
                 let img = individualItems[0]?.image || 'images/cherry.jpg';
                 let formattedPrice = shippingInfoComplete ? (currentCurrency === 'USD' ? `$${individualSubtotal.toFixed(2)} USD` : `$${Math.round(individualSubtotal).toLocaleString('es-CO')} COP`) : '-';
+                const priceHtml = hidePrices ? '' : `<div class="order-item-price">${formattedPrice}</div>`;
                 itemsHtml += `
                     <div class="order-item">
                         <img src="${img}" alt="Cremas FRESCHE">
@@ -668,7 +670,7 @@
                             <div class="order-item-name">${names}</div>
                             <div class="order-item-quantity">Cantidad: ${individualUnits}</div>
                         </div>
-                        <div class="order-item-price">${formattedPrice}</div>
+                        ${priceHtml}
                     </div>
                 `;
             }
@@ -679,6 +681,7 @@
                 let itemName = `${item.name} (${item.products.map(p => p.id).join(', ')})`;
                 let itemImage = 'images/cherry.jpg';
                 let formattedPrice = shippingInfoComplete ? (currentCurrency === 'USD' ? `$${itemTotal.toFixed(2)} USD` : `$${Math.round(itemTotal).toLocaleString('es-CO')} COP`) : '-';
+                const priceHtml = hidePrices ? '' : `<div class="order-item-price">${formattedPrice}</div>`;
                 itemsHtml += `
                     <div class="order-item">
                         <img src="${itemImage}" alt="${itemName}">
@@ -686,7 +689,7 @@
                             <div class="order-item-name">${itemName}</div>
                             <div class="order-item-quantity">Cantidad: ${item.quantity}</div>
                         </div>
-                        <div class="order-item-price">${formattedPrice}</div>
+                        ${priceHtml}
                     </div>
                 `;
             });
@@ -704,7 +707,7 @@
             };
 
             // Solo mostrar valores si la información de envío está completa
-            if (shippingInfoComplete) {
+            if (shippingInfoComplete && !hidePrices) {
                 document.getElementById('subtotal').textContent = formatMoney(subtotal);
                 document.getElementById('shipping').textContent = formatMoney(shippingCost);
                 document.getElementById('total').textContent = formatMoney(total);
@@ -714,7 +717,7 @@
             } else {
                 // Ocultar totales y mostrar mensaje pendiente
                 document.getElementById('orderTotals').style.display = 'none';
-                document.getElementById('shippingPendingMessage').style.display = 'block';
+                document.getElementById('shippingPendingMessage').style.display = hidePrices ? 'none' : 'block';
             }
         }
 
@@ -724,6 +727,7 @@
             const shippingOptionsDiv = document.getElementById('shippingOptions');
             const language = document.documentElement.lang || 'es';
             const isEnglish = language === 'en';
+            const hidePrices = country === 'US' || pickupStore === 'US';
 
             if (!country) {
                 const alertMsg = isEnglish ? 'Select a country to see shipping options' : 'Selecciona un país para ver las opciones de envío';
@@ -765,7 +769,7 @@
                     <div class="shipping-option-name">🏢 <span data-es="Recoger en tienda" data-en="Pickup">Recoger en tienda</span></div>
                     <div class="shipping-option-desc">📦 <span data-es="Sin cobro extra. Solo pagas el valor del paquete o crema." data-en="No extra charge. Only pay for the product.">Sin cobro extra. Solo pagas el valor del paquete o crema.</span></div>
                 </div>
-                <div class="shipping-option-price">$0</div>
+                ${hidePrices ? '' : '<div class="shipping-option-price">$0</div>'}
             </div>`;
 
             // Opciones normales de envío
@@ -784,7 +788,7 @@
                                 <div class="shipping-option-desc">📦 ${selectedOption.desc}</div>
                                 <div style="font-size: 0.9rem; color: var(--gold); margin-top: 0.5rem;">✓ Zona detectada: ${zoneName}</div>
                             </div>
-                            <div class="shipping-option-price">${formattedPrice}</div>
+                            ${hidePrices ? '' : `<div class="shipping-option-price">${formattedPrice}</div>`}
                         </div>`;
                     }
                 } else {
@@ -803,7 +807,7 @@
                             <div class="shipping-option-name">${selectedOption.name}</div>
                             <div class="shipping-option-desc">📦 ${selectedOption.desc}</div>
                         </div>
-                        <div class="shipping-option-price">${formattedPrice}</div>
+                        ${hidePrices ? '' : `<div class="shipping-option-price">${formattedPrice}</div>`}
                     </div>`;
                 }
             }
@@ -986,7 +990,7 @@
                 `;
                 selectedPaymentMethod = 'ZELLE';
             } else {
-                // Nequi y transferencia bancaria para Colombia
+                // Nequi, Mercado Pago y MercadoLibre para Colombia
                 container.innerHTML = `
                     <div class="payment-method selected" data-method="NEQUI" onclick="selectPaymentMethod(this)">
                         <div class="payment-method-icon">📱</div>
@@ -995,11 +999,18 @@
                             <div class="payment-method-desc">Pago directo sin comisión</div>
                         </div>
                     </div>
-                    <div class="payment-method" data-method="BANCOLOMBIA" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">🏦</div>
+                    <div class="payment-method" data-method="MERCADOPAGO" onclick="selectPaymentMethod(this)">
+                        <div class="payment-method-icon">💳</div>
                         <div class="payment-method-info">
-                            <div class="payment-method-name">Bancolombia</div>
-                            <div class="payment-method-desc">Transferencia bancaria</div>
+                            <div class="payment-method-name">Mercado Pago</div>
+                            <div class="payment-method-desc" style="color: #ff9800;">+ 5% comisión</div>
+                        </div>
+                    </div>
+                    <div class="payment-method" data-method="MERCADOLIBRE" onclick="selectPaymentMethod(this)">
+                        <div class="payment-method-icon">🛒</div>
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">MercadoLibre Colombia</div>
+                            <div class="payment-method-desc">Compra directa en ML</div>
                         </div>
                     </div>
                 `;
@@ -1059,16 +1070,6 @@
                         <p style="margin-bottom: 0.5rem; font-size:1.1rem;"><strong>Total:</strong> <span style="color: var(--gold); font-size: 1.3rem; font-weight:700;">${formatMoney(total)}</span></p>
                         <p style="color: #ff9800; margin-top: 1.2rem; font-size:1.05rem; font-weight:600;">⚠️ Una vez realices el pago con Zelle, haz clic en "Pagar Ahora" para ser redireccionado y enviar el comprobante de pago por WhatsApp.</p>
                         <p style="color: #ff9800; margin-top: 0.5rem; font-size:1.05rem; font-weight:600;">⚠️ After paying with Zelle, click "Pay Now" to be redirected and send your payment receipt via WhatsApp.</p>
-                    </div>
-                `;
-            } else if (selectedPaymentMethod === 'BANCOLOMBIA') {
-                instructions = `
-                    <h4 style="color: var(--gold); margin-bottom: 1rem;">🏦 Transferencia Bancolombia</h4>
-                    <div style="color: #fff; line-height: 1.8;">
-                        <p style="margin-bottom: 0.5rem;"><strong>Banco:</strong> Bancolombia</p>
-                        <p style="margin-bottom: 0.5rem;"><strong>Tipo de cuenta:</strong> Ahorros</p>
-                        <p style="margin-bottom: 0.5rem;"><strong>Número de cuenta:</strong> <span style="color: var(--gold); font-size: 1.2rem;">12345678901</span></p>
-                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, haz clic en "Pagar Ahora" para enviar el comprobante al WhatsApp +57 301 760 6723</p>
                     </div>
                 `;
             } else if (selectedPaymentMethod === 'MERCADOPAGO') {
