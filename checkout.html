@@ -468,6 +468,7 @@
         let selectedPaymentMethod = 'NEQUI';
         let selectedShippingMethod = null;
         let shippingCost = 0;
+        let pickupStore = 'CO'; // CO o US para pickup
         let currentCurrency = 'COP'; // Moneda por defecto
         const BACKEND_URL = 'https://fresche1-com.onrender.com';
 
@@ -871,6 +872,9 @@
                 cityField.removeAttribute('required');
                 stateField.removeAttribute('required');
                 countryField.removeAttribute('required');
+                
+                // Mostrar selector de tienda para pickup
+                showPickupStoreSelector();
             } else {
                 // Mostrar sección de dirección para envío normal
                 addressSection.style.display = 'block';
@@ -879,10 +883,114 @@
                 cityField.setAttribute('required', 'required');
                 stateField.setAttribute('required', 'required');
                 countryField.setAttribute('required', 'required');
+                
+                // Ocultar selector de tienda
+                hidePickupStoreSelector();
             }
             
             // Actualizar resumen
             displayOrderSummary();
+        }
+        
+        function showPickupStoreSelector() {
+            const shippingOptions = document.getElementById('shippingOptions');
+            let selector = document.getElementById('pickupStoreSelector');
+            
+            if (!selector) {
+                selector = document.createElement('div');
+                selector.id = 'pickupStoreSelector';
+                selector.style.cssText = 'margin:1.5rem 0; padding:1.5rem; background:rgba(212,175,55,0.1); border-radius:12px; border:2px solid var(--gold);';
+                selector.innerHTML = `
+                    <h4 style="color:var(--gold); margin-bottom:1rem; font-size:1.2rem;">📍 Selecciona la tienda para recoger</h4>
+                    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                        <button type="button" class="pickup-store-btn" data-store="CO" onclick="selectPickupStore('CO')" style="flex:1; min-width:200px; padding:1rem; background:linear-gradient(135deg, var(--gold), #ffd700); color:#000; border:3px solid var(--gold); border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:all 0.3s;">
+                            🇨🇴 Tienda Colombia
+                        </button>
+                        <button type="button" class="pickup-store-btn" data-store="US" onclick="selectPickupStore('US')" style="flex:1; min-width:200px; padding:1rem; background:rgba(255,255,255,0.1); color:#fff; border:2px solid rgba(255,255,255,0.3); border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:all 0.3s;">
+                            🇺🇸 Tienda USA
+                        </button>
+                    </div>
+                `;
+                shippingOptions.appendChild(selector);
+            }
+            selector.style.display = 'block';
+            
+            // Actualizar métodos de pago según tienda
+            updatePickupPaymentMethods();
+        }
+        
+        function hidePickupStoreSelector() {
+            const selector = document.getElementById('pickupStoreSelector');
+            if (selector) {
+                selector.style.display = 'none';
+            }
+            // Restaurar métodos de pago normales
+            const country = document.getElementById('country').value;
+            updatePaymentMethods(country);
+        }
+        
+        function selectPickupStore(store) {
+            pickupStore = store;
+            
+            // Actualizar visualmente los botones
+            document.querySelectorAll('.pickup-store-btn').forEach(btn => {
+                if (btn.dataset.store === store) {
+                    btn.style.background = 'linear-gradient(135deg, var(--gold), #ffd700)';
+                    btn.style.color = '#000';
+                    btn.style.border = '3px solid var(--gold)';
+                } else {
+                    btn.style.background = 'rgba(255,255,255,0.1)';
+                    btn.style.color = '#fff';
+                    btn.style.border = '2px solid rgba(255,255,255,0.3)';
+                }
+            });
+            
+            // Actualizar métodos de pago
+            updatePickupPaymentMethods();
+        }
+        
+        function updatePickupPaymentMethods() {
+            const container = document.getElementById('paymentMethodsContainer');
+            container.innerHTML = '';
+            
+            if (pickupStore === 'US') {
+                // Solo Zelle para USA
+                container.innerHTML = `
+                    <div class="payment-method selected" data-method="ZELLE" onclick="selectPaymentMethod(this)">
+                        <div class="payment-method-icon">💵</div>
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">Zelle</div>
+                            <div class="payment-method-desc">Direct payment - No fees</div>
+                        </div>
+                    </div>
+                `;
+                selectedPaymentMethod = 'ZELLE';
+            } else {
+                // Nequi y transferencia bancaria para Colombia
+                container.innerHTML = `
+                    <div class="payment-method selected" data-method="NEQUI" onclick="selectPaymentMethod(this)">
+                        <div class="payment-method-icon">📱</div>
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">Nequi</div>
+                            <div class="payment-method-desc">Pago directo sin comisión</div>
+                        </div>
+                    </div>
+                    <div class="payment-method" data-method="BANCOLOMBIA" onclick="selectPaymentMethod(this)">
+                        <div class="payment-method-icon">🏦</div>
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">Bancolombia</div>
+                            <div class="payment-method-desc">Transferencia bancaria</div>
+                        </div>
+                    </div>
+                `;
+                selectedPaymentMethod = 'NEQUI';
+            }
+            
+            // Trigger para mostrar instrucciones
+            const firstMethod = container.querySelector('.payment-method.selected');
+            if (firstMethod) {
+                selectPaymentMethod(firstMethod);
+            }
         }
 
         function selectPaymentMethod(element) {
@@ -900,7 +1008,19 @@
                     <div style="color: #fff; line-height: 1.8;">
                         <p style="margin-bottom: 0.5rem;"><strong>Número Nequi:</strong> <span style="color: var(--gold); font-size: 1.2rem;">+57 301 760 6723</span></p>
                         <p style="margin-bottom: 0.5rem;"><strong>A nombre de:</strong> Alejandra Vela Moreno</p>
-                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, envía el comprobante al WhatsApp +57 301 760 6723</p>
+                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, haz clic en "Pagar Ahora" para enviar el comprobante al WhatsApp +57 301 760 6723</p>
+                    </div>
+                `;
+            } else if (selectedPaymentMethod === 'BANCOLOMBIA') {
+                instructions = `
+                    <h4 style="color: var(--gold); margin-bottom: 1rem;">🏦 Transferencia Bancolombia</h4>
+                    <div style="color: #fff; line-height: 1.8;">
+                        <p style="margin-bottom: 0.5rem;"><strong>Banco:</strong> Bancolombia</p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Tipo de cuenta:</strong> Ahorros</p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Número de cuenta:</strong> <span style="color: var(--gold); font-size: 1.2rem;">12345678901</span></p>
+                        <p style="margin-bottom: 0.5rem;"><strong>A nombre de:</strong> Alejandra Vela Moreno</p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Cédula:</strong> 1234567890</p>
+                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, haz clic en "Pagar Ahora" para enviar el comprobante al WhatsApp +57 301 760 6723</p>
                     </div>
                 `;
             if (selectedPaymentMethod === 'ZELLE') {
@@ -932,6 +1052,18 @@
                         <p style=\"margin-bottom: 0.5rem; font-size:1.1rem;\"><strong>Total:</strong> <span style=\"color: var(--gold); font-size: 1.3rem; font-weight:700;\">${formatMoney(total)}</span></p>
                         <p style=\"color: #ff9800; margin-top: 1.2rem; font-size:1.05rem; font-weight:600;\">⚠️ Una vez realices el pago con Zelle, haz clic en \"Pagar Ahora\" para ser redireccionado y enviar el comprobante de pago por WhatsApp.</p>
                         <p style=\"color: #ff9800; margin-top: 0.5rem; font-size:1.05rem; font-weight:600;\">⚠️ After paying with Zelle, click \"Pay Now\" to be redirected and send your payment receipt via WhatsApp.</p>
+                    </div>
+                `;
+            } else if (selectedPaymentMethod === 'BANCOLOMBIA') {
+                instructions = `
+                    <h4 style="color: var(--gold); margin-bottom: 1rem;">🏦 Transferencia Bancolombia</h4>
+                    <div style="color: #fff; line-height: 1.8;">
+                        <p style="margin-bottom: 0.5rem;"><strong>Banco:</strong> Bancolombia</p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Tipo de cuenta:</strong> Ahorros</p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Número de cuenta:</strong> <span style="color: var(--gold); font-size: 1.2rem;">12345678901</span></p>
+                        <p style="margin-bottom: 0.5rem;"><strong>A nombre de:</strong> Alejandra Vela Moreno</p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Cédula:</strong> 1234567890</p>
+                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, haz clic en "Pagar Ahora" para enviar el comprobante al WhatsApp +57 301 760 6723</p>
                     </div>
                 `;
             } else if (selectedPaymentMethod === 'MERCADOPAGO') {
@@ -1066,13 +1198,14 @@
             }
 
             // Validar que se haya seleccionado un método de envío
-            if (!selectedShippingMethod || shippingCost === 0) {
+            if (!selectedShippingMethod) {
                 alert('Por favor selecciona un método de envío');
                 return;
             }
 
             const country = document.getElementById('country').value;
-            if (!country) {
+            // Solo requerir país si no es pickup
+            if (!country && selectedShippingMethod !== 'pickup') {
                 alert('Por favor selecciona un país');
                 return;
             }
@@ -1102,9 +1235,9 @@
             const commission = selectedPaymentMethod === 'MERCADOPAGO' ? subtotal * 0.05 : 0;
             const total = subtotal + shippingCost + commission;
 
-            // Si es Nequi o Zelle, enviar información completa por WhatsApp
-            if (selectedPaymentMethod === 'NEQUI' || selectedPaymentMethod === 'ZELLE') {
-                const methodName = selectedPaymentMethod === 'NEQUI' ? 'Nequi' : 'Zelle';
+            // Si es Nequi, Zelle o Bancolombia, enviar información completa por WhatsApp
+            if (selectedPaymentMethod === 'NEQUI' || selectedPaymentMethod === 'ZELLE' || selectedPaymentMethod === 'BANCOLOMBIA') {
+                const methodName = selectedPaymentMethod === 'NEQUI' ? 'Nequi' : selectedPaymentMethod === 'ZELLE' ? 'Zelle' : 'Bancolombia';
                 const formatMoney = (amount) => {
                     if (currentCurrency === 'USD') {
                         return `$${amount.toFixed(2)} USD`;
@@ -1121,32 +1254,49 @@
                     const itemTotal = prices[currentCurrency] * item.quantity;
                     
                     if (item.type === 'pack') {
-                        const productsText = item.products.map(p => `    • ${p.quantity}x Crema ${p.fragrance}`).join('\n');
-                        return `${index + 1}. *${item.quantity}x ${item.name}*\n${productsText}\n   💰 Subtotal: ${formatMoney(itemTotal)}`;
+                        const productsText = item.products.map(p => p.name).join(', ');
+                        return `${index + 1}. *${item.quantity}x ${item.name}*\n    Fragancias: ${productsText}\n   💰 Subtotal: ${formatMoney(itemTotal)}`;
                     } else {
-                        const fragranceName = item.fragrance || item.name;
-                        return `${index + 1}. *${item.quantity}x Crema FRESCHE*\n    • Fragancia: ${fragranceName}\n   💰 Subtotal: ${formatMoney(itemTotal)}`;
+                        const fragranceName = item.name;
+                        return `${index + 1}. *${item.quantity}x ${fragranceName}*\n   💰 Subtotal: ${formatMoney(itemTotal)}`;
                     }
                 }).join('\n\n');
                 
+                let shippingInfo = '';
+                if (selectedShippingMethod === 'pickup') {
+                    const storeName = pickupStore === 'CO' ? 'Tienda Colombia 🇨🇴' : 'Tienda USA 🇺🇸';
+                    shippingInfo = `*MÉTODO DE ENTREGA:*\n🏢 Recoger en ${storeName}\n\n`;
+                } else {
+                    shippingInfo = `*DIRECCIÓN DE ENVÍO:*\n` +
+                        `${formData.address}\n` +
+                        `${formData.city}, ${formData.state}\n` +
+                        `CP: ${formData.postalCode}\n` +
+                        `País: ${formData.country}\n\n`;
+                }
+                
+                let paymentInfo = '';
+                if (selectedPaymentMethod === 'NEQUI') {
+                    paymentInfo = `*Número Nequi:* +57 301 760 6723\n*A nombre de:* Alejandra Vela Moreno`;
+                } else if (selectedPaymentMethod === 'ZELLE') {
+                    paymentInfo = `*Email Zelle:* fresche@fresche1.com\n*QR disponible en el checkout*`;
+                } else if (selectedPaymentMethod === 'BANCOLOMBIA') {
+                    paymentInfo = `*Banco:* Bancolombia\n*Cuenta de Ahorros:* 12345678901\n*A nombre de:* Alejandra Vela Moreno\n*Cédula:* 1234567890`;
+                }
+                
                 const whatsappMsg = `🛍️ *NUEVO PEDIDO - ${methodName}*\n\n` +
                     `*DATOS DEL CLIENTE:*\n` +
-                    `Nombre: ${formData.fullName}\n` +
-                    `Email: ${formData.email}\n` +
-                    `Teléfono: ${formData.phone}\n\n` +
-                    `*DIRECCIÓN DE ENVÍO:*\n` +
-                    `${formData.address}\n` +
-                    `${formData.city}, ${formData.state}\n` +
-                    `CP: ${formData.postalCode}\n` +
-                    `País: ${formData.country}\n` +
-                    `Método de envío: ${selectedShippingMethod === 'standard' ? 'Estándar' : 'Express'}\n\n` +
+                    `👤 Nombre: ${formData.fullName}\n` +
+                    `📧 Email: ${formData.email}\n` +
+                    `📱 Teléfono: ${formData.phone}\n\n` +
+                    shippingInfo +
                     `*PRODUCTOS:*\n${itemsText}\n\n` +
                     `*RESUMEN:*\n` +
                     `Subtotal: ${formatMoney(subtotal)}\n` +
                     `Envío: ${formatMoney(shippingCost)}\n` +
-                    `*TOTAL: ${formatMoney(total)}*\n\n` +
-                    `Método de pago: ${methodName}\n` +
-                    `${methodName === 'Nequi' ? 'Número: +57 301 760 6723' : 'Email: fresche@fresche.com'}`;
+                    `*TOTAL A PAGAR: ${formatMoney(total)}*\n\n` +
+                    `💳 *MÉTODO DE PAGO: ${methodName}*\n` +
+                    `${paymentInfo}\n\n` +
+                    `⚠️ *POR FAVOR ADJUNTA TU COMPROBANTE DE PAGO*`;
                 
                 // Redirigir directo a WhatsApp con toda la información
                 window.location.href = `https://wa.me/573017606723?text=${encodeURIComponent(whatsappMsg)}`;
