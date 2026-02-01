@@ -1235,7 +1235,14 @@
             const subtotal = cart.reduce((sum, item) => {
                 let prices;
                 if (item.type === 'pack') {
-                    const packType = item.packType || (item.products && item.products.length === 2 ? 'duo' : item.products && item.products.length === 3 ? 'trio' : item.products && item.products.length === 5 ? 'elella' : null);
+                    // Determinar packType - prioritario es item.packType, luego product length
+                    let packType = item.packType;
+                    if (!packType && item.products) {
+                        const len = item.products.length;
+                        if (len === 2) packType = 'duo';
+                        else if (len === 3) packType = 'trio';
+                        else if (len === 5) packType = 'elella';
+                    }
                     prices = getPricePerUnit(1, 'pack', packType);
                 } else {
                     prices = getPricePerUnit(item.quantity, 'product');
@@ -1263,7 +1270,13 @@
                     
                     if (item.type === 'pack') {
                         // Para packs, usar el precio del pack directamente
-                        const packType = item.packType || (item.products && item.products.length === 2 ? 'duo' : item.products && item.products.length === 3 ? 'trio' : item.products && item.products.length === 5 ? 'elella' : null);
+                        let packType = item.packType;
+                        if (!packType && item.products) {
+                            const len = item.products.length;
+                            if (len === 2) packType = 'duo';
+                            else if (len === 3) packType = 'trio';
+                            else if (len === 5) packType = 'elella';
+                        }
                         const packPrice = getPricePerUnit(1, 'pack', packType);
                         itemTotal = packPrice[currentCurrency] * item.quantity;
                         const productsText = item.products.map(p => p.name).join(', ');
