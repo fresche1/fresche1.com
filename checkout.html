@@ -726,10 +726,16 @@
             }
 
             // Determinar moneda
-            currentCurrency = country === 'CO' ? 'COP' : 'USD';
+            if (selectedShippingMethod === 'pickup') {
+                currentCurrency = pickupStore === 'US' ? 'USD' : 'COP';
+            } else {
+                currentCurrency = country === 'CO' ? 'COP' : 'USD';
+            }
             
-            // Mostrar/ocultar métodos de pago según el país
-            updatePaymentMethods(country);
+            // Mostrar/ocultar métodos de pago según el país (si no es pickup)
+            if (selectedShippingMethod !== 'pickup') {
+                updatePaymentMethods(country);
+            }
 
             let options;
             let selectedOption = null;
@@ -737,7 +743,7 @@
 
             // Mostrar opción Pickup universal
             let html = '';
-            html += `<div class="shipping-option" onclick="selectShippingMethod('pickup', 0)">
+            html += `<div class="shipping-option" data-method="pickup" onclick="selectShippingMethod('pickup', 0)">
                 <div class="shipping-option-info">
                     <div class="shipping-option-name">🏢 <span data-es="Recoger en tienda" data-en="Pickup">Recoger en tienda</span></div>
                     <div class="shipping-option-desc">📦 <span data-es="Sin cobro extra. Solo pagas el valor del paquete o crema." data-en="No extra charge. Only pay for the product.">Sin cobro extra. Solo pagas el valor del paquete o crema.</span></div>
@@ -745,19 +751,8 @@
                 <div class="shipping-option-price">$0</div>
             </div>`;
 
-            // Selector de país para pickup (solo si pickup está seleccionado)
-            if (selectedShippingMethod === 'pickup') {
-                html += `<div id="pickupStoreSelector" style="margin:1rem 0;">
-                    <label style="color:var(--gold);font-weight:600;">¿Dónde recogerás tu pedido?</label>
-                    <select id="pickupStore" onchange="updatePickupStore()" style="margin-left:1rem;padding:0.5rem 1rem;border-radius:8px;">
-                        <option value="CO">Tienda Colombia</option>
-                        <option value="US">Tienda USA</option>
-                    </select>
-                </div>`;
-            }
-
             // Opciones normales de envío
-            if (country === 'CO') {
+            if (country === 'CO' && selectedShippingMethod !== 'pickup') {
                 if (city) {
                     const zone = getColombiaCityZone(city);
                     selectedOption = shippingRates.CO.find(opt => opt.zone === zone);
@@ -766,7 +761,7 @@
                         shippingCost = selectedOption.price;
                         const formattedPrice = `$${Math.round(selectedOption.price).toLocaleString('es-CO')} COP`;
                         const zoneName = zone === 'bogota' ? '🏠 LOCAL (Bogotá)' : zone === 'central' ? '🚚 REGIONAL (Colombia Central)' : '✈️ NACIONAL (Larga Distancia)';
-                        html += `<div class="shipping-option selected">
+                        html += `<div class="shipping-option selected" data-method="${selectedOption.id}">
                             <div class="shipping-option-info">
                                 <div class="shipping-option-name">${selectedOption.name}</div>
                                 <div class="shipping-option-desc">📦 ${selectedOption.desc}</div>
@@ -779,14 +774,14 @@
                     const alertMsg = isEnglish ? 'Enter a city to calculate shipping cost' : 'Ingresa la ciudad para calcular el costo de envío';
                     html += `<div class="shipping-alert">⚠️ ${alertMsg}</div>`;
                 }
-            } else {
+            } else if (country !== 'CO' && selectedShippingMethod !== 'pickup') {
                 options = shippingRates.INTERNATIONAL;
                 selectedOption = options.find(opt => opt.id === 'international');
                 if (selectedOption) {
                     selectedShippingMethod = selectedOption.id;
                     shippingCost = selectedOption.price;
                     const formattedPrice = `$${selectedOption.price.toFixed(2)} USD`;
-                    html += `<div class="shipping-option selected">
+                    html += `<div class="shipping-option selected" data-method="${selectedOption.id}">
                         <div class="shipping-option-info">
                             <div class="shipping-option-name">${selectedOption.name}</div>
                             <div class="shipping-option-desc">📦 ${selectedOption.desc}</div>
@@ -797,16 +792,11 @@
             }
             shippingOptionsDiv.innerHTML = html;
             if (selectedShippingMethod === 'pickup') shippingCost = 0;
-        // Manejar el cambio de tienda pickup
-        function updatePickupStore() {
-            const store = document.getElementById('pickupStore').value;
-            // Cambiar métodos de pago según tienda
-            if (store === 'CO') {
-                updatePaymentMethods('CO');
-            } else {
-                updatePaymentMethods('US');
+
+            // Si pickup está seleccionado, usar métodos de pago por tienda
+            if (selectedShippingMethod === 'pickup') {
+                updatePickupPaymentMethods();
             }
-        }
 
             displayOrderSummary();
         }
@@ -854,7 +844,12 @@
             
             // Actualizar visualmente
             document.querySelectorAll('.shipping-option').forEach(el => el.classList.remove('selected'));
-            event.target.closest('.shipping-option').classList.add('selected');
+            const targetOption = (typeof event !== 'undefined' && event.target)
+                ? event.target.closest('.shipping-option')
+                : document.querySelector(`.shipping-option[data-method="${methodId}"]`);
+            if (targetOption) {
+                targetOption.classList.add('selected');
+            }
             
             // Mostrar/ocultar campos de dirección según si es pickup
             const addressSection = document.getElementById('shippingAddressSection');
@@ -931,6 +926,7 @@
         
         function selectPickupStore(store) {
             pickupStore = store;
+            currentCurrency = pickupStore === 'US' ? 'USD' : 'COP';
             
             // Actualizar visualmente los botones
             document.querySelectorAll('.pickup-store-btn').forEach(btn => {
@@ -947,6 +943,7 @@
             
             // Actualizar métodos de pago
             updatePickupPaymentMethods();
+            displayOrderSummary();
         }
         
         function updatePickupPaymentMethods() {
@@ -1461,6 +1458,14 @@
         // Cargar carrito al inicio
         window.addEventListener('DOMContentLoaded', () => {
             loadCart();
+            const pickupSelected = localStorage.getItem('fresche_pickup') === 'true';
+            if (pickupSelected) {
+                selectedShippingMethod = 'pickup';
+                shippingCost = 0;
+                updateShippingCost();
+                showPickupStoreSelector();
+                selectShippingMethod('pickup', 0);
+            }
             // Inicializar instrucciones de pago
             const defaultPaymentMethod = document.querySelector('.payment-method.selected');
             if (defaultPaymentMethod) {
