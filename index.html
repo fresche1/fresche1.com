@@ -290,7 +290,7 @@
                         <img src="images/eclipse.jpg" alt="Para Él" class="right-section">
                     </div>
                     <span class="pack-quantity">x5</span>
-                    <span class="variety-badge special" data-es="2 👩 + 3 👨" data-en="2 👩 + 3 👨">2 👩 + 3 👨</span>
+                    <span class="variety-badge special" data-es="Elige tus fragancias" data-en="Choose your fragrances">Elige tus fragancias</span>
                 </div>
                 <h3 class="pack-name" data-es="5 Unidades" data-en="5 Units">5 Unidades</h3>
                 <div class="pack-pricing" data-price-cop="129999" data-price-usd="69.99">
@@ -298,7 +298,7 @@
                     <span class="pack-price">$129.999 COP</span>
                     <span class="pack-savings" data-es="Ahorras $19.501" data-en="Save $19,501">Ahorras $19.501</span>
                 </div>
-                <p class="pack-description" data-es="🎯 Click: 2 fragancias femeninas + 3 masculinas" data-en="🎯 Click: 2 feminine + 3 masculine fragrances">🎯 Click: 2 fragancias femeninas + 3 masculinas</p>
+                <p class="pack-description" data-es="🎯 Click para elegir 5 fragancias" data-en="🎯 Click to choose 5 fragrances">🎯 Click para elegir 5 fragancias</p>
                 <button class="cta-button" onclick="event.stopPropagation(); openPackModal('elella')" data-es="Personalizar Pack" data-en="Customize Pack">Personalizar Pack</button>
             </div>
 
@@ -1914,7 +1914,7 @@
         const packConfigs = {
             duo: { quantity: 2, price: 55000, name: 'Pack Dúo', originalPrice: 59800 },
             trio: { quantity: 3, price: 79000, name: 'Pack Trío', originalPrice: 89700 },
-            elella: { quantity: 5, price: 129999, name: 'Pack ÉL & ELLA', originalPrice: 149500, women: 2, men: 3 }
+            elella: { quantity: 5, price: 129999, name: 'Pack ÉL & ELLA', originalPrice: 149500 }
         };
 
         function openPackModal(packType) {
@@ -1928,16 +1928,9 @@
             const savings = config.originalPrice - config.price;
             const allProducts = Object.keys(products);
             
-            let instructionText = '';
-            if (packType === 'elella') {
-                instructionText = lang === 'es' 
-                    ? `Selecciona ${config.women} fragancias femeninas y ${config.men} masculinas` 
-                    : `Select ${config.women} feminine and ${config.men} masculine fragrances`;
-            } else {
-                instructionText = lang === 'es' 
-                    ? `Selecciona ${config.quantity} fragancias de tu preferencia` 
-                    : `Select ${config.quantity} fragrances of your choice`;
-            }
+            const instructionText = lang === 'es' 
+                ? `Selecciona ${config.quantity} fragancias de tu preferencia` 
+                : `Select ${config.quantity} fragrances of your choice`;
             
             modalBody.innerHTML = `
                 <div style="text-align: center; margin-bottom: 2rem;">
@@ -1958,18 +1951,18 @@
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
                     ${allProducts.map(productId => {
                         const product = products[productId];
-                        const isWomen = ['cherry', 'velvet'].includes(productId);
-                        const gender = isWomen ? 'women' : 'men';
-                        const genderLabel = isWomen ? '👩' : '👨';
-                        
                         return `
-                            <div class="pack-product-option" data-product="${productId}" data-gender="${gender}" onclick="togglePackProduct('${productId}', '${gender}')" style="cursor: pointer; border: 2px solid rgba(212,175,55,0.3); border-radius: 10px; padding: 1rem; text-align: center; transition: all 0.3s; background: rgba(0,0,0,0.5);">
+                            <div class="pack-product-option" data-product="${productId}" onclick="adjustPackProduct('${productId}', 1, event)" style="cursor: pointer; border: 2px solid rgba(212,175,55,0.3); border-radius: 10px; padding: 1rem; text-align: center; transition: all 0.3s; background: rgba(0,0,0,0.5);">
                                 <div style="position: relative;">
                                     <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 0.5rem;">
-                                    <span style="position: absolute; top: 5px; right: 5px; background: var(--gold); color: #000; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem;">${genderLabel}</span>
-                                    <div class="pack-checkmark" style="position: absolute; top: 5px; left: 5px; background: var(--gold); color: #000; width: 30px; height: 30px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: bold;">✓</div>
+                                    <div class="pack-count-badge" id="pack-count-badge-${productId}" style="position: absolute; top: 5px; left: 5px; background: var(--gold); color: #000; width: 28px; height: 28px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 700;">0</div>
                                 </div>
                                 <h4 style="font-size: 0.9rem; color: #fff; margin: 0.5rem 0;">${productId.charAt(0).toUpperCase() + productId.slice(1)}</h4>
+                                <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.5rem;">
+                                    <button onclick="adjustPackProduct('${productId}', -1, event)" style="width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: rgba(0,0,0,0.6); color: #fff; cursor: pointer;">−</button>
+                                    <span id="pack-count-${productId}" style="min-width: 18px; text-align: center; color: var(--gold); font-weight: 700;">0</span>
+                                    <button onclick="adjustPackProduct('${productId}', 1, event)" style="width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: rgba(0,0,0,0.6); color: #fff; cursor: pointer;">+</button>
+                                </div>
                             </div>
                         `;
                     }).join('')}
@@ -1989,49 +1982,52 @@
             document.body.style.overflow = 'hidden';
         }
 
-        function togglePackProduct(productId, gender) {
-            const config = packConfigs[currentPackType];
-            const index = selectedPackItems.findIndex(item => item.id === productId);
-            const lang = document.documentElement.getAttribute('data-lang') || 'es';
-            
-            if (index > -1) {
-                // Deselect
-                selectedPackItems.splice(index, 1);
-                const element = document.querySelector(`[data-product="${productId}"]`);
-                element.style.border = '2px solid rgba(212,175,55,0.3)';
-                element.querySelector('.pack-checkmark').style.display = 'none';
-            } else {
-                // Check limits
-                if (currentPackType === 'elella') {
-                    const womenCount = selectedPackItems.filter(item => item.gender === 'women').length;
-                    const menCount = selectedPackItems.filter(item => item.gender === 'men').length;
-                    
-                    if (gender === 'women' && womenCount >= config.women) {
-                        alert(lang === 'es' ? `Ya seleccionaste ${config.women} fragancias femeninas` : `You already selected ${config.women} feminine fragrances`);
-                        return;
-                    }
-                    if (gender === 'men' && menCount >= config.men) {
-                        alert(lang === 'es' ? `Ya seleccionaste ${config.men} fragancias masculinas` : `You already selected ${config.men} masculine fragrances`);
-                        return;
-                    }
-                } else {
-                    if (selectedPackItems.length >= config.quantity) {
-                        alert(lang === 'es' ? `Ya seleccionaste ${config.quantity} productos` : `You already selected ${config.quantity} products`);
-                        return;
-                    }
-                }
-                
-                // Select
-                selectedPackItems.push({ id: productId, gender: gender });
-                const element = document.querySelector(`[data-product="${productId}"]`);
-                element.style.border = '2px solid var(--gold)';
-                element.style.background = 'rgba(212,175,55,0.1)';
-                element.querySelector('.pack-checkmark').style.display = 'flex';
+        function adjustPackProduct(productId, delta, event) {
+            if (event) {
+                event.stopPropagation();
             }
-            
+            const config = packConfigs[currentPackType];
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            const currentCount = selectedPackItems.filter(id => id === productId).length;
+
+            if (delta > 0) {
+                if (selectedPackItems.length >= config.quantity) {
+                    alert(lang === 'es' ? `Ya seleccionaste ${config.quantity} productos` : `You already selected ${config.quantity} products`);
+                    return;
+                }
+                selectedPackItems.push(productId);
+            } else if (delta < 0) {
+                if (currentCount === 0) {
+                    return;
+                }
+                const index = selectedPackItems.findIndex(id => id === productId);
+                if (index > -1) selectedPackItems.splice(index, 1);
+            }
+
+            const updatedCount = selectedPackItems.filter(id => id === productId).length;
+            const element = document.querySelector(`[data-product="${productId}"]`);
+            const countLabel = document.getElementById(`pack-count-${productId}`);
+            const badge = document.getElementById(`pack-count-badge-${productId}`);
+
+            if (countLabel) countLabel.textContent = updatedCount;
+            if (badge) {
+                badge.textContent = updatedCount;
+                badge.style.display = updatedCount > 0 ? 'flex' : 'none';
+            }
+
+            if (element) {
+                if (updatedCount > 0) {
+                    element.style.border = '2px solid var(--gold)';
+                    element.style.background = 'rgba(212,175,55,0.1)';
+                } else {
+                    element.style.border = '2px solid rgba(212,175,55,0.3)';
+                    element.style.background = 'rgba(0,0,0,0.5)';
+                }
+            }
+
             // Update counter
             document.getElementById('pack-counter').textContent = selectedPackItems.length;
-            
+
             // Enable/disable button
             const addButton = document.getElementById('add-pack-to-cart-btn');
             if (selectedPackItems.length === config.quantity) {
@@ -2054,9 +2050,9 @@
                 name: config.name,
                 type: 'pack',
                 packType: currentPackType,
-                products: selectedPackItems.map(item => ({
-                    id: item.id,
-                    name: products[item.id].name
+                products: selectedPackItems.map(id => ({
+                    id,
+                    name: products[id].name
                 })),
                 price: config.price,
                 currency: 'COP',
@@ -2069,7 +2065,13 @@
             
             closePackModal();
             
-            const productNames = selectedPackItems.map(item => products[item.id].name.split(' ').pop()).join(', ');
+            const productCounts = selectedPackItems.reduce((acc, id) => {
+                acc[id] = (acc[id] || 0) + 1;
+                return acc;
+            }, {});
+            const productNames = Object.entries(productCounts)
+                .map(([id, count]) => `${products[id].name.split(' ').pop()} x${count}`)
+                .join(', ');
             alert(lang === 'es' 
                 ? `✅ ${config.name} agregado al carrito\n\nProductos: ${productNames}\nPrecio: $${config.price.toLocaleString('es-CO')} COP`
                 : `✅ ${config.name} added to cart\n\nProducts: ${productNames}\nPrice: $${config.price.toLocaleString('es-CO')} COP`
