@@ -480,6 +480,7 @@
         let shippingCost = 0;
         let pickupStore = null; // CO o US para pickup
         let currentCurrency = 'COP'; // Moneda por defecto
+        let defaultPaymentMethodsHtml = '';
         const BACKEND_URL = 'https://fresche1-com.onrender.com';
 
         // Tarifas de envío reales
@@ -826,6 +827,17 @@
         }
 
         function updatePaymentMethods(country) {
+            const container = document.getElementById('paymentMethodsContainer');
+            if (container && defaultPaymentMethodsHtml) {
+                const needsRestore = !container.querySelector('[data-method="NEQUI"]')
+                    || !container.querySelector('[data-method="MERCADOPAGO"]')
+                    || !container.querySelector('[data-method="MERCADOLIBRE"]')
+                    || !container.querySelector('[data-method="ZELLE"]');
+                if (needsRestore) {
+                    container.innerHTML = defaultPaymentMethodsHtml;
+                }
+            }
+
             const nequiMethod = document.querySelector('[data-method="NEQUI"]');
             const zelleMethod = document.querySelector('[data-method="ZELLE"]');
             const mercadolibreMethod = document.querySelector('[data-method="MERCADOLIBRE"]');
@@ -1491,6 +1503,10 @@
         // Cargar carrito al inicio
         window.addEventListener('DOMContentLoaded', () => {
             loadCart();
+            const paymentContainer = document.getElementById('paymentMethodsContainer');
+            if (paymentContainer) {
+                defaultPaymentMethodsHtml = paymentContainer.innerHTML;
+            }
             const pickupSelected = localStorage.getItem('fresche_pickup') === 'true';
             if (pickupSelected) {
                 selectedShippingMethod = 'pickup';
