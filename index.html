@@ -23,7 +23,7 @@
                 <span></span>
             </button>
             <div class="logo logo-menu-btn" onclick="toggleMenu()">
-                <img src="images/1758372322944blob.jpg" alt="FRESCHE Logo" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <img src="images/logo.png" alt="FRESCHE Logo" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="logo-icon" style="display:none;">F</div>
                 <div class="menu-lines">
                     <div class="decorative-line"></div>
@@ -687,7 +687,7 @@
         <div class="footer-content">
             <div class="footer-col">
                 <div class="footer-logo">
-                    <img src="images/1758372322944blob.jpg" alt="FRESCHE Logo" class="logo-img-footer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="width: 120px;">
+                    <img src="images/logo.png" alt="FRESCHE Logo" class="logo-img-footer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="width: 120px;">
                     <div class="logo-icon" style="display:none;">F</div>
                 </div>
                 <p data-es="Cuidado íntimo premium para hombres y mujeres desde Colombia al mundo." data-en="Premium men's and women's intimate care from Colombia to the world.">Cuidado íntimo premium para hombres y mujeres desde Colombia al mundo.</p>
@@ -749,7 +749,7 @@
             <span class="close-modal" onclick="closeAboutModal()">&times;</span>
             <div id="aboutModalBody" style="text-align: center; padding: 2rem;">
                 <div style="position: relative; padding: 3rem; background: linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(20,20,20,0.98) 100%); border-radius: 15px; box-shadow: 0 20px 60px rgba(212,175,55,0.3);">
-                    <img src="images/1758372322944blob.jpg" alt="FRESCHE Logo" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 250px; opacity: 0.15; filter: brightness(1.6);">
+                    <img src="images/logo.png" alt="FRESCHE Logo" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 250px; opacity: 0.15; filter: brightness(1.6);">
                     <div style="position: relative; z-index: 2;">
                         <h2 style="color: rgb(212,175,55); font-size: 2.5rem; margin-bottom: 1.5rem; text-shadow: 0 0 20px rgba(212,175,55,0.5);" data-es="Acerca de FRESCHE" data-en="About FRESCHE">Acerca de FRESCHE</h2>
                         <p style="color: #fff; font-size: 1.2rem; line-height: 1.8; margin-bottom: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);" data-es="FRESCHE es una marca colombiana pionera en el cuidado íntimo premium. Nacimos con la misión de revolucionar la higiene personal a través de fórmulas innovadoras y fragancias sofisticadas." data-en="FRESCHE is a Colombian brand pioneering in premium intimate care. We were born with the mission to revolutionize personal hygiene through innovative formulas and sophisticated fragrances.">FRESCHE es una marca colombiana pionera en el cuidado íntimo premium. Nacimos con la misión de revolucionar la higiene personal a través de fórmulas innovadoras y fragancias sofisticadas.</p>
@@ -2672,7 +2672,7 @@
         <div class="chatbot-window" id="chatbot-window">
             <div class="chatbot-header">
                 <div class="chatbot-header-info">
-                    <img src="images/1758372322944blob.jpg" alt="FRESCHE" class="chatbot-logo">
+                    <img src="images/logo.png" alt="FRESCHE" class="chatbot-logo">
                     <div>
                         <h3>FRESCHE AI</h3>
                         <p>Asistente Virtual</p>
@@ -2715,7 +2715,7 @@
             <div class="welcome-step" id="step2">
                 <div class="welcome-hero">
                     <div class="logo-glow">
-                        <img src="images/1758372322944blob.jpg" alt="FRESCHE" class="welcome-logo-pro">
+                        <img src="images/logo.png" alt="FRESCHE" class="welcome-logo-pro">
                     </div>
                     <h1 class="brand-title">FRESCHE</h1>
                     <p class="brand-tagline" id="tagline">Cuidado Íntimo Premium</p>
@@ -2896,18 +2896,30 @@
             document.getElementById('privacyNote').textContent = '🔒 Tu privacidad es importante. Solo guardamos tus preferencias localmente.';
         }
 
-        // Mostrar modal al cargar - SIEMPRE
+        // Mostrar modal al cargar - CON PERSISTENCIA DE 2 HORAS
         window.addEventListener('load', async function() {
-            // Mostrar modal cada vez que carga la página
-            document.getElementById('welcomeModal').style.display = 'flex';
+            // Verificar si ya mostró la bienvenida en las últimas 2 horas
+            const welcomeShownTime = localStorage.getItem('fresche_welcome_shown');
+            const currentTime = Date.now();
+            const TWO_HOURS = 2 * 60 * 60 * 1000; // 2 horas en milisegundos
             
-            // Detectar ubicación
-            await detectUserLocation();
-            
-            // Esperar 2 segundos simulando carga
-            setTimeout(() => {
-                nextStep(2);
-            }, 2000);
+            // Solo mostrar si nunca se mostró o si pasaron más de 2 horas
+            if (!welcomeShownTime || (currentTime - parseInt(welcomeShownTime)) > TWO_HOURS) {
+                // Mostrar modal la primera vez o después de 2 horas
+                document.getElementById('welcomeModal').style.display = 'flex';
+                localStorage.setItem('fresche_welcome_shown', currentTime.toString());
+                
+                // Detectar ubicación
+                await detectUserLocation();
+                
+                // Esperar 2 segundos simulando carga
+                setTimeout(() => {
+                    nextStep(2);
+                }, 2000);
+            } else {
+                // No mostrar modal si ya se mostró hace menos de 2 horas
+                document.getElementById('welcomeModal').style.display = 'none';
+            }
         });
 
         // Navegar entre pasos
