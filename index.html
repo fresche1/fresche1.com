@@ -1236,17 +1236,16 @@
         function changeBackgroundColor(color) {
             const body = document.body;
             const buttons = document.querySelectorAll('.bg-color-btn, .menu-bg-btn');
+            const normalizedColor = color === 'light' ? 'black' : color;
             
             // Remove all background classes
             body.classList.remove('bg-white', 'bg-silver', 'bg-light');
             
             // Add selected background class
-            if (color === 'white') {
+            if (normalizedColor === 'white') {
                 body.classList.add('bg-white');
-            } else if (color === 'silver') {
+            } else if (normalizedColor === 'silver') {
                 body.classList.add('bg-silver');
-            } else if (color === 'light') {
-                body.classList.add('bg-light');
             }
             // 'black' is default, no class needed
             
@@ -1254,7 +1253,7 @@
             buttons.forEach(btn => {
                 btn.classList.remove('active');
                 const btnColor = btn.getAttribute('data-color');
-                if (btnColor === color) {
+                if (btnColor === normalizedColor) {
                     btn.classList.add('active');
                 }
             });
@@ -2748,20 +2747,6 @@
                     </div>
                 </div>
 
-                <div class="preference-section">
-                    <h3 class="preference-label" id="themeLabel">Tema de color</h3>
-                    <div class="theme-toggle">
-                        <button class="theme-option active" onclick="selectTheme('black')" data-theme="black">
-                            <span class="theme-icon">🌙</span>
-                            <span id="darkLabel">Oscuro</span>
-                        </button>
-                        <button class="theme-option" onclick="selectTheme('light')" data-theme="light">
-                            <span class="theme-icon">☀️</span>
-                            <span id="lightLabel">Claro</span>
-                        </button>
-                    </div>
-                </div>
-
                 <button class="welcome-cta" onclick="finishWelcome()">
                     <span id="startBtn">Comenzar Experiencia</span>
                     <span class="cta-sparkle">✨</span>
@@ -2784,7 +2769,7 @@
         let currentStep = 1;
         let userCountry = 'CO'; // Por defecto Colombia
         let selectedGender = 'men';
-        let selectedTheme = 'black';
+        const selectedTheme = 'black';
         let selectedLanguage = 'es';
 
         // Detectar ubicación del usuario usando API de geolocalización
@@ -2849,9 +2834,6 @@
             document.getElementById('menDesc').textContent = 'Masculine freshness and protection';
             document.getElementById('womenLabel').textContent = 'For Women';
             document.getElementById('womenDesc').textContent = 'Delicate and feminine care';
-            document.getElementById('themeLabel').textContent = 'Color theme';
-            document.getElementById('darkLabel').textContent = 'Dark';
-            document.getElementById('lightLabel').textContent = 'Light';
             document.getElementById('startBtn').textContent = 'Start Experience';
             document.getElementById('privacyNote').textContent = '🔒 Your privacy matters. We only save your preferences locally.';
         }
@@ -2868,9 +2850,6 @@
             document.getElementById('menDesc').textContent = 'Frescura y protección masculina';
             document.getElementById('womenLabel').textContent = 'Para Mujeres';
             document.getElementById('womenDesc').textContent = 'Cuidado delicado y femenino';
-            document.getElementById('themeLabel').textContent = 'Tema de color';
-            document.getElementById('darkLabel').textContent = 'Oscuro';
-            document.getElementById('lightLabel').textContent = 'Claro';
             document.getElementById('startBtn').textContent = 'Comenzar Experiencia';
             document.getElementById('privacyNote').textContent = '🔒 Tu privacidad es importante. Solo guardamos tus preferencias localmente.';
         }
@@ -2920,15 +2899,6 @@
                 card.classList.remove('selected');
             });
             document.querySelector(`.preference-card[data-gender="${gender}"]`).classList.add('selected');
-        }
-
-        // Seleccionar tema
-        function selectTheme(theme) {
-            selectedTheme = theme;
-            document.querySelectorAll('.theme-option').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`.theme-option[data-theme="${theme}"]`).classList.add('active');
         }
 
         // Finalizar bienvenida
