@@ -164,7 +164,7 @@ app.post('/api/create-preference', async (req, res) => {
             <h3 style="color: #d4af37;">💰 Resumen de Pago</h3>
             <ul style="font-size: 1.1em;">
               <li><strong>Subtotal:</strong> $${Number(orderData.subtotal || 0).toLocaleString('es-CO')}</li>
-              <li><strong>Costo de Envío:</strong> $${Number(orderData.shippingCost || 0).toLocaleString('es-CO')}</li>
+              <li><strong>Costo de Envío:</strong> ${orderData.country === 'CO' ? 'Gratis' : `$${Number(orderData.shippingCost || 0).toLocaleString('es-CO')}`}</li>
               <li style="color: #d4af37; font-size: 1.3em; margin-top: 10px;">
                 <strong>TOTAL: $${Number(orderData.total || 0).toLocaleString('es-CO')} COP</strong>
               </li>

@@ -8,7 +8,7 @@ Sistema de checkout real con envíos nacionales e internacionales implementado e
 ### 1. ❌ ELIMINADO
 - Banner de "Modo Prueba"
 - Información de tarjetas de prueba
-- Envío fijo de $10,000 COP
+- Envío gratis a toda Colombia
 
 ### 2. ✅ AGREGADO
 
@@ -31,13 +31,13 @@ Sistema de checkout real con envíos nacionales e internacionales implementado e
 #### **Precios de Envío Configurados**
 ```
 Nacional (Colombia):
-  • Estándar:    $15,000 COP
-  • Express:     $25,000 COP
-  • Prioritario: $35,000 COP
+  • Estándar:    Gratis
+  • Express:     Gratis
+  • Prioritario: Gratis
 
 Internacional (rango):
-  • Desde: $35,000 COP
-  • Hasta: $120,000 COP
+  • Desde: Gratis
+  • Hasta: Gratis
 ```
 
 #### **Funcionalidades Nuevas**

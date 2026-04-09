@@ -379,7 +379,7 @@
                 </div>
 
                 <div class="shipping-alert" style="margin-top: 0.75rem;">
-                    <span data-es="En Colombia, de 1 a 10 cremas el envío tiene el mismo costo." data-en="In Colombia, ordering 1 to 10 creams keeps the same shipping cost.">En Colombia, de 1 a 10 cremas el envío tiene el mismo costo.</span>
+                    <span data-es="Envío Gratis a toda Colombia" data-en="Free Shipping in Colombia">Envío Gratis a toda Colombia</span>
                 </div>
 
                 <!-- Método de Pago -->
@@ -446,7 +446,7 @@
                 </div>
                 <div class="order-total-row">
                     <span data-es="Envío" data-en="Shipping">Envío</span>
-                    <span id="shipping">$10.000 COP</span>
+                    <span id="shipping" style="color: #00b894; font-weight: bold;">Envío Gratis</span>
                 </div>
                 <div class="order-total-row final">
                     <span data-es="Total" data-en="Total">Total</span>
@@ -695,7 +695,11 @@
             // Solo mostrar valores si la información de envío está completa
             if (shippingInfoComplete && !hidePrices) {
                 document.getElementById('subtotal').textContent = formatMoney(subtotal);
-                document.getElementById('shipping').textContent = formatMoney(shippingCost);
+                if (country === 'CO') {
+                    document.getElementById('shipping').textContent = 'Envío Gratis';
+                } else {
+                    document.getElementById('shipping').textContent = formatMoney(shippingCost);
+                }
                 document.getElementById('total').textContent = formatMoney(total);
                 // Mostrar totales y ocultar mensaje pendiente
                 document.getElementById('orderTotals').style.display = 'block';
@@ -760,27 +764,15 @@
 
             // Opciones normales de envío
             if (country === 'CO' && selectedShippingMethod !== 'pickup') {
-                if (city) {
-                    const zone = getColombiaCityZone(city);
-                    selectedOption = shippingRates.CO.find(opt => opt.zone === zone);
-                    if (selectedOption) {
-                        selectedShippingMethod = selectedOption.id;
-                        shippingCost = selectedOption.price;
-                        const formattedPrice = `$${Math.round(selectedOption.price).toLocaleString('es-CO')} COP`;
-                        const zoneName = zone === 'bogota' ? '🏠 LOCAL (Bogotá)' : zone === 'central' ? '🚚 REGIONAL (Colombia Central)' : '✈️ NACIONAL (Larga Distancia)';
-                        html += `<div class="shipping-option selected" data-method="${selectedOption.id}">
-                            <div class="shipping-option-info">
-                                <div class="shipping-option-name">${selectedOption.name}</div>
-                                <div class="shipping-option-desc">📦 ${selectedOption.desc}</div>
-                                <div style="font-size: 0.9rem; color: var(--gold); margin-top: 0.5rem;">✓ Zona detectada: ${zoneName}</div>
-                            </div>
-                            ${hidePrices ? '' : `<div class="shipping-option-price">${formattedPrice}</div>`}
-                        </div>`;
-                    }
-                } else {
-                    const alertMsg = isEnglish ? 'Enter a city to calculate shipping cost' : 'Ingresa la ciudad para calcular el costo de envío';
-                    html += `<div class="shipping-alert">⚠️ ${alertMsg}</div>`;
-                }
+                selectedShippingMethod = 'free';
+                shippingCost = 0;
+                html += `<div class="shipping-option selected" data-method="free">
+                    <div class="shipping-option-info">
+                        <div class="shipping-option-name">🚚 <span data-es='Envío Gratis a toda Colombia' data-en='Free Shipping in Colombia'>Envío Gratis a toda Colombia</span></div>
+                        <div class="shipping-option-desc">📦 <span data-es='Recibe tu pedido sin costo de envío en cualquier ciudad de Colombia.' data-en='Receive your order with free shipping anywhere in Colombia.'>Recibe tu pedido sin costo de envío en cualquier ciudad de Colombia.</span></div>
+                    </div>
+                    <div class="shipping-option-price" style="color: #00b894; font-weight: bold;">Envío Gratis</div>
+                </div>`;
             } else if (country !== 'CO' && selectedShippingMethod !== 'pickup') {
                 options = shippingRates.INTERNATIONAL;
                 selectedOption = options.find(opt => opt.id === 'international');
