@@ -930,24 +930,19 @@
         }
 
         function updatePricesDisplay() {
-            const isColombia = userRegion === 'CO';
-            
-            // Update individual product prices
+            // Mostrar siempre ambos precios (COP y USD)
             document.querySelectorAll('.product-price[data-price-cop][data-price-usd]').forEach(el => {
                 const priceCoP = el.getAttribute('data-price-cop');
                 const priceUSD = el.getAttribute('data-price-usd');
-                const priceSpan = el.querySelector('span');
-                
-                if (priceSpan) {
-                    if (isColombia) {
-                        const formattedPrice = Number(priceCoP).toLocaleString('es-CO');
-                        priceSpan.textContent = `$${formattedPrice} COP`;
-                        priceSpan.setAttribute('data-es', `$${formattedPrice} COP`);
-                        priceSpan.setAttribute('data-en', `$${formattedPrice} COP`);
-                    } else {
-                        priceSpan.textContent = `$${priceUSD} USD`;
-                        priceSpan.setAttribute('data-es', `$${priceUSD} USD`);
-                        priceSpan.setAttribute('data-en', `$${priceUSD} USD`);
+                const spans = el.querySelectorAll('span');
+                if (spans.length > 0) {
+                    const formattedPrice = Number(priceCoP).toLocaleString('es-CO');
+                    spans[0].textContent = `$${formattedPrice} COP`;
+                    spans[0].setAttribute('data-es', `$${formattedPrice} COP`);
+                    spans[0].setAttribute('data-en', `$${formattedPrice} COP`);
+                    // Si hay un segundo span, es el USD
+                    if (spans[1]) {
+                        spans[1].textContent = `$${priceUSD} USD`;
                     }
                 }
             });
