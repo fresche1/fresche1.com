@@ -533,9 +533,9 @@
         const shippingRates = {
             CO: [
                 { id: 'pickup', name: '🏢 <span data-es="Recoger en tienda" data-en="Pickup">Recoger en tienda</span>', desc: '<span data-es="Sin cobro extra. Solo pagas el valor del paquete o crema." data-en="No extra charge. Only pay for the product.">Sin cobro extra. Solo pagas el valor del paquete o crema.</span>', price: 0, currency: 'COP', zone: 'pickup' },
-                { id: 'bogota', name: '🏠 LOCAL - Bogotá y Sabana', desc: '2-4 días hábiles', price: 9000, currency: 'COP', zone: 'bogota' },
-                { id: 'central', name: '🚚 REGIONAL - Colombia Central', desc: '3-5 días hábiles', price: 13800, currency: 'COP', zone: 'central' },
-                { id: 'longdistance', name: '✈️ NACIONAL - Larga Distancia', desc: '4-7 días hábiles', price: 21000, currency: 'COP', zone: 'longdistance' }
+                { id: 'bogota', name: '🏠 LOCAL - Bogotá y Sabana', desc: '2-4 días hábiles', price: 0, currency: 'COP', zone: 'bogota' },
+                { id: 'central', name: '🚚 REGIONAL - Colombia Central', desc: '3-5 días hábiles', price: 0, currency: 'COP', zone: 'central' },
+                { id: 'longdistance', name: '✈️ NACIONAL - Larga Distancia', desc: '4-7 días hábiles', price: 0, currency: 'COP', zone: 'longdistance' }
             ],
             INTERNATIONAL: [
                 { id: 'pickup', name: '🏢 <span data-es="Recoger en tienda" data-en="Pickup">Recoger en tienda</span>', desc: '<span data-es="Sin cobro extra. Solo pagas el valor del paquete o crema." data-en="No extra charge. Only pay for the product.">Sin cobro extra. Solo pagas el valor del paquete o crema.</span>', price: 0, currency: 'USD', zone: 'pickup' },
@@ -545,10 +545,10 @@
 
         // Tabla de precios dinámicos por cantidad (en dólares)
         const priceTable = {
-            1: { USD: 18.99, COP: 29900 },
-            2: { USD: 34.99, COP: 55000 },
-            3: { USD: 44.99, COP: 79000 },
-            'pack_elella': { USD: 69.99, COP: 129999 }  // Pack El y Ella (5 unidades)
+            1: { USD: 18.99, COP: 40000 },
+            2: { USD: 34.99, COP: 70000 },
+            3: { USD: 44.99, COP: 100000 },
+            'pack_elella': { USD: 69.99, COP: 160000 }  // Pack El y Ella (5 unidades)
         };
 
         // Función para obtener precio según cantidad y tipo de producto o pack
@@ -644,8 +644,9 @@
                 // Mostrar todos los productos individuales agrupados
                 let names = individualItems.map(i => i.name).join(', ');
                 let img = individualItems[0]?.image || 'images/cherry.jpg';
-                let formattedPrice = shippingInfoComplete ? (currentCurrency === 'USD' ? `$${individualSubtotal.toFixed(2)} USD` : `$${Math.round(individualSubtotal).toLocaleString('es-CO')} COP`) : '-';
-                const priceHtml = hidePrices ? '' : `<div class="order-item-price">${formattedPrice}</div>`;
+                let priceCOP = shippingInfoComplete ? `$${Math.round(individualSubtotal).toLocaleString('es-CO')} COP` : '-';
+                let priceUSD = shippingInfoComplete ? `$${(getPricePerUnit(individualUnits, 'product').USD * individualUnits).toFixed(2)} USD` : '-';
+                const priceHtml = hidePrices ? '' : `<div class="order-item-price">${priceCOP}<br><span style='font-size:0.95em;color:#ffd700;'>${priceUSD}</span></div>`;
                 itemsHtml += `
                     <div class="order-item">
                         <img src="${img}" alt="Cremas FRESCHE">
@@ -660,11 +661,13 @@
             packItems.forEach(item => {
                 const packType = item.packType || (item.products && item.products.length === 2 ? 'duo' : item.products && item.products.length === 3 ? 'trio' : item.products && item.products.length === 5 ? 'elella' : null);
                 let prices = getPricePerUnit(1, 'pack', packType);
-                let itemTotal = prices[currentCurrency] * item.quantity;
+                let itemTotalCOP = prices.COP * item.quantity;
+                let itemTotalUSD = prices.USD * item.quantity;
                 let itemName = `${item.name} (${item.products.map(p => p.id).join(', ')})`;
                 let itemImage = 'images/cherry.jpg';
-                let formattedPrice = shippingInfoComplete ? (currentCurrency === 'USD' ? `$${itemTotal.toFixed(2)} USD` : `$${Math.round(itemTotal).toLocaleString('es-CO')} COP`) : '-';
-                const priceHtml = hidePrices ? '' : `<div class="order-item-price">${formattedPrice}</div>`;
+                let priceCOP = shippingInfoComplete ? `$${Math.round(itemTotalCOP).toLocaleString('es-CO')} COP` : '-';
+                let priceUSD = shippingInfoComplete ? `$${itemTotalUSD.toFixed(2)} USD` : '-';
+                const priceHtml = hidePrices ? '' : `<div class="order-item-price">${priceCOP}<br><span style='font-size:0.95em;color:#ffd700;'>${priceUSD}</span></div>`;
                 itemsHtml += `
                     <div class="order-item">
                         <img src="${itemImage}" alt="${itemName}">
