@@ -586,20 +586,8 @@
                 return;
             }
 
-            // Detectar idioma actual
-            const language = document.documentElement.lang || 'es';
-            
-            // Establecer país por defecto Colombia
-            document.getElementById('country').value = 'CO';
-            
-            // Si está en inglés, cambiar a USD automáticamente
-            if (language === 'en') {
-                currentCurrency = 'USD';
-            } else {
-                currentCurrency = 'COP';
-            }
-
-            // Mostrar de inmediato las opciones de envío según el país por defecto
+            // ...existing code...
+            // Mostrar resumen y opciones de envío según selección del usuario
             updateShippingCost();
             displayOrderSummary();
         }
@@ -608,15 +596,9 @@
             const orderItemsDiv = document.getElementById('orderItems');
             const language = document.documentElement.lang || 'es';
             
-            // Detectar si está en inglés o si detectamos ubicación internacional
+            // Detectar si está en inglés
             let useUSD = (currentCurrency === 'USD');
             const isEnglish = language === 'en';
-            
-            // Si está en inglés, cambiar a USD automáticamente
-            if (isEnglish && currentCurrency === 'COP') {
-                currentCurrency = 'USD';
-                useUSD = true;
-            }
             
             // Verificar si se ha completado la información de envío
             const country = document.getElementById('country').value;
