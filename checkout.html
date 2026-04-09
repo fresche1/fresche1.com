@@ -1391,7 +1391,7 @@
                 items.push({
                     title: 'Envío',
                     quantity: 1,
-                    unit_price: shippingCost,
+                    unit_price: (country === 'CO' ? 0 : shippingCost),
                     currency_id: currentCurrency
                 });
 
