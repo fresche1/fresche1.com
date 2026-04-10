@@ -960,6 +960,7 @@
         }
 
         function updatePricesDisplay() {
+            const isColombia = userRegion === 'CO';
             // Mostrar siempre ambos precios (COP y USD)
             document.querySelectorAll('.product-price[data-price-cop][data-price-usd]').forEach(el => {
                 const priceCoP = el.getAttribute('data-price-cop');
