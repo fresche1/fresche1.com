@@ -2319,18 +2319,174 @@
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
             
             let html = '<h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;">💳 ' + (lang === 'es' ? 'Métodos de Pago' : 'Payment Methods') + '</h2>';
+            html += '<form id="formDatosPagoOnline" style="display: flex; flex-direction: column; gap: 1.2rem; width: 100%; margin-bottom: 1.5rem;">';
+            html += '<input type="text" name="nombre" placeholder="' + (lang === 'es' ? 'Tu nombre' : 'Your name') + '" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem; width: 100%; box-sizing: border-box;">';
+            html += '<input type="email" name="email" placeholder="' + (lang === 'es' ? 'Tu correo electrónico' : 'Your email') + '" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem; width: 100%; box-sizing: border-box;">';
+            html += '</form>';
+            
+            html += '<h3 style="color: var(--gold); text-align: center; margin: 1.5rem 0;">Elige tu método de pago</h3>';
             html += '<div style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;"><form id="formPagoOnline" style="display: flex; flex-direction: column; gap: 1.5rem;">';
             
             html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="nequi" required style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Nequi</b><br><span style="color: #00b894; font-size: 0.95rem;">+57 301 760 6723</span><br><span style="font-size: 0.85rem; color: #999;">(Alejandra Vela Moreno)</span></div></label>';
             
-            html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="mercadopago" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Pago</b><br><a href="https://www.mercadopago.com.co/" target="_blank" style="color: #00b894; text-decoration: none; font-size: 0.95rem;">Ir a Mercado Pago →</a><br><span style="font-size: 0.85rem; color: #999;">Plataforma segura de pagos</span></div></label>';
+            html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="mercadopago" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Pago</b><br><span style="color: #00b894; font-size: 0.95rem;">' + (lang === 'es' ? 'Pago seguro con Mercado Pago' : 'Secure payment with Mercado Pago') + '</span><br><span style="font-size: 0.85rem; color: #999;">' + (lang === 'es' ? 'Recibirás confirmación por email' : 'You will receive email confirmation') + '</span></div></label>';
             
-            html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="mercadolibre" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Libre</b><br><a href="https://www.mercadolibre.com.co/" target="_blank" style="color: #00b894; text-decoration: none; font-size: 0.95rem;">Ir a Mercado Libre →</a><br><span style="font-size: 0.85rem; color: #999;">Compra y venta confiable</span></div></label>';
+            html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="mercadolibre" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Libre</b><br><a href="https://www.mercadolibre.com.co/search?q=fresche" target="_blank" style="color: #00b894; text-decoration: none; font-size: 0.95rem;">Ver en Mercado Libre →</a><br><span style="font-size: 0.85rem; color: #999;">Compra y venta confiable</span></div></label>';
             
             html += '</form></div>';
-            html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;"><button onclick="openCart()" style="padding: 1rem; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 10px; font-size: 1rem; cursor: pointer;">← ' + (lang === 'es' ? 'Atrás' : 'Back') + '</button><button onclick="procederPagoOnline()" style="padding: 1rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: var(--black); border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer;">' + (lang === 'es' ? 'Continuar' : 'Continue') + ' →</button></div>';
+            html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;"><button onclick="openCart()" style="padding: 1rem; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 10px; font-size: 1rem; cursor: pointer;">← ' + (lang === 'es' ? 'Atrás' : 'Back') + '</button><button onclick="procederPagoOnlineConDatos()" style="padding: 1rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: var(--black); border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer;">' + (lang === 'es' ? 'Continuar' : 'Continue') + ' →</button></div>';
             
             modalBody.innerHTML = html;
+        }
+
+        function procederPagoOnlineConDatos() {
+            const formDatos = document.getElementById('formDatosPagoOnline');
+            const nombre = formDatos.querySelector('input[name="nombre"]').value.trim();
+            const email = formDatos.querySelector('input[name="email"]').value.trim();
+            
+            if (!nombre || !email) {
+                const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                alert(lang === 'es' ? 'Por favor completa tu nombre y correo' : 'Please complete your name and email');
+                return;
+            }
+            
+            const radioButtons = document.getElementsByName('metodoPago');
+            let selectedMethod = '';
+            for (let radio of radioButtons) {
+                if (radio.checked) {
+                    selectedMethod = radio.value;
+                    break;
+                }
+            }
+            
+            if (!selectedMethod) {
+                const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                alert(lang === 'es' ? 'Por favor selecciona un método de pago' : 'Please select a payment method');
+                return;
+            }
+            
+            // Guardar datos en localStorage para referencia
+            localStorage.setItem('lastCustomer', JSON.stringify({ nombre, email, metodo: selectedMethod }));
+            
+            // Redirigir según el método de pago
+            if (selectedMethod === 'nequi') {
+                procederPagoOnline();
+            } else if (selectedMethod === 'mercadopago') {
+                // Enviar email y redirigir a Mercado Pago
+                enviarConfirmacionMercadoPago(nombre, email);
+            } else if (selectedMethod === 'mercadolibre') {
+                window.open('https://www.mercadolibre.com.co/search?q=fresche', '_blank');
+                closeCart();
+            }
+        }
+        
+        function enviarConfirmacionMercadoPago(nombre, email) {
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            
+            // Preparar resumen del pedido con cálculo de total
+            let resumenProductos = '';
+            let totalItems = 0;
+            let totalPrice = 0;
+            
+            cart.forEach((item, index) => {
+                totalItems += item.quantity;
+                const itemTotal = item.price * item.quantity;
+                totalPrice += itemTotal;
+                resumenProductos += `<li><strong>${item.name}</strong> x${item.quantity} = $${itemTotal.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</li>`;
+            });
+            
+            const totalDisplay = isColombia 
+                ? `$${totalPrice.toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP`
+                : `$${(totalPrice / exchangeRates.USD).toFixed(2)} USD`;
+            
+            const mensaje = lang === 'es' 
+                ? `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f9f9f9;">
+                   <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #d4af37;">
+                   <h2 style="color: #d4af37; margin-top: 0;">🛍️ ¡Hola ${nombre}!</h2>
+                   <p>Gracias por tu pedido en <strong>FRESCHE</strong>. Estamos procesando tu compra.</p>
+                   
+                   <h3 style="color: #d4af37;">📦 Resumen de tu compra:</h3>
+                   <ul style="color: #333;">${resumenProductos}</ul>
+                   
+                   <p><strong>Total de productos:</strong> ${totalItems}</p>
+                   <p style="color: #d4af37; font-size: 1.2em;"><strong>TOTAL: ${totalDisplay}</strong></p>
+                   
+                   <hr style="border: 1px solid #d4af37; margin: 20px 0;">
+                   
+                   <p><strong>💳 Próximo paso:</strong></p>
+                   <p>Procederás ahora a Mercado Pago para completar el pago de forma segura. Aceptamos todas las tarjetas de crédito, débito y transferencias bancarias.</p>
+                   
+                   <p><strong>📧 Importante:</strong></p>
+                   <p>Una vez completado el pago, recibirás otra confirmación en este correo y nos contactaremos contigo para confirmar los detalles de entrega.</p>
+                   
+                   <hr style="border: 1px solid #d4af37; margin: 20px 0;">
+                   <p style="color: #666; font-size: 0.9em; text-align: center;">
+                   ¡Gracias por confiar en FRESCHE! 🇨🇴<br>
+                   Si tienes dudas, contáctanos por WhatsApp: +57 301 760 6723
+                   </p>
+                   </div>
+                   </div>`
+                : `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f9f9f9;">
+                   <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #d4af37;">
+                   <h2 style="color: #d4af37; margin-top: 0;">🛍️ Hello ${nombre}!</h2>
+                   <p>Thank you for your order at <strong>FRESCHE</strong>. We are processing your purchase.</p>
+                   
+                   <h3 style="color: #d4af37;">📦 Order summary:</h3>
+                   <ul style="color: #333;">${resumenProductos}</ul>
+                   
+                   <p><strong>Total items:</strong> ${totalItems}</p>
+                   <p style="color: #d4af37; font-size: 1.2em;"><strong>TOTAL: ${totalDisplay}</strong></p>
+                   
+                   <hr style="border: 1px solid #d4af37; margin: 20px 0;">
+                   
+                   <p><strong>💳 Next step:</strong></p>
+                   <p>You will now proceed to Mercado Pago to complete the secure payment. We accept all credit cards, debit cards and bank transfers.</p>
+                   
+                   <p><strong>📧 Important:</strong></p>
+                   <p>Once payment is complete, you will receive another confirmation in this email and we will contact you to confirm delivery details.</p>
+                   
+                   <hr style="border: 1px solid #d4af37; margin: 20px 0;">
+                   <p style="color: #666; font-size: 0.9em; text-align: center;">
+                   Thank you for trusting FRESCHE! 🇨🇴<br>
+                   If you have questions, contact us on WhatsApp: +57 301 760 6723
+                   </p>
+                   </div>
+                   </div>`;
+            
+            // Llamar a API del servidor para enviar email via Resend
+            fetch('/api/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    to: email,
+                    subject: lang === 'es' ? '🛍️ Confirmación de compra - FRESCHE' : '🛍️ Order confirmation - FRESCHE',
+                    html: mensaje
+                })
+            }).then(res => {
+                if (!res.ok) {
+                    console.warn('⚠️ Email no enviado (código ' + res.status + ')');
+                } else {
+                    console.log('✅ Email enviado exitosamente');
+                }
+            }).catch(err => {
+                console.warn('⚠️ Error al enviar email (continuando):', err.message);
+            }).finally(() => {
+                // Redirigir a Mercado Pago sin importar si el email se envió
+                // ⚠️ IMPORTANTE: Reemplaza este URL con tu link personalizado de Mercado Pago
+                // Ejemplo: https://www.mercadopago.com.co/checkout/V2/Redirect/preference/YOUR_PREFERENCE_ID
+                const MERCADOPAGO_PAYMENT_LINK = 'https://www.mercadopago.com.co/';
+                
+                if (MERCADOPAGO_PAYMENT_LINK === 'https://www.mercadopago.com.co/') {
+                    const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                    alert(lang === 'es' 
+                        ? '⚠️ URL de Mercado Pago no configurado. Por favor contáctanos por WhatsApp: +57 301 760 6723'
+                        : '⚠️ Mercado Pago payment link not configured. Please contact us on WhatsApp: +57 301 760 6723');
+                } else {
+                    window.open(MERCADOPAGO_PAYMENT_LINK, '_blank');
+                }
+                
+                closeCart();
+            });
         }
 
         function procederRecogida() {
@@ -2420,8 +2576,8 @@
                 closeCart();
                 
             } else if (selectedMethod === 'mercadopago') {
-                // Mercado Pago → Redirigir a plataforma
-                window.open('https://www.mercadopago.com.co/', '_blank');
+                // Mercado Pago es manejado por procederPagoOnlineConDatos
+                // Esta rama no debería ejecutarse porque MP se debe seleccionar en mostrarOpcionesPago
                 closeCart();
                 
             } else if (selectedMethod === 'mercadolibre') {

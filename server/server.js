@@ -90,6 +90,58 @@ app.get('/api/test-email', async (_req, res) => {
   }
 });
 
+// Enviar email simple (para confirmaciones de Mercado Pago)
+app.post('/api/send-email', async (req, res) => {
+  try {
+    const { to, subject, html } = req.body;
+
+    if (!to || !subject || !html) {
+      return res.status(400).json({ 
+        error: 'Faltan parámetros requeridos: to, subject, html' 
+      });
+    }
+
+    if (!process.env.RESEND_API_KEY) {
+      console.warn('⚠️ RESEND_API_KEY no está configurado');
+      return res.status(500).json({ 
+        error: 'Servicio de email no configurado',
+        message: 'RESEND_API_KEY falta en variables de entorno'
+      });
+    }
+
+    console.log(`📧 Enviando email a ${to}...`);
+
+    const result = await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
+      to: to,
+      subject: subject,
+      html: html
+    });
+
+    if (result.error) {
+      console.error('❌ Error de Resend:', result.error);
+      return res.status(500).json({ 
+        error: 'Error al enviar email',
+        details: result.error.message
+      });
+    }
+
+    console.log('✅ Email enviado exitosamente:', result.data.id);
+    res.json({ 
+      success: true, 
+      messageId: result.data.id,
+      to: to,
+      timestamp: new Date().toLocaleString('es-CO')
+    });
+  } catch (error) {
+    console.error('❌ Error al enviar email:', error.message);
+    res.status(500).json({ 
+      error: 'Error al enviar email',
+      message: error.message
+    });
+  }
+});
+
 // Crear preferencia de pago
 app.post('/api/create-preference', async (req, res) => {
   try {
