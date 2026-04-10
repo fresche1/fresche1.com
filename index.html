@@ -2742,8 +2742,13 @@
             
             console.log('📤 Creando preferencia en Mercado Pago...', preferenceData);
             
+            // Determinar URL del backend (localhost en desarrollo, Render en producción)
+            const backendURL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:3001'
+                : 'https://fresche-backend.onrender.com'; // Cambia a tu URL de Render
+            
             // Crear preferencia en el servidor
-            fetch('/api/create-preference', {
+            fetch(`${backendURL}/api/create-preference`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(preferenceData)
