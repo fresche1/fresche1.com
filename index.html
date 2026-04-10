@@ -861,9 +861,18 @@
             EU: { currency: 'EUR', symbol: '€', price: 0 },         // Europe - Price TBD
             DEFAULT: { currency: 'USD', symbol: '$', price: 0 }      // International - Price TBD
         };
+        
+        // Exchange rates for currency conversion (COP to USD)
+        const exchangeRates = {
+            USD: 2100,  // Approximate rate: 2100 COP = 1 USD (based on product pricing: 40,000 COP ≈ 18.99 USD)
+            EUR: 2300,  // Approximate rate for reference
+            GBP: 2600   // Approximate rate for reference
+        };
+        
         // Current user region (will be detected)
         let userRegion = 'DEFAULT';
         let userCurrency = pricing.DEFAULT;
+        let currentCurrency = 'USD';  // Current currency selection
 
         function detectUserRegionCurrency() {
             try {
