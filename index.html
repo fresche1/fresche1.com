@@ -2349,35 +2349,48 @@
             `;
             document.getElementById('datosPagoForm').onsubmit = function(e) {
                 e.preventDefault();
-                // Aquí puedes continuar con el flujo de pago o WhatsApp
-                checkoutViaWhatsApp();
+                // Obtener la opción de pago seleccionada
+                const pagoSeleccionado = document.querySelector('input[name="pagoColombia"]:checked');
+                let pagoTexto = '';
+                if (pagoSeleccionado) {
+                    if (pagoSeleccionado.value === 'nequi') {
+                        pagoTexto = 'Nequi: +57 301 760 6723 (Alejandra Vela Moreno)';
+                    } else if (pagoSeleccionado.value === 'mercadopago') {
+                        pagoTexto = 'Mercado Pago: https://www.mercadopago.com.co/';
+                    } else if (pagoSeleccionado.value === 'mercadolibre') {
+                        pagoTexto = 'Mercado Libre: https://www.mercadolibre.com.co/';
+                    }
+                }
+                checkoutViaWhatsApp(pagoTexto);
             };
         }
         }
         
-        function checkoutViaWhatsApp() {
+        function checkoutViaWhatsApp(pagoTexto) {
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
             const greeting = lang === 'es' 
                 ? '¡Hola! 👋 Me gustaría ordenar lo siguiente:\n\n' 
                 : 'Hello! 👋 I would like to order the following:\n\n';
-            
+    
             let message = lang === 'es' 
                 ? '*🛒 MI PEDIDO FRESCHE*\n' + '═'.repeat(25) + '\n\n' 
                 : '*🛒 MY FRESCHE ORDER*\n' + '═'.repeat(25) + '\n\n';
-            
+    
             let totalItems = 0;
-            
+    
             cart.forEach((item, index) => {
                 totalItems += item.quantity;
                 message += `${index + 1}. *${item.name}*\n`;
                 message += `   ${lang === 'es' ? '📦 Cantidad' : '📦 Quantity'}: ${item.quantity} ${item.quantity > 1 ? (lang === 'es' ? 'unidades' : 'units') : (lang === 'es' ? 'unidad' : 'unit')}\n\n`;
             });
-            
+    
             message += '─'.repeat(25) + '\n';
             message += `📊 *${lang === 'es' ? 'RESUMEN' : 'SUMMARY'}*\n`;
             message += `${lang === 'es' ? 'Total de productos' : 'Total items'}: *${totalItems}* ${totalItems > 1 ? (lang === 'es' ? 'unidades' : 'units') : (lang === 'es' ? 'unidad' : 'unit')}\n\n`;
             message += '─'.repeat(25) + '\n\n';
-            
+            if (pagoTexto) {
+                message += `💳 *Forma de pago elegida:* ${pagoTexto}\n\n`;
+            }
             if (lang === 'es') {
                 message += '📍 *Información de envío:*\n';
                 message += '• Nombre completo:\n';
@@ -2397,7 +2410,6 @@
                 message += '(Write here if you have any preferences)\n\n';
                 message += '✨ Thank you for your order! We will contact you soon. 🇨🇴';
             }
-            
             const whatsappUrl = `https://wa.me/573017606723?text=${encodeURIComponent(greeting + message)}`;
             window.open(whatsappUrl, '_blank');
         }
