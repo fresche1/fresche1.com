@@ -2273,14 +2273,19 @@
 
             cartTotal.innerHTML = `
                 <div style="padding: 1.5rem; background: rgba(0,0,0,0.3); border-radius: 10px; margin-top: 1rem;">
-                    <div style="margin-bottom: 1rem; padding: 1rem; background: rgba(212,175,55,0.1); border-radius: 8px; text-align: center;">
+                    <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(212,175,55,0.1); border-radius: 8px; text-align: center;">
                         <p style="margin: 0; color: var(--gold); font-size: 1.1rem; font-weight: 600;" data-es="🛒 Productos en tu carrito" data-en="🛒 Products in your cart">🛒 Productos en tu carrito</p>
-                        <p style="margin: 0.5rem 0 0 0; color: rgba(255,255,255,0.7); font-size: 0.9rem;" data-es="El precio total se calculará al finalizar la compra" data-en="Total price will be calculated at checkout">El precio total se calculará al finalizar la compra</p>
+                        <p style="margin: 0.5rem 0 0 0; color: rgba(255,255,255,0.7); font-size: 0.9rem;" data-es="Elige cómo deseas completar tu compra" data-en="Choose how to complete your purchase">Elige cómo deseas completar tu compra</p>
                     </div>
 
-                    <button onclick="goToCheckout()" style="width: 100%; padding: 1.2rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: #000; border: none; border-radius: 10px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: all 0.3s;">
-                        💳 ${lang === 'es' ? 'Ir a Pagar' : 'Go to Checkout'}
-                    </button>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <button onclick="mostrarOpcionesRecogida()" style="padding: 1.2rem; background: linear-gradient(135deg, #00b894, #128C7E); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(0,184,148,0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,184,148,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,184,148,0.3)'">
+                            🏪 ${lang === 'es' ? 'Recoger en Tienda' : 'Store Pickup'}
+                        </button>
+                        <button onclick="mostrarOpcionesPago()" style="padding: 1.2rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: var(--black); border: none; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(212,175,55,0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(212,175,55,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(212,175,55,0.3)'">
+                            💳 ${lang === 'es' ? 'Comprar en Línea' : 'Buy Online'}
+                        </button>
+                    </div>
                 </div>
             `;
         }
@@ -2312,37 +2317,57 @@
             }, 100);
         }
         
-        function mostrarSelectTienda() {
-            const lang = document.documentElement.getAttribute('data-lang') || 'es';
-            const cartTotal = document.getElementById('cartTotal');
-            
-            let storeHTML = `
-                <div style="margin-top: 2rem; padding: 2rem; background: rgba(212,175,55,0.1); border-radius: 12px; border: 2px solid var(--gold);">
-                    <h3 style="color: var(--gold); text-align: center; margin-bottom: 1.5rem; margin-top: 0;">Selecciona tu tienda</h3>
-                    <select id="storeSelectModal" style="width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem; margin-bottom: 1rem; box-sizing: border-box;" required>
-                        <option value="" disabled selected>${lang === 'es' ? 'Elige una opción' : 'Choose an option'}</option>
-                        <option value="CO">Colombia 🇨🇴</option>
-                        <option value="US">Estados Unidos 🇺🇸</option>
-                    </select>
-                    <div style="display: flex; gap: 1rem;">
-                        <button onclick="openCart()" style="flex: 1; padding: 1rem; background: rgba(255,255,255,0.1); color: white; border: 2px solid var(--gold); border-radius: 8px; font-size: 1rem; cursor: pointer;">
-                            ${lang === 'es' ? '← Atrás' : '← Back'}
-                        </button>
-                        <button onclick="confirmarTienda()" style="flex: 1; padding: 1rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: var(--black); border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;">
-                            ${lang === 'es' ? 'Continuar →' : 'Continue →'}
-                        </button>
-                    </div>
-                </div>
-            `;
-            cartTotal.innerHTML = storeHTML;
+        function closeCart() {
+            const modal = document.getElementById('cartModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
-        
-        function confirmarTienda() {
-            const storeSelect = document.getElementById('storeSelectModal');
-            const selectedStore = storeSelect ? storeSelect.value : '';
+
+        function mostrarOpcionesRecogida() {
+            const modalBody = document.getElementById('cartModalBody');
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            
+            let html = '<h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;">🏪 ' + (lang === 'es' ? 'Recoger en Tienda' : 'Store Pickup') + '</h2>';
+            html += '<div style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">';
+            html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(0,184,148,0.1); border-radius: 8px; border: 2px solid #00b894; box-sizing: border-box; width: 100%;"><input type="radio" name="storeSelect" value="CO" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: #00b894; font-size: 1.1rem;">🇨🇴 Colombia</b><br><span style="font-size: 0.9rem; color: rgba(255,255,255,0.7);">Recojer en nuestras tiendas colombianas</span></div></label>';
+            html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(58,134,255,0.1); border-radius: 8px; border: 2px solid #3a86ff; box-sizing: border-box; width: 100%;"><input type="radio" name="storeSelect" value="US" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: #3a86ff; font-size: 1.1rem;">🇺🇸 Estados Unidos</b><br><span style="font-size: 0.9rem; color: rgba(255,255,255,0.7);">Recojer en nuestras tiendas en USA</span></div></label>';
+            html += '</div>';
+            html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;"><button onclick="openCart()" style="padding: 1rem; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 10px; font-size: 1rem; cursor: pointer;">← ' + (lang === 'es' ? 'Atrás' : 'Back') + '</button><button onclick="procederRecogida()" style="padding: 1rem; background: linear-gradient(135deg, #00b894, #128C7E); color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer;">' + (lang === 'es' ? 'Continuar' : 'Continue') + ' →</button></div>';
+            
+            modalBody.innerHTML = html;
+        }
+
+        function mostrarOpcionesPago() {
+            const modalBody = document.getElementById('cartModalBody');
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            
+            let html = '<h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;">💳 ' + (lang === 'es' ? 'Métodos de Pago' : 'Payment Methods') + '</h2>';
+            html += '<div style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;"><form id="formPagoOnline" style="display: flex; flex-direction: column; gap: 1.5rem;">';
+            
+            html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="nequi" required style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Nequi</b><br><span style="color: #00b894; font-size: 0.95rem;">+57 301 760 6723</span><br><span style="font-size: 0.85rem; color: #999;">(Alejandra Vela Moreno)</span></div></label>';
+            
+            html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="mercadopago" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Pago</b><br><a href="https://www.mercadopago.com.co/" target="_blank" style="color: #00b894; text-decoration: none; font-size: 0.95rem;">Ir a Mercado Pago →</a><br><span style="font-size: 0.85rem; color: #999;">Plataforma segura de pagos</span></div></label>';
+            
+            html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="mercadolibre" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Libre</b><br><a href="https://www.mercadolibre.com.co/" target="_blank" style="color: #00b894; text-decoration: none; font-size: 0.95rem;">Ir a Mercado Libre →</a><br><span style="font-size: 0.85rem; color: #999;">Compra y venta confiable</span></div></label>';
+            
+            html += '</form></div>';
+            html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;"><button onclick="openCart()" style="padding: 1rem; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 10px; font-size: 1rem; cursor: pointer;">← ' + (lang === 'es' ? 'Atrás' : 'Back') + '</button><button onclick="procederPagoOnline()" style="padding: 1rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: var(--black); border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer;">' + (lang === 'es' ? 'Continuar' : 'Continue') + ' →</button></div>';
+            
+            modalBody.innerHTML = html;
+        }
+
+        function procederRecogida() {
+            const radioButtons = document.getElementsByName('storeSelect');
+            let selectedStore = '';
+            for (let radio of radioButtons) {
+                if (radio.checked) {
+                    selectedStore = radio.value;
+                    break;
+                }
+            }
             
             if (!selectedStore) {
+                const lang = document.documentElement.getAttribute('data-lang') || 'es';
                 alert(lang === 'es' ? 'Por favor selecciona una tienda' : 'Please select a store');
                 return;
             }
@@ -2350,35 +2375,35 @@
             localStorage.setItem('fresche_store', selectedStore);
             mostrarFormularioDatosPago();
         }
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
 
-        function closeCart() {
-            const modal = document.getElementById('cartModal');
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        function checkout() {
-            if (cart.length === 0) {
+        function procederPagoOnline() {
+            const radioButtons = document.getElementsByName('metodoPago');
+            let selectedMethod = '';
+            for (let radio of radioButtons) {
+                if (radio.checked) {
+                    selectedMethod = radio.value;
+                    break;
+                }
+            }
+            
+            if (!selectedMethod) {
                 const lang = document.documentElement.getAttribute('data-lang') || 'es';
-                alert(lang === 'es' ? 'Tu carrito está vacío' : 'Your cart is empty');
+                alert(lang === 'es' ? 'Por favor selecciona un método de pago' : 'Please select a payment method');
                 return;
             }
-            // Require store selection
-            const storeSelect = document.getElementById('storeSelect');
-            const selectedStore = storeSelect ? storeSelect.value : '';
-            if (!selectedStore) {
-                alert('Por favor selecciona la tienda donde deseas recoger tu pedido.');
-                storeSelect.focus();
-                return;
+            
+            let pagoTexto = '';
+            if (selectedMethod === 'nequi') {
+                pagoTexto = 'Nequi: +57 301 760 6723 (Alejandra Vela Moreno)';
+            } else if (selectedMethod === 'mercadopago') {
+                pagoTexto = 'Mercado Pago: https://www.mercadopago.com.co/';
+            } else if (selectedMethod === 'mercadolibre') {
+                pagoTexto = 'Mercado Libre: https://www.mercadolibre.com.co/';
             }
-            // Save store selection for use in checkout/WhatsApp
-            localStorage.setItem('fresche_store', selectedStore);
-            // Mostrar formulario de datos personales y pago
-            mostrarFormularioDatosPago();
+            
+            checkoutViaWhatsApp(pagoTexto);
         }
+
         
         function mostrarFormularioDatosPago() {
             const modalBody = document.getElementById('cartModalBody');
