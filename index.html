@@ -2287,17 +2287,69 @@
 
         function openCart() {
             const modal = document.getElementById('cartModal');
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
             renderCart();
-            const pickupCheckbox = document.getElementById('pickupCartCheckbox');
-            if (pickupCheckbox) {
-                pickupCheckbox.checked = localStorage.getItem('fresche_pickup') === 'true';
-                pickupCheckbox.onchange = () => {
-                    localStorage.setItem('fresche_pickup', pickupCheckbox.checked ? 'true' : 'false');
-                    if (pickupCheckbox.checked) {
-                        goToCheckout();
-                    }
-                };
+            
+            // Add purchase type selection after cart items
+            setTimeout(() => {
+                const cartTotal = document.getElementById('cartTotal');
+                if (cartTotal) {
+                    let purchaseTypeHTML = `
+                        <div style="margin-top: 2rem; padding: 2rem; background: rgba(212,175,55,0.1); border-radius: 12px; border: 2px solid var(--gold);">
+                            <h3 style="color: var(--gold); text-align: center; margin-bottom: 1.5rem; margin-top: 0;">¿Cómo deseas comprar?</h3>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <button onclick="mostrarFormularioDatosPago()" style="padding: 1rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: var(--black); border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                                    💳 ${lang === 'es' ? 'Comprar en Línea (Pago Online)' : 'Buy Online (Online Payment)'}
+                                </button>
+                                <button onclick="mostrarSelectTienda()" style="padding: 1rem; background: linear-gradient(135deg, #25D366, #128C7E); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                                    🏪 ${lang === 'es' ? 'Recoger en Tienda' : 'Pickup in Store'}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    cartTotal.innerHTML = purchaseTypeHTML;
+                }
+            }, 100);
+        }
+        
+        function mostrarSelectTienda() {
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            const cartTotal = document.getElementById('cartTotal');
+            
+            let storeHTML = `
+                <div style="margin-top: 2rem; padding: 2rem; background: rgba(212,175,55,0.1); border-radius: 12px; border: 2px solid var(--gold);">
+                    <h3 style="color: var(--gold); text-align: center; margin-bottom: 1.5rem; margin-top: 0;">Selecciona tu tienda</h3>
+                    <select id="storeSelectModal" style="width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem; margin-bottom: 1rem; box-sizing: border-box;" required>
+                        <option value="" disabled selected>${lang === 'es' ? 'Elige una opción' : 'Choose an option'}</option>
+                        <option value="CO">Colombia 🇨🇴</option>
+                        <option value="US">Estados Unidos 🇺🇸</option>
+                    </select>
+                    <div style="display: flex; gap: 1rem;">
+                        <button onclick="openCart()" style="flex: 1; padding: 1rem; background: rgba(255,255,255,0.1); color: white; border: 2px solid var(--gold); border-radius: 8px; font-size: 1rem; cursor: pointer;">
+                            ${lang === 'es' ? '← Atrás' : '← Back'}
+                        </button>
+                        <button onclick="confirmarTienda()" style="flex: 1; padding: 1rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: var(--black); border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;">
+                            ${lang === 'es' ? 'Continuar →' : 'Continue →'}
+                        </button>
+                    </div>
+                </div>
+            `;
+            cartTotal.innerHTML = storeHTML;
+        }
+        
+        function confirmarTienda() {
+            const storeSelect = document.getElementById('storeSelectModal');
+            const selectedStore = storeSelect ? storeSelect.value : '';
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            
+            if (!selectedStore) {
+                alert(lang === 'es' ? 'Por favor selecciona una tienda' : 'Please select a store');
+                return;
             }
+            
+            localStorage.setItem('fresche_store', selectedStore);
+            mostrarFormularioDatosPago();
+        }
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
