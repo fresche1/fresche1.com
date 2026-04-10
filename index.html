@@ -2426,7 +2426,13 @@
         }
         
         function calcularTotalPago() {
-            const isColombia = userRegion === 'CO';
+            // Detectar la divisa del carrito (si hay items, usar su divisa)
+            let cartCurrency = 'COP'; // Default
+            
+            if (cart.length > 0) {
+                // Usar la divisa del primer item (todos deberían ser iguales)
+                cartCurrency = cart[0].currency || 'COP';
+            }
             
             // Sumar precios reales de los items en el carrito (sin recalcular)
             let subtotal = 0;
@@ -2435,9 +2441,10 @@
                 subtotal += itemPrice * item.quantity;
             });
             
-            let shippingCost = isColombia ? 9000 : 10;
+            // Determinar envío basado en la divisa del carrito, no en userRegion
+            let shippingCost = cartCurrency === 'COP' ? 9000 : 10;
             let total = subtotal + shippingCost;
-            let currency = isColombia ? 'COP' : 'USD';
+            let currency = cartCurrency;
             
             let totalFormatted;
             if (currency === 'COP') {
