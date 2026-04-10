@@ -1873,6 +1873,28 @@
             const product = products[productId];
             const existingItem = cart.find(item => item.id === productId);
             
+            // Obtener el precio correcto basado en la región del usuario
+            const isColombia = userRegion === 'CO';
+            let itemPrice = isColombia ? 29900 : 18.99;
+            let itemCurrency = isColombia ? 'COP' : 'USD';
+            
+            // Obtener precio del elemento HTML del producto si está disponible
+            const productCardElement = document.querySelector(`[onclick="openProductModal('${productId}')"]`);
+            if (productCardElement) {
+                const priceElement = productCardElement.querySelector('.product-price');
+                if (priceElement) {
+                    const priceCOP = priceElement.getAttribute('data-price-cop');
+                    const priceUSD = priceElement.getAttribute('data-price-usd');
+                    if (isColombia && priceCOP) {
+                        itemPrice = Number(priceCOP);
+                        itemCurrency = 'COP';
+                    } else if (!isColombia && priceUSD) {
+                        itemPrice = Number(priceUSD);
+                        itemCurrency = 'USD';
+                    }
+                }
+            }
+            
             if (existingItem) {
                 existingItem.quantity += quantity;
             } else {
@@ -1880,8 +1902,8 @@
                     id: productId,
                     name: product.name,
                     image: product.image,
-                    price: userCurrency.price,
-                    currency: userCurrency.currency,
+                    price: itemPrice,
+                    currency: itemCurrency,
                     quantity: quantity
                 });
             }
@@ -2098,6 +2120,28 @@
             const product = products[productId];
             const existingItem = cart.find(item => item.id === productId);
             
+            // Obtener el precio correcto basado en en la región del usuario
+            const isColombia = userRegion === 'CO';
+            let itemPrice = isColombia ? 29900 : 18.99;
+            let itemCurrency = isColombia ? 'COP' : 'USD';
+            
+            // Obtener precio del elemento HTML del producto si está disponible
+            const productCardElement = document.querySelector(`[onclick="openProductModal('${productId}')"]`);
+            if (productCardElement) {
+                const priceElement = productCardElement.querySelector('.product-price');
+                if (priceElement) {
+                    const priceCOP = priceElement.getAttribute('data-price-cop');
+                    const priceUSD = priceElement.getAttribute('data-price-usd');
+                    if (isColombia && priceCOP) {
+                        itemPrice = Number(priceCOP);
+                        itemCurrency = 'COP';
+                    } else if (!isColombia && priceUSD) {
+                        itemPrice = Number(priceUSD);
+                        itemCurrency = 'USD';
+                    }
+                }
+            }
+            
             if (existingItem) {
                 existingItem.quantity++;
             } else {
@@ -2105,8 +2149,8 @@
                     id: productId,
                     name: product.name,
                     image: product.image,
-                    price: userCurrency.price,
-                    currency: userCurrency.currency,
+                    price: itemPrice,
+                    currency: itemCurrency,
                     quantity: 1
                 });
             }
@@ -2175,18 +2219,11 @@
                 else if (totalIndividualQty >= 3) unitPrice = 16.99;
             }
 
-            // 4. Render cart items
+            // --- Render cart items using stored prices ---
             cartItems.innerHTML = cart.map(item => {
-                let itemPrice, currency, itemTotal;
-                if (!item.type || item.type === 'product') {
-                    itemPrice = unitPrice;
-                    currency = isColombia ? 'COP' : 'USD';
-                    itemTotal = itemPrice * item.quantity;
-                } else {
-                    itemPrice = item.price || (isColombia ? 29900 : 18.99);
-                    currency = item.currency || (isColombia ? 'COP' : 'USD');
-                    itemTotal = itemPrice * item.quantity;
-                }
+                const itemPrice = item.price || 0;
+                const currency = item.currency || (isColombia ? 'COP' : 'USD');
+                const itemTotal = itemPrice * item.quantity;
 
                 // Format price based on currency
                 let priceFormatted, totalFormatted;
@@ -2389,28 +2426,13 @@
         }
         
         function calcularTotalPago() {
-            const lang = document.documentElement.getAttribute('data-lang') || 'es';
             const isColombia = userRegion === 'CO';
             
-            // Calcular subtotal con precios escalonados
-            const packs = cart.filter(item => item.type === 'pack');
-            const individuals = cart.filter(item => !item.type || item.type === 'product');
-            
-            let totalIndividualQty = 0;
-            individuals.forEach(item => { totalIndividualQty += item.quantity; });
-            
-            let unitPrice = isColombia ? 29900 : 18.99;
-            if (isColombia) {
-                if (totalIndividualQty >= 5) unitPrice = 25999;
-                else if (totalIndividualQty >= 3) unitPrice = 26999;
-            } else {
-                if (totalIndividualQty >= 5) unitPrice = 15.99;
-                else if (totalIndividualQty >= 3) unitPrice = 16.99;
-            }
-            
-            let subtotal = unitPrice * totalIndividualQty;
-            packs.forEach(item => {
-                subtotal += (item.price || (isColombia ? 29900 : 18.99)) * item.quantity;
+            // Sumar precios reales de los items en el carrito (sin recalcular)
+            let subtotal = 0;
+            cart.forEach(item => {
+                const itemPrice = item.price || 0;
+                subtotal += itemPrice * item.quantity;
             });
             
             let shippingCost = isColombia ? 9000 : 10;
