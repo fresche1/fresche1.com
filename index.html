@@ -2318,50 +2318,39 @@
             mostrarFormularioDatosPago();
         // Mostrar formulario de datos personales y pago
         function mostrarFormularioDatosPago() {
-            // Puedes personalizar este modal o sección según tu diseño
             const modalBody = document.getElementById('cartModalBody');
             if (!modalBody) return;
-            modalBody.innerHTML = `
-                <h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;">Datos para tu pedido</h2>
-                <form id="datosPagoForm" style="display: flex; flex-direction: column; gap: 1.2rem;">
-                    <input type="text" name="nombre" placeholder="Nombre completo" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
-                    <input type="tel" name="telefono" placeholder="Teléfono" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
-                    <input type="email" name="email" placeholder="Correo electrónico" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
-                    <div id="formasPagoColombia" style="margin-top:2rem; max-height: none; overflow: visible;">
-                        <h3 style="color: var(--gold); text-align:center; margin-bottom:1.5rem;">Formas de pago en Colombia</h3>
-                        <div style="display:flex; flex-direction:column; gap:1.5rem; width:100%; overflow: visible;">
-                            <label style="display:flex; align-items:flex-start; gap:1rem; cursor:pointer; padding:1rem; background:rgba(212,175,55,0.1); border-radius:8px; border:1px solid var(--gold);">
-                                <input type="radio" name="pagoColombia" value="nequi" required style="margin-top:0.2rem; flex-shrink:0;">
-                                <div style="flex:1;">
-                                    <b style="color:var(--gold);">Nequi</b><br>
-                                    <span style="color:#00b894; font-size:0.95rem;">+57 301 760 6723</span><br>
-                                    <span style="font-size:0.85rem; color:#999;">(Alejandra Vela Moreno)</span>
-                                </div>
-                            </label>
-                            <label style="display:flex; align-items:flex-start; gap:1rem; cursor:pointer; padding:1rem; background:rgba(212,175,55,0.1); border-radius:8px; border:1px solid var(--gold);">
-                                <input type="radio" name="pagoColombia" value="mercadopago" style="margin-top:0.2rem; flex-shrink:0;">
-                                <div style="flex:1;">
-                                    <b style="color:var(--gold);">Mercado Pago</b><br>
-                                    <a href="https://www.mercadopago.com.co/" target="_blank" style="color:#00b894; text-decoration:none; font-size:0.95rem;">Ir a Mercado Pago →</a><br>
-                                    <span style="font-size:0.85rem; color:#999;">Plataforma segura de pagos</span>
-                                </div>
-                            </label>
-                            <label style="display:flex; align-items:flex-start; gap:1rem; cursor:pointer; padding:1rem; background:rgba(212,175,55,0.1); border-radius:8px; border:1px solid var(--gold);">
-                                <input type="radio" name="pagoColombia" value="mercadolibre" style="margin-top:0.2rem; flex-shrink:0;">
-                                <div style="flex:1;">
-                                    <b style="color:var(--gold);">Mercado Libre</b><br>
-                                    <a href="https://www.mercadolibre.com.co/" target="_blank" style="color:#00b894; text-decoration:none; font-size:0.95rem;">Ir a Mercado Libre →</a><br>
-                                    <span style="font-size:0.85rem; color:#999;">Compra y venta confiable</span>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                    <button type="submit" style="margin-top:2rem; padding: 1rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 600; cursor: pointer;">Finalizar pedido</button>
-                </form>
-            `;
+            
+            let html = '<h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;">Datos para tu pedido</h2>';
+            html += '<form id="datosPagoForm" style="display: flex; flex-direction: column; gap: 1.2rem;">';
+            html += '<input type="text" name="nombre" placeholder="Nombre completo" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">';
+            html += '<input type="tel" name="telefono" placeholder="Teléfono" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">';
+            html += '<input type="email" name="email" placeholder="Correo electrónico" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">';
+            html += '<div style="margin-top:2rem;"><h3 style="color: var(--gold); text-align:center; margin-bottom:1.5rem;">Formas de pago en Colombia</h3>';
+            html += '<div style="display:flex; flex-direction:column; gap:1.5rem; width:100%;">';
+            
+            html += '<label style="display:flex; align-items:flex-start; gap:1rem; cursor:pointer; padding:1rem; background:rgba(212,175,55,0.1); border-radius:8px; border:1px solid var(--gold);">';
+            html += '<input type="radio" name="pagoColombia" value="nequi" required style="margin-top:0.2rem; flex-shrink:0;">';
+            html += '<div style="flex:1;"><b style="color:var(--gold);">Nequi</b><br><span style="color:#00b894; font-size:0.95rem;">+57 301 760 6723</span><br><span style="font-size:0.85rem; color:#999;">(Alejandra Vela Moreno)</span></div>';
+            html += '</label>';
+            
+            html += '<label style="display:flex; align-items:flex-start; gap:1rem; cursor:pointer; padding:1rem; background:rgba(212,175,55,0.1); border-radius:8px; border:1px solid var(--gold);">';
+            html += '<input type="radio" name="pagoColombia" value="mercadopago" style="margin-top:0.2rem; flex-shrink:0;">';
+            html += '<div style="flex:1;"><b style="color:var(--gold);">Mercado Pago</b><br><a href="https://www.mercadopago.com.co/" target="_blank" style="color:#00b894; text-decoration:none; font-size:0.95rem;">Ir a Mercado Pago →</a><br><span style="font-size:0.85rem; color:#999;">Plataforma segura de pagos</span></div>';
+            html += '</label>';
+            
+            html += '<label style="display:flex; align-items:flex-start; gap:1rem; cursor:pointer; padding:1rem; background:rgba(212,175,55,0.1); border-radius:8px; border:1px solid var(--gold);">';
+            html += '<input type="radio" name="pagoColombia" value="mercadolibre" style="margin-top:0.2rem; flex-shrink:0;">';
+            html += '<div style="flex:1;"><b style="color:var(--gold);">Mercado Libre</b><br><a href="https://www.mercadolibre.com.co/" target="_blank" style="color:#00b894; text-decoration:none; font-size:0.95rem;">Ir a Mercado Libre →</a><br><span style="font-size:0.85rem; color:#999;">Compra y venta confiable</span></div>';
+            html += '</label>';
+            
+            html += '</div></div>';
+            html += '<button type="submit" style="margin-top:2rem; padding: 1rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 600; cursor: pointer;">Finalizar pedido</button>';
+            html += '</form>';
+            
+            modalBody.innerHTML = html;
             document.getElementById('datosPagoForm').onsubmit = function(e) {
                 e.preventDefault();
-                // Obtener la opción de pago seleccionada
                 const pagoSeleccionado = document.querySelector('input[name="pagoColombia"]:checked');
                 let pagoTexto = '';
                 if (pagoSeleccionado) {
@@ -2375,7 +2364,6 @@
                 }
                 checkoutViaWhatsApp(pagoTexto);
             };
-        }
         }
         
         function checkoutViaWhatsApp(pagoTexto) {
