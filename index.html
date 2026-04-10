@@ -132,10 +132,10 @@
                 </div>
                 <div class="product-info-bottom">
                     <span class="product-size">1oz</span>
-                    <span class="product-price" data-price-cop="40000" data-price-usd="18.99">
-                        <span data-es="$40.000 COP" data-en="$40.000 COP">$40.000 COP</span>
-                        <br><span style="color:#ffd700; font-size:0.98em;">$18.99 USD</span>
-                    </span>
+                        <span class="product-price" data-price-cop="40000" data-price-usd="18.99">
+                            <span data-es="$40.000 COP" data-en="$40.000 COP">$40.000 COP</span>
+                            <br><span style="color:#ffd700; font-size:0.98em;">$18.99 USD</span>
+                        </span>
                 </div>
             </div>
 
@@ -2327,16 +2327,25 @@
                     <input type="text" name="nombre" placeholder="Nombre completo" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
                     <input type="tel" name="telefono" placeholder="Teléfono" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
                     <input type="email" name="email" placeholder="Correo electrónico" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
-                    <button type="submit" style="padding: 1rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 600; cursor: pointer;">Continuar</button>
+                    <div id="formasPagoColombia" style="margin-top:2rem;">
+                        <h3 style="color: var(--gold); text-align:center;">Formas de pago en Colombia</h3>
+                        <div style="display:flex; flex-direction:column; gap:1rem; align-items:center;">
+                            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                                <input type="radio" name="pagoColombia" value="nequi" required>
+                                <b>Nequi:</b> <span style="color:#00b894;">+57 301 760 6723</span> (Alejandra Vela Moreno)
+                            </label>
+                            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                                <input type="radio" name="pagoColombia" value="mercadopago">
+                                <b>Mercado Pago:</b> <a href="https://www.mercadopago.com.co/" target="_blank">Pagar con Mercado Pago</a>
+                            </label>
+                            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                                <input type="radio" name="pagoColombia" value="mercadolibre">
+                                <b>Mercado Libre:</b> <a href="https://www.mercadolibre.com.co/" target="_blank">Pagar con Mercado Libre</a>
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" style="margin-top:2rem; padding: 1rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 600; cursor: pointer;">Finalizar pedido</button>
                 </form>
-                <div id="formasPagoColombia" style="margin-top:2rem;">
-                    <h3 style="color: var(--gold); text-align:center;">Formas de pago en Colombia</h3>
-                    <ul style="list-style:none; padding:0;">
-                        <li style="margin-bottom:1rem;"><b>Nequi:</b> <span style="color:#00b894;">+57 301 760 6723</span> (Alejandra Vela Moreno)</li>
-                        <li style="margin-bottom:1rem;"><b>Mercado Pago:</b> <a href="https://www.mercadopago.com.co/" target="_blank">Pagar con Mercado Pago</a></li>
-                        <li><b>Mercado Libre:</b> <a href="https://www.mercadolibre.com.co/" target="_blank">Pagar con Mercado Libre</a></li>
-                    </ul>
-                </div>
             `;
             document.getElementById('datosPagoForm').onsubmit = function(e) {
                 e.preventDefault();
