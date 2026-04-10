@@ -2135,6 +2135,12 @@
             const cartTotal = document.getElementById('cartTotal');
             const isColombia = userRegion === 'CO';
 
+            // Validar que los elementos existan
+            if (!cartItems || !cartTotal) {
+                console.warn('⚠️ Elementos del carrito no encontrados en el DOM');
+                return;
+            }
+
             if (cart.length === 0) {
                 cartItems.innerHTML = `<p style="text-align: center; color: var(--gray); padding: 3rem;">${lang === 'es' ? 'Tu carrito está vacío' : 'Your cart is empty'}</p>`;
                 cartTotal.innerHTML = '';
@@ -2316,6 +2322,10 @@
 
         function mostrarOpcionesPago() {
             const modalBody = document.getElementById('cartModalBody');
+            if (!modalBody) {
+                console.error('❌ Error: cartModalBody no encontrado en el DOM');
+                return;
+            }
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
             
             let html = '<h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;">💳 ' + (lang === 'es' ? 'Métodos de Pago' : 'Payment Methods') + '</h2>';
@@ -2422,11 +2432,11 @@
                 resumenProductos += `<li><strong>${item.name}</strong> x${item.quantity} = $${itemTotal.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</li>`;
             });
             
-            // Detectar moneda actual
-            const isUSD = currentCurrency === 'USD';
-            const totalDisplay = isUSD 
-                ? `$${(totalPrice / exchangeRates.USD).toFixed(2)} USD`
-                : `$${totalPrice.toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP`;
+            // Detectar región y moneda correcta
+            const isColombia = userRegion === 'CO';
+            const totalDisplay = isColombia 
+                ? `$${totalPrice.toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP`
+                : `$${(totalPrice / exchangeRates.USD).toFixed(2)} USD`;
             
             const mensaje = lang === 'es' 
                 ? `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f9f9f9;">
