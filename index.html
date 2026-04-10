@@ -800,25 +800,45 @@
                 <h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;" data-es="🛒 Carrito de Compras" data-en="🛒 Shopping Cart">🛒 Carrito de Compras</h2>
                 <div id="cartItems"></div>
                 <div id="cartTotal" style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--gold);"></div>
-                            <!-- Opción de Pickup/Recoger -->
-                            <div id="pickupOption" style="margin-top: 1.5rem; padding: 1.2rem; background: rgba(0,184,148,0.10); border-radius: 12px; border: 2px solid #00b894; text-align: center; color: #00b894; font-size: 1.1rem; font-weight: 600; box-shadow: 0 2px 16px 0 rgba(0,184,148,0.08);">
-                                <label style="cursor:pointer;">
-                                    <input type="checkbox" id="pickupCartCheckbox" style="width:1.2em; height:1.2em; margin-right:0.7em; vertical-align:middle;">
-                                    <span data-es="Recoger en tienda (sin cobro extra de envío, solo pagas el valor del paquete o crema)" data-en="Pickup (no extra charge, only pay for the product)">Recoger en tienda (sin cobro extra de envío, solo pagas el valor del paquete o crema)</span>
-                                </label>
-                            </div>
-                <button id="checkoutBtn" class="btn-checkout" onclick="checkout()" style="display: none; width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 600; cursor: pointer; margin-top: 1.5rem; transition: all 0.3s;">
-                    <span data-es="💳 Pagar con PayU" data-en="💳 Pay with PayU">💳 Pagar con PayU</span>
+                <!-- Solo opción de Recoger en tienda y selección de tienda -->
+                <div id="pickupOnlyOption" style="margin-top: 1.5rem; padding: 1.2rem; background: rgba(0,184,148,0.10); border-radius: 12px; border: 2px solid #00b894; text-align: center; color: #00b894; font-size: 1.1rem; font-weight: 600; box-shadow: 0 2px 16px 0 rgba(0,184,148,0.08);">
+                    <span data-es="Recoger en tienda (sin cobro extra de envío, solo pagas el valor del producto o paquete)" data-en="Pickup in store (no extra charge, only pay for the product)">Recoger en tienda (sin cobro extra de envío, solo pagas el valor del producto o paquete)</span>
+                </div>
+                <div id="storeSelectContainer" style="margin-top: 1.5rem; text-align: center;">
+                    <label for="storeSelect" style="color: var(--gold); font-weight: 600; font-size: 1.1rem;">Selecciona tienda para recoger:</label>
+                    <select id="storeSelect" style="margin-left: 1rem; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;" required>
+                        <option value="" disabled selected>Elige una opción</option>
+                        <option value="CO">Colombia 🇨🇴</option>
+                        <option value="US">Estados Unidos 🇺🇸</option>
+                    </select>
+                    <div id="storeSelectFeedback" style="color: #d9534f; display: none; font-size: 0.9em;">Por favor selecciona una tienda.</div>
+                </div>
+                <button id="checkoutBtn" class="btn-checkout" onclick="checkout()" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 600; cursor: pointer; margin-top: 1.5rem; transition: all 0.3s;">
+                    <span data-es="💳 Continuar con Recogida" data-en="💳 Continue with Pickup">💳 Continuar con Recogida</span>
                 </button>
-                <button id="whatsappBtn" class="btn-whatsapp" onclick="checkoutViaWhatsApp()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white" style="flex-shrink: 0;">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                    </svg>
-                    <span data-es="📲 Ordenar por WhatsApp" data-en="📲 Order via WhatsApp">📲 Ordenar por WhatsApp</span>
                 </button>
             </div>
         </div>
     </div>
+    <script>
+    // Enable/disable checkout button based on store selection
+    document.addEventListener('DOMContentLoaded', function() {
+        const storeSelect = document.getElementById('storeSelect');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const feedback = document.getElementById('storeSelectFeedback');
+        if (storeSelect && checkoutBtn) {
+            checkoutBtn.disabled = true;
+            storeSelect.addEventListener('change', function() {
+                if (storeSelect.value) {
+                    checkoutBtn.disabled = false;
+                    if (feedback) feedback.style.display = 'none';
+                } else {
+                    checkoutBtn.disabled = true;
+                }
+            });
+        }
+    });
+    </script>
 
     <script>
         // Product information database
@@ -2284,50 +2304,18 @@
                 alert(lang === 'es' ? 'Tu carrito está vacío' : 'Your cart is empty');
                 return;
             }
-            
-            const lang = document.documentElement.getAttribute('data-lang') || 'es';
-            const currency = cart[0]?.currency || userCurrency.currency;
-            
-            // Show loading message
-            const checkoutBtn = document.getElementById('checkoutBtn');
-            checkoutBtn.disabled = true;
-            checkoutBtn.innerHTML = lang === 'es' ? '⏳ Procesando...' : '⏳ Processing...';
-            
-            // Calculate totals
-            const total = cart.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0);
-            const referenceCode = 'FRESCHE_' + Date.now();
-            
-            // PayU requires server-side integration for security
-            // Prepare order data
-            const orderData = {
-                merchantId: 'YOUR_MERCHANT_ID', // TODO: Replace with actual PayU merchant ID
-                accountId: 'YOUR_ACCOUNT_ID',   // TODO: Replace with actual PayU account ID
-                description: cart.map(item => `${item.name} x${item.quantity}`).join(', '),
-                referenceCode: referenceCode,
-                amount: total,
-                tax: 0,
-                taxReturnBase: 0,
-                currency: currency,
-                buyerEmail: 'customer@example.com', // Will be collected in production
-                responseUrl: window.location.origin + '/payment-response.html',
-                confirmationUrl: window.location.origin + '/payment-confirmation',
-                items: cart
-            };
-            
-            // In production, send this to your server to generate PayU signature
-            setTimeout(() => {
-                checkoutBtn.disabled = false;
-                checkoutBtn.innerHTML = lang === 'es' ? '💳 Pagar con PayU' : '💳 Pay with PayU';
-                
-                alert(
-                    lang === 'es' 
-                    ? '🔧 Para completar el pago con PayU, necesitas:\n\n1. Crear cuenta en payu.com/co\n2. Obtener Merchant ID y API Key\n3. Configurar un servidor backend para firmar pagos\n4. Costos: 3.49% + $900 COP\n\n✅ PayU soporta:\n• Tarjetas internacionales (COP/USD)\n• PSE, Efecty, Baloto\n• Precios dinámicos por país\n\nPor ahora, usa WhatsApp para pedidos.' 
-                    : '🔧 To complete PayU payment, you need:\n\n1. Create account at payu.com/co\n2. Get Merchant ID and API Key\n3. Set up backend server to sign payments\n4. Costs: 3.49% + $900 COP\n\n✅ PayU supports:\n• International cards (COP/USD)\n• PSE, Efecty, Baloto\n• Dynamic pricing per country\n\nFor now, use WhatsApp for orders.'
-                );
-                
-                // Fallback to WhatsApp
-                checkoutViaWhatsApp();
-            }, 1000);
+            // Require store selection
+            const storeSelect = document.getElementById('storeSelect');
+            const selectedStore = storeSelect ? storeSelect.value : '';
+            if (!selectedStore) {
+                alert('Por favor selecciona la tienda donde deseas recoger tu pedido.');
+                storeSelect.focus();
+                return;
+            }
+            // Save store selection for use in checkout/WhatsApp
+            localStorage.setItem('fresche_store', selectedStore);
+            // Continue to WhatsApp order (or next step)
+            checkoutViaWhatsApp();
         }
         
         function checkoutViaWhatsApp() {
