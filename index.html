@@ -802,7 +802,7 @@
                 <div id="cartTotal" style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--gold);"></div>
                 <!-- Solo opción de Recoger en tienda y selección de tienda -->
                 <div id="pickupOnlyOption" style="margin-top: 1.5rem; padding: 1.2rem; background: rgba(0,184,148,0.10); border-radius: 12px; border: 2px solid #00b894; text-align: center; color: #00b894; font-size: 1.1rem; font-weight: 600; box-shadow: 0 2px 16px 0 rgba(0,184,148,0.08);">
-                    <span data-es="Recoger en tienda (sin cobro extra de envío, solo pagas el valor del producto o paquete)" data-en="Pickup in store (no extra charge, only pay for the product)">Recoger en tienda (sin cobro extra de envío, solo pagas el valor del producto o paquete)</span>
+                    <span data-es="Recoger en tienda" data-en="Pickup in store">Recoger en tienda</span>
                 </div>
                 <div id="storeSelectContainer" style="margin-top: 1.5rem; text-align: center;">
                     <label for="storeSelect" style="color: var(--gold); font-weight: 600; font-size: 1.1rem;">Selecciona tienda para recoger:</label>
@@ -2314,8 +2314,36 @@
             }
             // Save store selection for use in checkout/WhatsApp
             localStorage.setItem('fresche_store', selectedStore);
-            // Continue to WhatsApp order (or next step)
-            checkoutViaWhatsApp();
+            // Mostrar formulario de datos personales y pago
+            mostrarFormularioDatosPago();
+        // Mostrar formulario de datos personales y pago
+        function mostrarFormularioDatosPago() {
+            // Puedes personalizar este modal o sección según tu diseño
+            const modalBody = document.getElementById('cartModalBody');
+            if (!modalBody) return;
+            modalBody.innerHTML = `
+                <h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;">Datos para tu pedido</h2>
+                <form id="datosPagoForm" style="display: flex; flex-direction: column; gap: 1.2rem;">
+                    <input type="text" name="nombre" placeholder="Nombre completo" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
+                    <input type="tel" name="telefono" placeholder="Teléfono" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
+                    <input type="email" name="email" placeholder="Correo electrónico" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
+                    <button type="submit" style="padding: 1rem; background: linear-gradient(135deg, var(--gold), #ff8c00); color: var(--black); border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 600; cursor: pointer;">Continuar</button>
+                </form>
+                <div id="formasPagoColombia" style="margin-top:2rem;">
+                    <h3 style="color: var(--gold); text-align:center;">Formas de pago en Colombia</h3>
+                    <ul style="list-style:none; padding:0;">
+                        <li style="margin-bottom:1rem;"><b>Nequi:</b> <span style="color:#00b894;">+57 301 760 6723</span> (Alejandra Vela Moreno)</li>
+                        <li style="margin-bottom:1rem;"><b>Mercado Pago:</b> <a href="https://www.mercadopago.com.co/" target="_blank">Pagar con Mercado Pago</a></li>
+                        <li><b>Mercado Libre:</b> <a href="https://www.mercadolibre.com.co/" target="_blank">Pagar con Mercado Libre</a></li>
+                    </ul>
+                </div>
+            `;
+            document.getElementById('datosPagoForm').onsubmit = function(e) {
+                e.preventDefault();
+                // Aquí puedes continuar con el flujo de pago o WhatsApp
+                checkoutViaWhatsApp();
+            };
+        }
         }
         
         function checkoutViaWhatsApp() {
