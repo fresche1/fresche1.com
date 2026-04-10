@@ -2369,16 +2369,66 @@
                 return;
             }
             
-            let pagoTexto = '';
+            // Redirigir según el método de pago seleccionado
             if (selectedMethod === 'nequi') {
-                pagoTexto = 'Nequi: +57 301 760 6723 (Alejandra Vela Moreno)';
+                // Nequi → WhatsApp
+                const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                const greeting = lang === 'es' 
+                    ? '¡Hola! 👋 Me gustaría ordenar lo siguiente:\n\n' 
+                    : 'Hello! 👋 I would like to order the following:\n\n';
+        
+                let message = lang === 'es' 
+                    ? '*🛒 MI PEDIDO FRESCHE*\n' + '═'.repeat(25) + '\n\n' 
+                    : '*🛒 MY FRESCHE ORDER*\n' + '═'.repeat(25) + '\n\n';
+        
+                let totalItems = 0;
+        
+                cart.forEach((item, index) => {
+                    totalItems += item.quantity;
+                    message += `${index + 1}. *${item.name}*\n`;
+                    message += `   ${lang === 'es' ? '📦 Cantidad' : '📦 Quantity'}: ${item.quantity} ${item.quantity > 1 ? (lang === 'es' ? 'unidades' : 'units') : (lang === 'es' ? 'unidad' : 'unit')}\n\n`;
+                });
+        
+                message += '─'.repeat(25) + '\n';
+                message += `📊 *${lang === 'es' ? 'RESUMEN' : 'SUMMARY'}*\n`;
+                message += `${lang === 'es' ? 'Total de productos' : 'Total items'}: *${totalItems}* ${totalItems > 1 ? (lang === 'es' ? 'unidades' : 'units') : (lang === 'es' ? 'unidad' : 'unit')}\n\n`;
+                message += '─'.repeat(25) + '\n\n';
+                message += `💳 *${lang === 'es' ? 'Forma de pago elegida:' : 'Payment method:'}* Nequi: +57 301 760 6723 (Alejandra Vela Moreno)\n\n`;
+                
+                if (lang === 'es') {
+                    message += '📍 *Información de envío:*\n';
+                    message += '• Nombre completo:\n';
+                    message += '• Dirección:\n';
+                    message += '• Ciudad:\n';
+                    message += '• Teléfono:\n\n';
+                    message += '💬 *Comentarios adicionales:*\n';
+                    message += '(Escribe aquí si tienes alguna preferencia)\n\n';
+                    message += '✨ ¡Gracias por tu pedido! Nos comunicaremos pronto contigo. 🇨🇴';
+                } else {
+                    message += '📍 *Shipping information:*\n';
+                    message += '• Full name:\n';
+                    message += '• Address:\n';
+                    message += '• City:\n';
+                    message += '• Phone:\n\n';
+                    message += '💬 *Additional comments:*\n';
+                    message += '(Write here if you have any preferences)\n\n';
+                    message += '✨ Thank you for your order! We will contact you soon. 🇨🇴';
+                }
+                
+                const waLink = `https://wa.me/573017606723?text=${encodeURIComponent(message)}`;
+                window.open(waLink, '_blank');
+                closeCart();
+                
             } else if (selectedMethod === 'mercadopago') {
-                pagoTexto = 'Mercado Pago: https://www.mercadopago.com.co/';
+                // Mercado Pago → Redirigir a plataforma
+                window.open('https://www.mercadopago.com.co/', '_blank');
+                closeCart();
+                
             } else if (selectedMethod === 'mercadolibre') {
-                pagoTexto = 'Mercado Libre: https://www.mercadolibre.com.co/';
+                // Mercado Libre → Redirigir a página de venta
+                window.open('https://www.mercadolibre.com.co/search?q=fresche', '_blank');
+                closeCart();
             }
-            
-            checkoutViaWhatsApp(pagoTexto);
         }
 
         
@@ -2413,17 +2463,56 @@
                 form.onsubmit = function(e) {
                     e.preventDefault();
                     const pagoSeleccionado = document.querySelector('input[name="pagoColombia"]:checked');
-                    let pagoTexto = '';
-                    if (pagoSeleccionado) {
-                        if (pagoSeleccionado.value === 'nequi') {
-                            pagoTexto = 'Nequi: +57 301 760 6723 (Alejandra Vela Moreno)';
-                        } else if (pagoSeleccionado.value === 'mercadopago') {
-                            pagoTexto = 'Mercado Pago: https://www.mercadopago.com.co/';
-                        } else if (pagoSeleccionado.value === 'mercadolibre') {
-                            pagoTexto = 'Mercado Libre: https://www.mercadolibre.com.co/';
-                        }
+                    
+                    if (!pagoSeleccionado) {
+                        const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                        alert(lang === 'es' ? 'Por favor selecciona un método de pago' : 'Please select a payment method');
+                        return;
                     }
-                    checkoutViaWhatsApp(pagoTexto);
+                    
+                    const metodo = pagoSeleccionado.value;
+                    const store = localStorage.getItem('fresche_store') || '';
+                    const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                    
+                    if (metodo === 'nequi') {
+                        // Nequi → WhatsApp con info de tienda si aplica
+                        let message = lang === 'es' 
+                            ? '*🛒 MI PEDIDO FRESCHE*\n' + '═'.repeat(25) + '\n\n' 
+                            : '*🛒 MY FRESCHE ORDER*\n' + '═'.repeat(25) + '\n\n';
+                
+                        let totalItems = 0;
+                        cart.forEach((item, index) => {
+                            totalItems += item.quantity;
+                            message += `${index + 1}. *${item.name}*\n`;
+                            message += `   ${lang === 'es' ? '📦 Cantidad' : '📦 Quantity'}: ${item.quantity} ${item.quantity > 1 ? (lang === 'es' ? 'unidades' : 'units') : (lang === 'es' ? 'unidad' : 'unit')}\n\n`;
+                        });
+                
+                        message += '─'.repeat(25) + '\n';
+                        message += `📊 *${lang === 'es' ? 'RESUMEN' : 'SUMMARY'}*\n`;
+                        message += `${lang === 'es' ? 'Total de productos' : 'Total items'}: *${totalItems}*\n\n`;
+                        message += '─'.repeat(25) + '\n\n';
+                        message += `💳 *${lang === 'es' ? 'Forma de pago:' : 'Payment method:'}* Nequi: +57 301 760 6723\n`;
+                        
+                        if (store) {
+                            message += `🏪 *${lang === 'es' ? 'Tienda de recogida:' : 'Store:'}* ${store === 'CO' ? '🇨🇴 Colombia' : '🇺🇸 Estados Unidos'}\n`;
+                        }
+                        
+                        message += '\n✨ ' + (lang === 'es' ? '¡Gracias por tu pedido! Nos comunicaremos pronto contigo.' : 'Thank you for your order! We will contact you soon.');
+                        
+                        const waLink = `https://wa.me/573017606723?text=${encodeURIComponent(message)}`;
+                        window.open(waLink, '_blank');
+                        closeCart();
+                        
+                    } else if (metodo === 'mercadopago') {
+                        // Mercado Pago → Redirigir a plataforma
+                        window.open('https://www.mercadopago.com.co/', '_blank');
+                        closeCart();
+                        
+                    } else if (metodo === 'mercadolibre') {
+                        // Mercado Libre → Redirigir a página de venta
+                        window.open('https://www.mercadolibre.com.co/search?q=fresche', '_blank');
+                        closeCart();
+                    }
                 };
             }
         }
