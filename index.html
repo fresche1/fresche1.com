@@ -2370,11 +2370,38 @@
             
             // Redirigir según el método de pago
             if (selectedMethod === 'nequi') {
-                procederPagoOnline();
+                // Nequi → WhatsApp
+                const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                let message = lang === 'es' 
+                    ? '*🛒 MI PEDIDO FRESCHE*\n' + '═'.repeat(25) + '\n\n' 
+                    : '*🛒 MY FRESCHE ORDER*\n' + '═'.repeat(25) + '\n\n';
+                
+                let totalItems = 0;
+                cart.forEach((item, index) => {
+                    totalItems += item.quantity;
+                    message += `${index + 1}. *${item.name}*\n`;
+                    message += `   ${lang === 'es' ? '📦 Cantidad' : '📦 Quantity'}: ${item.quantity}\n\n`;
+                });
+                
+                message += '─'.repeat(25) + '\n';
+                message += `📊 *${lang === 'es' ? 'RESUMEN' : 'SUMMARY'}*\n`;
+                message += `${lang === 'es' ? 'Total de productos' : 'Total items'}: *${totalItems}*\n\n`;
+                message += '─'.repeat(25) + '\n\n';
+                message += `💳 *${lang === 'es' ? 'Forma de pago:' : 'Payment method:'}* Nequi: +57 301 760 6723\n`;
+                message += `👤 *${lang === 'es' ? 'Cliente:' : 'Customer:'}* ${nombre}\n`;
+                message += `📧 *Email:* ${email}\n\n`;
+                message += `✨ ${lang === 'es' ? '¡Gracias por tu pedido! Nos comunicaremos pronto contigo.' : 'Thank you for your order! We will contact you soon.'} 🇨🇴`;
+                
+                const waLink = `https://wa.me/573017606723?text=${encodeURIComponent(message)}`;
+                window.open(waLink, '_blank');
+                closeCart();
+                
             } else if (selectedMethod === 'mercadopago') {
                 // Enviar email y redirigir a Mercado Pago
                 enviarConfirmacionMercadoPago(nombre, email);
+                
             } else if (selectedMethod === 'mercadolibre') {
+                // Mercado Libre → Redirigir a página de búsqueda
                 window.open('https://www.mercadolibre.com.co/search?q=fresche', '_blank');
                 closeCart();
             }
