@@ -2323,13 +2323,13 @@
             if (!modalBody) return;
             modalBody.innerHTML = `
                 <h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;">Datos para tu pedido</h2>
-                <form id="datosPagoForm" style="display: flex; flex-direction: column; gap: 1.2rem; overflow-y: auto; max-height: 75vh;">
+                <form id="datosPagoForm" style="display: flex; flex-direction: column; gap: 1.2rem;">
                     <input type="text" name="nombre" placeholder="Nombre completo" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
                     <input type="tel" name="telefono" placeholder="Teléfono" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
                     <input type="email" name="email" placeholder="Correo electrónico" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
-                    <div id="formasPagoColombia" style="margin-top:2rem;">
+                    <div id="formasPagoColombia" style="margin-top:2rem; max-height: none; overflow: visible;">
                         <h3 style="color: var(--gold); text-align:center; margin-bottom:1.5rem;">Formas de pago en Colombia</h3>
-                        <div style="display:flex; flex-direction:column; gap:1.5rem; width:100%;">
+                        <div style="display:flex; flex-direction:column; gap:1.5rem; width:100%; overflow: visible;">
                             <label style="display:flex; align-items:flex-start; gap:1rem; cursor:pointer; padding:1rem; background:rgba(212,175,55,0.1); border-radius:8px; border:1px solid var(--gold);">
                                 <input type="radio" name="pagoColombia" value="nequi" required style="margin-top:0.2rem; flex-shrink:0;">
                                 <div style="flex:1;">
