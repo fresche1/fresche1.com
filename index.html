@@ -2671,21 +2671,107 @@
             }).catch(err => {
                 console.warn('⚠️ Error al enviar email (continuando):', err.message);
             }).finally(() => {
-                // Redirigir a Mercado Pago con el monto dinámico
-                const { total, currency } = calcularTotalPago();
-                
-                // Guardar monto en localStorage para que Mercado Pago pueda leerlo
-                localStorage.setItem('lastOrderAmount', JSON.stringify({
-                    amount: total,
-                    currency: currency,
+                // Usar API de Mercado Pago dinámicamente
+                crearPreferenciaMercadoPago(nombre, email, telefono, direccion, ciudad);
+            });
+        }
+
+        function crearPreferenciaMercadoPago(nombre, email, telefono, direccion, ciudad) {
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            const { total, currency, subtotal, shippingCost } = calcularTotalPago();
+            
+            // Preparar items para Mercado Pago
+            const items = cart.map(item => {
+                const unitPrice = item.price || 0;
+                return {
+                    title: item.name,
+                    quantity: item.quantity,
+                    unit_price: currency === 'COP' ? unitPrice : unitPrice,
+                    currency_id: currency === 'COP' ? 'ARS' : 'USD' // MP usa ARS para pesos
+                };
+            });
+            
+            // Agregar envío como item
+            if (shippingCost > 0) {
+                items.push({
+                    title: lang === 'es' ? 'Costo de Envío' : 'Shipping Cost',
+                    quantity: 1,
+                    unit_price: shippingCost,
+                    currency_id: currency === 'COP' ? 'ARS' : 'USD'
+                });
+            }
+            
+            const preferenceData = {
+                preference: {
+                    items: items,
+                    payer: {
+                        name: nombre,
+                        email: email,
+                        phone: {
+                            area_code: '',
+                            number: telefono
+                        },
+                        address: {
+                            street_name: direccion,
+                            street_number: 1,
+                            zip_code: ''
+                        }
+                    },
+                    back_urls: {
+                        success: window.location.origin,
+                        failure: window.location.origin,
+                        pending: window.location.origin
+                    },
+                    notification_url: null,
+                    auto_return: 'approved',
+                    external_reference: `FRESCHE-${Date.now()}-${nombre.replace(/\s+/g, '')}`
+                },
+                orderData: {
                     customerName: nombre,
-                    customerEmail: email,
-                    timestamp: new Date().toISOString()
-                }));
+                    email: email,
+                    phone: telefono,
+                    address: direccion,
+                    city: ciudad,
+                    subtotal: subtotal,
+                    shippingCost: shippingCost,
+                    total: total,
+                    country: currency === 'COP' ? 'CO' : 'US',
+                    currency: currency
+                }
+            };
+            
+            console.log('📤 Creando preferencia en Mercado Pago...', preferenceData);
+            
+            // Crear preferencia en el servidor
+            fetch('/api/create-preference', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(preferenceData)
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`Error ${res.status}: ${res.statusText}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                console.log('✅ Preferencia creada:', data);
                 
-                // Construir URL con parámetros
-                const MERCADOPAGO_PAYMENT_LINK = `https://link.mercadopago.com.co/fresche1?amount=${total}&currency=${currency}`;
-                window.open(MERCADOPAGO_PAYMENT_LINK, '_blank');
+                if (data.init_point) {
+                    // Redirigir a Mercado Pago con la URL generada
+                    console.log('🔗 Redirigiendo a:', data.init_point);
+                    window.location.href = data.init_point;
+                } else if (data.error) {
+                    throw new Error(data.error);
+                } else {
+                    throw new Error('No se recibió init_point de Mercado Pago');
+                }
+            })
+            .catch(error => {
+                console.error('❌ Error al crear preferencia:', error);
+                alert(lang === 'es' 
+                    ? `Error al procesar el pago: ${error.message}` 
+                    : `Payment processing error: ${error.message}`);
                 closeCart();
             });
         }
