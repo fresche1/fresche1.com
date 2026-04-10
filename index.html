@@ -2384,13 +2384,97 @@
                 return;
             }
             
-            // Guardar datos en localStorage para referencia
-            localStorage.setItem('lastCustomer', JSON.stringify({ nombre, email, metodo: selectedMethod }));
+            // Mostrar formulario de datos de envío DESPUÉS de seleccionar método de pago
+            mostrarFormularioDatosEnvio(nombre, email, selectedMethod);
+        }
+        
+        function calcularTotalPago() {
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            const isColombia = userRegion === 'CO';
             
-            // Redirigir según el método de pago
+            // Calcular subtotal con precios escalonados
+            const packs = cart.filter(item => item.type === 'pack');
+            const individuals = cart.filter(item => !item.type || item.type === 'product');
+            
+            let totalIndividualQty = 0;
+            individuals.forEach(item => { totalIndividualQty += item.quantity; });
+            
+            let unitPrice = isColombia ? 29900 : 18.99;
+            if (isColombia) {
+                if (totalIndividualQty >= 5) unitPrice = 25999;
+                else if (totalIndividualQty >= 3) unitPrice = 26999;
+            } else {
+                if (totalIndividualQty >= 5) unitPrice = 15.99;
+                else if (totalIndividualQty >= 3) unitPrice = 16.99;
+            }
+            
+            let subtotal = unitPrice * totalIndividualQty;
+            packs.forEach(item => {
+                subtotal += (item.price || (isColombia ? 29900 : 18.99)) * item.quantity;
+            });
+            
+            let shippingCost = isColombia ? 9000 : 10;
+            let total = subtotal + shippingCost;
+            let currency = isColombia ? 'COP' : 'USD';
+            
+            let totalFormatted;
+            if (currency === 'COP') {
+                totalFormatted = `$${total.toLocaleString('es-CO')} COP`;
+            } else {
+                totalFormatted = `$${total.toFixed(2)} USD`;
+            }
+            
+            return { total, totalFormatted, currency, subtotal, shippingCost };
+        }
+        
+        function mostrarFormularioDatosEnvio(nombre, email, selectedMethod) {
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            const modalBody = document.getElementById('cartModalBody');
+            const { total, totalFormatted, currency } = calcularTotalPago();
+            
+            let html = `<h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;">${lang === 'es' ? '🏠 Datos de Envío' : '🏠 Shipping Information'}</h2>`;
+            html += `<div style="background: rgba(212,175,55,0.1); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border: 2px solid var(--gold); text-align: center;">`;
+            html += `<p style="margin: 0; color: var(--gold); font-size: 1.3rem; font-weight: bold;">${lang === 'es' ? 'Total a Pagar' : 'Total to Pay'}</p>`;
+            html += `<p style="margin: 0.5rem 0 0 0; color: var(--white); font-size: 1.8rem; font-weight: bold;">${totalFormatted}</p>`;
+            html += `</div>`;
+            
+            html += `<form id="formDatosEnvio" style="display: flex; flex-direction: column; gap: 1.2rem;">`;
+            html += `<div><label style="color: var(--gold); display: block; margin-bottom: 0.5rem; font-weight: 600;">${lang === 'es' ? 'Nombre Completo' : 'Full Name'}</label><input type="text" name="nombre" value="${nombre}" readonly style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--gold); background: rgba(0,0,0,0.2); color: white; box-sizing: border-box;"></div>`;
+            html += `<div><label style="color: var(--gold); display: block; margin-bottom: 0.5rem; font-weight: 600;">Email</label><input type="email" name="email" value="${email}" readonly style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--gold); background: rgba(0,0,0,0.2); color: white; box-sizing: border-box;"></div>`;
+            html += `<div><label style="color: var(--gold); display: block; margin-bottom: 0.5rem; font-weight: 600;">📱 ${lang === 'es' ? 'Teléfono' : 'Phone'}</label><input type="tel" name="telefono" placeholder="${lang === 'es' ? '+57 301 760 6723' : '+1 (555) 123-4567'}" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--gold); background: rgba(0,0,0,0.3); color: white; box-sizing: border-box;"></div>`;
+            html += `<div><label style="color: var(--gold); display: block; margin-bottom: 0.5rem; font-weight: 600;">📍 ${lang === 'es' ? 'Dirección' : 'Address'}</label><input type="text" name="direccion" placeholder="${lang === 'es' ? 'Cra 15 #45-67' : '123 Main St'}" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--gold); background: rgba(0,0,0,0.3); color: white; box-sizing: border-box;"></div>`;
+            html += `<div><label style="color: var(--gold); display: block; margin-bottom: 0.5rem; font-weight: 600;">🌆 ${lang === 'es' ? 'Ciudad' : 'City'}</label><input type="text" name="ciudad" placeholder="${lang === 'es' ? 'Bogotá' : 'New York'}" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--gold); background: rgba(0,0,0,0.3); color: white; box-sizing: border-box;"></div>`;
+            html += `</form>`;
+            
+            html += `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;">`;
+            html += `<button onclick="mostrarOpcionesPago()" style="padding: 1rem; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 10px; font-size: 1rem; cursor: pointer;">← ${lang === 'es' ? 'Atrás' : 'Back'}</button>`;
+            html += `<button onclick="procesarPagoConEnvio('${selectedMethod}')" style="padding: 1rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: var(--black); border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer;">${lang === 'es' ? 'Continuar Pago' : 'Continue Payment'} →</button>`;
+            html += `</div>`;
+            
+            modalBody.innerHTML = html;
+        }
+        
+        function procesarPagoConEnvio(selectedMethod) {
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            const form = document.getElementById('formDatosEnvio');
+            const nombre = form.querySelector('input[name="nombre"]').value.trim();
+            const email = form.querySelector('input[name="email"]').value.trim();
+            const telefono = form.querySelector('input[name="telefono"]').value.trim();
+            const direccion = form.querySelector('input[name="direccion"]').value.trim();
+            const ciudad = form.querySelector('input[name="ciudad"]').value.trim();
+            
+            if (!telefono || !direccion || !ciudad) {
+                alert(lang === 'es' ? 'Por favor completa todos los datos de envío' : 'Please complete all shipping information');
+                return;
+            }
+            
+            // Guardar datos completos en localStorage
+            const datosCompletos = { nombre, email, telefono, direccion, ciudad, metodo: selectedMethod };
+            localStorage.setItem('lastOrder', JSON.stringify(datosCompletos));
+            
+            // Procesar según método de pago
             if (selectedMethod === 'nequi') {
-                // Nequi → WhatsApp
-                const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                const { total, totalFormatted } = calcularTotalPago();
                 let message = lang === 'es' 
                     ? '*🛒 MI PEDIDO FRESCHE*\n' + '═'.repeat(25) + '\n\n' 
                     : '*🛒 MY FRESCHE ORDER*\n' + '═'.repeat(25) + '\n\n';
@@ -2398,54 +2482,52 @@
                 let totalItems = 0;
                 cart.forEach((item, index) => {
                     totalItems += item.quantity;
-                    message += `${index + 1}. *${item.name}*\n`;
-                    message += `   ${lang === 'es' ? '📦 Cantidad' : '📦 Quantity'}: ${item.quantity}\n\n`;
+                    message += `${index + 1}. *${item.name}* x${item.quantity}\n`;
                 });
                 
                 message += '─'.repeat(25) + '\n';
-                message += `📊 *${lang === 'es' ? 'RESUMEN' : 'SUMMARY'}*\n`;
-                message += `${lang === 'es' ? 'Total de productos' : 'Total items'}: *${totalItems}*\n\n`;
+                message += `💰 *TOTAL A PAGAR: ${totalFormatted}*\n`;
                 message += '─'.repeat(25) + '\n\n';
-                message += `💳 *${lang === 'es' ? 'Forma de pago:' : 'Payment method:'}* Nequi: +57 301 760 6723\n`;
-                message += `👤 *${lang === 'es' ? 'Cliente:' : 'Customer:'}* ${nombre}\n`;
-                message += `📧 *Email:* ${email}\n\n`;
-                message += `✨ ${lang === 'es' ? '¡Gracias por tu pedido! Nos comunicaremos pronto contigo.' : 'Thank you for your order! We will contact you soon.'} 🇨🇴`;
+                message += `👤 *${lang === 'es' ? 'Nombre' : 'Name'}:* ${nombre}\n`;
+                message += `📧 *Email:* ${email}\n`;
+                message += `📱 *${lang === 'es' ? 'Teléfono' : 'Phone'}:* ${telefono}\n`;
+                message += `📍 *${lang === 'es' ? 'Dirección' : 'Address'}:* ${direccion}, ${ciudad}\n\n`;
+                message += `💳 *${lang === 'es' ? 'Pago por' : 'Payment via'}:* Nequi: +57 301 760 6723\n`;
+                message += `✨ ${lang === 'es' ? '¡Gracias por tu pedido!' : 'Thank you for your order!'} 🇨🇴`;
                 
                 const waLink = `https://wa.me/573017606723?text=${encodeURIComponent(message)}`;
                 window.open(waLink, '_blank');
                 closeCart();
                 
             } else if (selectedMethod === 'mercadopago') {
-                // Enviar email y redirigir a Mercado Pago
-                enviarConfirmacionMercadoPago(nombre, email);
+                enviarConfirmacionMercadoPagoConEnvio(nombre, email, telefono, direccion, ciudad);
                 
             } else if (selectedMethod === 'mercadolibre') {
-                // Mercado Libre → Redirigir al producto específico
+                const { totalFormatted } = calcularTotalPago();
+                alert(lang === 'es' 
+                    ? `Serás redirigido a Mercado Libre.\n\nTotal a pagar: ${totalFormatted}\n\nNos contactaremos a: ${email}` 
+                    : `You will be redirected to Mercado Libre.\n\nTotal to pay: ${totalFormatted}\n\nWe will contact: ${email}`);
                 window.open('https://articulo.mercadolibre.com.co/MCO-1801564823-crema-intima-fresche-30-ml-hidratante-hipoalergenica-_JM', '_blank');
                 closeCart();
             }
         }
         
-        function enviarConfirmacionMercadoPago(nombre, email) {
+        function enviarConfirmacionMercadoPagoConEnvio(nombre, email, telefono, direccion, ciudad) {
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            const { total, totalFormatted, currency } = calcularTotalPago();
             
-            // Preparar resumen del pedido con cálculo de total
+            // Preparar resumen del pedido
             let resumenProductos = '';
             let totalItems = 0;
-            let totalPrice = 0;
             
             cart.forEach((item, index) => {
                 totalItems += item.quantity;
                 const itemTotal = item.price * item.quantity;
-                totalPrice += itemTotal;
-                resumenProductos += `<li><strong>${item.name}</strong> x${item.quantity} = $${itemTotal.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</li>`;
+                resumenProductos += `<li><strong>${item.name}</strong> x${item.quantity} = ${currency === 'COP' ? `$${itemTotal.toLocaleString('es-CO')}` : `$${itemTotal.toFixed(2)}`}</li>`;
             });
             
-            // Detectar región y moneda correcta
-            const isColombia = userRegion === 'CO';
-            const totalDisplay = isColombia 
-                ? `$${totalPrice.toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP`
-                : `$${(totalPrice / exchangeRates.USD).toFixed(2)} USD`;
+            const { shippingCost } = calcularTotalPago();
+            const shippingFormatted = currency === 'COP' ? `$${shippingCost.toLocaleString('es-CO')} COP` : `$${shippingCost.toFixed(2)} USD`;
             
             const mensaje = lang === 'es' 
                 ? `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f9f9f9;">
@@ -2456,18 +2538,22 @@
                    <h3 style="color: #d4af37;">📦 Resumen de tu compra:</h3>
                    <ul style="color: #333;">${resumenProductos}</ul>
                    
-                   <p><strong>Total de productos:</strong> ${totalItems}</p>
-                   <p style="color: #d4af37; font-size: 1.2em;"><strong>TOTAL: ${totalDisplay}</strong></p>
+                   <p><strong>Envío:</strong> ${shippingFormatted}</p>
+                   <p style="color: #d4af37; font-size: 1.2em;"><strong>TOTAL A PAGAR: ${totalFormatted}</strong></p>
+                   
+                   <hr style="border: 1px solid #d4af37; margin: 20px 0;">
+                   
+                   <h3 style="color: #d4af37;">📍 Detalles de Envío:</h3>
+                   <p><strong>Nombre:</strong> ${nombre}</p>
+                   <p><strong>Teléfono:</strong> ${telefono}</p>
+                   <p><strong>Dirección:</strong> ${direccion}</p>
+                   <p><strong>Ciudad:</strong> ${ciudad}</p>
                    
                    <hr style="border: 1px solid #d4af37; margin: 20px 0;">
                    
                    <p><strong>💳 Próximo paso:</strong></p>
-                   <p>Procederás ahora a Mercado Pago para completar el pago de forma segura. Aceptamos todas las tarjetas de crédito, débito y transferencias bancarias.</p>
+                   <p>Procederás ahora a Mercado Pago para completar el pago de forma segura.</p>
                    
-                   <p><strong>📧 Importante:</strong></p>
-                   <p>Una vez completado el pago, recibirás otra confirmación en este correo y nos contactaremos contigo para confirmar los detalles de entrega.</p>
-                   
-                   <hr style="border: 1px solid #d4af37; margin: 20px 0;">
                    <p style="color: #666; font-size: 0.9em; text-align: center;">
                    ¡Gracias por confiar en FRESCHE! 🇨🇴<br>
                    Si tienes dudas, contáctanos por WhatsApp: +57 301 760 6723
@@ -2479,21 +2565,25 @@
                    <h2 style="color: #d4af37; margin-top: 0;">🛍️ Hello ${nombre}!</h2>
                    <p>Thank you for your order at <strong>FRESCHE</strong>. We are processing your purchase.</p>
                    
-                   <h3 style="color: #d4af37;">📦 Order summary:</h3>
+                   <h3 style="color: #d4af37;">📦 Order Summary:</h3>
                    <ul style="color: #333;">${resumenProductos}</ul>
                    
-                   <p><strong>Total items:</strong> ${totalItems}</p>
-                   <p style="color: #d4af37; font-size: 1.2em;"><strong>TOTAL: ${totalDisplay}</strong></p>
+                   <p><strong>Shipping:</strong> ${shippingFormatted}</p>
+                   <p style="color: #d4af37; font-size: 1.2em;"><strong>TOTAL TO PAY: ${totalFormatted}</strong></p>
                    
                    <hr style="border: 1px solid #d4af37; margin: 20px 0;">
                    
-                   <p><strong>💳 Next step:</strong></p>
-                   <p>You will now proceed to Mercado Pago to complete the secure payment. We accept all credit cards, debit cards and bank transfers.</p>
-                   
-                   <p><strong>📧 Important:</strong></p>
-                   <p>Once payment is complete, you will receive another confirmation in this email and we will contact you to confirm delivery details.</p>
+                   <h3 style="color: #d4af37;">📍 Shipping Details:</h3>
+                   <p><strong>Name:</strong> ${nombre}</p>
+                   <p><strong>Phone:</strong> ${telefono}</p>
+                   <p><strong>Address:</strong> ${direccion}</p>
+                   <p><strong>City:</strong> ${ciudad}</p>
                    
                    <hr style="border: 1px solid #d4af37; margin: 20px 0;">
+                   
+                   <p><strong>💳 Next Step:</strong></p>
+                   <p>You will now proceed to Mercado Pago to complete the secure payment.</p>
+                   
                    <p style="color: #666; font-size: 0.9em; text-align: center;">
                    Thank you for trusting FRESCHE! 🇨🇴<br>
                    If you have questions, contact us on WhatsApp: +57 301 760 6723
@@ -2501,7 +2591,7 @@
                    </div>
                    </div>`;
             
-            // Llamar a API del servidor para enviar email via Resend
+            // Enviar email con Resend
             fetch('/api/send-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -2519,18 +2609,9 @@
             }).catch(err => {
                 console.warn('⚠️ Error al enviar email (continuando):', err.message);
             }).finally(() => {
-                // Redirigir a Mercado Pago sin importar si el email se envió
+                // Redirigir a Mercado Pago
                 const MERCADOPAGO_PAYMENT_LINK = 'https://link.mercadopago.com.co/fresche1';
-                
-                if (MERCADOPAGO_PAYMENT_LINK) {
-                    window.open(MERCADOPAGO_PAYMENT_LINK, '_blank');
-                } else {
-                    const lang = document.documentElement.getAttribute('data-lang') || 'es';
-                    alert(lang === 'es' 
-                        ? '⚠️ URL de Mercado Pago no configurado. Por favor contáctanos por WhatsApp: +57 301 760 6723'
-                        : '⚠️ Mercado Pago payment link not configured. Please contact us on WhatsApp: +57 301 760 6723');
-                }
-                
+                window.open(MERCADOPAGO_PAYMENT_LINK, '_blank');
                 closeCart();
             });
         }
@@ -2553,84 +2634,6 @@
             
             localStorage.setItem('fresche_store', selectedStore);
             mostrarFormularioDatosPago();
-        }
-
-        function procederPagoOnline() {
-            const radioButtons = document.getElementsByName('metodoPago');
-            let selectedMethod = '';
-            for (let radio of radioButtons) {
-                if (radio.checked) {
-                    selectedMethod = radio.value;
-                    break;
-                }
-            }
-            
-            if (!selectedMethod) {
-                const lang = document.documentElement.getAttribute('data-lang') || 'es';
-                alert(lang === 'es' ? 'Por favor selecciona un método de pago' : 'Please select a payment method');
-                return;
-            }
-            
-            // Redirigir según el método de pago seleccionado
-            if (selectedMethod === 'nequi') {
-                // Nequi → WhatsApp
-                const lang = document.documentElement.getAttribute('data-lang') || 'es';
-                const greeting = lang === 'es' 
-                    ? '¡Hola! 👋 Me gustaría ordenar lo siguiente:\n\n' 
-                    : 'Hello! 👋 I would like to order the following:\n\n';
-        
-                let message = lang === 'es' 
-                    ? '*🛒 MI PEDIDO FRESCHE*\n' + '═'.repeat(25) + '\n\n' 
-                    : '*🛒 MY FRESCHE ORDER*\n' + '═'.repeat(25) + '\n\n';
-        
-                let totalItems = 0;
-        
-                cart.forEach((item, index) => {
-                    totalItems += item.quantity;
-                    message += `${index + 1}. *${item.name}*\n`;
-                    message += `   ${lang === 'es' ? '📦 Cantidad' : '📦 Quantity'}: ${item.quantity} ${item.quantity > 1 ? (lang === 'es' ? 'unidades' : 'units') : (lang === 'es' ? 'unidad' : 'unit')}\n\n`;
-                });
-        
-                message += '─'.repeat(25) + '\n';
-                message += `📊 *${lang === 'es' ? 'RESUMEN' : 'SUMMARY'}*\n`;
-                message += `${lang === 'es' ? 'Total de productos' : 'Total items'}: *${totalItems}* ${totalItems > 1 ? (lang === 'es' ? 'unidades' : 'units') : (lang === 'es' ? 'unidad' : 'unit')}\n\n`;
-                message += '─'.repeat(25) + '\n\n';
-                message += `💳 *${lang === 'es' ? 'Forma de pago elegida:' : 'Payment method:'}* Nequi: +57 301 760 6723 (Alejandra Vela Moreno)\n\n`;
-                
-                if (lang === 'es') {
-                    message += '📍 *Información de envío:*\n';
-                    message += '• Nombre completo:\n';
-                    message += '• Dirección:\n';
-                    message += '• Ciudad:\n';
-                    message += '• Teléfono:\n\n';
-                    message += '💬 *Comentarios adicionales:*\n';
-                    message += '(Escribe aquí si tienes alguna preferencia)\n\n';
-                    message += '✨ ¡Gracias por tu pedido! Nos comunicaremos pronto contigo. 🇨🇴';
-                } else {
-                    message += '📍 *Shipping information:*\n';
-                    message += '• Full name:\n';
-                    message += '• Address:\n';
-                    message += '• City:\n';
-                    message += '• Phone:\n\n';
-                    message += '💬 *Additional comments:*\n';
-                    message += '(Write here if you have any preferences)\n\n';
-                    message += '✨ Thank you for your order! We will contact you soon. 🇨🇴';
-                }
-                
-                const waLink = `https://wa.me/573017606723?text=${encodeURIComponent(message)}`;
-                window.open(waLink, '_blank');
-                closeCart();
-                
-            } else if (selectedMethod === 'mercadopago') {
-                // Mercado Pago es manejado por procederPagoOnlineConDatos
-                // Esta rama no debería ejecutarse porque MP se debe seleccionar en mostrarOpcionesPago
-                closeCart();
-                
-            } else if (selectedMethod === 'mercadolibre') {
-                // Mercado Libre → Redirigir al producto específico
-                window.open('https://articulo.mercadolibre.com.co/MCO-1801564823-crema-intima-fresche-30-ml-hidratante-hipoalergenica-_JM', '_blank');
-                closeCart();
-            }
         }
 
         
