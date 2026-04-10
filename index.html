@@ -2472,17 +2472,15 @@
                 console.warn('⚠️ Error al enviar email (continuando):', err.message);
             }).finally(() => {
                 // Redirigir a Mercado Pago sin importar si el email se envió
-                // ⚠️ IMPORTANTE: Reemplaza este URL con tu link personalizado de Mercado Pago
-                // Ejemplo: https://www.mercadopago.com.co/checkout/V2/Redirect/preference/YOUR_PREFERENCE_ID
-                const MERCADOPAGO_PAYMENT_LINK = 'https://www.mercadopago.com.co/';
+                const MERCADOPAGO_PAYMENT_LINK = 'https://link.mercadopago.com.co/fresche1';
                 
-                if (MERCADOPAGO_PAYMENT_LINK === 'https://www.mercadopago.com.co/') {
+                if (MERCADOPAGO_PAYMENT_LINK) {
+                    window.open(MERCADOPAGO_PAYMENT_LINK, '_blank');
+                } else {
                     const lang = document.documentElement.getAttribute('data-lang') || 'es';
                     alert(lang === 'es' 
                         ? '⚠️ URL de Mercado Pago no configurado. Por favor contáctanos por WhatsApp: +57 301 760 6723'
                         : '⚠️ Mercado Pago payment link not configured. Please contact us on WhatsApp: +57 301 760 6723');
-                } else {
-                    window.open(MERCADOPAGO_PAYMENT_LINK, '_blank');
                 }
                 
                 closeCart();
