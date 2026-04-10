@@ -796,7 +796,7 @@
     <div id="cartModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeCart()">&times;</span>
-            <div id="cartModalBody" style="padding: 2rem;">
+            <div id="cartModalBody" style="padding: 2rem; overflow-y: auto; max-height: 85vh;">
                 <h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;" data-es="🛒 Carrito de Compras" data-en="🛒 Shopping Cart">🛒 Carrito de Compras</h2>
                 <div id="cartItems"></div>
                 <div id="cartTotal" style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--gold);"></div>
@@ -2323,7 +2323,7 @@
             if (!modalBody) return;
             modalBody.innerHTML = `
                 <h2 style="color: var(--gold); margin-bottom: 2rem; text-align: center;">Datos para tu pedido</h2>
-                <form id="datosPagoForm" style="display: flex; flex-direction: column; gap: 1.2rem;">
+                <form id="datosPagoForm" style="display: flex; flex-direction: column; gap: 1.2rem; overflow-y: auto; max-height: 75vh;">
                     <input type="text" name="nombre" placeholder="Nombre completo" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
                     <input type="tel" name="telefono" placeholder="Teléfono" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
                     <input type="email" name="email" placeholder="Correo electrónico" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
