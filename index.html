@@ -2653,8 +2653,13 @@
                    </div>
                    </div>`;
             
+            // Determinar URL del backend
+            const backendURL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:3001'
+                : 'https://fresche1.com'; // Frontend puede servir emails localmente
+            
             // Enviar email con Resend
-            fetch('/api/send-email', {
+            fetch(`${backendURL}/api/send-email`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
