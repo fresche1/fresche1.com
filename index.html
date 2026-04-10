@@ -2328,19 +2328,31 @@
                     <input type="tel" name="telefono" placeholder="Teléfono" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
                     <input type="email" name="email" placeholder="Correo electrónico" required style="padding: 0.7rem; border-radius: 8px; border: 1px solid var(--gold); font-size: 1rem;">
                     <div id="formasPagoColombia" style="margin-top:2rem;">
-                        <h3 style="color: var(--gold); text-align:center;">Formas de pago en Colombia</h3>
-                        <div style="display:flex; flex-direction:column; gap:1rem; align-items:center;">
-                            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
-                                <input type="radio" name="pagoColombia" value="nequi" required>
-                                <b>Nequi:</b> <span style="color:#00b894;">+57 301 760 6723</span> (Alejandra Vela Moreno)
+                        <h3 style="color: var(--gold); text-align:center; margin-bottom:1.5rem;">Formas de pago en Colombia</h3>
+                        <div style="display:flex; flex-direction:column; gap:1.5rem; width:100%;">
+                            <label style="display:flex; align-items:flex-start; gap:1rem; cursor:pointer; padding:1rem; background:rgba(212,175,55,0.1); border-radius:8px; border:1px solid var(--gold);">
+                                <input type="radio" name="pagoColombia" value="nequi" required style="margin-top:0.2rem; flex-shrink:0;">
+                                <div style="flex:1;">
+                                    <b style="color:var(--gold);">Nequi</b><br>
+                                    <span style="color:#00b894; font-size:0.95rem;">+57 301 760 6723</span><br>
+                                    <span style="font-size:0.85rem; color:#999;">(Alejandra Vela Moreno)</span>
+                                </div>
                             </label>
-                            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
-                                <input type="radio" name="pagoColombia" value="mercadopago">
-                                <b>Mercado Pago:</b> <a href="https://www.mercadopago.com.co/" target="_blank">Pagar con Mercado Pago</a>
+                            <label style="display:flex; align-items:flex-start; gap:1rem; cursor:pointer; padding:1rem; background:rgba(212,175,55,0.1); border-radius:8px; border:1px solid var(--gold);">
+                                <input type="radio" name="pagoColombia" value="mercadopago" style="margin-top:0.2rem; flex-shrink:0;">
+                                <div style="flex:1;">
+                                    <b style="color:var(--gold);">Mercado Pago</b><br>
+                                    <a href="https://www.mercadopago.com.co/" target="_blank" style="color:#00b894; text-decoration:none; font-size:0.95rem;">Ir a Mercado Pago →</a><br>
+                                    <span style="font-size:0.85rem; color:#999;">Plataforma segura de pagos</span>
+                                </div>
                             </label>
-                            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
-                                <input type="radio" name="pagoColombia" value="mercadolibre">
-                                <b>Mercado Libre:</b> <a href="https://www.mercadolibre.com.co/" target="_blank">Pagar con Mercado Libre</a>
+                            <label style="display:flex; align-items:flex-start; gap:1rem; cursor:pointer; padding:1rem; background:rgba(212,175,55,0.1); border-radius:8px; border:1px solid var(--gold);">
+                                <input type="radio" name="pagoColombia" value="mercadolibre" style="margin-top:0.2rem; flex-shrink:0;">
+                                <div style="flex:1;">
+                                    <b style="color:var(--gold);">Mercado Libre</b><br>
+                                    <a href="https://www.mercadolibre.com.co/" target="_blank" style="color:#00b894; text-decoration:none; font-size:0.95rem;">Ir a Mercado Libre →</a><br>
+                                    <span style="font-size:0.85rem; color:#999;">Compra y venta confiable</span>
+                                </div>
                             </label>
                         </div>
                     </div>
