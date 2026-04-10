@@ -1923,9 +1923,9 @@
         let currentPackType = null;
         
         const packConfigs = {
-            duo: { quantity: 2, price: 55000, name: 'Pack Dúo', originalPrice: 59800 },
-            trio: { quantity: 3, price: 79000, name: 'Pack Trío', originalPrice: 89700 },
-            elella: { quantity: 5, price: 129999, name: 'Pack ÉL & ELLA', originalPrice: 149500 }
+            duo: { quantity: 2, priceCOP: 55000, priceUSD: 26.99, name: 'Pack Dúo', originalPriceCOP: 59800, originalPriceUSD: 28.99 },
+            trio: { quantity: 3, priceCOP: 79000, priceUSD: 37.99, name: 'Pack Trío', originalPriceCOP: 89700, originalPriceUSD: 42.99 },
+            elella: { quantity: 5, priceCOP: 129999, priceUSD: 61.99, name: 'Pack ÉL & ELLA', originalPriceCOP: 149500, originalPriceUSD: 71.99 }
         };
 
         function openPackModal(packType) {
@@ -1936,7 +1936,25 @@
             const modal = document.getElementById('packModal');
             const modalBody = document.getElementById('packModalBody');
             
-            const savings = config.originalPrice - config.price;
+            // Determinar precios según región
+            const isColombia = userRegion === 'CO';
+            const price = isColombia ? config.priceCOP : config.priceUSD;
+            const originalPrice = isColombia ? config.originalPriceCOP : config.originalPriceUSD;
+            const currency = isColombia ? 'COP' : 'USD';
+            const savings = originalPrice - price;
+            
+            // Formatear precios
+            let priceFormatted, originalPriceFormatted, savingsFormatted;
+            if (isColombia) {
+                priceFormatted = `$${price.toLocaleString('es-CO')} ${currency}`;
+                originalPriceFormatted = `$${originalPrice.toLocaleString('es-CO')}`;
+                savingsFormatted = `$${Math.round(savings).toLocaleString('es-CO')}`;
+            } else {
+                priceFormatted = `$${price.toFixed(2)} ${currency}`;
+                originalPriceFormatted = `$${originalPrice.toFixed(2)}`;
+                savingsFormatted = `$${savings.toFixed(2)}`;
+            }
+            
             const allProducts = Object.keys(products);
             
             const instructionText = lang === 'es' 
@@ -1948,10 +1966,10 @@
                     <h2 style="color: var(--gold); margin-bottom: 1rem;">${config.name}</h2>
                     <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">${instructionText}</p>
                     <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 1rem;">
-                        <span style="font-size: 1.5rem; color: var(--gold); font-weight: bold;">$${config.price.toLocaleString('es-CO')} COP</span>
-                        <span style="font-size: 1rem; color: rgba(255,255,255,0.5); text-decoration: line-through;">$${config.originalPrice.toLocaleString('es-CO')}</span>
+                        <span style="font-size: 1.5rem; color: var(--gold); font-weight: bold;">${priceFormatted}</span>
+                        <span style="font-size: 1rem; color: rgba(255,255,255,0.5); text-decoration: line-through;">$${originalPriceFormatted}</span>
                         <span style="background: rgba(212,175,55,0.2); color: var(--gold); padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.9rem;">
-                            ${lang === 'es' ? 'Ahorras' : 'Save'} $${savings.toLocaleString('es-CO')}
+                            ${lang === 'es' ? 'Ahorras' : 'Save'} ${savingsFormatted}
                         </span>
                     </div>
                     <div id="pack-selection-counter" style="margin-top: 1rem; font-size: 1.2rem; color: var(--gold);">
@@ -2056,6 +2074,11 @@
             const config = packConfigs[currentPackType];
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
             
+            // Determinar precio y divisa según región
+            const isColombia = userRegion === 'CO';
+            const price = isColombia ? config.priceCOP : config.priceUSD;
+            const currency = isColombia ? 'COP' : 'USD';
+            
             const packItem = {
                 id: `pack-${currentPackType}-${Date.now()}`,
                 name: config.name,
@@ -2065,9 +2088,10 @@
                     id,
                     name: products[id].name
                 })),
-                price: config.price,
-                currency: 'COP',
-                quantity: 1
+                price: price,
+                currency: currency,
+                quantity: 1,
+                image: 'images/pack.jpg'
             };
             
             cart.push(packItem);
@@ -2083,9 +2107,18 @@
             const productNames = Object.entries(productCounts)
                 .map(([id, count]) => `${products[id].name.split(' ').pop()} x${count}`)
                 .join(', ');
+            
+            // Formatear precio para el alert
+            let priceAlert;
+            if (isColombia) {
+                priceAlert = `$${price.toLocaleString('es-CO')} COP`;
+            } else {
+                priceAlert = `$${price.toFixed(2)} USD`;
+            }
+            
             alert(lang === 'es' 
-                ? `✅ ${config.name} agregado al carrito\n\nProductos: ${productNames}\nPrecio: $${config.price.toLocaleString('es-CO')} COP`
-                : `✅ ${config.name} added to cart\n\nProducts: ${productNames}\nPrice: $${config.price.toLocaleString('es-CO')} COP`
+                ? `✅ ${config.name} agregado al carrito\n\nProductos: ${productNames}\nPrecio: ${priceAlert}`
+                : `✅ ${config.name} added to cart\n\nProducts: ${productNames}\nPrice: ${priceAlert}`
             );
         }
 
