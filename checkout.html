@@ -388,6 +388,7 @@
                 </h3>
 
                 <div class="payment-methods" id="paymentMethodsContainer">
+                    <div class="payment-methods" id="paymentMethodsContainer" style="display:none;">
                     <div class="payment-method selected" data-method="NEQUI" data-region="CO" onclick="selectPaymentMethod(this)">
                         <div class="payment-method-icon">📱</div>
                         <div class="payment-method-info">
@@ -719,7 +720,9 @@
             const isEnglish = language === 'en';
             const hidePrices = country === 'US' || pickupStore === 'US';
 
+            const paymentMethodsDiv = document.getElementById('paymentMethodsContainer');
             if (!country) {
+                if (paymentMethodsDiv) paymentMethodsDiv.style.display = 'none';
                 const alertMsg = isEnglish ? 'Select a country to see shipping options' : 'Selecciona un país para ver las opciones de envío';
                 shippingOptionsDiv.innerHTML = `<div class="shipping-alert">⚠️ ${alertMsg}</div>`;
                 shippingCost = 0;
@@ -727,6 +730,8 @@
                 currentCurrency = (isEnglish || country !== 'CO') ? 'USD' : 'COP';
                 displayOrderSummary();
                 return;
+            } else {
+                if (paymentMethodsDiv) paymentMethodsDiv.style.display = '';
             }
 
             // Determinar moneda
