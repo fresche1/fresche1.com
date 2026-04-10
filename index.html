@@ -2422,9 +2422,99 @@
                 resumenProductos += `<li><strong>${item.name}</strong> x${item.quantity} = $${itemTotal.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</li>`;
             });
             
-            const totalDisplay = isColombia 
-                ? `$${totalPrice.toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP`
-                : `$${(totalPrice / exchangeRates.USD).toFixed(2)} USD`;
+            // Detectar moneda actual
+            const isUSD = currentCurrency === 'USD';
+            const totalDisplay = isUSD 
+                ? `$${(totalPrice / exchangeRates.USD).toFixed(2)} USD`
+                : `$${totalPrice.toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP`;
+            
+            const mensaje = lang === 'es' 
+                ? `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f9f9f9;">
+                   <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #d4af37;">
+                   <h2 style="color: #d4af37; margin-top: 0;">🛍️ ¡Hola ${nombre}!</h2>
+                   <p>Gracias por tu pedido en <strong>FRESCHE</strong>. Estamos procesando tu compra.</p>
+                   
+                   <h3 style="color: #d4af37;">📦 Resumen de tu compra:</h3>
+                   <ul style="color: #333;">${resumenProductos}</ul>
+                   
+                   <p><strong>Total de productos:</strong> ${totalItems}</p>
+                   <p style="color: #d4af37; font-size: 1.2em;"><strong>TOTAL: ${totalDisplay}</strong></p>
+                   
+                   <hr style="border: 1px solid #d4af37; margin: 20px 0;">
+                   
+                   <p><strong>💳 Próximo paso:</strong></p>
+                   <p>Procederás ahora a Mercado Pago para completar el pago de forma segura. Aceptamos todas las tarjetas de crédito, débito y transferencias bancarias.</p>
+                   
+                   <p><strong>📧 Importante:</strong></p>
+                   <p>Una vez completado el pago, recibirás otra confirmación en este correo y nos contactaremos contigo para confirmar los detalles de entrega.</p>
+                   
+                   <hr style="border: 1px solid #d4af37; margin: 20px 0;">
+                   <p style="color: #666; font-size: 0.9em; text-align: center;">
+                   ¡Gracias por confiar en FRESCHE! 🇨🇴<br>
+                   Si tienes dudas, contáctanos por WhatsApp: +57 301 760 6723
+                   </p>
+                   </div>
+                   </div>`
+                : `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f9f9f9;">
+                   <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #d4af37;">
+                   <h2 style="color: #d4af37; margin-top: 0;">🛍️ Hello ${nombre}!</h2>
+                   <p>Thank you for your order at <strong>FRESCHE</strong>. We are processing your purchase.</p>
+                   
+                   <h3 style="color: #d4af37;">📦 Order summary:</h3>
+                   <ul style="color: #333;">${resumenProductos}</ul>
+                   
+                   <p><strong>Total items:</strong> ${totalItems}</p>
+                   <p style="color: #d4af37; font-size: 1.2em;"><strong>TOTAL: ${totalDisplay}</strong></p>
+                   
+                   <hr style="border: 1px solid #d4af37; margin: 20px 0;">
+                   
+                   <p><strong>💳 Next step:</strong></p>
+                   <p>You will now proceed to Mercado Pago to complete the secure payment. We accept all credit cards, debit cards and bank transfers.</p>
+                   
+                   <p><strong>📧 Important:</strong></p>
+                   <p>Once payment is complete, you will receive another confirmation in this email and we will contact you to confirm delivery details.</p>
+                   
+                   <hr style="border: 1px solid #d4af37; margin: 20px 0;">
+                   <p style="color: #666; font-size: 0.9em; text-align: center;">
+                   Thank you for trusting FRESCHE! 🇨🇴<br>
+                   If you have questions, contact us on WhatsApp: +57 301 760 6723
+                   </p>
+                   </div>
+                   </div>`;
+            
+            // Llamar a API del servidor para enviar email via Resend
+            fetch('/api/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    to: email,
+                    subject: lang === 'es' ? '🛍️ Confirmación de compra - FRESCHE' : '🛍️ Order confirmation - FRESCHE',
+                    html: mensaje
+                })
+            }).then(res => {
+                if (!res.ok) {
+                    console.warn('⚠️ Email no enviado (código ' + res.status + ')');
+                } else {
+                    console.log('✅ Email enviado exitosamente');
+                }
+            }).catch(err => {
+                console.warn('⚠️ Error al enviar email (continuando):', err.message);
+            }).finally(() => {
+                // Redirigir a Mercado Pago sin importar si el email se envió
+                const MERCADOPAGO_PAYMENT_LINK = 'https://link.mercadopago.com.co/fresche1';
+                
+                if (MERCADOPAGO_PAYMENT_LINK) {
+                    window.open(MERCADOPAGO_PAYMENT_LINK, '_blank');
+                } else {
+                    const lang = document.documentElement.getAttribute('data-lang') || 'es';
+                    alert(lang === 'es' 
+                        ? '⚠️ URL de Mercado Pago no configurado. Por favor contáctanos por WhatsApp: +57 301 760 6723'
+                        : '⚠️ Mercado Pago payment link not configured. Please contact us on WhatsApp: +57 301 760 6723');
+                }
+                
+                closeCart();
+            });
+        }
             
             const mensaje = lang === 'es' 
                 ? `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f9f9f9;">
