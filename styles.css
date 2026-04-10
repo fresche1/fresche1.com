@@ -3209,6 +3209,8 @@ body.theme-women .qr-center img {
     border-radius: 0;
     width: 95%;
     max-width: 900px;
+    max-height: 95vh;
+    overflow-y: auto;
     position: relative;
     animation: modalSlideIn 0.3s;
 }
