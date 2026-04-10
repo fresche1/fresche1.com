@@ -2350,7 +2350,7 @@
             
             html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="mercadopago" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Pago</b><br><span style="color: #00b894; font-size: 0.95rem;">' + (lang === 'es' ? 'Pago seguro con Mercado Pago' : 'Secure payment with Mercado Pago') + '</span><br><span style="font-size: 0.85rem; color: #999;">' + (lang === 'es' ? 'Recibirás confirmación por email' : 'You will receive email confirmation') + '</span></div></label>';
             
-            html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="mercadolibre" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Libre</b><br><a href="https://www.mercadolibre.com.co/search?q=fresche" target="_blank" style="color: #00b894; text-decoration: none; font-size: 0.95rem;">Ver en Mercado Libre →</a><br><span style="font-size: 0.85rem; color: #999;">Compra y venta confiable</span></div></label>';
+            html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="mercadolibre" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Libre</b><br><a href="https://articulo.mercadolibre.com.co/MCO-1801564823-crema-intima-fresche-30-ml-hidratante-hipoalergenica-_JM" target="_blank" style="color: #00b894; text-decoration: none; font-size: 0.95rem;">Ver en Mercado Libre →</a><br><span style="font-size: 0.85rem; color: #999;">Compra y venta confiable</span></div></label>';
             
             html += '</form></div>';
             html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;"><button onclick="openCart()" style="padding: 1rem; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 10px; font-size: 1rem; cursor: pointer;">← ' + (lang === 'es' ? 'Atrás' : 'Back') + '</button><button onclick="procederPagoOnlineConDatos()" style="padding: 1rem; background: linear-gradient(135deg, var(--gold), #ffd700); color: var(--black); border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer;">' + (lang === 'es' ? 'Continuar' : 'Continue') + ' →</button></div>';
@@ -2420,8 +2420,8 @@
                 enviarConfirmacionMercadoPago(nombre, email);
                 
             } else if (selectedMethod === 'mercadolibre') {
-                // Mercado Libre → Redirigir a página de búsqueda
-                window.open('https://www.mercadolibre.com.co/search?q=fresche', '_blank');
+                // Mercado Libre → Redirigir al producto específico
+                window.open('https://articulo.mercadolibre.com.co/MCO-1801564823-crema-intima-fresche-30-ml-hidratante-hipoalergenica-_JM', '_blank');
                 closeCart();
             }
         }
@@ -2627,8 +2627,8 @@
                 closeCart();
                 
             } else if (selectedMethod === 'mercadolibre') {
-                // Mercado Libre → Redirigir a página de venta
-                window.open('https://www.mercadolibre.com.co/search?q=fresche', '_blank');
+                // Mercado Libre → Redirigir al producto específico
+                window.open('https://articulo.mercadolibre.com.co/MCO-1801564823-crema-intima-fresche-30-ml-hidratante-hipoalergenica-_JM', '_blank');
                 closeCart();
             }
         }
@@ -2711,8 +2711,8 @@
                         closeCart();
                         
                     } else if (metodo === 'mercadolibre') {
-                        // Mercado Libre → Redirigir a página de venta
-                        window.open('https://www.mercadolibre.com.co/search?q=fresche', '_blank');
+                        // Mercado Libre → Redirigir al producto específico
+                        window.open('https://articulo.mercadolibre.com.co/MCO-1801564823-crema-intima-fresche-30-ml-hidratante-hipoalergenica-_JM', '_blank');
                         closeCart();
                     }
                 };
