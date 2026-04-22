@@ -483,6 +483,19 @@
         let currentCurrency = 'COP'; // Moneda por defecto
         let defaultPaymentMethodsHtml = '';
         const BACKEND_URL = 'https://fresche1-com.onrender.com';
+        const MERCADOPAGO_RETURN_BASE_URL = 'https://fresche1.com';
+        const pickupStoreDetails = {
+            CO: {
+                shortLabel: 'Tienda Colombia',
+                locations: 'Bogotá, Fusagasugá, Madrid Cundinamarca y Medellín',
+                summaryLabel: 'Tienda Colombia 🇨🇴 (Bogotá, Fusagasugá, Madrid Cundinamarca y Medellín)'
+            },
+            US: {
+                shortLabel: 'Tienda USA',
+                locations: 'Queens, Manhattan, Long Island, Brooklyn y New Jersey',
+                summaryLabel: 'Tienda USA 🇺🇸 (Queens, Manhattan, Long Island, Brooklyn y New Jersey)'
+            }
+        };
 
         // Tarifas de envío reales
         // Colombia: Interrapidísimo según zona
@@ -546,7 +559,7 @@
 
         // Tabla de precios dinámicos por cantidad (en dólares)
         const priceTable = {
-            1: { USD: 18.99, COP: 40000 },
+            1: { USD: 19.99, COP: 40000 },
             2: { USD: 34.99, COP: 70000 },
             3: { USD: 44.99, COP: 100000 },
             'pack_elella': { USD: 69.99, COP: 160000 }  // Pack El y Ella (5 unidades)
@@ -778,20 +791,15 @@
                     <div class="shipping-option-price" style="color: #00b894; font-weight: bold;">Envío Gratis</div>
                 </div>`;
             } else if (country !== 'CO' && selectedShippingMethod !== 'pickup') {
-                options = shippingRates.INTERNATIONAL;
-                selectedOption = options.find(opt => opt.id === 'international');
-                if (selectedOption) {
-                    selectedShippingMethod = selectedOption.id;
-                    shippingCost = selectedOption.price;
-                    const formattedPrice = `$${selectedOption.price.toFixed(2)} USD`;
-                    html += `<div class="shipping-option selected" data-method="${selectedOption.id}">
-                        <div class="shipping-option-info">
-                            <div class="shipping-option-name">${selectedOption.name}</div>
-                            <div class="shipping-option-desc">📦 ${selectedOption.desc}</div>
-                        </div>
-                        ${hidePrices ? '' : `<div class="shipping-option-price">${formattedPrice}</div>`}
-                    </div>`;
-                }
+                selectedShippingMethod = 'free';
+                shippingCost = 0;
+                html += `<div class="shipping-option selected" data-method="free">
+                    <div class="shipping-option-info">
+                        <div class="shipping-option-name">🚚 <span data-es='Delivery gratis internacional' data-en='Free international delivery'>Delivery gratis internacional</span></div>
+                        <div class="shipping-option-desc">📦 <span data-es='Recibe tu pedido sin costo de envío y paga solo el valor del producto.' data-en='Receive your order with free delivery and pay only for the product.'>Recibe tu pedido sin costo de envío y paga solo el valor del producto.</span></div>
+                    </div>
+                    <div class="shipping-option-price" style="color: #00b894; font-weight: bold;">${isEnglish ? 'Free Delivery' : 'Envío Gratis'}</div>
+                </div>`;
             }
             shippingOptionsDiv.innerHTML = html;
             if (selectedShippingMethod === 'pickup') shippingCost = 0;
@@ -914,10 +922,12 @@
                     <h4 style="color:var(--gold); margin-bottom:1rem; font-size:1.2rem;">📍 Selecciona la tienda para recoger</h4>
                     <div style="display:flex; gap:1rem; flex-wrap:wrap;">
                         <button type="button" class="pickup-store-btn" data-store="CO" onclick="selectPickupStore('CO')" style="flex:1; min-width:200px; padding:1rem; background:${pickupStore === 'CO' ? 'linear-gradient(135deg, var(--gold), #ffd700)' : 'rgba(255,255,255,0.1)'}; color:${pickupStore === 'CO' ? '#000' : '#fff'}; border:${pickupStore === 'CO' ? '3px solid var(--gold)' : '2px solid rgba(255,255,255,0.3)'}; border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:all 0.3s;">
-                            🇨🇴 Tienda Colombia
+                            <div>🇨🇴 ${pickupStoreDetails.CO.shortLabel}</div>
+                            <div style="margin-top:0.35rem; font-size:0.9rem; font-weight:500; line-height:1.4;">${pickupStoreDetails.CO.locations}</div>
                         </button>
                         <button type="button" class="pickup-store-btn" data-store="US" onclick="selectPickupStore('US')" style="flex:1; min-width:200px; padding:1rem; background:${pickupStore === 'US' ? 'linear-gradient(135deg, var(--gold), #ffd700)' : 'rgba(255,255,255,0.1)'}; color:${pickupStore === 'US' ? '#000' : '#fff'}; border:${pickupStore === 'US' ? '3px solid var(--gold)' : '2px solid rgba(255,255,255,0.3)'}; border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:all 0.3s;">
-                            🇺🇸 Tienda USA
+                            <div>🇺🇸 ${pickupStoreDetails.US.shortLabel}</div>
+                            <div style="margin-top:0.35rem; font-size:0.9rem; font-weight:500; line-height:1.4;">${pickupStoreDetails.US.locations}</div>
                         </button>
                     </div>
                 </div>
@@ -983,13 +993,27 @@
                 `;
                 selectedPaymentMethod = 'ZELLE';
             } else {
-                // Solo Nequi para pickup en Colombia
+                // Colombia pickup: Nequi, Mercado Pago y Mercado Libre en COP
                 container.innerHTML = `
                     <div class="payment-method selected" data-method="NEQUI" onclick="selectPaymentMethod(this)">
                         <div class="payment-method-icon">📱</div>
                         <div class="payment-method-info">
                             <div class="payment-method-name">Nequi</div>
                             <div class="payment-method-desc">Pago directo sin comisión</div>
+                        </div>
+                    </div>
+                    <div class="payment-method" data-method="MERCADOPAGO" onclick="selectPaymentMethod(this)">
+                        <div class="payment-method-icon">💳</div>
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">Mercado Pago</div>
+                            <div class="payment-method-desc">Pago en pesos colombianos</div>
+                        </div>
+                    </div>
+                    <div class="payment-method" data-method="MERCADOLIBRE" onclick="selectPaymentMethod(this)">
+                        <div class="payment-method-icon">🛒</div>
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">MercadoLibre Colombia</div>
+                            <div class="payment-method-desc">Compra protegida en COP</div>
                         </div>
                     </div>
                 `;
@@ -1142,7 +1166,7 @@
             };
 
             document.getElementById('subtotal').textContent = formatMoney(subtotal);
-            document.getElementById('shipping').textContent = shippingCost > 0 ? formatMoney(shippingCost) : (currentCurrency === 'USD' ? 'Select method' : 'Seleccione método');
+            document.getElementById('shipping').textContent = shippingCost > 0 ? formatMoney(shippingCost) : (currentCurrency === 'USD' ? 'Free Delivery' : 'Envío Gratis');
             
             // Actualizar total con comisión
             const totalsDiv = document.querySelector('.order-totals');
@@ -1288,7 +1312,7 @@
                 
                 let shippingInfo = '';
                 if (selectedShippingMethod === 'pickup') {
-                    const storeName = pickupStore === 'CO' ? 'Tienda Colombia 🇨🇴' : 'Tienda USA 🇺🇸';
+                    const storeName = pickupStoreDetails[pickupStore]?.summaryLabel || (pickupStore === 'CO' ? 'Tienda Colombia 🇨🇴' : 'Tienda USA 🇺🇸');
                     shippingInfo = `*MÉTODO DE ENTREGA:*\n🏢 Recoger en ${storeName}\n\n`;
                 } else {
                     shippingInfo = `*DIRECCIÓN DE ENVÍO:*\n` +
@@ -1316,7 +1340,7 @@
                     `*PRODUCTOS:*\n${itemsText}\n\n` +
                     `*RESUMEN:*\n` +
                     `Subtotal: ${formatMoney(subtotal)}\n` +
-                    `Envío: ${formatMoney(shippingCost)}\n` +
+                    `Envío: ${shippingCost > 0 ? formatMoney(shippingCost) : 'Envío Gratis'}\n` +
                     `*TOTAL A PAGAR: ${formatMoney(total)}*\n\n` +
                     `💳 *MÉTODO DE PAGO: ${methodName}*\n` +
                     `${paymentInfo}\n\n` +
@@ -1395,7 +1419,7 @@
                 items.push({
                     title: 'Envío',
                     quantity: 1,
-                    unit_price: (country === 'CO' ? 0 : shippingCost),
+                    unit_price: 0,
                     currency_id: currentCurrency
                 });
 
@@ -1416,9 +1440,9 @@
                         }
                     },
                     back_urls: {
-                        success: window.location.origin + '/payment-response.html?status=success',
-                        failure: window.location.origin + '/payment-response.html?status=failure',
-                        pending: window.location.origin + '/payment-response.html?status=pending'
+                        success: MERCADOPAGO_RETURN_BASE_URL + '/payment-response.html?status=success',
+                        failure: MERCADOPAGO_RETURN_BASE_URL + '/payment-response.html?status=failure',
+                        pending: MERCADOPAGO_RETURN_BASE_URL + '/payment-response.html?status=pending'
                     },
                     auto_return: 'approved',
                     external_reference: 'FRESCHE-' + Date.now(),
