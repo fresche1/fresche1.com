@@ -71,6 +71,16 @@ const STRIPE_PRODUCT_IDS = {
   elella: 'prod_UNwkUUVV3ijlex'
 };
 
+function isPackItem(item) {
+  return item?.type === 'pack';
+}
+
+function getStripeIndividualUnitPriceUsd(totalIndividualQty) {
+  if (totalIndividualQty >= 5) return 15.99;
+  if (totalIndividualQty >= 3) return 16.99;
+  return STRIPE_PRICE_TABLE_USD[1];
+}
+
 function resolveStripePackType(item) {
   if (item.packType) {
     return item.packType;
@@ -94,6 +104,28 @@ function getStripeUnitPriceUsd(item) {
   return STRIPE_PRICE_TABLE_USD[item.quantity] || STRIPE_PRICE_TABLE_USD[1];
 }
 
+function buildStripePricingItems(cart) {
+  const safeCart = Array.isArray(cart) ? cart : [];
+  const totalIndividualQty = safeCart.reduce((sum, item) => {
+    if (isPackItem(item)) return sum;
+    return sum + (Number(item.quantity) || 1);
+  }, 0);
+  const sharedIndividualUnitPriceUsd = getStripeIndividualUnitPriceUsd(totalIndividualQty);
+
+  return safeCart.map((item) => {
+    const quantity = Number(item.quantity) || 1;
+    const unitPriceUsd = isPackItem(item)
+      ? getStripeUnitPriceUsd(item)
+      : sharedIndividualUnitPriceUsd;
+
+    return {
+      item,
+      quantity,
+      unitPriceUsd
+    };
+  });
+}
+
 function getStripeProductId(item) {
   if (item.type === 'pack') {
     const packType = resolveStripePackType(item);
@@ -106,8 +138,7 @@ function getStripeProductId(item) {
 }
 
 function buildStripeLineItems(cart) {
-  return cart.map((item) => {
-    const unitPriceUsd = getStripeUnitPriceUsd(item);
+  return buildStripePricingItems(cart).map(({ item, quantity, unitPriceUsd }) => {
     const productId = getStripeProductId(item);
 
     return {
@@ -116,7 +147,7 @@ function buildStripeLineItems(cart) {
         product: productId,
         unit_amount: Math.round(unitPriceUsd * 100)
       },
-      quantity: Number(item.quantity) || 1
+      quantity
     };
   });
 }
@@ -134,9 +165,8 @@ function calculateStripeShippingUsd(orderData) {
 }
 
 function calculateStripeOrderSummary(orderData) {
-  const subtotal = orderData.cart.reduce((sum, item) => {
-    const unitPriceUsd = getStripeUnitPriceUsd(item);
-    return sum + (unitPriceUsd * (Number(item.quantity) || 1));
+  const subtotal = buildStripePricingItems(orderData.cart).reduce((sum, pricingItem) => {
+    return sum + (pricingItem.unitPriceUsd * pricingItem.quantity);
   }, 0);
 
   const shippingCost = calculateStripeShippingUsd(orderData);
@@ -176,12 +206,12 @@ function sanitizeReturnBaseUrl(candidate) {
 }
 
 function buildPayPalItems(cart) {
-  return cart.map((item) => ({
+  return buildStripePricingItems(cart).map(({ item, quantity, unitPriceUsd }) => ({
     name: item.name,
-    quantity: String(Number(item.quantity) || 1),
+    quantity: String(quantity),
     unit_amount: {
       currency_code: 'USD',
-      value: formatUsdAmount(getStripeUnitPriceUsd(item))
+      value: formatUsdAmount(unitPriceUsd)
     }
   }));
 }
