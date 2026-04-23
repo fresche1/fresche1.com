@@ -2609,8 +2609,9 @@
             return `$${Number(amount).toFixed(2)} USD`;
         }
 
-        const BACKEND_URL = 'https://fresche1-com.onrender.com';
-        const MERCADOPAGO_RETURN_BASE_URL = 'https://fresche1.com';
+            const IS_LOCALHOST = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+            const BACKEND_URL = IS_LOCALHOST ? 'http://localhost:3001' : 'https://fresche1-com.onrender.com';
+            const MERCADOPAGO_RETURN_BASE_URL = IS_LOCALHOST ? window.location.origin : 'https://fresche1.com';
 
         function buildMercadoPagoItemsForCart(currencyCode) {
             const isCOP = currencyCode === 'COP';
@@ -2751,32 +2752,44 @@
             document.body.appendChild(loadingMsg);
 
             try {
+                localStorage.setItem('stripePendingOrder', JSON.stringify({
+                    orderContext,
+                    cart,
+                    provider: 'stripe',
+                    date: new Date().toISOString()
+                }));
+
                 const response = await fetch(`${BACKEND_URL}/api/create-stripe-checkout-session`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({
                         orderData: {
-                            fullName: orderContext.customerName,
-                            email: orderContext.email,
-                            phone: orderContext.phone,
-                            address: orderContext.address,
-                            city: orderContext.city,
-                            state: orderContext.state,
-                            postalCode: orderContext.zipCode,
-                            country: orderContext.country,
-                            shippingMethod: orderContext.shippingMethod,
-                            currency: orderContext.currency,
-                            cart: cart
+                            fullName: orderContext.customerName || '',
+                            email: orderContext.email || '',
+                            phone: orderContext.phone || '',
+                            address: orderContext.address || '',
+                            city: orderContext.city || '',
+                            state: orderContext.state || '',
+                            zipCode: orderContext.zipCode || '',
+                            country: orderContext.country || '',
+                            shippingMethod: orderContext.shippingMethod || 'free',
+                            cart
                         }
                     })
                 });
 
+                const data = await response.json();
+
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(errorText || 'No se pudo crear la sesión de Stripe');
+                    throw new Error(data.error || 'No se pudo crear la sesión de Stripe');
                 }
 
-                const data = await response.json();
+                if (!data.url) {
+                    throw new Error('Stripe no devolvió una URL de pago');
+                }
+
                 window.location.href = data.url;
             } catch (error) {
                 console.error('Error al redirigir a Stripe:', {

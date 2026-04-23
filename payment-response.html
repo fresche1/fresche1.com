@@ -100,41 +100,58 @@
     </div>
 
     <script>
-        function parsePayUResponse() {
-            const urlParams = new URLSearchParams(window.location.search);
-            
+        function renderResponse({ icon, status, title, message, details, clearCart = false }) {
+            if (clearCart) {
+                localStorage.removeItem('freshCart');
+            }
+
+            const contentDiv = document.getElementById('response-content');
+            const rows = details.map(detail => `
+                <div class="detail-row">
+                    <span class="detail-label">${detail.label}</span>
+                    <span class="detail-value">${detail.value || 'N/A'}</span>
+                </div>
+            `).join('');
+
+            contentDiv.innerHTML = `
+                <div class="response-icon ${status}">${icon}</div>
+                <h1 class="response-title">${title}</h1>
+                <p class="response-message">${message}</p>
+                <div class="response-details">${rows}</div>
+                <a href="index.html" class="btn-home">🏠 Volver al Inicio</a>
+            `;
+        }
+
+        function parsePayUResponse(urlParams) {
             const transactionState = urlParams.get('transactionState');
             const referenceCode = urlParams.get('referenceCode');
             const TX_VALUE = urlParams.get('TX_VALUE');
             const currency = urlParams.get('currency');
             const transactionId = urlParams.get('transactionId');
             const lapPaymentMethod = urlParams.get('lapPaymentMethod');
-            const polResponseCode = urlParams.get('polResponseCode');
 
             let icon, title, message, status;
 
             switch(transactionState) {
-                case '4': // Aprobada
+                case '4':
                     icon = '✅';
                     status = 'success';
                     title = '¡Pago Exitoso!';
                     message = 'Tu pago ha sido procesado correctamente. Recibirás un email de confirmación con los detalles de tu pedido.';
-                    // Limpiar carrito
-                    localStorage.removeItem('freshCart');
                     break;
-                case '6': // Rechazada
+                case '6':
                     icon = '❌';
                     status = 'declined';
                     title = 'Pago Rechazado';
                     message = 'Lo sentimos, tu pago fue rechazado. Por favor verifica la información de tu tarjeta e intenta nuevamente.';
                     break;
-                case '7': // Pendiente
+                case '7':
                     icon = '⏳';
                     status = 'pending';
                     title = 'Pago Pendiente';
                     message = 'Tu pago está siendo procesado. Te notificaremos cuando se complete la transacción.';
                     break;
-                case '5': // Expirada
+                case '5':
                     icon = '⚠️';
                     status = 'declined';
                     title = 'Transacción Expirada';
@@ -147,36 +164,88 @@
                     message = 'No pudimos determinar el estado de tu pago. Por favor contacta a soporte.';
             }
 
-            const contentDiv = document.getElementById('response-content');
-            contentDiv.innerHTML = `
-                <div class="response-icon ${status}">${icon}</div>
-                <h1 class="response-title">${title}</h1>
-                <p class="response-message">${message}</p>
-                
-                <div class="response-details">
-                    <div class="detail-row">
-                        <span class="detail-label">Referencia:</span>
-                        <span class="detail-value">${referenceCode || 'N/A'}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">ID Transacción:</span>
-                        <span class="detail-value">${transactionId || 'N/A'}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Monto:</span>
-                        <span class="detail-value">$${parseFloat(TX_VALUE).toLocaleString('es-CO')} ${currency}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Método de Pago:</span>
-                        <span class="detail-value">${lapPaymentMethod || 'N/A'}</span>
-                    </div>
-                </div>
-
-                <a href="index.html" class="btn-home">🏠 Volver al Inicio</a>
-            `;
+            renderResponse({
+                icon,
+                status,
+                title,
+                message,
+                clearCart: status === 'success',
+                details: [
+                    { label: 'Referencia:', value: referenceCode },
+                    { label: 'ID Transacción:', value: transactionId },
+                    { label: 'Monto:', value: TX_VALUE ? `$${parseFloat(TX_VALUE).toLocaleString('es-CO')} ${currency}` : 'N/A' },
+                    { label: 'Método de Pago:', value: lapPaymentMethod }
+                ]
+            });
         }
 
-        window.addEventListener('DOMContentLoaded', parsePayUResponse);
+        function parseGenericResponse(urlParams) {
+            const provider = urlParams.get('provider') || 'mercadopago';
+            const statusParam = urlParams.get('status') || 'pending';
+            const statusMap = {
+                success: {
+                    icon: '✅',
+                    status: 'success',
+                    title: '¡Pago Exitoso!'
+                },
+                pending: {
+                    icon: '⏳',
+                    status: 'pending',
+                    title: 'Pago Pendiente'
+                },
+                cancel: {
+                    icon: '⚠️',
+                    status: 'declined',
+                    title: 'Pago Cancelado'
+                },
+                failure: {
+                    icon: '❌',
+                    status: 'declined',
+                    title: 'Pago Fallido'
+                }
+            };
+
+            const currentStatus = statusMap[statusParam] || statusMap.pending;
+            const providerNames = {
+                paypal: 'PayPal',
+                stripe: 'Stripe',
+                mercadopago: 'Mercado Pago'
+            };
+            const providerName = providerNames[provider] || 'el proveedor seleccionado';
+
+            let message = `Tu operación con ${providerName} fue registrada correctamente.`;
+            if (statusParam === 'pending') {
+                message = `Tu operación con ${providerName} está siendo procesada. Te notificaremos cuando cambie el estado del pago.`;
+            } else if (statusParam === 'cancel') {
+                message = `Cancelaste la aprobación del pago en ${providerName}. Puedes volver a intentarlo cuando quieras.`;
+            } else if (statusParam === 'failure') {
+                message = `No fue posible completar el pago con ${providerName}. Intenta nuevamente o usa otro método.`;
+            }
+
+            renderResponse({
+                ...currentStatus,
+                message,
+                clearCart: statusParam === 'success',
+                details: [
+                    { label: 'Proveedor:', value: providerName },
+                    { label: 'Orden:', value: urlParams.get('orderId') || urlParams.get('collection_id') || urlParams.get('payment_id') || urlParams.get('session_id') },
+                    { label: 'Captura / Pago:', value: urlParams.get('captureId') || urlParams.get('merchant_order_id') || urlParams.get('payment_intent') },
+                    { label: 'Monto:', value: urlParams.get('amount') ? `$${urlParams.get('amount')} ${urlParams.get('currency') || 'USD'}` : 'N/A' }
+                ]
+            });
+        }
+
+        function parsePaymentResponse() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('transactionState')) {
+                parsePayUResponse(urlParams);
+                return;
+            }
+
+            parseGenericResponse(urlParams);
+        }
+
+        window.addEventListener('DOMContentLoaded', parsePaymentResponse);
     </script>
 </body>
 </html>

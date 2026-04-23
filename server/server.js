@@ -10,7 +10,25 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || '*').split(',');
+const RAW_ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS || '*';
+const ALLOWED_ORIGINS = RAW_ALLOWED_ORIGINS
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(Boolean);
+
+function isOriginAllowed(origin) {
+  if (!origin) return true;
+  if (ALLOWED_ORIGINS.includes('*')) return true;
+  try {
+    const originUrl = new URL(origin);
+    if (['localhost', '127.0.0.1'].includes(originUrl.hostname)) {
+      return true;
+    }
+  } catch {
+    // Ignore invalid origin values and fall through to explicit matching.
+  }
+  return ALLOWED_ORIGINS.includes(origin);
+}
 
 // Configurar Mercado Pago
 const ACCESS_TOKEN = process.env.MERCADOPAGO_ACCESS_TOKEN;
@@ -29,11 +47,28 @@ const STRIPE_SUCCESS_URL = process.env.STRIPE_SUCCESS_URL || 'https://fresche1.c
 const STRIPE_CANCEL_URL = process.env.STRIPE_CANCEL_URL || 'https://fresche1.com/checkout.html?provider=stripe&status=cancel';
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 
+// Configurar PayPal
+const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
+const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET;
+const PAYPAL_BASE_URL = process.env.PAYPAL_BASE_URL || 'https://api-m.sandbox.paypal.com';
+const PAYPAL_RETURN_BASE_URL = process.env.PAYPAL_RETURN_BASE_URL || 'https://fresche1.com';
+
+if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {
+  console.warn('⚠️ PAYPAL_CLIENT_ID o PAYPAL_CLIENT_SECRET no están definidos');
+}
+
 const STRIPE_PRICE_TABLE_USD = {
   1: 19.99,
   2: 34.99,
   3: 44.99,
   pack_elella: 69.99
+};
+
+const STRIPE_PRODUCT_IDS = {
+  unit: 'prod_UNwnncIoeJHyB1',
+  duo: 'prod_UNwjRRVqNpodxb',
+  trio: 'prod_UNwkHuK7xakaWH',
+  elella: 'prod_UNwkUUVV3ijlex'
 };
 
 function resolveStripePackType(item) {
@@ -59,19 +94,26 @@ function getStripeUnitPriceUsd(item) {
   return STRIPE_PRICE_TABLE_USD[item.quantity] || STRIPE_PRICE_TABLE_USD[1];
 }
 
+function getStripeProductId(item) {
+  if (item.type === 'pack') {
+    const packType = resolveStripePackType(item);
+    if (packType === 'duo') return STRIPE_PRODUCT_IDS.duo;
+    if (packType === 'trio') return STRIPE_PRODUCT_IDS.trio;
+    if (packType === 'elella') return STRIPE_PRODUCT_IDS.elella;
+  }
+
+  return STRIPE_PRODUCT_IDS.unit;
+}
+
 function buildStripeLineItems(cart) {
   return cart.map((item) => {
     const unitPriceUsd = getStripeUnitPriceUsd(item);
-    const title = item.type === 'pack'
-      ? `${item.name}${Array.isArray(item.products) && item.products.length ? ` (${item.products.map((product) => product.id || product.name).join(', ')})` : ''}`
-      : item.name;
+    const productId = getStripeProductId(item);
 
     return {
       price_data: {
         currency: 'usd',
-        product_data: {
-          name: title
-        },
+        product: productId,
         unit_amount: Math.round(unitPriceUsd * 100)
       },
       quantity: Number(item.quantity) || 1
@@ -106,6 +148,68 @@ function calculateStripeOrderSummary(orderData) {
   };
 }
 
+function formatUsdAmount(amount) {
+  return Number(amount || 0).toFixed(2);
+}
+
+function getBackendBaseUrl(req) {
+  const forwardedProto = req.get('x-forwarded-proto');
+  const protocol = forwardedProto ? forwardedProto.split(',')[0] : req.protocol;
+  return `${protocol}://${req.get('host')}`;
+}
+
+function sanitizeReturnBaseUrl(candidate) {
+  if (!candidate) {
+    return PAYPAL_RETURN_BASE_URL;
+  }
+
+  try {
+    const parsed = new URL(candidate);
+    if (isOriginAllowed(parsed.origin)) {
+      return parsed.origin;
+    }
+  } catch {
+    // Ignore invalid return URLs and use the default fallback.
+  }
+
+  return PAYPAL_RETURN_BASE_URL;
+}
+
+function buildPayPalItems(cart) {
+  return cart.map((item) => ({
+    name: item.name,
+    quantity: String(Number(item.quantity) || 1),
+    unit_amount: {
+      currency_code: 'USD',
+      value: formatUsdAmount(getStripeUnitPriceUsd(item))
+    }
+  }));
+}
+
+async function getPayPalAccessToken() {
+  if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {
+    throw new Error('PayPal no configurado');
+  }
+
+  const credentials = Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`).toString('base64');
+  const response = await fetch(`${PAYPAL_BASE_URL}/v1/oauth2/token`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${credentials}`,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: 'grant_type=client_credentials'
+  });
+
+  const data = await response.json();
+
+  if (!response.ok || !data.access_token) {
+    throw new Error(data.error_description || 'No se pudo autenticar con PayPal');
+  }
+
+  return data.access_token;
+}
+
 // Configurar Resend para envíos de email
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -115,7 +219,16 @@ console.log(`   Servicio: Resend`);
 console.log(`   API Key: ${process.env.RESEND_API_KEY ? '✓' : '✗ FALTA'}`);
 console.log(`   Email: ${process.env.RESEND_FROM_EMAIL || 'noreply@resend.dev'}`);
 
-app.use(cors({ origin: ALLOWED_ORIGINS, credentials: false }));
+app.use(cors({
+  origin(origin, callback) {
+    if (isOriginAllowed(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`Origen no permitido por CORS: ${origin}`));
+  },
+  credentials: false
+}));
 
 app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   if (!stripe || !STRIPE_WEBHOOK_SECRET) {
@@ -452,6 +565,129 @@ app.post('/api/create-stripe-checkout-session', async (req, res) => {
   } catch (error) {
     console.error('❌ Error creando sesión Stripe:', error);
     return res.status(500).json({ error: 'Error al crear sesión de Stripe' });
+  }
+});
+
+app.post('/api/create-paypal-order', async (req, res) => {
+  try {
+    if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {
+      return res.status(500).json({ error: 'PayPal no configurado' });
+    }
+
+    const { orderData } = req.body;
+
+    if (!orderData || !Array.isArray(orderData.cart) || orderData.cart.length === 0) {
+      return res.status(400).json({ error: 'Pedido inválido para PayPal' });
+    }
+
+    if (!orderData.email) {
+      return res.status(400).json({ error: 'Email requerido para PayPal' });
+    }
+
+    const summary = calculateStripeOrderSummary(orderData);
+    const items = buildPayPalItems(orderData.cart);
+    const backendBaseUrl = getBackendBaseUrl(req);
+    const returnBaseUrl = sanitizeReturnBaseUrl(orderData.returnBaseUrl);
+    const captureReturnUrl = `${backendBaseUrl}/api/paypal/capture-order?returnBaseUrl=${encodeURIComponent(returnBaseUrl)}`;
+    const cancelUrl = `${returnBaseUrl}/payment-response.html?provider=paypal&status=cancel`;
+    const accessToken = await getPayPalAccessToken();
+
+    const response = await fetch(`${PAYPAL_BASE_URL}/v2/checkout/orders`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        intent: 'CAPTURE',
+        purchase_units: [{
+          reference_id: `FRESCHE-${Date.now()}`,
+          description: 'FRESCHE order',
+          amount: {
+            currency_code: 'USD',
+            value: formatUsdAmount(summary.total),
+            breakdown: {
+              item_total: {
+                currency_code: 'USD',
+                value: formatUsdAmount(summary.subtotal)
+              },
+              shipping: {
+                currency_code: 'USD',
+                value: formatUsdAmount(summary.shippingCost)
+              }
+            }
+          },
+          items
+        }],
+        application_context: {
+          brand_name: 'FRESCHE',
+          landing_page: 'LOGIN',
+          user_action: 'PAY_NOW',
+          return_url: captureReturnUrl,
+          cancel_url: cancelUrl,
+          shipping_preference: 'NO_SHIPPING'
+        }
+      })
+    });
+
+    const data = await response.json();
+    const approveUrl = data.links?.find((link) => link.rel === 'approve')?.href;
+
+    if (!response.ok || !approveUrl) {
+      throw new Error(data.message || 'No se pudo crear la orden de PayPal');
+    }
+
+    return res.json({
+      id: data.id,
+      url: approveUrl,
+      subtotal: summary.subtotal,
+      shippingCost: summary.shippingCost,
+      total: summary.total
+    });
+  } catch (error) {
+    console.error('❌ Error creando orden PayPal:', error);
+    return res.status(500).json({ error: error.message || 'Error al crear orden de PayPal' });
+  }
+});
+
+app.get('/api/paypal/capture-order', async (req, res) => {
+  const orderId = req.query.token;
+  const returnBaseUrl = sanitizeReturnBaseUrl(req.query.returnBaseUrl);
+
+  if (!orderId) {
+    return res.redirect(`${returnBaseUrl}/payment-response.html?provider=paypal&status=failure`);
+  }
+
+  try {
+    const accessToken = await getPayPalAccessToken();
+    const response = await fetch(`${PAYPAL_BASE_URL}/v2/checkout/orders/${orderId}/capture`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const data = await response.json();
+    const capture = data.purchase_units?.[0]?.payments?.captures?.[0];
+    const status = capture?.status === 'COMPLETED' || data.status === 'COMPLETED' ? 'success' : 'pending';
+    const params = new URLSearchParams({
+      provider: 'paypal',
+      status,
+      orderId: data.id || orderId,
+      captureId: capture?.id || '',
+      amount: capture?.amount?.value || data.purchase_units?.[0]?.amount?.value || '',
+      currency: capture?.amount?.currency_code || data.purchase_units?.[0]?.amount?.currency_code || 'USD'
+    });
+
+    if (!response.ok) {
+      throw new Error(data.message || 'No se pudo capturar el pago de PayPal');
+    }
+
+    return res.redirect(`${returnBaseUrl}/payment-response.html?${params.toString()}`);
+  } catch (error) {
+    console.error('❌ Error capturando orden PayPal:', error);
+    return res.redirect(`${returnBaseUrl}/payment-response.html?provider=paypal&status=failure`);
   }
 });
 
