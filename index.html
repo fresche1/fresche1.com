@@ -2560,8 +2560,9 @@
                 html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="mercadopago" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Pago</b><br><span style="color: #00b894; font-size: 0.95rem;">' + (lang === 'es' ? 'Pago seguro en pesos colombianos' : 'Secure payment in Colombian pesos') + '</span><br><span style="font-size: 0.85rem; color: #999;">' + (lang === 'es' ? 'Recibirás confirmación por email' : 'You will receive email confirmation') + '</span></div></label>';
                 html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="mercadolibre" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Libre</b><br><a href="https://articulo.mercadolibre.com.co/MCO-1801564823-crema-intima-fresche-30-ml-hidratante-hipoalergenica-_JM" target="_blank" style="color: #00b894; text-decoration: none; font-size: 0.95rem;">Ver en Mercado Libre →</a><br><span style="font-size: 0.85rem; color: #999;">Compra y venta confiable</span></div></label>';
             } else {
-                html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(0,184,148,0.12); border-radius: 8px; border: 1px solid #00b894; box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="stripe" required style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: #6df0c5;">Stripe</b><br><span style="color: #fff; font-size: 0.95rem;">' + (lang === 'es' ? 'Tarjetas, Apple Pay y Google Pay' : 'Cards, Apple Pay and Google Pay') + '</span><br><span style="font-size: 0.85rem; color: #b9f5e2;">' + (lang === 'es' ? 'Checkout seguro en dólares para USA' : 'Secure USD checkout for US orders') + '</span></div></label>';
-                html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(58,134,255,0.12); border-radius: 8px; border: 1px solid #3a86ff; box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="zelle" required style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: #9fc2ff;">Zelle</b><br><span style="color: #fff; font-size: 0.95rem;">fresche@fresche1.com</span><br><span style="font-size: 0.85rem; color: #c6d7ff;">' + (lang === 'es' ? 'Pago en dólares para delivery en USA' : 'USD payment for US delivery') + '</span></div></label>';
+                html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(255,214,10,0.12); border-radius: 8px; border: 1px solid #ffd60a; box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="paypal" required style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: #ffe680;">PayPal</b><br><span style="color: #fff; font-size: 0.95rem;">' + (lang === 'es' ? 'Saldo PayPal y tarjetas vinculadas' : 'PayPal balance and linked cards') + '</span><br><span style="font-size: 0.85rem; color: #fff0a6;">' + (lang === 'es' ? 'Checkout seguro en dólares para USA' : 'Secure USD checkout for US orders') + '</span></div></label>';
+                html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(0,184,148,0.12); border-radius: 8px; border: 1px solid #00b894; box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="stripe" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: #6df0c5;">Stripe</b><br><span style="color: #fff; font-size: 0.95rem;">' + (lang === 'es' ? 'Tarjetas, Apple Pay y Google Pay' : 'Cards, Apple Pay and Google Pay') + '</span><br><span style="font-size: 0.85rem; color: #b9f5e2;">' + (lang === 'es' ? 'Checkout seguro en dólares para USA' : 'Secure USD checkout for US orders') + '</span></div></label>';
+                html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(58,134,255,0.12); border-radius: 8px; border: 1px solid #3a86ff; box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="zelle" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: #9fc2ff;">Zelle</b><br><span style="color: #fff; font-size: 0.95rem;">fresche@fresche1.com</span><br><span style="font-size: 0.85rem; color: #c6d7ff;">' + (lang === 'es' ? 'Pago en dólares para delivery en USA' : 'USD payment for US delivery') + '</span></div></label>';
             }
             
             html += '</form></div>';
@@ -2807,6 +2808,73 @@
             }
         }
 
+        async function redirectToPayPalCheckout(orderContext) {
+            const lang = document.documentElement.getAttribute('data-lang') || 'es';
+            const loadingMsg = document.createElement('div');
+            loadingMsg.id = 'paypalLoading';
+            loadingMsg.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.92); color: #ffe680; padding: 2rem 3rem; border-radius: 12px; z-index: 10000; text-align: center; font-size: 1.05rem; box-shadow: 0 12px 32px rgba(0,0,0,0.35);';
+            loadingMsg.innerHTML = lang === 'es'
+                ? `<div style="margin-bottom: 0.8rem; font-size: 1.6rem;">🅿️</div><div>Conectando con PayPal</div><small style="display:block; margin-top:0.4rem; opacity:0.8;">PayPal mostrará ${orderContext.totalFormatted}</small>`
+                : `<div style="margin-bottom: 0.8rem; font-size: 1.6rem;">🅿️</div><div>Connecting with PayPal</div><small style="display:block; margin-top:0.4rem; opacity:0.8;">PayPal will show ${orderContext.totalFormatted}</small>`;
+            document.body.appendChild(loadingMsg);
+
+            try {
+                localStorage.setItem('paypalPendingOrder', JSON.stringify({
+                    orderContext,
+                    cart,
+                    provider: 'paypal',
+                    date: new Date().toISOString()
+                }));
+
+                const response = await fetch(`${BACKEND_URL}/api/create-paypal-order`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderData: {
+                            fullName: orderContext.customerName || '',
+                            email: orderContext.email || '',
+                            phone: orderContext.phone || '',
+                            address: orderContext.address || '',
+                            city: orderContext.city || '',
+                            state: orderContext.state || '',
+                            zipCode: orderContext.zipCode || '',
+                            country: orderContext.country || '',
+                            shippingMethod: orderContext.shippingMethod || 'free',
+                            returnBaseUrl: window.location.origin,
+                            cart
+                        }
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'No se pudo crear la orden de PayPal');
+                }
+
+                if (!data.url) {
+                    throw new Error('PayPal no devolvió una URL de aprobación');
+                }
+
+                window.location.href = data.url;
+            } catch (error) {
+                console.error('Error al redirigir a PayPal:', {
+                    error: error.message,
+                    orderContext,
+                    cart,
+                    backendUrl: BACKEND_URL
+                });
+                alert(lang === 'es'
+                    ? `No fue posible abrir PayPal con el valor del pedido. Inténtalo nuevamente.\n\nDetalle: ${error.message}`
+                    : `Could not open PayPal with the order amount. Please try again.\n\nDetail: ${error.message}`);
+            } finally {
+                const existingLoading = document.getElementById('paypalLoading');
+                if (existingLoading) existingLoading.remove();
+            }
+        }
+
         function calcularTotalRecogida(storeCode) {
             const isColombiaStore = storeCode !== 'US';
             const currency = isColombiaStore ? 'COP' : 'USD';
@@ -3004,6 +3072,24 @@
                 window.open(waLink, '_blank');
                 closeCart();
                 
+            } else if (selectedMethod === 'paypal') {
+                redirectToPayPalCheckout({
+                    customerName: nombre,
+                    email,
+                    phone: telefono,
+                    address: direccion,
+                    city: ciudad,
+                    state: '',
+                    zipCode: '',
+                    country: resolvedDeliveryCountry,
+                    shippingMethod: 'free',
+                    subtotal: deliverySummary.subtotal,
+                    shippingCost: deliverySummary.shippingCost,
+                    total: deliverySummary.total,
+                    totalFormatted: deliverySummary.totalFormatted,
+                    currency: deliverySummary.currency
+                });
+
             } else if (selectedMethod === 'stripe') {
                 redirectToStripeCheckout({
                     customerName: nombre,
@@ -3203,8 +3289,9 @@
             html += '<div style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%; box-sizing: border-box;">';
 
             if (isUSStore) {
-                html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1rem; background: rgba(0,184,148,0.12); border-radius: 8px; border: 1px solid #00b894; box-sizing: border-box; width: 100%;"><input type="radio" name="pickupPaymentMethod" value="stripe" required style="margin-top: 0.2rem; flex-shrink: 0;"><div style="flex: 1;"><b style="color: #6df0c5;">Stripe</b><br><span style="color: #fff; font-size: 0.95rem;">' + (lang === 'es' ? 'Tarjetas, Apple Pay y Google Pay' : 'Cards, Apple Pay and Google Pay') + '</span><br><span style="font-size: 0.85rem; color: #b9f5e2;">' + (lang === 'es' ? 'Checkout seguro en dólares' : 'Secure USD checkout') + '</span></div></label>';
-                html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1rem; background: rgba(58,134,255,0.12); border-radius: 8px; border: 1px solid #3a86ff; box-sizing: border-box; width: 100%;"><input type="radio" name="pickupPaymentMethod" value="zelle" required style="margin-top: 0.2rem; flex-shrink: 0;"><div style="flex: 1;"><b style="color: #9fc2ff;">Zelle</b><br><span style="color: #fff; font-size: 0.95rem;">fresche@fresche1.com</span><br><span style="font-size: 0.85rem; color: #c6d7ff;">' + (lang === 'es' ? 'Pago en dólares sin comisión' : 'Payment in USD with no fees') + '</span></div></label>';
+                html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1rem; background: rgba(255,214,10,0.12); border-radius: 8px; border: 1px solid #ffd60a; box-sizing: border-box; width: 100%;"><input type="radio" name="pickupPaymentMethod" value="paypal" required style="margin-top: 0.2rem; flex-shrink: 0;"><div style="flex: 1;"><b style="color: #ffe680;">PayPal</b><br><span style="color: #fff; font-size: 0.95rem;">' + (lang === 'es' ? 'Saldo PayPal y tarjetas vinculadas' : 'PayPal balance and linked cards') + '</span><br><span style="font-size: 0.85rem; color: #fff0a6;">' + (lang === 'es' ? 'Checkout seguro en dólares' : 'Secure USD checkout') + '</span></div></label>';
+                html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1rem; background: rgba(0,184,148,0.12); border-radius: 8px; border: 1px solid #00b894; box-sizing: border-box; width: 100%;"><input type="radio" name="pickupPaymentMethod" value="stripe" style="margin-top: 0.2rem; flex-shrink: 0;"><div style="flex: 1;"><b style="color: #6df0c5;">Stripe</b><br><span style="color: #fff; font-size: 0.95rem;">' + (lang === 'es' ? 'Tarjetas, Apple Pay y Google Pay' : 'Cards, Apple Pay and Google Pay') + '</span><br><span style="font-size: 0.85rem; color: #b9f5e2;">' + (lang === 'es' ? 'Checkout seguro en dólares' : 'Secure USD checkout') + '</span></div></label>';
+                html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1rem; background: rgba(58,134,255,0.12); border-radius: 8px; border: 1px solid #3a86ff; box-sizing: border-box; width: 100%;"><input type="radio" name="pickupPaymentMethod" value="zelle" style="margin-top: 0.2rem; flex-shrink: 0;"><div style="flex: 1;"><b style="color: #9fc2ff;">Zelle</b><br><span style="color: #fff; font-size: 0.95rem;">fresche@fresche1.com</span><br><span style="font-size: 0.85rem; color: #c6d7ff;">' + (lang === 'es' ? 'Pago en dólares sin comisión' : 'Payment in USD with no fees') + '</span></div></label>';
             } else {
                 html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="pickupPaymentMethod" value="nequi" required style="margin-top: 0.2rem; flex-shrink: 0;"><div style="flex: 1;"><b style="color: var(--gold);">Nequi</b><br><span style="color: #00b894; font-size: 0.95rem;">+57 301 760 6723</span><br><span style="font-size: 0.85rem; color: #999;">(Alejandra Vela Moreno)</span></div></label>';
                 html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="pickupPaymentMethod" value="mercadopago" style="margin-top: 0.2rem; flex-shrink: 0;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Pago</b><br><span style="color: #00b894; font-size: 0.95rem;">' + (lang === 'es' ? 'Pago seguro en pesos colombianos' : 'Secure payment in Colombian pesos') + '</span><br><span style="font-size: 0.85rem; color: #999;">' + (lang === 'es' ? 'Se abre el checkout de Mercado Pago' : 'Mercado Pago checkout opens') + '</span></div></label>';
@@ -3260,6 +3347,24 @@
                         window.open(waLink, '_blank');
                         closeCart();
                         
+                    } else if (metodo === 'paypal') {
+                        redirectToPayPalCheckout({
+                            customerName: form.nombre.value.trim(),
+                            email: form.email.value.trim(),
+                            phone: form.telefono.value.trim(),
+                            address: '',
+                            city: pickupStoreLabel,
+                            state: '',
+                            zipCode: '',
+                            country: pickupStore,
+                            shippingMethod: 'pickup',
+                            subtotal: pickupSummary.total,
+                            shippingCost: 0,
+                            total: pickupSummary.total,
+                            totalFormatted: pickupSummary.totalFormatted,
+                            currency: pickupSummary.currency
+                        });
+
                     } else if (metodo === 'stripe') {
                         redirectToStripeCheckout({
                             customerName: form.nombre.value.trim(),
