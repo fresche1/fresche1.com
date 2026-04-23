@@ -2434,7 +2434,7 @@
 
             const total = subtotal + shippingCost;
 
-            const subtotalCOP = unitPrice * totalIndividualQty + packs.reduce((sum, item) => {
+            const subtotalCOP = (totalIndividualQty >= 5 ? 25999 : totalIndividualQty >= 3 ? 26999 : 40000) * totalIndividualQty + packs.reduce((sum, item) => {
                 const config = packConfigs[item.packType];
                 return sum + ((config ? config.priceCOP : 40000) * item.quantity);
             }, 0);
