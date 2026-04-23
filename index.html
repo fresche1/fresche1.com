@@ -2038,6 +2038,55 @@
             elella: { quantity: 5, priceCOP: 159999, priceUSD: 69.99, name: 'Pack ÉL & ELLA', originalPriceCOP: 200000, originalPriceUSD: 99.95 }
         };
 
+        const individualPriceTiers = {
+            base: { priceCOP: 40000, priceUSD: 19.99 },
+            tier3: { priceCOP: 26999, priceUSD: 16.99 },
+            tier5: { priceCOP: 25999, priceUSD: 15.99 }
+        };
+
+        function resolvePackConfig(itemOrPackType) {
+            const packType = typeof itemOrPackType === 'string' ? itemOrPackType : itemOrPackType?.packType;
+            if (packType && packConfigs[packType]) {
+                return packConfigs[packType];
+            }
+
+            const productCount = itemOrPackType?.products?.length;
+            if (productCount === 2) return packConfigs.duo;
+            if (productCount === 3) return packConfigs.trio;
+            if (productCount === 5) return packConfigs.elella;
+            return null;
+        }
+
+        function getIndividualPricing(totalQuantity) {
+            if (totalQuantity >= 5) return individualPriceTiers.tier5;
+            if (totalQuantity >= 3) return individualPriceTiers.tier3;
+            return individualPriceTiers.base;
+        }
+
+        function getCartPricingSummary() {
+            const packs = cart.filter(item => item.type === 'pack');
+            const individuals = cart.filter(item => !item.type || item.type === 'product');
+            const totalIndividualQty = individuals.reduce((sum, item) => sum + item.quantity, 0);
+            const individualPricing = getIndividualPricing(totalIndividualQty);
+            const subtotalCOP = (individualPricing.priceCOP * totalIndividualQty) + packs.reduce((sum, item) => {
+                const config = resolvePackConfig(item);
+                return sum + ((config ? config.priceCOP : 0) * item.quantity);
+            }, 0);
+            const subtotalUSD = (individualPricing.priceUSD * totalIndividualQty) + packs.reduce((sum, item) => {
+                const config = resolvePackConfig(item);
+                return sum + ((config ? config.priceUSD : 0) * item.quantity);
+            }, 0);
+
+            return {
+                packs,
+                individuals,
+                totalIndividualQty,
+                individualPricing,
+                subtotalCOP,
+                subtotalUSD
+            };
+        }
+
         function openPackModal(packType) {
             currentPackType = packType;
             selectedPackItems = [];
@@ -2329,7 +2378,6 @@
             const lang = document.documentElement.getAttribute('data-lang') || 'es';
             const cartItems = document.getElementById('cartItems');
             const cartTotal = document.getElementById('cartTotal');
-            const isColombia = userRegion === 'CO';
 
             const formatDualAmount = (copAmount, usdAmount) => {
                 const formattedCOP = `$${Math.round(copAmount).toLocaleString('es-CO')} COP`;
@@ -2349,36 +2397,22 @@
                 return;
             }
 
-            // --- Tiered pricing logic for individual products ---
-            // 1. Separate packs and individual products
-            const packs = cart.filter(item => item.type === 'pack');
-            const individuals = cart.filter(item => !item.type || item.type === 'product');
-
-            // 2. Sum total quantity of individual products
-            let totalIndividualQty = 0;
-            individuals.forEach(item => { totalIndividualQty += item.quantity; });
-
-            // 3. Determine tiered price per unit
-            let unitPrice = isColombia ? 40000 : 19.99;
-            if (isColombia) {
-                if (totalIndividualQty >= 5) unitPrice = 25999;
-                else if (totalIndividualQty >= 3) unitPrice = 26999;
-            } else {
-                if (totalIndividualQty >= 5) unitPrice = 15.99;
-                else if (totalIndividualQty >= 3) unitPrice = 16.99;
-            }
+            const pricingSummary = getCartPricingSummary();
+            const { packs, totalIndividualQty, individualPricing, subtotalCOP, subtotalUSD } = pricingSummary;
 
             // --- Render cart items using live COP/USD prices ---
             cartItems.innerHTML = cart.map(item => {
                 let unitPriceCOP = 0;
                 let unitPriceUSD = 0;
 
-                if (item.type === 'pack' && packConfigs[item.packType]) {
-                    unitPriceCOP = packConfigs[item.packType].priceCOP;
-                    unitPriceUSD = packConfigs[item.packType].priceUSD;
+                const packConfig = resolvePackConfig(item);
+
+                if (item.type === 'pack' && packConfig) {
+                    unitPriceCOP = packConfig.priceCOP;
+                    unitPriceUSD = packConfig.priceUSD;
                 } else {
-                    unitPriceCOP = totalIndividualQty >= 5 ? 25999 : totalIndividualQty >= 3 ? 26999 : 40000;
-                    unitPriceUSD = totalIndividualQty >= 5 ? 15.99 : totalIndividualQty >= 3 ? 16.99 : 19.99;
+                    unitPriceCOP = individualPricing.priceCOP;
+                    unitPriceUSD = individualPricing.priceUSD;
                 }
 
                 const itemTotalCOP = unitPriceCOP * item.quantity;
@@ -2406,42 +2440,18 @@
                 `;
             }).join('');
 
-            // --- Subtotal calculation with tiered pricing ---
-            let subtotal = 0;
-            let currency = isColombia ? 'COP' : 'USD';
-
-            // Add subtotal for all individual products (tiered)
-            subtotal += unitPrice * totalIndividualQty;
-            // Add subtotal for packs (fixed price)
-            packs.forEach(item => {
-                subtotal += (item.price || (isColombia ? 40000 : 19.99)) * item.quantity;
-                if (item.currency) currency = item.currency;
-            });
-
             // Determine shipping cost based on region
             let shippingCost = 0;
             let shippingText = '';
 
-            if (isColombia) {
+            if (userRegion === 'CO') {
                 shippingCost = 0;
                 shippingText = lang === 'es' ? 'Envío Gratis:' : 'Free Delivery:';
-                currency = 'COP';
             } else {
                 shippingCost = 0;
                 shippingText = lang === 'es' ? 'Envío Gratis:' : 'Free Delivery:';
-                currency = 'USD';
             }
 
-            const total = subtotal + shippingCost;
-
-            const subtotalCOP = (totalIndividualQty >= 5 ? 25999 : totalIndividualQty >= 3 ? 26999 : 40000) * totalIndividualQty + packs.reduce((sum, item) => {
-                const config = packConfigs[item.packType];
-                return sum + ((config ? config.priceCOP : 40000) * item.quantity);
-            }, 0);
-            const subtotalUSD = (totalIndividualQty >= 5 ? 15.99 : totalIndividualQty >= 3 ? 16.99 : 19.99) * totalIndividualQty + packs.reduce((sum, item) => {
-                const config = packConfigs[item.packType];
-                return sum + ((config ? config.priceUSD : 19.99) * item.quantity);
-            }, 0);
             const totalCOP = subtotalCOP + shippingCost;
             const totalUSD = subtotalUSD + shippingCost;
             const subtotalFormatted = formatDualAmount(subtotalCOP, subtotalUSD);
@@ -2616,25 +2626,11 @@
 
         function buildMercadoPagoItemsForCart(currencyCode) {
             const isCOP = currencyCode === 'COP';
-            const packs = cart.filter(item => item.type === 'pack');
-            const individuals = cart.filter(item => !item.type || item.type === 'product');
+            const { packs, individuals, individualPricing } = getCartPricingSummary();
             const items = [];
 
-            let totalIndividualQty = 0;
-            individuals.forEach(item => {
-                totalIndividualQty += item.quantity;
-            });
-
-            if (totalIndividualQty > 0) {
-                let unitPrice = isCOP ? 40000 : 19.99;
-                if (isCOP) {
-                    if (totalIndividualQty >= 5) unitPrice = 25999;
-                    else if (totalIndividualQty >= 3) unitPrice = 26999;
-                } else {
-                    if (totalIndividualQty >= 5) unitPrice = 15.99;
-                    else if (totalIndividualQty >= 3) unitPrice = 16.99;
-                }
-
+            if (individuals.length > 0) {
+                const unitPrice = isCOP ? individualPricing.priceCOP : individualPricing.priceUSD;
                 individuals.forEach(item => {
                     items.push({
                         title: item.name,
@@ -2646,7 +2642,7 @@
             }
 
             packs.forEach(item => {
-                const config = packConfigs[item.packType];
+                const config = resolvePackConfig(item);
                 const unitPrice = config
                     ? (isCOP ? config.priceCOP : config.priceUSD)
                     : (item.price || 0);
@@ -2878,27 +2874,11 @@
         function calcularTotalRecogida(storeCode) {
             const isColombiaStore = storeCode !== 'US';
             const currency = isColombiaStore ? 'COP' : 'USD';
-            const packs = cart.filter(item => item.type === 'pack');
-            const individuals = cart.filter(item => !item.type || item.type === 'product');
-
-            let totalIndividualQty = 0;
-            individuals.forEach(item => {
-                totalIndividualQty += item.quantity;
-            });
-
-            let unitPrice = isColombiaStore ? 40000 : 19.99;
-            if (isColombiaStore) {
-                if (totalIndividualQty >= 5) unitPrice = 25999;
-                else if (totalIndividualQty >= 3) unitPrice = 26999;
-            } else {
-                if (totalIndividualQty >= 5) unitPrice = 15.99;
-                else if (totalIndividualQty >= 3) unitPrice = 16.99;
-            }
-
-            let total = unitPrice * totalIndividualQty;
+            const { packs, totalIndividualQty, individualPricing } = getCartPricingSummary();
+            let total = (isColombiaStore ? individualPricing.priceCOP : individualPricing.priceUSD) * totalIndividualQty;
 
             packs.forEach(item => {
-                const config = packConfigs[item.packType];
+                const config = resolvePackConfig(item);
                 if (config) {
                     total += (isColombiaStore ? config.priceCOP : config.priceUSD) * item.quantity;
                 } else {
@@ -2916,26 +2896,10 @@
         function calcularTotalDelivery(countryCode) {
             const isColombiaDelivery = countryCode !== 'US';
             const currency = isColombiaDelivery ? 'COP' : 'USD';
-            const packs = cart.filter(item => item.type === 'pack');
-            const individuals = cart.filter(item => !item.type || item.type === 'product');
-
-            let totalIndividualQty = 0;
-            individuals.forEach(item => {
-                totalIndividualQty += item.quantity;
-            });
-
-            let unitPrice = isColombiaDelivery ? 40000 : 19.99;
-            if (isColombiaDelivery) {
-                if (totalIndividualQty >= 5) unitPrice = 25999;
-                else if (totalIndividualQty >= 3) unitPrice = 26999;
-            } else {
-                if (totalIndividualQty >= 5) unitPrice = 15.99;
-                else if (totalIndividualQty >= 3) unitPrice = 16.99;
-            }
-
-            let subtotal = unitPrice * totalIndividualQty;
+            const { packs, totalIndividualQty, individualPricing } = getCartPricingSummary();
+            let subtotal = (isColombiaDelivery ? individualPricing.priceCOP : individualPricing.priceUSD) * totalIndividualQty;
             packs.forEach(item => {
-                const config = packConfigs[item.packType];
+                const config = resolvePackConfig(item);
                 if (config) {
                     subtotal += (isColombiaDelivery ? config.priceCOP : config.priceUSD) * item.quantity;
                 } else {
@@ -2958,22 +2922,10 @@
         }
         
         function calcularTotalPago() {
-            // Detectar la divisa del carrito (si hay items, usar su divisa)
-            let cartCurrency = 'COP'; // Default
-            
-            if (cart.length > 0) {
-                // Usar la divisa del primer item (todos deberían ser iguales)
-                cartCurrency = cart[0].currency || 'COP';
-            }
-            
-            // Sumar precios reales de los items en el carrito (sin recalcular)
-            let subtotal = 0;
-            cart.forEach(item => {
-                const itemPrice = item.price || 0;
-                subtotal += itemPrice * item.quantity;
-            });
-            
-            // Determinar envío basado en la divisa del carrito, no en userRegion
+            const cartCurrency = cart.length > 0 ? (cart[0].currency || 'COP') : 'COP';
+            const pricingSummary = getCartPricingSummary();
+            const subtotal = cartCurrency === 'USD' ? pricingSummary.subtotalUSD : pricingSummary.subtotalCOP;
+
             let shippingCost = 0;
             let total = subtotal + shippingCost;
             let currency = cartCurrency;
@@ -3135,14 +3087,11 @@
             
             cart.forEach((item, index) => {
                 totalItems += item.quantity;
-                const pricingSummary = item.type === 'pack' && packConfigs[item.packType]
-                    ? (resolvedDeliveryCountry === 'US' ? packConfigs[item.packType].priceUSD : packConfigs[item.packType].priceCOP)
-                    : null;
-                const itemUnitPrice = pricingSummary !== null
-                    ? pricingSummary
-                    : (resolvedDeliveryCountry === 'US'
-                        ? (item.type === 'pack' ? item.price : (totalItems >= 5 ? 15.99 : totalItems >= 3 ? 16.99 : 19.99))
-                        : (item.type === 'pack' ? item.price : (totalItems >= 5 ? 25999 : totalItems >= 3 ? 26999 : 40000)));
+                const pricingSummary = getCartPricingSummary();
+                const packConfig = resolvePackConfig(item);
+                const itemUnitPrice = packConfig
+                    ? (resolvedDeliveryCountry === 'US' ? packConfig.priceUSD : packConfig.priceCOP)
+                    : (resolvedDeliveryCountry === 'US' ? pricingSummary.individualPricing.priceUSD : pricingSummary.individualPricing.priceCOP);
                 const itemTotal = itemUnitPrice * item.quantity;
                 resumenProductos += `<li><strong>${item.name}</strong> x${item.quantity} = ${currency === 'COP' ? `$${itemTotal.toLocaleString('es-CO')}` : `$${itemTotal.toFixed(2)}`}</li>`;
             });
