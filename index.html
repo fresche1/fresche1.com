@@ -1618,7 +1618,7 @@
                 contacto: "+57 301 760 6723"
             },
             pagos: {
-                colombia: ["Nequi", "Mercado Pago", "Mercado Libre"],
+                colombia: ["Nequi", "Mercado Pago"],
                 internacional: ["Zelle"]
             },
             contacto: {
@@ -1824,7 +1824,7 @@
             }
 
             if (msg.match(/donde pago|dónde pago|como pago ya|cómo pago ya|quiero pagar|pago ahora/)) {
-                return "💳 <strong>Pago rápido:</strong><br><br>Puedes pagar en línea directamente desde la página. En Colombia verás Mercado Pago, Nequi y Mercado Libre; en Estados Unidos verás Zelle. Elige tu producto y te guío a la mejor opción.";
+                return "💳 <strong>Pago rápido:</strong><br><br>Puedes pagar en línea directamente desde la página. En Colombia verás Mercado Pago y Nequi; en Estados Unidos verás Zelle. Elige tu producto y te guío a la mejor opción.";
             }
 
             if (msg.match(/envio hoy|envío hoy|lo envian hoy|lo envían hoy|sale hoy|despachan hoy/)) {
@@ -2568,7 +2568,6 @@
             if (isColombiaDelivery) {
                 html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="nequi" required style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Nequi</b><br><span style="color: #00b894; font-size: 0.95rem;">+57 301 760 6723</span><br><span style="font-size: 0.85rem; color: #999;">(Alejandra Vela Moreno)</span></div></label>';
                 html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="mercadopago" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Pago</b><br><span style="color: #00b894; font-size: 0.95rem;">' + (lang === 'es' ? 'Pago seguro en pesos colombianos' : 'Secure payment in Colombian pesos') + '</span><br><span style="font-size: 0.85rem; color: #999;">' + (lang === 'es' ? 'Recibirás confirmación por email' : 'You will receive email confirmation') + '</span></div></label>';
-                html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="mercadolibre" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Libre</b><br><a href="https://articulo.mercadolibre.com.co/MCO-1801564823-crema-intima-fresche-30-ml-hidratante-hipoalergenica-_JM" target="_blank" style="color: #00b894; text-decoration: none; font-size: 0.95rem;">Ver en Mercado Libre →</a><br><span style="font-size: 0.85rem; color: #999;">Compra y venta confiable</span></div></label>';
             } else {
                 html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(255,214,10,0.12); border-radius: 8px; border: 1px solid #ffd60a; box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="paypal" required style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: #ffe680;">PayPal</b><br><span style="color: #fff; font-size: 0.95rem;">' + (lang === 'es' ? 'Saldo PayPal y tarjetas vinculadas' : 'PayPal balance and linked cards') + '</span><br><span style="font-size: 0.85rem; color: #fff0a6;">' + (lang === 'es' ? 'Checkout seguro en dólares para USA' : 'Secure USD checkout for US orders') + '</span></div></label>';
                 html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1.2rem; background: rgba(0,184,148,0.12); border-radius: 8px; border: 1px solid #00b894; box-sizing: border-box; width: 100%;"><input type="radio" name="metodoPago" value="stripe" style="margin-top: 0.2rem; flex-shrink: 0; width: 20px; height: 20px;"><div style="flex: 1;"><b style="color: #6df0c5;">Stripe</b><br><span style="color: #fff; font-size: 0.95rem;">' + (lang === 'es' ? 'Tarjetas, Apple Pay y Google Pay' : 'Cards, Apple Pay and Google Pay') + '</span><br><span style="font-size: 0.85rem; color: #b9f5e2;">' + (lang === 'es' ? 'Checkout seguro en dólares para USA' : 'Secure USD checkout for US orders') + '</span></div></label>';
@@ -3244,7 +3243,6 @@
             } else {
                 html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="pickupPaymentMethod" value="nequi" required style="margin-top: 0.2rem; flex-shrink: 0;"><div style="flex: 1;"><b style="color: var(--gold);">Nequi</b><br><span style="color: #00b894; font-size: 0.95rem;">+57 301 760 6723</span><br><span style="font-size: 0.85rem; color: #999;">(Alejandra Vela Moreno)</span></div></label>';
                 html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="pickupPaymentMethod" value="mercadopago" style="margin-top: 0.2rem; flex-shrink: 0;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Pago</b><br><span style="color: #00b894; font-size: 0.95rem;">' + (lang === 'es' ? 'Pago seguro en pesos colombianos' : 'Secure payment in Colombian pesos') + '</span><br><span style="font-size: 0.85rem; color: #999;">' + (lang === 'es' ? 'Se abre el checkout de Mercado Pago' : 'Mercado Pago checkout opens') + '</span></div></label>';
-                html += '<label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; padding: 1rem; background: rgba(212,175,55,0.1); border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; width: 100%;"><input type="radio" name="pickupPaymentMethod" value="mercadolibre" style="margin-top: 0.2rem; flex-shrink: 0;"><div style="flex: 1;"><b style="color: var(--gold);">Mercado Libre</b><br><span style="color: #00b894; font-size: 0.95rem;">' + (lang === 'es' ? 'Compra en Mercado Libre Colombia' : 'Buy on Mercado Libre Colombia') + '</span><br><span style="font-size: 0.85rem; color: #999;">' + (lang === 'es' ? 'Pago en COP y protección al comprador' : 'COP payment and buyer protection') + '</span></div></label>';
             }
 
             html += '</div></div>';
@@ -3693,269 +3691,6 @@
         </div>
     </div>
 
-    <!-- Modal de Bienvenida Ultra Profesional -->
-    <div id="welcomeModal" class="welcome-modal-pro">
-        <div class="welcome-particles"></div>
-        <div class="welcome-modal-content-pro">
-            <!-- Paso 1: Detectando ubicación -->
-            <div class="welcome-step active" id="step1">
-                <div class="location-detector">
-                    <div class="pulse-ring"></div>
-                    <div class="location-icon">🌍</div>
-                </div>
-                <h2 class="welcome-title">Detectando tu ubicación...</h2>
-                <p class="welcome-subtitle">Preparing your personalized experience</p>
-                <div class="loading-bar">
-                    <div class="loading-progress"></div>
-                </div>
-            </div>
-
-            <!-- Paso 2: Bienvenida personalizada -->
-            <div class="welcome-step" id="step2">
-                <div class="welcome-hero">
-                    <div class="logo-glow">
-                        <img src="images/logo%20fresche1.jpg" alt="FRESCHE" class="welcome-logo-pro">
-                    </div>
-                    <h1 class="brand-title">FRESCHE</h1>
-                    <p class="brand-tagline" id="tagline">Cuidado Íntimo Premium</p>
-                </div>
-                
-                <div class="location-badge" id="locationBadge">
-                    <span class="location-flag" id="locationFlag">🇨🇴</span>
-                    <span class="location-text" id="locationText">Detectado en Colombia</span>
-                </div>
-
-                <div class="welcome-benefits">
-                    <div class="benefit-pill">
-                        <span class="benefit-icon">✨</span>
-                        <span id="benefit1">100% Natural</span>
-                    </div>
-                    <div class="benefit-pill">
-                        <span class="benefit-icon">🌿</span>
-                        <span id="benefit2">Ingredientes Premium</span>
-                    </div>
-                    <div class="benefit-pill">
-                        <span class="benefit-icon">🇨🇴</span>
-                        <span id="benefit3">Hecho en Colombia</span>
-                    </div>
-                </div>
-
-                <button class="welcome-cta" onclick="nextStep(3)">
-                    <span id="ctaText">Continuar</span>
-                    <span class="cta-arrow">→</span>
-                </button>
-            </div>
-
-            <!-- Paso 3: Preferencias -->
-            <div class="welcome-step" id="step3">
-                <h2 class="welcome-title-small" id="preferencesTitle">Personaliza tu experiencia</h2>
-                
-                <div class="preference-section">
-                    <h3 class="preference-label" id="genderLabel">¿Para quién es?</h3>
-                    <div class="preference-cards">
-                        <div class="preference-card" onclick="selectGender('men')" data-gender="men">
-                            <div class="card-icon">👨</div>
-                            <h4 id="menLabel">Para Hombres</h4>
-                            <p id="menDesc">Frescura y protección masculina</p>
-                            <div class="card-checkmark">✓</div>
-                        </div>
-                        <div class="preference-card" onclick="selectGender('women')" data-gender="women">
-                            <div class="card-icon">👩</div>
-                            <h4 id="womenLabel">Para Mujeres</h4>
-                            <p id="womenDesc">Cuidado delicado y femenino</p>
-                            <div class="card-checkmark">✓</div>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="welcome-cta" onclick="finishWelcome()">
-                    <span id="startBtn">Comenzar Experiencia</span>
-                    <span class="cta-sparkle">✨</span>
-                </button>
-
-                <p class="privacy-note" id="privacyNote">
-                    🔒 Tu privacidad es importante. Solo guardamos tus preferencias localmente.
-                </p>
-            </div>
-
-            <!-- Botón cerrar (solo visible después del paso 2) -->
-            <button class="welcome-close" id="welcomeClose" onclick="skipWelcome()" style="display: none;">
-                <span>×</span>
-            </button>
-        </div>
-    </div>
-
-    <script>
-        // Variables globales para el modal de bienvenida
-        let currentStep = 1;
-        let userCountry = 'CO'; // Por defecto Colombia
-        let selectedGender = 'men';
-        const selectedTheme = 'black';
-        let selectedLanguage = 'es';
-
-        // Detectar ubicación del usuario basado en timezone
-        function detectUserLocation() {
-            try {
-                // Fallback a timezone-based detection (no CORS issues)
-                const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                if (timeZone.includes('America/Bogota') || timeZone.includes('America/Cartago')) {
-                    userCountry = 'CO';
-                    selectedLanguage = 'es';
-                } else if (timeZone.startsWith('America/')) {
-                    userCountry = 'US';
-                    selectedLanguage = 'en';
-                } else {
-                    userCountry = 'CO';
-                    selectedLanguage = 'es';
-                }
-                
-                console.log('Location detected via timezone:', userCountry, timeZone);
-                updateLocationBadge();
-            } catch (error) {
-                console.log('Location detection error, using default:', error);
-                userCountry = 'CO';
-                selectedLanguage = 'es';
-            }
-        }
-
-        // Actualizar badge de ubicación
-        function updateLocationBadge() {
-            const flag = document.getElementById('locationFlag');
-            const text = document.getElementById('locationText');
-            const tagline = document.getElementById('tagline');
-            
-            if (userCountry === 'US') {
-                flag.textContent = '🇺🇸';
-                text.textContent = 'Detected in United States';
-                tagline.textContent = 'Premium Intimate Care';
-                updateTextsToEnglish();
-            } else if (userCountry === 'CO') {
-                flag.textContent = '🇨🇴';
-                text.textContent = 'Detectado en Colombia';
-                tagline.textContent = 'Cuidado Íntimo Premium';
-                updateTextsToSpanish();
-            } else {
-                // Otros países, usar español por defecto
-                flag.textContent = '🌎';
-                text.textContent = 'Bienvenido / Welcome';
-                tagline.textContent = 'Cuidado Íntimo Premium';
-            }
-        }
-
-        // Actualizar textos a inglés
-        function updateTextsToEnglish() {
-            document.getElementById('benefit1').textContent = '100% Natural';
-            document.getElementById('benefit2').textContent = 'Premium Ingredients';
-            document.getElementById('benefit3').textContent = 'Made in Colombia';
-            document.getElementById('ctaText').textContent = 'Continue';
-            document.getElementById('preferencesTitle').textContent = 'Customize your experience';
-            document.getElementById('genderLabel').textContent = 'Who is it for?';
-            document.getElementById('menLabel').textContent = 'For Men';
-            document.getElementById('menDesc').textContent = 'Masculine freshness and protection';
-            document.getElementById('womenLabel').textContent = 'For Women';
-            document.getElementById('womenDesc').textContent = 'Delicate and feminine care';
-            document.getElementById('startBtn').textContent = 'Start Experience';
-            document.getElementById('privacyNote').textContent = '🔒 Your privacy matters. We only save your preferences locally.';
-        }
-
-        // Actualizar textos a español
-        function updateTextsToSpanish() {
-            document.getElementById('benefit1').textContent = '100% Natural';
-            document.getElementById('benefit2').textContent = 'Ingredientes Premium';
-            document.getElementById('benefit3').textContent = 'Hecho en Colombia';
-            document.getElementById('ctaText').textContent = 'Continuar';
-            document.getElementById('preferencesTitle').textContent = 'Personaliza tu experiencia';
-            document.getElementById('genderLabel').textContent = '¿Para quién es?';
-            document.getElementById('menLabel').textContent = 'Para Hombres';
-            document.getElementById('menDesc').textContent = 'Frescura y protección masculina';
-            document.getElementById('womenLabel').textContent = 'Para Mujeres';
-            document.getElementById('womenDesc').textContent = 'Cuidado delicado y femenino';
-            document.getElementById('startBtn').textContent = 'Comenzar Experiencia';
-            document.getElementById('privacyNote').textContent = '🔒 Tu privacidad es importante. Solo guardamos tus preferencias localmente.';
-        }
-
-        // Mostrar modal al cargar - CON PERSISTENCIA DE 2 HORAS
-        window.addEventListener('load', async function() {
-            // Verificar si ya mostró la bienvenida en las últimas 2 horas
-            const welcomeShownTime = localStorage.getItem('fresche_welcome_shown');
-            const currentTime = Date.now();
-            const TWO_HOURS = 2 * 60 * 60 * 1000; // 2 horas en milisegundos
-            
-            // Solo mostrar si nunca se mostró o si pasaron más de 2 horas
-            if (!welcomeShownTime || (currentTime - parseInt(welcomeShownTime)) > TWO_HOURS) {
-                // Mostrar modal la primera vez o después de 2 horas
-                document.getElementById('welcomeModal').style.display = 'flex';
-                localStorage.setItem('fresche_welcome_shown', currentTime.toString());
-                
-                // Detectar ubicación
-                await detectUserLocation();
-                
-                // Esperar 2 segundos simulando carga
-                setTimeout(() => {
-                    nextStep(2);
-                }, 2000);
-            } else {
-                // No mostrar modal si ya se mostró hace menos de 2 horas
-                document.getElementById('welcomeModal').style.display = 'none';
-            }
-        });
-
-        // Navegar entre pasos
-        function nextStep(step) {
-            document.querySelectorAll('.welcome-step').forEach(s => s.classList.remove('active'));
-            document.getElementById(`step${step}`).classList.add('active');
-            currentStep = step;
-            
-            // Mostrar botón cerrar después del paso 1
-            if (step > 1) {
-                document.getElementById('welcomeClose').style.display = 'flex';
-            }
-        }
-
-        // Seleccionar género
-        function selectGender(gender) {
-            selectedGender = gender;
-            document.querySelectorAll('.preference-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            document.querySelector(`.preference-card[data-gender="${gender}"]`).classList.add('selected');
-        }
-
-        // Finalizar bienvenida
-        function finishWelcome() {
-            // Aplicar preferencias
-            changeTheme(selectedGender);
-            changeBackgroundColor(selectedTheme);
-            changeLang(selectedLanguage);
-            
-            // Guardar en analytics/localStorage (sin firstVisit)
-            localStorage.setItem('frescheuserCountry', userCountry);
-            localStorage.setItem('frescheuserGender', selectedGender);
-            localStorage.setItem('frescheuserTheme', selectedTheme);
-            localStorage.setItem('frescheuserLanguage', selectedLanguage);
-            
-            // Cerrar modal con animación
-            document.getElementById('welcomeModal').style.animation = 'fadeOut 0.5s ease';
-            setTimeout(() => {
-                document.getElementById('welcomeModal').style.display = 'none';
-            }, 500);
-        }
-
-        // Saltar bienvenida
-        function skipWelcome() {
-            document.getElementById('welcomeModal').style.display = 'none';
-        }
-
-        // Animación de fadeOut
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fadeOut {
-                from { opacity: 1; }
-                to { opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
 
 </body>
 </html>

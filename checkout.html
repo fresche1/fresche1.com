@@ -423,13 +423,6 @@
                             <div class="payment-method-desc" style="color: #ff9800;">+ 5% comisión</div>
                         </div>
                     </div>
-                    <div class="payment-method" data-method="MERCADOLIBRE" data-region="CO" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">🛒</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">MercadoLibre Colombia</div>
-                            <div class="payment-method-desc">Compra directa en ML</div>
-                        </div>
-                    </div>
                 </div>
 
                 <div id="paymentInstructions" style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(212, 175, 55, 0.1); border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 10px;">
@@ -874,8 +867,8 @@
                 if (stripeMethod) stripeMethod.style.display = 'none';
                 if (paypalMethod) paypalMethod.style.display = 'none';
                 if (mercadopagoMethod) mercadopagoMethod.style.display = 'flex';
-                if (mercadolibreMethod) mercadolibreMethod.style.display = 'flex';
-                if (selectedPaymentMethod === 'ZELLE' || selectedPaymentMethod === 'STRIPE' || selectedPaymentMethod === 'PAYPAL') {
+                if (mercadolibreMethod) mercadolibreMethod.style.display = 'none';
+                if (selectedPaymentMethod === 'ZELLE' || selectedPaymentMethod === 'STRIPE' || selectedPaymentMethod === 'PAYPAL' || selectedPaymentMethod === 'MERCADOLIBRE') {
                     if (nequiMethod) selectPaymentMethod(nequiMethod);
                 }
             } else if (country === 'US') {
@@ -1051,7 +1044,7 @@
                 `;
                 selectedPaymentMethod = 'PAYPAL';
             } else {
-                // Colombia pickup: Nequi, Mercado Pago y Mercado Libre en COP
+                // Colombia pickup: Nequi y Mercado Pago en COP
                 container.innerHTML = `
                     <div class="payment-method selected" data-method="NEQUI" onclick="selectPaymentMethod(this)">
                         <div class="payment-method-icon">📱</div>
@@ -1065,13 +1058,6 @@
                         <div class="payment-method-info">
                             <div class="payment-method-name">Mercado Pago</div>
                             <div class="payment-method-desc">Pago en pesos colombianos</div>
-                        </div>
-                    </div>
-                    <div class="payment-method" data-method="MERCADOLIBRE" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">🛒</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">MercadoLibre Colombia</div>
-                            <div class="payment-method-desc">Compra protegida en COP</div>
                         </div>
                     </div>
                 `;
