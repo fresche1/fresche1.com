@@ -67,6 +67,19 @@ input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 
 [hidden]{display:none!important}
 @media(min-width:900px){.wrap{grid-template-columns:1fr 360px;align-items:start}.wrap>h1{grid-column:1/-1}.sum{position:sticky;top:72px;grid-column:2;grid-row:2/span 4}#form,.done,.empty{grid-column:1}#form{display:grid;gap:16px}}
 #form{display:grid;gap:16px}
+.li-ed{display:block;padding:10px 0}
+.li-top{display:flex;justify-content:space-between;gap:10px}
+.li-top span:first-child{color:#3b332d}
+.qrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:#fff;overflow:hidden}
+.qb{width:38px;height:36px;border:0;background:transparent;color:var(--ink);font-size:1.15rem;cursor:pointer;line-height:1}
+.qb:hover:not(:disabled){background:var(--sand);color:var(--gold)}
+.qb:disabled{opacity:.35;cursor:not-allowed}
+.qn{min-width:30px;text-align:center;font-weight:600}
+.qdel{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:transparent;color:var(--mut);border-radius:999px;padding:7px 12px;font:inherit;font-size:.85rem;cursor:pointer}
+.qdel svg{width:16px;height:16px}
+.qdel:hover{color:var(--err);border-color:var(--err)}
+.qb:focus-visible,.qdel:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 </style>
 <meta property="og:image" content="https://fresche1.com/icon-512.png">
 </head>
@@ -231,9 +244,41 @@ input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 
     return { currency: cur, lines, subtotal, shipping, commission: fee, total: shipping === null ? null : subtotal + shipping + fee, estimated: true };
   }
 
+  // ---- edición del carrito: filas en el orden del carrito; precio de la línea del servidor que corresponda ----
+  const MAX_QTY = 20;
+  function lineRows(q) {
+    const est = estimate().lines, used = new Set();
+    return cart.map((it, i) => {
+      let l = null;
+      if (!q.estimated && Array.isArray(q.lines)) {
+        const want = it.type === 'pack' ? packTypeOf(it) : it.id;
+        const k = q.lines.findIndex((x, j) => !used.has(j) && x.id === want && (it.type === 'pack') === (x.kind === 'pack') && Number(x.quantity) === (Number(it.quantity) || 1));
+        if (k >= 0) { used.add(k); l = q.lines[k]; }
+      }
+      if (!l) l = est[i];
+      return { i, l, qty: Number(it.quantity) || 1 };
+    });
+  }
+  function saveCart() {
+    try { if (cart.length) localStorage.setItem('freshCart', JSON.stringify(cart)); else localStorage.removeItem('freshCart'); } catch (e) {}
+  }
+  function editCart(act, i) {
+    const it = cart[i]; if (!it) return;
+    const qn = Number(it.quantity) || 1;
+    if (act === 'inc') it.quantity = Math.min(MAX_QTY, qn + 1);
+    else if (act === 'dec') it.quantity = Math.max(1, qn - 1);
+    else if (act === 'del') cart.splice(i, 1);
+    saveCart();
+    if (!cart.length) { clearTimeout(qTimer); qSeq++; $('form').hidden = true; $('summary').hidden = true; $('emptyCart').hidden = false; return; }
+    st.quote = null; refresh();
+  }
+
   function render(q) {
     const c = q.currency;
-    $('lines').innerHTML = q.lines.map((l) => '<div class="li"><span>' + esc(l.quantity) + ' × ' + esc(trTitle(l.title)) + '</span><span>' + esc(money(l.unit_price * l.quantity, c)) + '</span></div>').join('');
+    $('lines').innerHTML = lineRows(q).map((r) => '<div class="li li-ed"><div class="li-top"><span>' + esc(trTitle(r.l.title)) + '</span><span>' + esc(money(r.l.unit_price * r.l.quantity, c)) + '</span></div>'
+      + '<div class="qrow"><div class="qty" role="group" aria-label="' + esc(T('Cantidad', 'Quantity')) + '"><button type="button" class="qb" data-act="dec" data-i="' + r.i + '"' + (r.qty <= 1 ? ' disabled' : '') + ' aria-label="' + esc(T('Disminuir cantidad de ', 'Decrease quantity of ') + trTitle(r.l.title)) + '">−</button>'
+      + '<span class="qn" aria-live="polite">' + esc(r.qty) + '</span><button type="button" class="qb" data-act="inc" data-i="' + r.i + '"' + (r.qty >= MAX_QTY ? ' disabled' : '') + ' aria-label="' + esc(T('Aumentar cantidad de ', 'Increase quantity of ') + trTitle(r.l.title)) + '">+</button></div>'
+      + '<button type="button" class="qdel" data-act="del" data-i="' + r.i + '" aria-label="' + esc(T('Eliminar ', 'Remove ') + trTitle(r.l.title)) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' + esc(T('Eliminar', 'Remove')) + '</button></div></div>').join('');
     $('tSub').textContent = money(q.subtotal, c);
     $('tShip').textContent = q.shipping === null ? T('Escribe la ciudad', 'Enter the city') : (q.shipping === 0 ? T('Gratis', 'Free') : money(q.shipping, c));
     $('rowFee').hidden = !q.commission; $('tFee').textContent = money(q.commission || 0, c);
@@ -370,6 +415,7 @@ input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 
   // ---- init ----
   DEPTS.forEach((d) => { const o = document.createElement('option'); o.value = d; o.textContent = d; $('department').appendChild(o); });
   if (!cart.length) { $('form').hidden = true; $('summary').hidden = true; $('emptyCart').hidden = false; return; }
+  $('lines').addEventListener('click', (e) => { const b = e.target.closest('button[data-act]'); if (b && !b.disabled) editCart(b.dataset.act, Number(b.dataset.i)); });
   document.querySelectorAll('#countrySeg button').forEach((b) => b.addEventListener('click', () => setCountry(b.dataset.c)));
   document.querySelectorAll('#modeOpts .opt').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.mode)));
   document.querySelectorAll('.pm input').forEach((i) => i.addEventListener('change', () => selectMethod(i.value)));
