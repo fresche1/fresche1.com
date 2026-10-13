@@ -6,7 +6,7 @@
 
 **Access Token de Producción:**
 ```
-APP_USR-7014466574855375-010210-a209f4cd8d8718ed8ef5607ee48e724e-3107280610
+APP_USR-xxxxxxxx (REDACTADO: token expuesto, debe rotarse)
 ```
 ✅ Token de producción activo (no es TEST)
 
@@ -143,7 +143,7 @@ Después del pago, el cliente puede contactarte por:
 Asegúrate de tener estas variables configuradas en Render:
 
 ```bash
-MERCADOPAGO_ACCESS_TOKEN=APP_USR-7014466574855375-010210-a209f4cd8d8718ed8ef5607ee48e724e-3107280610
+MERCADOPAGO_ACCESS_TOKEN=APP_USR-xxxxxxxx (REDACTADO: token expuesto, debe rotarse)
 PORT=3001
 ALLOWED_ORIGINS=https://fresche1.github.io,https://fresche1.com,https://www.fresche1.com
 ```

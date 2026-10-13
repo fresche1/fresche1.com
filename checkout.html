@@ -1,1723 +1,374 @@
 <!DOCTYPE html>
 <html lang="es" data-lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <title>Checkout - FRESCHE</title>
-    <link rel="stylesheet" href="styles.css?v=20260131">
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
-    <style>
-        .checkout-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 2rem;
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 2rem;
-        }
-
-        .checkout-section {
-            background: rgba(30, 30, 30, 0.95);
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 15px;
-            padding: 2rem;
-        }
-
-        .checkout-section h2 {
-            color: var(--gold);
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            color: var(--gold);
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .order-summary {
-            position: sticky;
-            top: 2rem;
-            height: fit-content;
-        }
-
-        .order-item {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-        }
-
-        .order-item img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .order-item-info {
-            flex: 1;
-        }
-
-        .order-item-name {
-            color: #fff;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-        }
-
-        .order-item-quantity {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
-
-        .order-item-price {
-            color: var(--gold);
-            font-weight: bold;
-        }
-
-        .order-totals {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 2px solid rgba(212, 175, 55, 0.3);
-        }
-
-        .order-total-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.8rem;
-            color: #fff;
-        }
-
-        .order-total-row.final {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--gold);
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 2px solid var(--gold);
-        }
-
-        .btn-pay {
-            width: 100%;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, var(--gold), #ffd700);
-            color: #000;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 1.5rem;
-        }
-
-        .btn-pay:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5);
-        }
-
-        .btn-pay:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .payment-methods {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .payment-method {
-            padding: 1.2rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .payment-method:hover {
-            border-color: var(--gold);
-            background: rgba(212, 175, 55, 0.1);
-        }
-
-        .payment-method.selected {
-            border-color: var(--gold);
-            background: rgba(212, 175, 55, 0.2);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-        }
-
-        .payment-method-icon {
-            font-size: 2.5rem;
-        }
-
-        .payment-method-info {
-            flex: 1;
-        }
-
-        .payment-method-name {
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-        }
-
-        .payment-method-desc {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
-
-        .test-mode-banner {
-            background: linear-gradient(90deg, #ff9800, #ff5722);
-            color: #fff;
-            padding: 1rem;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        .shipping-options {
-            display: grid;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .shipping-option {
-            padding: 1.2rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .shipping-option:hover {
-            border-color: var(--gold);
-            background: rgba(212, 175, 55, 0.1);
-        }
-
-        .shipping-option.selected {
-            border-color: var(--gold);
-            background: rgba(212, 175, 55, 0.2);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-        }
-
-        .shipping-option-info {
-            flex: 1;
-        }
-
-        .shipping-option-name {
-            color: #fff;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .shipping-option-desc {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
-
-        .shipping-option-price {
-            color: var(--gold);
-            font-weight: bold;
-            font-size: 1.3rem;
-        }
-
-        .shipping-alert {
-            background: rgba(255, 152, 0, 0.1);
-            border: 1px solid rgba(255, 152, 0, 0.3);
-            padding: 1rem;
-            border-radius: 8px;
-            color: #ff9800;
-            margin-bottom: 1rem;
-        }
-
-        @media (max-width: 968px) {
-            .checkout-container {
-                grid-template-columns: 1fr;
-            }
-
-            .order-summary {
-                position: relative;
-                top: 0;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Finalizar compra - FRESCHE</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#b8924a;--ink:#1c1714;--cream:#faf6f0;--sand:#f1e9dd;--mut:#6f655d;--line:#e3d8c8;--err:#b3261e;--ok:#2e7d32}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.45 Inter,system-ui,sans-serif}
+.hd{position:relative;background:rgba(250,246,240,.96);border-bottom:1px solid var(--line)}
+.hd-in{max-width:1040px;margin:0 auto;padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.hd img{height:34px}.hd a{color:var(--mut);text-decoration:none;font-weight:500}
+.wrap{max-width:1040px;margin:0 auto;padding:16px 16px 120px;display:grid;gap:16px}
+h1{font:600 2rem 'Cormorant Garamond',Georgia,serif;margin:4px 0 0}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px}
+.step h2{display:flex;align-items:center;gap:10px;font:600 1.15rem Inter,sans-serif;margin:0 0 12px}
+.step h2 b{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;font-size:.95rem}
+label{display:block;font-weight:600;font-size:.95rem;margin:12px 0 6px}
+label small{font-weight:400;color:var(--mut)}
+input,select,textarea{width:100%;font:inherit;font-size:17px;padding:14px;border:1.5px solid #cfc3b1;border-radius:12px;background:#fff;color:var(--ink);min-height:52px}
+input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,146,74,.2)}
+.bad input,.bad select{border-color:var(--err)}
+.msg{display:none;color:var(--err);font-size:.88rem;margin-top:4px}.bad .msg{display:block}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg button,.opt{font:inherit;border:1.5px solid #cfc3b1;background:#fff;border-radius:12px;padding:12px 10px;cursor:pointer;color:var(--ink);text-align:center;min-height:52px}
+.seg button.on,.opt.on{border-color:var(--ink);background:var(--ink);color:#fff}
+.opts{display:grid;gap:8px;margin-top:10px}
+.opt{text-align:left;display:flex;gap:10px;align-items:flex-start}
+.opt .t{font-weight:600}.opt .d{font-size:.88rem;opacity:.8}
+.pay{display:grid;gap:8px}
+.pm{display:flex;align-items:center;gap:12px;border:1.5px solid #cfc3b1;border-radius:14px;padding:14px;cursor:pointer;background:#fff}
+.pm input{width:22px;height:22px;min-height:0;margin:0;flex:none;accent-color:var(--ink)}
+.pm.main{padding:18px 14px}.pm.main .t{font-size:1.08rem}
+.pm.small{padding:10px 14px;font-size:.92rem}
+.pm.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink) inset}
+.pm .t{font-weight:700}.pm .d{color:var(--mut);font-size:.88rem}
+.small-h{font-size:.85rem;color:var(--mut);margin:8px 0 0}
+.sum h2{font:600 1.15rem Inter,sans-serif;margin:0 0 10px}
+.li{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:.95rem}
+.li span:first-child{color:#3b332d}
+.tot{display:grid;gap:6px;margin-top:10px}
+.tot div{display:flex;justify-content:space-between}
+.tot .grand{font-size:1.45rem;font-weight:700;border-top:2px solid var(--ink);padding-top:8px;margin-top:4px}
+.note{font-size:.85rem;color:var(--mut)}
+.terms{display:flex;gap:10px;align-items:flex-start;margin:14px 0 4px;font-size:.92rem}
+.terms input{width:22px;height:22px;min-height:0;flex:none}
+.btn{width:100%;border:0;border-radius:14px;background:var(--ink);color:#fff;font:700 1.1rem Inter,sans-serif;padding:18px;cursor:pointer;margin-top:10px}
+.btn[disabled]{opacity:.6}
+.err-box{display:none;background:#fdecea;color:var(--err);border-radius:12px;padding:12px;margin-top:10px;font-weight:600}
+.done{display:none}
+.done img{max-width:200px;border-radius:12px;display:block;margin:10px auto}
+.wa{display:block;text-align:center;background:#25d366;color:#fff;text-decoration:none;border-radius:14px;padding:16px;font-weight:700;margin-top:12px}
+.empty{text-align:center;padding:30px}
+[hidden]{display:none!important}
+@media(min-width:900px){.wrap{grid-template-columns:1fr 360px;align-items:start}.wrap>h1{grid-column:1/-1}.sum{position:sticky;top:72px;grid-column:2;grid-row:2/span 4}#form,.done,.empty{grid-column:1}#form{display:grid;gap:16px}}
+#form{display:grid;gap:16px}
+</style>
 </head>
 <body>
-    <div class="checkout-container">
-        <!-- Formulario de Checkout -->
-        <div class="checkout-section">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
-                <h2 style="margin: 0;" data-es="Información de Pago" data-en="Payment Information">Información de Pago</h2>
-                <button type="button" onclick="window.location.href='index.html'" style="padding: 0.7rem 1.5rem; background: rgba(255, 255, 255, 0.1); border: 2px solid var(--gold); border-radius: 8px; color: var(--gold); font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem;" onmouseover="this.style.background='var(--gold)'; this.style.color='#1a1a1a';" onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.color='var(--gold)';">
-                    <span>←</span>
-                    <span data-es="Regresar al Carrito" data-en="Back to Cart">Regresar al Carrito</span>
-                </button>
-            </div>
-            
-            <form id="checkoutForm">
-                <!-- Dirección de Envío -->
-                <div id="shippingAddressSection">
-                    <h3 style="color: var(--gold); margin: 2rem 0 1rem;">
-                        <span data-es="Dirección de Envío" data-en="Shipping Address">Dirección de Envío</span>
-                    </h3>
+<header class="hd"><div class="hd-in"><a href="index.html"><img src="img/logo-gold-dark.png" alt="FRESCHE"></a><a href="index.html#productos">← Seguir comprando</a></div></header>
+<main class="wrap" id="app">
+  <h1>Finalizar compra</h1>
 
-                    <div class="form-group">
-                        <label data-es="Dirección *" data-en="Address *">Dirección *</label>
-                        <input type="text" id="address" required placeholder="Calle 123 #45-67">
-                </div>
+  <section class="card sum" id="summary" aria-live="polite">
+    <h2>Tu pedido</h2>
+    <div id="lines"></div>
+    <div class="tot">
+      <div><span>Subtotal</span><span id="tSub">—</span></div>
+      <div><span>Envío</span><span id="tShip">—</span></div>
+      <div id="rowFee" hidden><span>Comisión Mercado Pago (5%)</span><span id="tFee">—</span></div>
+      <div class="grand"><span>Total</span><span id="tTotal">—</span></div>
+    </div>
+    <p class="note" id="shipNote"></p>
+  </section>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label data-es="Ciudad *" data-en="City *">Ciudad *</label>
-                        <input type="text" id="city" required placeholder="Bogotá" oninput="updateShippingCost()">
-                    </div>
-                    <div class="form-group">
-                        <label data-es="Código Postal" data-en="Postal Code">Código Postal</label>
-                        <input type="text" id="postalCode" placeholder="110111">
-                    </div>
-                </div>
+  <section class="card empty" id="emptyCart" hidden><p>Tu carrito está vacío.</p><a class="btn" style="display:block;text-decoration:none" href="index.html#productos">Ver productos</a></section>
 
-                <div class="form-group">
-                    <label data-es="País *" data-en="Country *">País *</label>
-                    <select id="country" required onchange="updateShippingCost()">
-                        <option value="">Selecciona un país</option>
-                        <option value="CO">🇨🇴 Colombia</option>
-                        <option value="US">🇺🇸 Estados Unidos</option>
-                        <option value="CA">🇨🇦 Canadá</option>
-                        <option value="MX">🇲🇽 México</option>
-                        <option value="ES">🇪🇸 España</option>
-                        <option value="AR">🇦🇷 Argentina</option>
-                        <option value="CL">🇨🇱 Chile</option>
-                        <option value="PE">🇵🇪 Perú</option>
-                        <option value="EC">🇪🇨 Ecuador</option>
-                        <option value="BR">🇧🇷 Brasil</option>
-                        <option value="OTHER">🌎 Otro país</option>
-                    </select>
-                </div>
+  <form id="form" novalidate>
+  <section class="card step" id="step1">
+    <h2><b>1</b> Tus datos</h2>
+    <div class="f" data-f="fullName"><label for="fullName">Nombre completo</label><input id="fullName" autocomplete="name" maxlength="100"><div class="msg">Escribe tu nombre completo.</div></div>
+    <div class="f" data-f="phone"><label for="phone">Celular / WhatsApp</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="+57 300 123 4567"><div class="msg">Escribe un celular válido (solo números, +, espacios).</div></div>
+    <div class="f" data-f="email"><label for="email">Email</label><input id="email" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="tu@correo.com"><div class="msg">Escribe un email válido.</div></div>
+  </section>
 
-                <div class="form-group">
-                    <label data-es="Departamento/Estado *" data-en="State *">Departamento/Estado *</label>
-                    <input type="text" id="state" required placeholder="Cundinamarca">
-                </div>
-                </div>
+  <section class="card step" id="step2">
+    <h2><b>2</b> Envío</h2>
+    <label>País</label>
+    <div class="seg" id="countrySeg">
+      <button type="button" data-c="CO">🇨🇴 Colombia</button>
+      <button type="button" data-c="US">🇺🇸 Estados Unidos</button>
+      <button type="button" data-c="OTHER">🌎 Otro</button>
+    </div>
+    <div class="f" data-f="otherCountry" id="otherWrap" hidden><label for="otherCountry">¿Cuál país?</label>
+      <select id="otherCountry"><option value="">Selecciona…</option><option value="MX">México</option><option value="ES">España</option><option value="CA">Canadá</option><option value="AR">Argentina</option><option value="CL">Chile</option><option value="PE">Perú</option><option value="EC">Ecuador</option><option value="BR">Brasil</option><option value="OTHER">Otro país</option></select><div class="msg">Selecciona tu país.</div></div>
 
-                <!-- Opciones de Envío -->
-                <h3 style="color: var(--gold); margin: 2rem 0 1rem;">
-                    <span data-es="Método de Envío" data-en="Shipping Method">Método de Envío</span>
-                </h3>
-
-                <div id="shippingOptions" class="shipping-options">
-                    <!-- Se llenarán dinámicamente según el país -->
-                </div>
-
-                <div id="pickupStoreContainer"></div>
-
-                <!-- Datos Personales -->
-                <div id="customerInfoSection" style="display: none;">
-                    <h3 style="color: var(--gold); margin: 2rem 0 1rem;">
-                        <span data-es="Datos del Cliente" data-en="Customer Information">Datos del Cliente</span>
-                    </h3>
-                    <div class="form-group">
-                        <label data-es="Nombre Completo *" data-en="Full Name *">Nombre Completo *</label>
-                        <input type="text" id="fullName" required placeholder="Juan Pérez">
-                    </div>
-
-                    <div class="form-group">
-                        <label data-es="Email *" data-en="Email *">Email *</label>
-                        <input type="email" id="email" required placeholder="tu@email.com">
-                    </div>
-
-                    <div class="form-group">
-                        <label data-es="Teléfono *" data-en="Phone *">Teléfono *</label>
-                        <input type="tel" id="phone" required placeholder="+57 300 123 4567">
-                    </div>
-                </div>
-
-                <div class="shipping-alert" style="margin-top: 0.75rem;">
-                    <span data-es="Envío Gratis a toda Colombia" data-en="Free Shipping in Colombia">Envío Gratis a toda Colombia</span>
-                </div>
-
-                <!-- Método de Pago -->
-                <h3 style="color: var(--gold); margin: 2rem 0 1rem;">
-                    <span data-es="Método de Pago" data-en="Payment Method">Método de Pago</span>
-                </h3>
-
-                <div class="payment-methods" id="paymentMethodsContainer">
-                    <div class="payment-method selected" data-method="NEQUI" data-region="CO" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">📱</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">Nequi</div>
-                            <div class="payment-method-desc">Pago directo sin comisión</div>
-                        </div>
-                    </div>
-                    <div class="payment-method" data-method="ZELLE" data-region="US" onclick="selectPaymentMethod(this)" style="display:none;">
-                        <div class="payment-method-icon">💵</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">Zelle</div>
-                            <div class="payment-method-desc">Direct payment - No fees</div>
-                        </div>
-                    </div>
-                    <div class="payment-method" data-method="STRIPE" data-region="USD" onclick="selectPaymentMethod(this)" style="display:none;">
-                        <div class="payment-method-icon">💳</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">Stripe</div>
-                            <div class="payment-method-desc">Cards, Apple Pay & Google Pay</div>
-                        </div>
-                    </div>
-                    <div class="payment-method" data-method="PAYPAL" data-region="US" onclick="selectPaymentMethod(this)" style="display:none;">
-                        <div class="payment-method-icon">🅿️</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">PayPal</div>
-                            <div class="payment-method-desc">Pay with PayPal balance or linked cards</div>
-                        </div>
-                    </div>
-                    <div class="payment-method" data-method="MERCADOPAGO" data-region="ALL" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">💳</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">Mercado Pago</div>
-                            <div class="payment-method-desc" style="color: #ff9800;">+ 5% comisión</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="paymentInstructions" style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(212, 175, 55, 0.1); border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 10px;">
-                    <!-- Instrucciones de pago dinámicas -->
-                </div>
-
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="terms" required style="width: auto; margin-right: 0.5rem;">
-                        <span data-es="Acepto términos y condiciones" data-en="I accept terms and conditions">
-                            Acepto términos y condiciones
-                        </span>
-                    </label>
-                </div>
-            </form>
-        </div>
-
-        <!-- Resumen del Pedido -->
-        <div class="order-summary checkout-section">
-            <h2 data-es="Resumen del Pedido" data-en="Order Summary">Resumen del Pedido</h2>
-            
-            <div id="orderItems"></div>
-
-            <div class="order-totals" id="orderTotals" style="display: none;">
-                <div class="order-total-row">
-                    <span data-es="Subtotal" data-en="Subtotal">Subtotal</span>
-                    <span id="subtotal">$0</span>
-                </div>
-                <div class="order-total-row">
-                    <span data-es="Envío" data-en="Shipping">Envío</span>
-                    <span id="shipping" style="color: #00b894; font-weight: bold;">Envío Gratis</span>
-                </div>
-                <div class="order-total-row final">
-                    <span data-es="Total" data-en="Total">Total</span>
-                    <span id="total">$0</span>
-                </div>
-            </div>
-            
-            <!-- Mensaje pendiente de envío (sin subrayado rojo) -->
-            <div id="shippingPendingMessage" style="margin: 1.5rem 0; padding: 1.2rem; background: rgba(212, 175, 55, 0.10); border-radius: 12px; border: 2px solid rgba(212, 175, 55, 0.25); text-align: center; color: var(--gold); font-size: 1.15rem; font-weight: 600; box-shadow: 0 2px 16px 0 rgba(212,175,55,0.08);">
-                <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">📦</span>
-                <span data-es="Complete la información de envío para ver el total" data-en="Complete shipping information to see total">Complete la información de envío para ver el total</span>
-            </div>
-
-            <button class="btn-pay" onclick="processPayment()">
-                <span data-es="🔒 Pagar Ahora" data-en="🔒 Pay Now">🔒 Pagar Ahora</span>
-            </button>
-
-            <!-- Mensaje de pago seguro (subrayado verde, más grande y elegante) -->
-            <div style="margin-top: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(0,184,148,0.18) 0%, rgba(212,175,55,0.10) 100%); border-radius: 14px; border: 2.5px solid #00b894; font-size: 1.15rem; color: #fff; box-shadow: 0 4px 24px 0 rgba(0,184,148,0.10); display: flex; align-items: center; gap: 1.2rem; justify-content: center;">
-                <span style="font-size: 2.2rem; color: #00b894; font-weight: bold; text-shadow: 0 2px 12px rgba(0,184,148,0.15);">🔒</span>
-                <span id="securePaymentTitle" style="color: #00ffb0; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.5px; text-shadow: 0 2px 12px rgba(0,184,148,0.10);">Pago Seguro</span>
-                <span id="securePaymentDescription" style="color: var(--gold); font-size: 1.1rem; font-weight: 500;">Transacción procesada por Mercado Pago, plataforma líder de pagos en América Latina.</span>
-            </div>
-        </div>
+    <div class="opts" id="modeOpts" hidden>
+      <button type="button" class="opt on" data-mode="ship"><span>🚚</span><span><span class="t">Envío a domicilio</span><br><span class="d" id="shipDesc"></span></span></button>
+      <button type="button" class="opt" data-mode="pickup"><span>📍</span><span><span class="t">Recoger gratis</span><br><span class="d" id="pickupDesc"></span></span></button>
     </div>
 
-    <script>
-        let cart = [];
-        let selectedPaymentMethod = 'NEQUI';
-        let selectedShippingMethod = null;
-        let shippingCost = 0;
-        let pickupStore = null; // CO o US para pickup
-        let currentCurrency = 'COP'; // Moneda por defecto
-        let defaultPaymentMethodsHtml = '';
-        const IS_LOCALHOST = ['localhost', '127.0.0.1'].includes(window.location.hostname);
-        const BACKEND_URL = IS_LOCALHOST ? 'http://localhost:3001' : 'https://fresche1-payments-api.onrender.com';
-        const MERCADOPAGO_RETURN_BASE_URL = IS_LOCALHOST ? window.location.origin : 'https://fresche1.com';
-        const pickupStoreDetails = {
-            CO: {
-                shortLabel: 'Tienda Colombia',
-                locations: 'Bogotá, Fusagasugá, Madrid Cundinamarca y Medellín',
-                summaryLabel: 'Tienda Colombia 🇨🇴 (Bogotá, Fusagasugá, Madrid Cundinamarca y Medellín)'
-            },
-            US: {
-                shortLabel: 'Tienda USA',
-                locations: 'Queens, Manhattan, Long Island, Brooklyn y New Jersey',
-                summaryLabel: 'Tienda USA 🇺🇸 (Queens, Manhattan, Long Island, Brooklyn y New Jersey)'
-            }
-        };
-
-        // Tarifas de envío reales
-        // Colombia: Interrapidísimo según zona
-        // Internacional: Servientrega tarifa fija
-        // Zonas de envío desde Bogotá: LOCAL, REGIONAL, NACIONAL
-        const colombiaCities = {
-            // LOCAL: Bogotá y Sabana (Cundinamarca cercana)
-            bogota: [
-                'bogota', 'bogotá', 'soacha', 'chia', 'chía', 'cajica', 'cajicá', 'cota', 'funza', 'mosquera', 
-                'madrid', 'zipaquira', 'zipaquirá', 'facatativa', 'facatativá', 'tocancipa', 'tocancipá', 
-                'tenjo', 'tabio', 'subachoque', 'el rosal', 'siberia', 'sibería', 'gachancipa', 'gachancipá',
-                'sopó', 'sopo', 'la calera', 'guasca', 'sesquilé', 'sesquile', 'nemocón', 'nemocon',
-                'bojaca', 'bojacá', 'arbelaez', 'arbeláez', 'fusagasuga', 'fusagasugá', 'girardot'
-            ],
-            // REGIONAL: Principales ciudades y departamentos cercanos (Tolima, Boyacá, Santanderes, Eje Cafetero, Valle, Antioquia)
-            central: [
-                // Antioquia
-                'medellin', 'medellín', 'envigado', 'bello', 'itagui', 'itagüí', 'sabaneta', 'rionegro', 
-                'la estrella', 'caldas', 'copacabana', 'marinilla',
-                // Valle del Cauca
-                'cali', 'palmira', 'buenaventura', 'tulua', 'tuluá', 'cartago', 'buga', 'jamundi', 'jamundí', 'yumbo',
-                // Costa Atlántica
-                'barranquilla', 'cartagena', 'santa marta', 'soledad', 'malambo', 'sabanalarga',
-                // Santanderes
-                'bucaramanga', 'floridablanca', 'giron', 'girón', 'piedecuesta', 'cucuta', 'cúcuta', 
-                'pamplona', 'villa del rosario', 'los patios', 'ocaña', 'barrancabermeja',
-                // Eje Cafetero
-                'pereira', 'dosquebradas', 'manizales', 'armenia', 'cartago', 'la virginia',
-                // Tolima
-                'ibague', 'ibagué', 'espinal', 'melgar', 'honda',
-                // Boyacá
-                'tunja', 'duitama', 'sogamoso', 'chiquinquira', 'chiquinquirá', 'paipa', 'villa de leyva',
-                // Huila
-                'neiva', 'pitalito', 'garzon', 'garzón', 'la plata',
-                // Meta
-                'villavicencio', 'acacias', 'granada', 'puerto lopez', 'puerto lópez'
-            ]
-            // NACIONAL (larga distancia): Todas las demás ciudades
-            // Ejemplos: Leticia, Mitú, San Andrés, Arauca, Yopal, Mocoa, etc.
-        };
-        
-        function getColombiaCityZone(city) {
-            const cityLower = city.toLowerCase().trim();
-            if (colombiaCities.bogota.some(c => cityLower.includes(c))) return 'bogota';
-            if (colombiaCities.central.some(c => cityLower.includes(c))) return 'central';
-            return 'longdistance';
-        }
-        
-        const shippingRates = {
-            CO: [
-                { id: 'pickup', name: '🏢 <span data-es="Recoger en tienda" data-en="Pickup">Recoger en tienda</span>', desc: '<span data-es="Sin cobro extra. Solo pagas el valor del paquete o crema." data-en="No extra charge. Only pay for the product.">Sin cobro extra. Solo pagas el valor del paquete o crema.</span>', price: 0, currency: 'COP', zone: 'pickup' },
-                { id: 'bogota', name: '🏠 LOCAL - Bogotá y Sabana', desc: '2-4 días hábiles', price: 0, currency: 'COP', zone: 'bogota' },
-                { id: 'central', name: '🚚 REGIONAL - Colombia Central', desc: '3-5 días hábiles', price: 0, currency: 'COP', zone: 'central' },
-                { id: 'longdistance', name: '✈️ NACIONAL - Larga Distancia', desc: '4-7 días hábiles', price: 0, currency: 'COP', zone: 'longdistance' }
-            ],
-            INTERNATIONAL: [
-                { id: 'pickup', name: '🏢 <span data-es="Recoger en tienda" data-en="Pickup">Recoger en tienda</span>', desc: '<span data-es="Sin cobro extra. Solo pagas el valor del paquete o crema." data-en="No extra charge. Only pay for the product.">Sin cobro extra. Solo pagas el valor del paquete o crema.</span>', price: 0, currency: 'USD', zone: 'pickup' },
-                { id: 'international', name: 'Servientrega International', desc: '10-15 business days', price: 10, currency: 'USD' }
-            ]
-        };
-
-        // Tabla de precios dinámicos por cantidad (en dólares)
-            const individualPriceTiers = {
-                base: { USD: 19.99, COP: 40000 },
-                tier3: { USD: 16.99, COP: 26999 },
-                tier5: { USD: 15.99, COP: 25999 }
-            };
-
-            const packPriceTable = {
-                duo: { USD: 34.99, COP: 70000 },
-                trio: { USD: 44.99, COP: 100000 },
-                elella: { USD: 69.99, COP: 160000 }
-            };
-
-            function resolvePackType(item) {
-                if (item?.packType && packPriceTable[item.packType]) {
-                    return item.packType;
-                }
-
-                const productCount = item?.products?.length;
-                if (productCount === 2) return 'duo';
-                if (productCount === 3) return 'trio';
-                if (productCount === 5) return 'elella';
-                return null;
-            }
-
-            function getIndividualPrice(totalQuantity) {
-                if (totalQuantity >= 5) return individualPriceTiers.tier5;
-                if (totalQuantity >= 3) return individualPriceTiers.tier3;
-                return individualPriceTiers.base;
-            }
-
-            function getPackPrice(packType) {
-                return packPriceTable[packType] || individualPriceTiers.base;
-            }
-
-            function getCartPricingSummary(currencyCode = currentCurrency) {
-                const individualItems = [];
-                const packItems = [];
-                let totalIndividualQty = 0;
-
-                cart.forEach(item => {
-                    if (item.type === 'pack') {
-                        packItems.push(item);
-                        return;
-                    }
-
-                    totalIndividualQty += item.quantity;
-                    individualItems.push(item);
-                });
-
-                const individualUnitPrice = getIndividualPrice(totalIndividualQty);
-                const individualSubtotal = individualUnitPrice[currencyCode] * totalIndividualQty;
-                const packSubtotal = packItems.reduce((sum, item) => {
-                    const packType = resolvePackType(item);
-                    return sum + (getPackPrice(packType)[currencyCode] * item.quantity);
-                }, 0);
-
-                return {
-                    individualItems,
-                    packItems,
-                    totalIndividualQty,
-                    individualUnitPrice,
-                    individualSubtotal,
-                    packSubtotal,
-                    subtotal: individualSubtotal + packSubtotal
-                };
-            }
-
-        // Países que usan USD
-        const usdCountries = ['US', 'CA', 'ES', 'OTHER'];
-        
-
-
-        // Cargar carrito
-        function loadCart() {
-            const savedCart = localStorage.getItem('freshCart');
-            if (savedCart) {
-                cart = JSON.parse(savedCart);
-            }
-
-            if (cart.length === 0) {
-                window.location.href = 'index.html';
-                return;
-            }
-
-            // ...existing code...
-            // Mostrar resumen y opciones de envío según selección del usuario
-            updateShippingCost();
-            displayOrderSummary();
-        }
-
-        function displayOrderSummary() {
-            const orderItemsDiv = document.getElementById('orderItems');
-            const language = document.documentElement.lang || 'es';
-            
-            // Detectar si está en inglés
-            let useUSD = (currentCurrency === 'USD');
-            const isEnglish = language === 'en';
-            
-            // Verificar si se ha completado la información de envío
-            const country = document.getElementById('country').value;
-            const city = document.getElementById('city').value;
-            const address = document.getElementById('address').value;
-            const state = document.getElementById('state').value;
-            
-            const shippingInfoComplete = country && city && address && state && selectedShippingMethod;
-            const hidePrices = country === 'US' || pickupStore === 'US';
-            
-
-            const pricingSummary = getCartPricingSummary(currentCurrency);
-            const { individualItems, packItems, totalIndividualQty: individualUnits, individualSubtotal, subtotal } = pricingSummary;
-
-            // Renderizar productos en el resumen
-            let itemsHtml = '';
-            if (individualUnits > 0) {
-                // Mostrar todos los productos individuales agrupados
-                let names = individualItems.map(i => i.name).join(', ');
-                let img = individualItems[0]?.image || 'images/cherry.jpg';
-                let priceCOP = shippingInfoComplete ? `$${Math.round(individualSubtotal).toLocaleString('es-CO')} COP` : '-';
-                let priceUSD = shippingInfoComplete ? `$${(pricingSummary.individualUnitPrice.USD * individualUnits).toFixed(2)} USD` : '-';
-                const priceHtml = hidePrices ? '' : `<div class="order-item-price">${priceCOP}<br><span style='font-size:0.95em;color:#ffd700;'>${priceUSD}</span></div>`;
-                itemsHtml += `
-                    <div class="order-item">
-                        <img src="${img}" alt="Cremas FRESCHE">
-                        <div class="order-item-info">
-                            <div class="order-item-name">${names}</div>
-                            <div class="order-item-quantity">Cantidad: ${individualUnits}</div>
-                        </div>
-                        ${priceHtml}
-                    </div>
-                `;
-            }
-            packItems.forEach(item => {
-                const packType = resolvePackType(item);
-                let prices = getPackPrice(packType);
-                let itemTotalCOP = prices.COP * item.quantity;
-                let itemTotalUSD = prices.USD * item.quantity;
-                let itemName = `${item.name} (${item.products.map(p => p.id).join(', ')})`;
-                let itemImage = 'images/cherry.jpg';
-                let priceCOP = shippingInfoComplete ? `$${Math.round(itemTotalCOP).toLocaleString('es-CO')} COP` : '-';
-                let priceUSD = shippingInfoComplete ? `$${itemTotalUSD.toFixed(2)} USD` : '-';
-                const priceHtml = hidePrices ? '' : `<div class="order-item-price">${priceCOP}<br><span style='font-size:0.95em;color:#ffd700;'>${priceUSD}</span></div>`;
-                itemsHtml += `
-                    <div class="order-item">
-                        <img src="${itemImage}" alt="${itemName}">
-                        <div class="order-item-info">
-                            <div class="order-item-name">${itemName}</div>
-                            <div class="order-item-quantity">Cantidad: ${item.quantity}</div>
-                        </div>
-                        ${priceHtml}
-                    </div>
-                `;
-            });
-
-            orderItemsDiv.innerHTML = itemsHtml;
-
-            const total = subtotal + shippingCost;
-
-            const formatMoney = (amount) => {
-                if (currentCurrency === 'USD') {
-                    return `$${amount.toFixed(2)} USD`;
-                } else {
-                    return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
-                }
-            };
-
-            // Solo mostrar valores si la información de envío está completa
-            if (shippingInfoComplete && !hidePrices) {
-                document.getElementById('subtotal').textContent = formatMoney(subtotal);
-                if (country === 'CO') {
-                    document.getElementById('shipping').textContent = 'Envío Gratis';
-                } else {
-                    document.getElementById('shipping').textContent = formatMoney(shippingCost);
-                }
-                document.getElementById('total').textContent = formatMoney(total);
-                // Mostrar totales y ocultar mensaje pendiente
-                document.getElementById('orderTotals').style.display = 'block';
-                document.getElementById('shippingPendingMessage').style.display = 'none';
-            } else {
-                // Ocultar totales y mostrar mensaje pendiente
-                document.getElementById('orderTotals').style.display = 'none';
-                document.getElementById('shippingPendingMessage').style.display = hidePrices ? 'none' : 'block';
-            }
-        }
-
-        function updateShippingCost() {
-            const country = document.getElementById('country').value;
-            const city = document.getElementById('city').value;
-            const shippingOptionsDiv = document.getElementById('shippingOptions');
-            const language = document.documentElement.lang || 'es';
-            const isEnglish = language === 'en';
-            const hidePrices = country === 'US' || pickupStore === 'US';
-
-            const paymentMethodsDiv = document.getElementById('paymentMethodsContainer');
-            if (!country) {
-                if (paymentMethodsDiv) paymentMethodsDiv.style.display = 'none';
-                const alertMsg = isEnglish ? 'Select a country to see shipping options' : 'Selecciona un país para ver las opciones de envío';
-                shippingOptionsDiv.innerHTML = `<div class="shipping-alert">⚠️ ${alertMsg}</div>`;
-                shippingCost = 0;
-                selectedShippingMethod = null;
-                currentCurrency = (isEnglish || country !== 'CO') ? 'USD' : 'COP';
-                displayOrderSummary();
-                return;
-            } else {
-                if (paymentMethodsDiv) paymentMethodsDiv.style.display = '';
-            }
-
-            // Determinar moneda
-            if (selectedShippingMethod === 'pickup') {
-                if (pickupStore === 'US') {
-                    currentCurrency = 'USD';
-                } else if (pickupStore === 'CO') {
-                    currentCurrency = 'COP';
-                } else {
-                    currentCurrency = 'COP';
-                }
-            } else {
-                currentCurrency = country === 'CO' ? 'COP' : 'USD';
-            }
-            
-            // Mostrar/ocultar métodos de pago según el país (si no es pickup)
-            if (selectedShippingMethod !== 'pickup') {
-                updatePaymentMethods(country);
-            }
-
-            let options;
-            let selectedOption = null;
-            
-
-            // Mostrar opción Pickup universal
-            let html = '';
-            const pickupSelected = selectedShippingMethod === 'pickup';
-            html += `<div class="shipping-option${pickupSelected ? ' selected' : ''}" data-method="pickup" onclick="selectShippingMethod('pickup', 0)">
-                <div class="shipping-option-info">
-                    <div class="shipping-option-name">🏢 <span data-es="Recoger en tienda" data-en="Pickup">Recoger en tienda</span></div>
-                </div>
-                ${hidePrices ? '' : '<div class="shipping-option-price">$0</div>'}
-            </div>`;
-
-            // Opciones normales de envío
-            if (country === 'CO' && selectedShippingMethod !== 'pickup') {
-                selectedShippingMethod = 'free';
-                shippingCost = 0;
-                html += `<div class="shipping-option selected" data-method="free">
-                    <div class="shipping-option-info">
-                        <div class="shipping-option-name">🚚 <span data-es='Envío Gratis a toda Colombia' data-en='Free Shipping in Colombia'>Envío Gratis a toda Colombia</span></div>
-                        <div class="shipping-option-desc">📦 <span data-es='Recibe tu pedido sin costo de envío en cualquier ciudad de Colombia.' data-en='Receive your order with free shipping anywhere in Colombia.'>Recibe tu pedido sin costo de envío en cualquier ciudad de Colombia.</span></div>
-                    </div>
-                    <div class="shipping-option-price" style="color: #00b894; font-weight: bold;">Envío Gratis</div>
-                </div>`;
-            } else if (country !== 'CO' && selectedShippingMethod !== 'pickup') {
-                selectedShippingMethod = 'free';
-                shippingCost = 0;
-                html += `<div class="shipping-option selected" data-method="free">
-                    <div class="shipping-option-info">
-                        <div class="shipping-option-name">🚚 <span data-es='Delivery gratis internacional' data-en='Free international delivery'>Delivery gratis internacional</span></div>
-                        <div class="shipping-option-desc">📦 <span data-es='Recibe tu pedido sin costo de envío y paga solo el valor del producto.' data-en='Receive your order with free delivery and pay only for the product.'>Recibe tu pedido sin costo de envío y paga solo el valor del producto.</span></div>
-                    </div>
-                    <div class="shipping-option-price" style="color: #00b894; font-weight: bold;">${isEnglish ? 'Free Delivery' : 'Envío Gratis'}</div>
-                </div>`;
-            }
-            shippingOptionsDiv.innerHTML = html;
-            if (selectedShippingMethod === 'pickup') shippingCost = 0;
-
-            if (selectedShippingMethod === 'pickup') {
-                renderPickupStoreSelector();
-                updatePickupPaymentMethods();
-            } else {
-                renderPickupStoreSelector();
-            }
-
-            displayOrderSummary();
-            updateCustomerInfoVisibility();
-        }
-
-        function updatePaymentMethods(country) {
-            const container = document.getElementById('paymentMethodsContainer');
-            if (container && defaultPaymentMethodsHtml) {
-                const needsRestore = !container.querySelector('[data-method="NEQUI"]')
-                    || !container.querySelector('[data-method="MERCADOPAGO"]')
-                    || !container.querySelector('[data-method="MERCADOLIBRE"]')
-                    || !container.querySelector('[data-method="ZELLE"]')
-                    || !container.querySelector('[data-method="STRIPE"]')
-                    || !container.querySelector('[data-method="PAYPAL"]');
-                if (needsRestore) {
-                    container.innerHTML = defaultPaymentMethodsHtml;
-                }
-            }
-
-            const nequiMethod = document.querySelector('[data-method="NEQUI"]');
-            const zelleMethod = document.querySelector('[data-method="ZELLE"]');
-            const stripeMethod = document.querySelector('[data-method="STRIPE"]');
-            const paypalMethod = document.querySelector('[data-method="PAYPAL"]');
-            const mercadolibreMethod = document.querySelector('[data-method="MERCADOLIBRE"]');
-            const mercadopagoMethod = document.querySelector('[data-method="MERCADOPAGO"]');
-
-            if (country === 'CO') {
-                // Solo métodos de pago Colombia
-                if (nequiMethod) nequiMethod.style.display = 'flex';
-                if (zelleMethod) zelleMethod.style.display = 'none';
-                if (stripeMethod) stripeMethod.style.display = 'none';
-                if (paypalMethod) paypalMethod.style.display = 'none';
-                if (mercadopagoMethod) mercadopagoMethod.style.display = 'flex';
-                if (mercadolibreMethod) mercadolibreMethod.style.display = 'none';
-                if (selectedPaymentMethod === 'ZELLE' || selectedPaymentMethod === 'STRIPE' || selectedPaymentMethod === 'PAYPAL' || selectedPaymentMethod === 'MERCADOLIBRE') {
-                    if (nequiMethod) selectPaymentMethod(nequiMethod);
-                }
-            } else if (country === 'US') {
-                // Solo métodos de pago USA
-                if (nequiMethod) nequiMethod.style.display = 'none';
-                if (zelleMethod) zelleMethod.style.display = 'flex';
-                if (stripeMethod) stripeMethod.style.display = 'flex';
-                if (paypalMethod) paypalMethod.style.display = 'flex';
-                if (mercadopagoMethod) mercadopagoMethod.style.display = 'none';
-                if (mercadolibreMethod) mercadolibreMethod.style.display = 'none';
-                if (!['ZELLE', 'STRIPE', 'PAYPAL'].includes(selectedPaymentMethod)) {
-                    if (paypalMethod) selectPaymentMethod(paypalMethod);
-                    else if (stripeMethod) selectPaymentMethod(stripeMethod);
-                    else if (zelleMethod) selectPaymentMethod(zelleMethod);
-                }
-            } else {
-                // Internacional en USD: Zelle, Stripe y MercadoPago
-                if (nequiMethod) nequiMethod.style.display = 'none';
-                if (zelleMethod) zelleMethod.style.display = 'flex';
-                if (stripeMethod) stripeMethod.style.display = 'flex';
-                if (paypalMethod) paypalMethod.style.display = 'none';
-                if (mercadopagoMethod) mercadopagoMethod.style.display = 'flex';
-                if (mercadolibreMethod) mercadolibreMethod.style.display = 'none';
-                if (selectedPaymentMethod === 'NEQUI' || selectedPaymentMethod === 'MERCADOLIBRE' || selectedPaymentMethod === 'PAYPAL') {
-                    if (stripeMethod) selectPaymentMethod(stripeMethod);
-                    else if (zelleMethod) selectPaymentMethod(zelleMethod);
-                    else if (mercadopagoMethod) selectPaymentMethod(mercadopagoMethod);
-                }
-            }
-        }
-
-        function selectShippingMethod(methodId, price) {
-            selectedShippingMethod = methodId;
-            shippingCost = price;
-            
-            // Actualizar visualmente
-            document.querySelectorAll('.shipping-option').forEach(el => el.classList.remove('selected'));
-            const targetOption = (typeof event !== 'undefined' && event.target)
-                ? event.target.closest('.shipping-option')
-                : document.querySelector(`.shipping-option[data-method="${methodId}"]`);
-            if (targetOption) {
-                targetOption.classList.add('selected');
-            }
-            
-            // Mostrar/ocultar campos de dirección según si es pickup
-            const addressSection = document.getElementById('shippingAddressSection');
-            const addressField = document.getElementById('address');
-            const cityField = document.getElementById('city');
-            const stateField = document.getElementById('state');
-            const countryField = document.getElementById('country');
-            const postalCodeField = document.getElementById('postalCode');
-            
-            if (methodId === 'pickup') {
-                // Ocultar sección de dirección para pickup
-                addressSection.style.display = 'none';
-                // Hacer campos opcionales
-                addressField.removeAttribute('required');
-                cityField.removeAttribute('required');
-                stateField.removeAttribute('required');
-                countryField.removeAttribute('required');
-                updateShippingCost();
-            } else {
-                // Mostrar sección de dirección para envío normal
-                addressSection.style.display = 'block';
-                // Hacer campos requeridos
-                addressField.setAttribute('required', 'required');
-                cityField.setAttribute('required', 'required');
-                stateField.setAttribute('required', 'required');
-                countryField.setAttribute('required', 'required');
-                updateShippingCost();
-            }
-            
-            // Actualizar resumen
-            displayOrderSummary();
-        }
-        
-        function renderPickupStoreSelector() {
-            const container = document.getElementById('pickupStoreContainer');
-            if (!container) return;
-
-            if (selectedShippingMethod !== 'pickup') {
-                container.innerHTML = '';
-                return;
-            }
-
-            container.innerHTML = `
-                <div id="pickupStoreSelector" style="margin:1.5rem 0; padding:1.5rem; background:rgba(212,175,55,0.1); border-radius:12px; border:2px solid var(--gold);">
-                    <h4 style="color:var(--gold); margin-bottom:1rem; font-size:1.2rem;">📍 Selecciona la tienda para recoger</h4>
-                    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                        <button type="button" class="pickup-store-btn" data-store="CO" onclick="selectPickupStore('CO')" style="flex:1; min-width:200px; padding:1rem; background:${pickupStore === 'CO' ? 'linear-gradient(135deg, var(--gold), #ffd700)' : 'rgba(255,255,255,0.1)'}; color:${pickupStore === 'CO' ? '#000' : '#fff'}; border:${pickupStore === 'CO' ? '3px solid var(--gold)' : '2px solid rgba(255,255,255,0.3)'}; border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:all 0.3s;">
-                            <div>🇨🇴 ${pickupStoreDetails.CO.shortLabel}</div>
-                            <div style="margin-top:0.35rem; font-size:0.9rem; font-weight:500; line-height:1.4;">${pickupStoreDetails.CO.locations}</div>
-                        </button>
-                        <button type="button" class="pickup-store-btn" data-store="US" onclick="selectPickupStore('US')" style="flex:1; min-width:200px; padding:1rem; background:${pickupStore === 'US' ? 'linear-gradient(135deg, var(--gold), #ffd700)' : 'rgba(255,255,255,0.1)'}; color:${pickupStore === 'US' ? '#000' : '#fff'}; border:${pickupStore === 'US' ? '3px solid var(--gold)' : '2px solid rgba(255,255,255,0.3)'}; border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:all 0.3s;">
-                            <div>🇺🇸 ${pickupStoreDetails.US.shortLabel}</div>
-                            <div style="margin-top:0.35rem; font-size:0.9rem; font-weight:500; line-height:1.4;">${pickupStoreDetails.US.locations}</div>
-                        </button>
-                    </div>
-                </div>
-            `;
-            updateCustomerInfoVisibility();
-        }
-
-        function updateCustomerInfoVisibility() {
-            const section = document.getElementById('customerInfoSection');
-            if (!section) return;
-            const shouldShow = selectedShippingMethod && (selectedShippingMethod !== 'pickup' || pickupStore);
-            section.style.display = shouldShow ? 'block' : 'none';
-        }
-        
-        function selectPickupStore(store) {
-            pickupStore = store;
-            currentCurrency = pickupStore === 'US' ? 'USD' : 'COP';
-            
-            // Actualizar visualmente los botones
-            document.querySelectorAll('.pickup-store-btn').forEach(btn => {
-                if (btn.dataset.store === store) {
-                    btn.style.background = 'linear-gradient(135deg, var(--gold), #ffd700)';
-                    btn.style.color = '#000';
-                    btn.style.border = '3px solid var(--gold)';
-                } else {
-                    btn.style.background = 'rgba(255,255,255,0.1)';
-                    btn.style.color = '#fff';
-                    btn.style.border = '2px solid rgba(255,255,255,0.3)';
-                }
-            });
-            
-            // Actualizar métodos de pago
-            updatePickupPaymentMethods();
-            displayOrderSummary();
-            updateCustomerInfoVisibility();
-        }
-        
-        function updatePickupPaymentMethods() {
-            const container = document.getElementById('paymentMethodsContainer');
-            container.innerHTML = '';
-            
-            if (!pickupStore) {
-                container.innerHTML = `
-                    <div class="shipping-alert" style="margin-top: 0.75rem;">
-                        <span data-es="Selecciona la tienda para ver métodos de pago." data-en="Select the store to see payment methods.">Selecciona la tienda para ver métodos de pago.</span>
-                    </div>
-                `;
-                const instructionsDiv = document.getElementById('paymentInstructions');
-                if (instructionsDiv) instructionsDiv.innerHTML = '';
-                return;
-            }
-
-            if (pickupStore === 'US') {
-                // USA pickup: PayPal, Stripe o Zelle
-                container.innerHTML = `
-                    <div class="payment-method selected" data-method="PAYPAL" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">🅿️</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">PayPal</div>
-                            <div class="payment-method-desc">Pay with PayPal balance or linked cards</div>
-                        </div>
-                    </div>
-                    <div class="payment-method" data-method="STRIPE" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">💳</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">Stripe</div>
-                            <div class="payment-method-desc">Cards, Apple Pay & Google Pay</div>
-                        </div>
-                    </div>
-                    <div class="payment-method" data-method="ZELLE" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">💵</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">Zelle</div>
-                            <div class="payment-method-desc">Direct payment - No fees</div>
-                        </div>
-                    </div>
-                `;
-                selectedPaymentMethod = 'PAYPAL';
-            } else {
-                // Colombia pickup: Nequi y Mercado Pago en COP
-                container.innerHTML = `
-                    <div class="payment-method selected" data-method="NEQUI" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">📱</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">Nequi</div>
-                            <div class="payment-method-desc">Pago directo sin comisión</div>
-                        </div>
-                    </div>
-                    <div class="payment-method" data-method="MERCADOPAGO" onclick="selectPaymentMethod(this)">
-                        <div class="payment-method-icon">💳</div>
-                        <div class="payment-method-info">
-                            <div class="payment-method-name">Mercado Pago</div>
-                            <div class="payment-method-desc">Pago en pesos colombianos</div>
-                        </div>
-                    </div>
-                `;
-                selectedPaymentMethod = 'NEQUI';
-            }
-            
-            // Trigger para mostrar instrucciones
-            const firstMethod = container.querySelector('.payment-method.selected');
-            if (firstMethod) {
-                selectPaymentMethod(firstMethod);
-            }
-        }
-
-        function selectPaymentMethod(element) {
-            document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
-            element.classList.add('selected');
-            selectedPaymentMethod = element.dataset.method;
-
-            const instructionsDiv = document.getElementById('paymentInstructions');
-            let instructions = '';
-
-            if (selectedPaymentMethod === 'NEQUI') {
-                const subtotal = getCartPricingSummary(currentCurrency).subtotal;
-                const total = subtotal + shippingCost;
-                const formatMoney = (amount) => {
-                    if (currentCurrency === 'USD') {
-                        return `$${amount.toFixed(2)} USD`;
-                    }
-                    return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
-                };
-                instructions = `
-                    <h4 style="color: var(--gold); margin-bottom: 1rem;">📱 Pago por Nequi</h4>
-                    <div style="color: #fff; line-height: 1.8;">
-                        <p style="margin-bottom: 0.5rem;"><strong>Número Nequi:</strong> <span style="color: var(--gold); font-size: 1.2rem;">+57 301 760 6723</span></p>
-                        <div style="margin: 1rem 0; text-align: center;">
-                            <img src="images/qr%20nequi.jpeg?v=20260203" alt="QR Nequi" class="zelle-qr-checkout">
-                        </div>
-                        <p style="margin-bottom: 0.5rem; font-size:1.1rem;"><strong>Total a pagar:</strong> <span style="color: var(--gold); font-size: 1.3rem; font-weight:700;">${formatMoney(total)}</span></p>
-                        <p style="color: #ff9800; margin-top: 1rem;">⚠️ Después del pago, haz clic en "Pagar Ahora" para enviar el comprobante al WhatsApp +57 301 760 6723</p>
-                    </div>
-                `;
-            } else if (selectedPaymentMethod === 'ZELLE') {
-                const formatMoney = (amount) => {
-                    if (currentCurrency === 'USD') {
-                        return `$${amount.toFixed(2)} USD`;
-                    }
-                    return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
-                };
-
-                const subtotal = getCartPricingSummary(currentCurrency).subtotal;
-
-                const total = subtotal + shippingCost;
-                instructions = `
-                    <h4 style="color: var(--gold); margin-bottom: 1rem;">💵 Zelle Payment</h4>
-                    <div style="color: #fff; line-height: 1.8; text-align:center;">
-                        <img src="images/qr%20zelle.jpg?v=20260203" alt="Zelle QR" class="zelle-qr-checkout">
-                        <p style="margin-bottom: 0.5rem; font-size:1.1rem;"><strong>Email Zelle:</strong> <span style="color: var(--gold); font-size: 1.2rem; font-weight:700;">fresche@fresche1.com</span></p>
-                        <p style="margin-bottom: 0.5rem; font-size:1.2rem; color:var(--gold); font-weight:700;">Escanea el código QR para pagar con Zelle</p>
-                        <p style="margin-bottom: 0.5rem; font-size:1.2rem; color:var(--gold); font-weight:700;">Scan the QR code to pay with Zelle</p>
-                        <p style="margin-bottom: 0.5rem; font-size:1.1rem;"><strong>Total:</strong> <span style="color: var(--gold); font-size: 1.3rem; font-weight:700;">${formatMoney(total)}</span></p>
-                        <p style="color: #ff9800; margin-top: 1.2rem; font-size:1.05rem; font-weight:600;">⚠️ Una vez realices el pago con Zelle, haz clic en "Pagar Ahora" para ser redireccionado y enviar el comprobante de pago por WhatsApp.</p>
-                        <p style="color: #ff9800; margin-top: 0.5rem; font-size:1.05rem; font-weight:600;">⚠️ After paying with Zelle, click "Pay Now" to be redirected and send your payment receipt via WhatsApp.</p>
-                    </div>
-                `;
-            } else if (selectedPaymentMethod === 'STRIPE') {
-                const subtotal = getCartPricingSummary(currentCurrency).subtotal;
-
-                const total = subtotal + shippingCost;
-                const formatMoney = (amount) => `$${amount.toFixed(2)} USD`;
-                instructions = `
-                    <h4 style="color: var(--gold); margin-bottom: 1rem;">💳 Pago con Stripe</h4>
-                    <div style="color: #fff; line-height: 1.8;">
-                        <p style="margin-bottom: 0.5rem;">Paga de forma inmediata y segura con tarjeta. Stripe también puede mostrar Apple Pay o Google Pay según tu dispositivo y navegador.</p>
-                        <div style="background: rgba(0, 184, 148, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px solid rgba(0, 184, 148, 0.3);">
-                            <p style="color: #00b894; margin: 0;"><strong>Total a cobrar:</strong> ${formatMoney(total)}</p>
-                            <p style="margin: 0.5rem 0 0 0; font-size: 0.92rem; color: rgba(255,255,255,0.85);">Serás redirigido a Stripe Checkout para completar el pago sin salirte del flujo seguro.</p>
-                        </div>
-                    </div>
-                `;
-            } else if (selectedPaymentMethod === 'PAYPAL') {
-                const subtotal = getCartPricingSummary(currentCurrency).subtotal;
-
-                const total = subtotal + shippingCost;
-                const formatMoney = (amount) => `$${amount.toFixed(2)} USD`;
-                instructions = `
-                    <h4 style="color: var(--gold); margin-bottom: 1rem;">🅿️ Pago con PayPal</h4>
-                    <div style="color: #fff; line-height: 1.8;">
-                        <p style="margin-bottom: 0.5rem;">Serás redirigido a PayPal para iniciar sesión y aprobar el pago con tu saldo PayPal o las tarjetas asociadas a tu cuenta.</p>
-                        <div style="background: rgba(0, 102, 204, 0.12); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px solid rgba(0, 102, 204, 0.35);">
-                            <p style="color: #7ec8ff; margin: 0;"><strong>Total a cobrar:</strong> ${formatMoney(total)}</p>
-                            <p style="margin: 0.5rem 0 0 0; font-size: 0.92rem; color: rgba(255,255,255,0.85);">PayPal te mostrará el total en USD y volverás a FRESCHE al completar o cancelar la aprobación.</p>
-                        </div>
-                    </div>
-                `;
-            } else if (selectedPaymentMethod === 'MERCADOPAGO') {
-                const subtotal = getCartPricingSummary(currentCurrency).subtotal;
-                const commission = subtotal * 0.05;
-                const formatMoney = (amount) => {
-                    if (currentCurrency === 'USD') {
-                        return `$${amount.toFixed(2)} USD`;
-                    }
-                    return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
-                };
-                instructions = `
-                    <h4 style="color: var(--gold); margin-bottom: 1rem;">💳 Pago con Mercado Pago</h4>
-                    <div style="color: #fff; line-height: 1.8;">
-                        <p style="margin-bottom: 0.5rem;">Acepta tarjetas de crédito, débito, PSE, y más.</p>
-                        <div style="background: rgba(255, 152, 0, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px solid rgba(255, 152, 0, 0.3);">
-                            <p style="color: #ff9800; margin: 0;"><strong>⚠️ Comisión del 5%:</strong> ${formatMoney(commission)}</p>
-                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">El total a pagar será ${formatMoney(subtotal + commission + shippingCost)}</p>
-                        </div>
-                    </div>
-                `;
-            } else if (selectedPaymentMethod === 'MERCADOLIBRE') {
-                instructions = `
-                    <h4 style="color: var(--gold); margin-bottom: 1rem;">🛒 MercadoLibre Colombia</h4>
-                    <div style="color: #fff; line-height: 1.8;">
-                        <p style="margin-bottom: 1rem;">Serás redirigido a MercadoLibre para completar tu compra de forma 100% segura.</p>
-                        <div style="background: rgba(0, 184, 148, 0.1); padding: 1rem; border-radius: 8px; margin: 1rem 0; border: 1px solid rgba(0, 184, 148, 0.3);">
-                            <p style="color: #00b894; margin: 0; margin-bottom: 0.5rem;"><strong>✓ Beneficios de comprar en MercadoLibre:</strong></p>
-                            <p style="color: #00b894; margin: 0.3rem 0;">• Protección al comprador</p>
-                            <p style="color: #00b894; margin: 0.3rem 0;">• Todos los métodos de pago disponibles</p>
-                            <p style="color: #00b894; margin: 0.3rem 0;">• Seguimiento de envío</p>
-                            <p style="color: #00b894; margin: 0.3rem 0;">• Garantía de entrega</p>
-                        </div>
-                        <p style="color: var(--gold); margin-top: 1rem;"><strong>👉 Haz clic en "Pagar Ahora" para ir a MercadoLibre</strong></p>
-                        <p style="color: rgba(255, 255, 255, 0.7); margin-top: 0.5rem; font-size: 0.9rem;">No es necesario completar la información de envío aquí. Lo harás en MercadoLibre.</p>
-                    </div>
-                `;
-            }
-
-            instructionsDiv.innerHTML = instructions;
-            updateSecurePaymentNote();
-            updateOrderSummaryWithCommission();
-        }
-
-        function updateSecurePaymentNote() {
-            const title = document.getElementById('securePaymentTitle');
-            const description = document.getElementById('securePaymentDescription');
-
-            if (!title || !description) return;
-
-            title.textContent = 'Pago Seguro';
-
-            if (selectedPaymentMethod === 'STRIPE') {
-                description.textContent = 'Transacción procesada por Stripe con tarjetas y wallets digitales según disponibilidad.';
-                return;
-            }
-
-            if (selectedPaymentMethod === 'PAYPAL') {
-                description.textContent = 'Transacción procesada por PayPal con saldo disponible o tarjetas enlazadas a la cuenta del comprador.';
-                return;
-            }
-
-            if (selectedPaymentMethod === 'MERCADOPAGO') {
-                description.textContent = 'Transacción procesada por Mercado Pago, plataforma líder de pagos en América Latina.';
-                return;
-            }
-
-            if (selectedPaymentMethod === 'MERCADOLIBRE') {
-                description.textContent = 'Compra protegida y gestionada en MercadoLibre Colombia.';
-                return;
-            }
-
-            description.textContent = 'Tu pedido se procesa de forma segura y luego se confirma con el método de pago seleccionado.';
-        }
-
-        function updateOrderSummaryWithCommission() {
-            const subtotal = getCartPricingSummary(currentCurrency).subtotal;
-
-            const commission = selectedPaymentMethod === 'MERCADOPAGO' ? subtotal * 0.05 : 0;
-            const total = subtotal + shippingCost + commission;
-
-            const formatMoney = (amount) => {
-                if (currentCurrency === 'USD') {
-                    return `$${amount.toFixed(2)} USD`;
-                } else {
-                    return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
-                }
-            };
-
-            document.getElementById('subtotal').textContent = formatMoney(subtotal);
-            document.getElementById('shipping').textContent = shippingCost > 0 ? formatMoney(shippingCost) : (currentCurrency === 'USD' ? 'Free Delivery' : 'Envío Gratis');
-            
-            // Actualizar total con comisión
-            const totalsDiv = document.querySelector('.order-totals');
-            let commissionRow = document.getElementById('commissionRow');
-            
-            if (commission > 0) {
-                if (!commissionRow) {
-                    commissionRow = document.createElement('div');
-                    commissionRow.id = 'commissionRow';
-                    commissionRow.className = 'order-total-row';
-                    commissionRow.innerHTML = `
-                        <span style="color: #ff9800;">Comisión Mercado Pago (5%)</span>
-                        <span id="commissionAmount"></span>
-                    `;
-                    // Insertar antes del total final
-                    const finalRow = totalsDiv.querySelector('.order-total-row.final');
-                    totalsDiv.insertBefore(commissionRow, finalRow);
-                }
-                document.getElementById('commissionAmount').textContent = formatMoney(commission);
-            } else {
-                if (commissionRow) {
-                    commissionRow.remove();
-                }
-            }
-            
-            document.getElementById('total').textContent = formatMoney(total);
-        }
-
-        function processPayment() {
-            // Si es MercadoLibre, redirigir directamente sin validar formulario
-            if (selectedPaymentMethod === 'MERCADOLIBRE') {
-                if (cart.length === 0) {
-                    alert('Tu carrito está vacío');
-                    return;
-                }
-                
-                const cartSummary = cart.map(item => {
-                    const quantity = item.quantity;
-                    const name = item.type === 'pack' ? item.name : item.name;
-                    return `${name} x${quantity}`;
-                }).join(', ');
-                
-                const message = `¿Deseas ir a MercadoLibre para completar tu compra?\n\nProductos en tu carrito:\n${cartSummary}\n\nEn MercadoLibre podrás:\n✓ Ingresar tu dirección de envío\n✓ Elegir método de pago\n✓ Completar tu compra de forma segura`;
-                
-                if (confirm(message)) {
-                    redirectToMercadoLibre();
-                }
-                return;
-            }
-            
-            const form = document.getElementById('checkoutForm');
-            
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-
-            // Validar que se haya seleccionado un método de envío
-            if (!selectedShippingMethod) {
-                alert('Por favor selecciona un método de envío');
-                return;
-            }
-
-            const country = document.getElementById('country').value;
-            // Solo requerir país si no es pickup
-            if (!country && selectedShippingMethod !== 'pickup') {
-                alert('Por favor selecciona un país');
-                return;
-            }
-
-            const formData = {
-                fullName: document.getElementById('fullName').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                address: document.getElementById('address').value,
-                city: document.getElementById('city').value,
-                state: document.getElementById('state').value,
-                postalCode: document.getElementById('postalCode').value,
-                country: country,
-                shippingMethod: selectedShippingMethod,
-                paymentMethod: selectedPaymentMethod,
-                cart: cart
-            };
-
-            // Calcular total con envío
-            const pricingSummary = getCartPricingSummary(currentCurrency);
-            const subtotal = pricingSummary.subtotal;
-            
-            const commission = selectedPaymentMethod === 'MERCADOPAGO' ? subtotal * 0.05 : 0;
-            const total = subtotal + shippingCost + commission;
-
-            // Si es Nequi, Zelle o Bancolombia, enviar información completa por WhatsApp
-            if (selectedPaymentMethod === 'NEQUI' || selectedPaymentMethod === 'ZELLE' || selectedPaymentMethod === 'BANCOLOMBIA') {
-                const methodName = selectedPaymentMethod === 'NEQUI' ? 'Nequi' : selectedPaymentMethod === 'ZELLE' ? 'Zelle' : 'Bancolombia';
-                const formatMoney = (amount) => {
-                    if (currentCurrency === 'USD') {
-                        return `$${amount.toFixed(2)} USD`;
-                    } else {
-                        return `$${Math.round(amount).toLocaleString('es-CO')} COP`;
-                    }
-                };
-                
-                // Crear mensaje detallado con toda la información del pedido
-                let itemsText = cart.map((item, index) => {
-                    let itemTotal = 0;
-                    
-                    if (item.type === 'pack') {
-                        const packPrice = getPackPrice(resolvePackType(item));
-                        itemTotal = packPrice[currentCurrency] * item.quantity;
-                        const productsText = item.products.map(p => p.name).join(', ');
-                        return `${index + 1}. *${item.quantity}x ${item.name}*\n    Fragancias: ${productsText}\n   💰 Subtotal: ${formatMoney(itemTotal)}`;
-                    } else {
-                        itemTotal = pricingSummary.individualUnitPrice[currentCurrency] * item.quantity;
-                        const fragranceName = item.name;
-                        return `${index + 1}. *${item.quantity}x ${fragranceName}*\n   💰 Subtotal: ${formatMoney(itemTotal)}`;
-                    }
-                }).join('\n\n');
-                
-                let shippingInfo = '';
-                if (selectedShippingMethod === 'pickup') {
-                    const storeName = pickupStoreDetails[pickupStore]?.summaryLabel || (pickupStore === 'CO' ? 'Tienda Colombia 🇨🇴' : 'Tienda USA 🇺🇸');
-                    shippingInfo = `*MÉTODO DE ENTREGA:*\n🏢 Recoger en ${storeName}\n\n`;
-                } else {
-                    shippingInfo = `*DIRECCIÓN DE ENVÍO:*\n` +
-                        `${formData.address}\n` +
-                        `${formData.city}, ${formData.state}\n` +
-                        `CP: ${formData.postalCode}\n` +
-                        `País: ${formData.country}\n\n`;
-                }
-                
-                let paymentInfo = '';
-                if (selectedPaymentMethod === 'NEQUI') {
-                    paymentInfo = `*Número Nequi:* +57 301 760 6723\n*A nombre de:* Alejandra Vela Moreno`;
-                } else if (selectedPaymentMethod === 'ZELLE') {
-                    paymentInfo = `*Email Zelle:* fresche@fresche1.com\n*QR disponible en el checkout*`;
-                } else if (selectedPaymentMethod === 'BANCOLOMBIA') {
-                    paymentInfo = `*Banco:* Bancolombia\n*Cuenta de Ahorros:* 12345678901`;
-                }
-                
-                const whatsappMsg = `🛍️ *NUEVO PEDIDO - ${methodName}*\n\n` +
-                    `*DATOS DEL CLIENTE:*\n` +
-                    `👤 Nombre: ${formData.fullName}\n` +
-                    `📧 Email: ${formData.email}\n` +
-                    `📱 Teléfono: ${formData.phone}\n\n` +
-                    shippingInfo +
-                    `*PRODUCTOS:*\n${itemsText}\n\n` +
-                    `*RESUMEN:*\n` +
-                    `Subtotal: ${formatMoney(subtotal)}\n` +
-                    `Envío: ${shippingCost > 0 ? formatMoney(shippingCost) : 'Envío Gratis'}\n` +
-                    `*TOTAL A PAGAR: ${formatMoney(total)}*\n\n` +
-                    `💳 *MÉTODO DE PAGO: ${methodName}*\n` +
-                    `${paymentInfo}\n\n` +
-                    `⚠️ *POR FAVOR ADJUNTA TU COMPROBANTE DE PAGO*`;
-                
-                // Redirigir directo a WhatsApp con toda la información
-                window.location.href = `https://wa.me/573017606723?text=${encodeURIComponent(whatsappMsg)}`;
-                
-                return;
-            }
-
-            // Si es Mercado Pago, continuar con el flujo normal
-            if (selectedPaymentMethod === 'MERCADOPAGO') {
-                createMercadoPagoCheckout(formData, total, subtotal + commission);
-            } else if (selectedPaymentMethod === 'STRIPE') {
-                createStripeCheckout(formData, { subtotal, total });
-            } else if (selectedPaymentMethod === 'PAYPAL') {
-                createPayPalCheckout(formData, { subtotal, total });
-            }
-        }
-
-        function redirectToMercadoLibre() {
-            // URL del producto en MercadoLibre Colombia
-            const mercadoLibreURL = 'https://articulo.mercadolibre.com.co/MCO-1801564823-crema-intima-fresche-30-ml-hidratante-hipoalergenica-_JM';
-            
-            // Guardar carrito por si el usuario regresa
-            localStorage.setItem('pendingMLOrder', JSON.stringify({
-                cart: cart,
-                timestamp: Date.now()
-            }));
-            
-            // Abrir MercadoLibre en la misma pestaña
-            window.location.href = mercadoLibreURL;
-        }
-
-        async function createMercadoPagoCheckout(formData, total, subtotal) {
-            try {
-                // Mostrar mensaje de carga
-                const loadingMsg = document.createElement('div');
-                loadingMsg.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.9); color: var(--gold); padding: 2rem 3rem; border-radius: 10px; z-index: 10000; text-align: center; font-size: 1.2rem;';
-                loadingMsg.innerHTML = '<div style="margin-bottom: 1rem;">⏳</div>Procesando pago...<br><small style="font-size: 0.8rem; opacity: 0.8;">Redirigiendo a MercadoPago</small>';
-                document.body.appendChild(loadingMsg);
-                
-                // Calcular comisión del 5%
-                const pricingSummary = getCartPricingSummary(currentCurrency);
-                const commission = pricingSummary.subtotal * 0.05;
-                
-                // Preparar items para Mercado Pago
-                const items = cart.map(item => {
-                    const prices = item.type === 'pack'
-                        ? getPackPrice(resolvePackType(item))
-                        : pricingSummary.individualUnitPrice;
-                    const unitPrice = prices[currentCurrency];
-                    
-                    return {
-                        title: item.type === 'pack' 
-                            ? `${item.name} (${item.products.map(p => p.id).join(', ')})` 
-                            : item.name,
-                        quantity: item.quantity,
-                        unit_price: unitPrice,
-                        currency_id: currentCurrency
-                    };
-                });
-
-                // Agregar comisión como item
-                if (commission > 0) {
-                    items.push({
-                        title: 'Comisión Mercado Pago (5%)',
-                        quantity: 1,
-                        unit_price: commission,
-                        currency_id: currentCurrency
-                    });
-                }
-
-                // Agregar envío como item
-                items.push({
-                    title: 'Envío',
-                    quantity: 1,
-                    unit_price: 0,
-                    currency_id: currentCurrency
-                });
-
-                // Crear preferencia
-                const preference = {
-                    items: items,
-                    payer: {
-                        name: formData.fullName,
-                        email: formData.email,
-                        phone: {
-                            area_code: '',
-                            number: formData.phone
-                        },
-                        address: {
-                            street_name: formData.address,
-                            street_number: '',
-                            zip_code: formData.postalCode
-                        }
-                    },
-                    back_urls: {
-                        success: MERCADOPAGO_RETURN_BASE_URL + '/payment-response.html?status=success',
-                        failure: MERCADOPAGO_RETURN_BASE_URL + '/payment-response.html?status=failure',
-                        pending: MERCADOPAGO_RETURN_BASE_URL + '/payment-response.html?status=pending'
-                    },
-                    auto_return: 'approved',
-                    external_reference: 'FRESCHE-' + Date.now(),
-                    notification_url: window.location.origin + '/mercadopago-webhook',
-                    statement_descriptor: 'FRESCHE'
-                };
-
-                // Llamar a tu backend para crear la preferencia de pago
-                const response = await fetch(`${BACKEND_URL}/api/create-preference`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        preference,
-                        orderData: {
-                            customerName: formData.fullName,
-                            email: formData.email,
-                            phone: formData.phone,
-                            address: formData.address,
-                            city: formData.city,
-                            state: formData.state,
-                            zipCode: formData.postalCode,
-                            shippingMethod: formData.shippingMethod,
-                            subtotal: subtotal,
-                            shippingCost: shippingCost,
-                            total: total,
-                            currency: currentCurrency,
-                            items: cart.map(item => ({
-                                name: item.name,
-                                quantity: item.quantity,
-                                type: item.type,
-                                products: item.products
-                            }))
-                        }
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('No se pudo crear la preferencia');
-                }
-
-                const data = await response.json();
-
-                // Guardar datos del pedido localmente
-                localStorage.setItem('orderData', JSON.stringify({
-                    formData,
-                    cart,
-                    total,
-                    subtotal,
-                    shipping: shippingCost,
-                    currency: currentCurrency,
-                    date: new Date().toISOString()
-                }));
-
-                // Redirigir al checkout de Mercado Pago
-                window.location.href = data.init_point;
-                
-            } catch (error) {
-                console.error('Error al crear preferencia de Mercado Pago:', error);
-                // Remover mensaje de carga si existe
-                const loadingMsg = document.querySelector('[style*="Procesando pago"]');
-                if (loadingMsg) loadingMsg.remove();
-                alert('Error al procesar el pago. Por favor inténtalo nuevamente.');
-            }
-        }
-
-        async function createStripeCheckout(formData, amountSummary) {
-            try {
-                const loadingMsg = document.createElement('div');
-                loadingMsg.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.9); color: var(--gold); padding: 2rem 3rem; border-radius: 10px; z-index: 10000; text-align: center; font-size: 1.2rem;';
-                loadingMsg.innerHTML = '<div style="margin-bottom: 1rem;">💳</div>Conectando con Stripe...<br><small style="font-size: 0.8rem; opacity: 0.8;">Redirigiendo a Stripe Checkout</small>';
-                document.body.appendChild(loadingMsg);
-
-                const orderData = {
-                    fullName: formData.fullName,
-                    email: formData.email,
-                    phone: formData.phone,
-                    address: formData.address,
-                    city: formData.city,
-                    state: formData.state,
-                    zipCode: formData.postalCode,
-                    country: formData.country,
-                    shippingMethod: selectedShippingMethod,
-                    cart
-                };
-
-                localStorage.setItem('orderData', JSON.stringify({
-                    formData,
-                    cart,
-                    total: amountSummary.total,
-                    subtotal: amountSummary.subtotal,
-                    shipping: shippingCost,
-                    currency: 'USD',
-                    provider: 'stripe',
-                    date: new Date().toISOString()
-                }));
-
-                const response = await fetch(`${BACKEND_URL}/api/create-stripe-checkout-session`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ orderData })
-                });
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.error || 'No se pudo crear la sesión de Stripe');
-                }
-
-                if (!data.url) {
-                    throw new Error('Stripe no devolvió una URL de pago');
-                }
-
-                window.location.href = data.url;
-            } catch (error) {
-                console.error('Error al crear sesión de Stripe:', error);
-                const loadingMsg = document.querySelector('[style*="Conectando con Stripe"]');
-                if (loadingMsg) loadingMsg.remove();
-                alert(`No fue posible abrir Stripe con el valor del pedido. Inténtalo nuevamente.\n\nDetalle: ${error.message}`);
-            }
-        }
-
-        async function createPayPalCheckout(formData, amountSummary) {
-            try {
-                const loadingMsg = document.createElement('div');
-                loadingMsg.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.9); color: var(--gold); padding: 2rem 3rem; border-radius: 10px; z-index: 10000; text-align: center; font-size: 1.2rem;';
-                loadingMsg.innerHTML = '<div style="margin-bottom: 1rem;">🅿️</div>Conectando con PayPal...<br><small style="font-size: 0.8rem; opacity: 0.8;">Redirigiendo a PayPal</small>';
-                document.body.appendChild(loadingMsg);
-
-                const orderData = {
-                    fullName: formData.fullName,
-                    email: formData.email,
-                    phone: formData.phone,
-                    address: formData.address,
-                    city: formData.city,
-                    state: formData.state,
-                    zipCode: formData.postalCode,
-                    country: formData.country,
-                    shippingMethod: selectedShippingMethod,
-                    returnBaseUrl: window.location.origin,
-                    cart
-                };
-
-                localStorage.setItem('orderData', JSON.stringify({
-                    formData,
-                    cart,
-                    total: amountSummary.total,
-                    subtotal: amountSummary.subtotal,
-                    shipping: shippingCost,
-                    currency: 'USD',
-                    provider: 'paypal',
-                    date: new Date().toISOString()
-                }));
-
-                const response = await fetch(`${BACKEND_URL}/api/create-paypal-order`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ orderData })
-                });
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.error || 'No se pudo crear la orden de PayPal');
-                }
-
-                if (!data.url) {
-                    throw new Error('PayPal no devolvió una URL de aprobación');
-                }
-
-                window.location.href = data.url;
-            } catch (error) {
-                console.error('Error al crear orden PayPal:', error);
-                const loadingMsg = document.querySelector('[style*="Conectando con PayPal"]');
-                if (loadingMsg) loadingMsg.remove();
-                alert(`No fue posible abrir PayPal con el valor del pedido. Inténtalo nuevamente.\n\nDetalle: ${error.message}`);
-            }
-        }
-
-        // Cargar carrito al inicio
-        window.addEventListener('DOMContentLoaded', () => {
-            loadCart();
-            const paymentContainer = document.getElementById('paymentMethodsContainer');
-            if (paymentContainer) {
-                defaultPaymentMethodsHtml = paymentContainer.innerHTML;
-            }
-            const pickupSelected = localStorage.getItem('fresche_pickup') === 'true';
-            if (pickupSelected) {
-                selectedShippingMethod = 'pickup';
-                shippingCost = 0;
-                pickupStore = null;
-                updateShippingCost();
-                renderPickupStoreSelector();
-                selectShippingMethod('pickup', 0);
-            }
-            // Inicializar instrucciones de pago
-            const defaultPaymentMethod = document.querySelector('.payment-method.selected');
-            if (defaultPaymentMethod) {
-                selectPaymentMethod(defaultPaymentMethod);
-            }
-            
-            // Agregar listener para actualizar envío cuando cambie la ciudad
-            const cityInput = document.getElementById('city');
-            if (cityInput) {
-                cityInput.addEventListener('blur', updateShippingCost);
-                cityInput.addEventListener('change', updateShippingCost);
-            }
-            
-            // Agregar listeners a campos de dirección para actualizar resumen
-            const addressInput = document.getElementById('address');
-            const stateInput = document.getElementById('state');
-            
-            if (addressInput) {
-                addressInput.addEventListener('blur', displayOrderSummary);
-                addressInput.addEventListener('change', displayOrderSummary);
-            }
-            
-            if (stateInput) {
-                stateInput.addEventListener('blur', displayOrderSummary);
-                stateInput.addEventListener('change', displayOrderSummary);
-            }
-            updateCustomerInfoVisibility();
-        });
-    </script>
+    <div id="coFields" hidden>
+      <div class="f" data-f="department"><label for="department">Departamento</label><select id="department"><option value="">Selecciona…</option></select><div class="msg">Selecciona el departamento.</div></div>
+      <div class="f" data-f="cityCO"><label for="cityCO">Ciudad o municipio</label><input id="cityCO" autocomplete="address-level2" maxlength="100"><div class="msg">Escribe la ciudad.</div></div>
+      <div class="f" data-f="addressCO"><label for="addressCO">Dirección</label><input id="addressCO" autocomplete="street-address" maxlength="200" placeholder="Calle 45 # 12-34 apto 501"><div class="msg">Escribe la dirección completa.</div></div>
+      <div class="f" data-f="notesCO"><label for="notesCO">Barrio / indicaciones <small>(opcional)</small></label><input id="notesCO" maxlength="300" placeholder="Barrio, conjunto, torre, portería…"></div>
+    </div>
+
+    <div id="usFields" hidden>
+      <div class="f" data-f="addressUS"><label for="addressUS">Dirección (calle y número)</label><input id="addressUS" autocomplete="address-line1" maxlength="200" placeholder="350 5th Ave"><div class="msg">Escribe la dirección (calle y número).</div></div>
+      <div class="f" data-f="notesUS"><label for="notesUS">Apt / indicaciones <small>(opcional)</small></label><input id="notesUS" autocomplete="address-line2" maxlength="300" placeholder="Apt 7B"></div>
+      <div class="f" data-f="cityUS"><label for="cityUS">Ciudad</label><input id="cityUS" autocomplete="address-level2" maxlength="100"><div class="msg">Escribe la ciudad.</div></div>
+      <div class="row">
+        <div class="f" data-f="stateUS"><label for="stateUS">Estado <small>(2 letras)</small></label><input id="stateUS" autocomplete="address-level1" maxlength="2" placeholder="NY" style="text-transform:uppercase"><div class="msg">2 letras, ej. NY.</div></div>
+        <div class="f" data-f="zipUS"><label for="zipUS">ZIP code</label><input id="zipUS" inputmode="numeric" autocomplete="postal-code" maxlength="10" placeholder="10001"><div class="msg">ZIP de 5 dígitos.</div></div>
+      </div>
+    </div>
+
+    <div id="intlFields" hidden>
+      <div class="f" data-f="addressX"><label for="addressX">Dirección</label><input id="addressX" autocomplete="street-address" maxlength="200"><div class="msg">Escribe la dirección.</div></div>
+      <div class="f" data-f="cityX"><label for="cityX">Ciudad</label><input id="cityX" autocomplete="address-level2" maxlength="100"><div class="msg">Escribe la ciudad.</div></div>
+      <div class="row">
+        <div class="f" data-f="stateX"><label for="stateX">Estado / provincia</label><input id="stateX" autocomplete="address-level1" maxlength="100"></div>
+        <div class="f" data-f="zipX"><label for="zipX">Código postal</label><input id="zipX" autocomplete="postal-code" maxlength="20"></div>
+      </div>
+      <div class="f" data-f="notesX"><label for="notesX">Indicaciones <small>(opcional)</small></label><input id="notesX" maxlength="300"></div>
+    </div>
+    <div class="f" data-f="country" id="countryErr"><div class="msg">Selecciona el país.</div></div>
+  </section>
+
+  <section class="card step" id="step3">
+    <h2><b>3</b> Pago</h2>
+    <div class="pay" id="payCO" hidden>
+      <label class="pm main" data-m="MERCADOPAGO"><input type="radio" name="pm" value="MERCADOPAGO"><span><span class="t">Mercado Pago</span><br><span class="d">Tarjeta, PSE, Nequi… (comisión 5%)</span></span></label>
+      <p class="small-h">Otros medios (pago manual, confirmas por WhatsApp):</p>
+      <label class="pm small" data-m="NEQUI"><input type="radio" name="pm" value="NEQUI"><span><span class="t">Nequi</span> <span class="d">· transferencia directa</span></span></label>
+      <label class="pm small" data-m="BANCOLOMBIA"><input type="radio" name="pm" value="BANCOLOMBIA"><span><span class="t">Bancolombia</span> <span class="d">· transferencia</span></span></label>
+    </div>
+    <div class="pay" id="payUSD" hidden>
+      <label class="pm main" data-m="PAYPAL"><input type="radio" name="pm" value="PAYPAL"><span><span class="t">PayPal</span><br><span class="d">Con PayPal o tarjeta sin cuenta</span></span></label>
+      <label class="pm main" data-m="STRIPE" id="pmStripe" hidden><input type="radio" name="pm" value="STRIPE"><span><span class="t">Tarjeta (Stripe)</span><br><span class="d">Visa, Mastercard, Amex · Apple Pay / Google Pay</span></span></label>
+      <p class="small-h">Otro medio (pago manual):</p>
+      <label class="pm small" data-m="ZELLE"><input type="radio" name="pm" value="ZELLE"><span><span class="t">Zelle</span> <span class="d">· solo para clientes conocidos · confirmas por WhatsApp</span></span></label>
+    </div>
+    <p class="note" id="usTrust" hidden>📦 Enviamos desde Nueva York (USPS con rastreo) · devoluciones sin abrir en 15 días · <a href="politicas.html">políticas</a></p>
+    <p class="note" id="payHint">Elige primero el país.</p>
+    <div class="f" data-f="pm"><div class="msg">Elige un medio de pago.</div></div>
+    <div class="f" data-f="terms"><label class="terms"><input type="checkbox" id="terms"><span>Acepto las <a href="politicas.html" target="_blank" rel="noopener">políticas de envío y devolución</a>.</span></label><div class="msg">Debes aceptar las políticas.</div></div>
+    <button type="submit" class="btn" id="payBtn">Pagar</button>
+    <div class="err-box" id="errBox" role="alert"></div>
+    <p class="note" style="text-align:center;margin-top:10px">🔒 El total lo calcula y cobra nuestro servidor.</p>
+  </section>
+  </form>
+
+  <section class="card done" id="done">
+    <h2 style="margin-top:0">¡Pedido recibido! <span id="doneId"></span></h2>
+    <div id="doneBody"></div>
+    <a class="wa" id="doneWa" href="#" rel="noopener">Enviar comprobante por WhatsApp</a>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  const IS_LOCAL = ['localhost', '127.0.0.1'].includes(location.hostname);
+  const BACKEND_URL = IS_LOCAL ? 'http://localhost:3001' : 'https://fresche1-payments-api.onrender.com';
+  const WA = '573017606723';
+  const PRODUCTS = { cherry: 'FRESCHE CherryMood', velvet: 'FRESCHE Velvet', coco: 'FRESCHE Coco & Vainilla', eclipse: 'FRESCHE Eclipse', tobacco: 'FRESCHE Dulce Tobacco' };
+  const PACKS = { duo: { n: 'Pack Dúo', u: 2, COP: 69999, USD: 34.99 }, trio: { n: 'Pack Trío', u: 3, COP: 99999, USD: 44.99 }, elella: { n: 'Pack ÉL & ELLA', u: 5, COP: 159999, USD: 69.99 } };
+  const TIERS = [{ q: 5, COP: 25999, USD: 15.99 }, { q: 3, COP: 26999, USD: 16.99 }, { q: 1, COP: 40000, USD: 19.99 }];
+  const SHIP_CO = { bogota: 9000, central: 13800, longdistance: 21000 }; const SHIP_US = 9.99; const FREE_UNITS = 3;
+  const BOG = ['bogota','soacha','chia','cajica','cota','funza','mosquera','madrid','zipaquira','facatativa','tocancipa','tenjo','tabio','subachoque','el rosal','siberia','gachancipa','sopo','la calera','guasca','sesquile','nemocon','bojaca','arbelaez','fusagasuga','girardot'];
+  const CEN = ['medellin','envigado','bello','itagui','sabaneta','rionegro','la estrella','caldas','copacabana','marinilla','cali','palmira','buenaventura','tulua','cartago','buga','jamundi','yumbo','barranquilla','cartagena','santa marta','soledad','malambo','sabanalarga','bucaramanga','floridablanca','giron','piedecuesta','cucuta','pamplona','villa del rosario','los patios','ocana','barrancabermeja','pereira','dosquebradas','manizales','armenia','la virginia','ibague','espinal','melgar','honda','tunja','duitama','sogamoso','chiquinquira','paipa','villa de leyva','neiva','pitalito','garzon','la plata','villavicencio','acacias','granada','puerto lopez'];
+  const DEPTS = ['Amazonas','Antioquia','Arauca','Atlántico','Bogotá D.C.','Bolívar','Boyacá','Caldas','Caquetá','Casanare','Cauca','Cesar','Chocó','Córdoba','Cundinamarca','Guainía','Guaviare','Huila','La Guajira','Magdalena','Meta','Nariño','Norte de Santander','Putumayo','Quindío','Risaralda','San Andrés y Providencia','Santander','Sucre','Tolima','Valle del Cauca','Vaupés','Vichada'];
+  const PICKUP = { CO: 'Bogotá, Fusagasugá, Madrid (Cund.) y Medellín — te escribimos por WhatsApp para coordinar', US: 'Queens, Manhattan, Long Island, Brooklyn y New Jersey — coordinamos por WhatsApp' };
+  const $ = (id) => document.getElementById(id);
+  const strip = (s) => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+  const esc = (v) => String(v ?? '').replace(/[&<>"'`]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' }[c]));
+
+  let cart = []; try { cart = JSON.parse(localStorage.getItem('freshCart')) || []; } catch (e) { cart = []; }
+  if (!Array.isArray(cart)) cart = [];
+  const st = { country: '', mode: 'ship', method: '', stripe: false, quote: null };
+  let qSeq = 0, qTimer = null;
+
+  // ---- carrito -> items para el servidor (solo ids y cantidades, nunca precios) ----
+  const packTypeOf = (it) => (PACKS[it.packType] ? it.packType : ({ 2: 'duo', 3: 'trio', 5: 'elella' })[(it.products || []).length]);
+  function items() {
+    return cart.map((it) => it.type === 'pack'
+      ? { packType: packTypeOf(it), productIds: (it.products || []).map((p) => (typeof p === 'string' ? p : p.id)), qty: Number(it.quantity) || 1 }
+      : { productId: it.id, qty: Number(it.quantity) || 1 });
+  }
+  const units = () => items().reduce((s, i) => s + (i.packType ? (PACKS[i.packType]?.u || 0) * i.qty : i.qty), 0);
+  const currency = () => (st.mode === 'pickup' ? (st.country === 'CO' ? 'COP' : 'USD') : (st.country === 'CO' ? 'COP' : 'USD')); // CO=COP; resto USD (el servidor decide)
+  const money = (n, c) => (c === 'COP' ? '$' + Math.round(n).toLocaleString('es-CO') + ' COP' : '$' + Number(n).toFixed(2) + ' USD');
+  function countryCode() { return st.country === 'OTHER' ? ($('otherCountry').value || '') : st.country; }
+  function coZone() { const c = strip($('cityCO').value); if (!c) return null; if (BOG.some((x) => c.includes(x))) return 'bogota'; if (CEN.some((x) => c.includes(x))) return 'central'; return 'longdistance'; }
+
+  // Estimación local instantánea (el servidor la reemplaza con /api/quote y es quien cobra)
+  function estimate() {
+    const cur = currency(); const its = items();
+    const singles = its.filter((i) => !i.packType).reduce((s, i) => s + i.qty, 0);
+    const unit = (TIERS.find((t) => singles >= t.q) || TIERS[2])[cur];
+    const lines = its.map((i) => i.packType ? { title: PACKS[i.packType].n + ' (' + i.productIds.map((p) => (PRODUCTS[p] || p).replace('FRESCHE ', '')).join(', ') + ')', quantity: i.qty, unit_price: PACKS[i.packType][cur] } : { title: PRODUCTS[i.productId] || i.productId, quantity: i.qty, unit_price: unit });
+    const subtotal = lines.reduce((s, l) => s + l.unit_price * l.quantity, 0);
+    let shipping = null;
+    if (st.mode === 'pickup') shipping = 0;
+    else if (st.country === 'CO') { const z = coZone(); shipping = units() >= FREE_UNITS ? 0 : (z ? SHIP_CO[z] : null); }
+    else if (st.country === 'US') shipping = units() >= FREE_UNITS ? 0 : SHIP_US;
+    else if (st.country === 'OTHER') shipping = 0;
+    const fee = st.method === 'MERCADOPAGO' ? (cur === 'COP' ? Math.round(subtotal * 0.05) : Math.round(subtotal * 5) / 100) : 0;
+    return { currency: cur, lines, subtotal, shipping, commission: fee, total: shipping === null ? null : subtotal + shipping + fee, estimated: true };
+  }
+
+  function render(q) {
+    const c = q.currency;
+    $('lines').innerHTML = q.lines.map((l) => '<div class="li"><span>' + esc(l.quantity) + ' × ' + esc(l.title) + '</span><span>' + esc(money(l.unit_price * l.quantity, c)) + '</span></div>').join('');
+    $('tSub').textContent = money(q.subtotal, c);
+    $('tShip').textContent = q.shipping === null ? 'Escribe la ciudad' : (q.shipping === 0 ? 'Gratis' : money(q.shipping, c));
+    $('rowFee').hidden = !q.commission; $('tFee').textContent = money(q.commission || 0, c);
+    $('tTotal').textContent = q.total === null ? '—' : money(q.total, c);
+    $('payBtn').textContent = q.total === null ? 'Pagar' : 'Pagar ' + money(q.total, c);
+    const u = units();
+    $('shipNote').textContent = !st.country ? 'Elige el país para ver envío y moneda.' : st.mode === 'pickup' ? 'Recogida gratis.' : (st.country === 'CO' || st.country === 'US') ? (u >= FREE_UNITS ? '✓ Envío gratis (3 o más unidades).' : 'Envío gratis desde 3 unidades.') : 'Envío internacional incluido.';
+  }
+
+  function refresh() {
+    render(estimate());
+    clearTimeout(qTimer);
+    if (!st.country || (st.country === 'OTHER' && !$('otherCountry').value)) return;
+    qTimer = setTimeout(async () => {
+      const my = ++qSeq;
+      try {
+        const o = payload();
+        const r = await fetch(BACKEND_URL + '/api/quote', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ order: { items: o.items, shippingZone: o.shippingZone, pickupStore: o.pickupStore, buyer: { country: o.buyer.country, city: o.buyer.city || undefined } }, method: st.method }) });
+        const q = await r.json();
+        if (my === qSeq && r.ok && q.currency) { st.quote = q; if (st.country === 'CO' && st.mode !== 'pickup' && !coZone()) q.shipping = null, q.total = null; render(q); }
+      } catch (e) { /* se queda la estimación local */ }
+    }, 250);
+  }
+
+  function setCountry(c) {
+    st.country = c; st.method = '';
+    document.querySelectorAll('#countrySeg button').forEach((b) => b.classList.toggle('on', b.dataset.c === c));
+    $('otherWrap').hidden = c !== 'OTHER';
+    $('modeOpts').hidden = c === 'OTHER';
+    if (c === 'OTHER') st.mode = 'ship';
+    $('shipDesc').textContent = c === 'CO' ? 'Bogotá $9.000 · Central $13.800 · Resto $21.000 · gratis desde 3 unidades' : 'USPS desde Nueva York, $9.99 · gratis desde 3 unidades';
+    $('pickupDesc').textContent = PICKUP[c] || '';
+    setMode(st.mode);
+    $('payCO').hidden = c !== 'CO' || false; $('payUSD').hidden = c === 'CO' || !c;
+    $('usTrust').hidden = c !== 'US';
+    $('payHint').textContent = c === 'CO' ? 'Pagas en pesos colombianos (COP).' : 'Pagas en dólares (USD).';
+    document.querySelectorAll('input[name=pm]').forEach((i) => { i.checked = false; });
+    selectMethod(c === 'CO' ? 'MERCADOPAGO' : 'PAYPAL');
+    try { localStorage.setItem('fresche_currency', JSON.stringify({ region: c === 'CO' ? 'CO' : 'US', source: 'checkout' })); } catch (e) {}
+    clearBad('country');
+  }
+  function setMode(m) {
+    st.mode = st.country === 'OTHER' ? 'ship' : m;
+    document.querySelectorAll('#modeOpts .opt').forEach((b) => b.classList.toggle('on', b.dataset.mode === st.mode));
+    const ship = st.mode === 'ship';
+    $('coFields').hidden = !(ship && st.country === 'CO');
+    $('usFields').hidden = !(ship && st.country === 'US');
+    $('intlFields').hidden = !(ship && st.country === 'OTHER');
+    refresh();
+  }
+  function selectMethod(m) {
+    if (m === 'STRIPE' && !st.stripe) m = 'PAYPAL';
+    st.method = m;
+    document.querySelectorAll('.pm').forEach((l) => { const on = l.dataset.m === m && !l.closest('[hidden]'); l.classList.toggle('on', on); l.querySelector('input').checked = on; });
+    clearBad('pm'); refresh();
+  }
+
+  function payload() {
+    const c = countryCode(); const pickup = st.mode === 'pickup';
+    const v = (id) => $(id).value.trim();
+    let addr = {};
+    if (!pickup && st.country === 'CO') addr = { address: v('addressCO'), city: v('cityCO'), state: v('department'), notes: v('notesCO') };
+    else if (!pickup && st.country === 'US') addr = { address: v('addressUS'), city: v('cityUS'), state: v('stateUS').toUpperCase(), postalCode: v('zipUS'), notes: v('notesUS') };
+    else if (!pickup) addr = { address: v('addressX'), city: v('cityX'), state: v('stateX'), postalCode: v('zipX'), notes: v('notesX') };
+    return {
+      items: items(),
+      shippingZone: pickup ? 'pickup' : (st.country === 'CO' ? (coZone() || 'longdistance') : (st.country === 'US' ? 'us' : 'international')),
+      pickupStore: pickup ? (st.country === 'CO' ? 'CO' : 'US') : undefined,
+      buyer: Object.assign({ name: v('fullName'), email: v('email'), phone: v('phone'), country: c }, addr)
+    };
+  }
+
+  // ---- validación en línea (español) ----
+  function bad(f, on) { const el = document.querySelector('[data-f="' + f + '"]'); if (el) el.classList.toggle('bad', !!on); return !on; }
+  function clearBad(f) { bad(f, false); }
+  function validate() {
+    const v = (id) => $(id).value.trim(); let ok = true; let first = null;
+    const t = (f, cond) => { const good = bad(f, !cond); if (!good) { ok = false; first = first || f; } };
+    t('fullName', v('fullName').length >= 2);
+    t('phone', /^[0-9+()\-.\s]{7,30}$/.test(v('phone')) && v('phone').replace(/\D/g, '').length >= 7);
+    t('email', /^[^\s@<>()[\],;:"]{1,64}@[A-Za-z0-9.-]{1,253}\.[A-Za-z]{2,}$/.test(v('email')));
+    t('country', !!st.country);
+    if (st.country === 'OTHER') t('otherCountry', !!v('otherCountry'));
+    if (st.mode === 'ship' && st.country === 'CO') { t('department', !!v('department')); t('cityCO', v('cityCO').length >= 2); t('addressCO', v('addressCO').length >= 5); }
+    if (st.mode === 'ship' && st.country === 'US') { t('addressUS', v('addressUS').length >= 5); t('cityUS', v('cityUS').length >= 2); t('stateUS', /^[A-Za-z]{2}$/.test(v('stateUS'))); t('zipUS', /^\d{5}(-\d{4})?$/.test(v('zipUS'))); }
+    if (st.mode === 'ship' && st.country === 'OTHER') { t('addressX', v('addressX').length >= 5); t('cityX', v('cityX').length >= 2); }
+    t('pm', !!st.method);
+    t('terms', $('terms').checked);
+    if (first) { const el = document.querySelector('[data-f="' + first + '"]'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); const inp = el.querySelector('input,select'); if (inp) inp.focus({ preventScroll: true }); }
+    return ok;
+  }
+
+  async function post(path, body) {
+    const r = await fetch(BACKEND_URL + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(d.error || 'No se pudo procesar el pago');
+    return d;
+  }
+  const saveRef = (provider, reference) => { try { localStorage.setItem('orderData', JSON.stringify({ provider, reference: reference || null, date: new Date().toISOString() })); } catch (e) {} };
+
+  async function submit(ev) {
+    ev.preventDefault();
+    $('errBox').style.display = 'none';
+    if (!validate()) return;
+    const btn = $('payBtn'); btn.disabled = true; const label = btn.textContent; btn.textContent = 'Procesando…';
+    const order = payload();
+    try {
+      if (st.method === 'MERCADOPAGO') { const d = await post('/api/create-preference', { order }); saveRef('mercadopago', d.reference); location.href = d.init_point; return; }
+      if (st.method === 'STRIPE') { const d = await post('/api/create-stripe-checkout-session', { order }); saveRef('stripe', d.orderId); location.href = d.url; return; }
+      if (st.method === 'PAYPAL') { const d = await post('/api/create-paypal-order', { order: Object.assign({}, order, { returnBaseUrl: location.origin }) }); saveRef('paypal', d.orderId); location.href = d.url; return; }
+      const d = await post('/api/manual-order', { method: st.method, order });
+      showManual(d, order);
+    } catch (e) {
+      $('errBox').textContent = e.message + ' — Si el problema sigue, escríbenos por WhatsApp.'; $('errBox').style.display = 'block';
+      btn.disabled = false; btn.textContent = label;
+    }
+  }
+
+  function showManual(d, order) {
+    const total = d.totalText || money(d.total, d.currency);
+    const info = st.method === 'NEQUI'
+      ? '<p><b>Nequi:</b> +57 301 760 6723 (Alejandra Vela Moreno)</p><img src="images/qr%20nequi.jpeg?v=20260203" alt="QR Nequi">'
+      : st.method === 'ZELLE' ? '<p><b>Zelle:</b> fresche@fresche1.com</p><img src="images/qr%20zelle.jpg?v=20260203" alt="QR Zelle">'
+        : '<p><b>Bancolombia</b> · Cuenta de ahorros: te enviamos los datos por WhatsApp.</p>';
+    $('doneId').textContent = d.orderId;
+    $('doneBody').innerHTML = '<p>Transfiere <b style="font-size:1.25rem">' + esc(total) + '</b> y envíanos el comprobante por WhatsApp. Despachamos al verificar el pago.</p>' + info;
+    const msg = 'Hola FRESCHE 👋 Pedido ' + d.orderId + '\nNombre: ' + order.buyer.name + '\nMétodo: ' + st.method + '\nTotal: ' + total + '\nAdjunto mi comprobante de pago.';
+    $('doneWa').href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
+    $('form').hidden = true; $('done').style.display = 'block';
+    try { localStorage.removeItem('freshCart'); } catch (e) {}
+    $('done').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ---- init ----
+  DEPTS.forEach((d) => { const o = document.createElement('option'); o.value = d; o.textContent = d; $('department').appendChild(o); });
+  if (!cart.length) { $('form').hidden = true; $('summary').hidden = true; $('emptyCart').hidden = false; return; }
+  document.querySelectorAll('#countrySeg button').forEach((b) => b.addEventListener('click', () => setCountry(b.dataset.c)));
+  document.querySelectorAll('#modeOpts .opt').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.mode)));
+  document.querySelectorAll('.pm input').forEach((i) => i.addEventListener('change', () => selectMethod(i.value)));
+  $('otherCountry').addEventListener('change', () => { clearBad('otherCountry'); refresh(); });
+  $('cityCO').addEventListener('input', refresh);
+  $('stateUS').addEventListener('input', (e) => { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, ''); });
+  document.querySelectorAll('.f input,.f select').forEach((el) => el.addEventListener('input', () => el.closest('.f').classList.remove('bad')));
+  $('terms').addEventListener('change', () => clearBad('terms'));
+  $('form').addEventListener('submit', submit);
+  render(estimate());
+  // País inicial según la región elegida en la tienda
+  try { const s = JSON.parse(localStorage.getItem('fresche_currency') || 'null'); if (s && s.region === 'CO') setCountry('CO'); else if (s && s.region) setCountry('US'); } catch (e) {}
+  fetch(BACKEND_URL + '/api/config').then((r) => r.json()).then((c) => { st.stripe = c.stripeEnabled === true; $('pmStripe').hidden = !st.stripe; }).catch(() => {});
+})();
+</script>
 </body>
 </html>

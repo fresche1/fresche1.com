@@ -1,0 +1,19 @@
+/* Tema FRESCHE (rediseño crema/elegante) para checkout, respuesta de pago y políticas.
+   Solo presentación: no toca lógica. Las tarjetas siguen oscuras (tinta cálida) para que
+   todo el texto blanco generado por JS siga legible. */
+:root{--gold:#b8924a;--black:#1c1714;--ink:#1c1714;--cream:#faf6f0;--sand:#f1e9dd;--mut:#6f655d;--border-color:#b8924a}
+html body{background:var(--cream)!important;background-image:none!important;font-family:Inter,system-ui,sans-serif;color:var(--ink)}
+body::before,body::after{display:none!important}
+h1,h2,.checkout-section h2,.policies h1,.policies h2{font-family:'Cormorant Garamond',Georgia,serif!important;letter-spacing:.01em}
+.fx-head{position:sticky;top:0;z-index:50;background:rgba(250,246,240,.94);backdrop-filter:blur(8px);border-bottom:1px solid #e8dfd2}
+.fx-head-in{max-width:1200px;margin:0 auto;padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.fx-head img{height:40px;width:auto;display:block}
+.fx-head nav{display:flex;gap:18px;font:500 .9rem Inter,sans-serif}.fx-head nav a{color:var(--mut);text-decoration:none}.fx-head nav a:hover{color:var(--gold)}
+.checkout-section,.policies,.response-container>*{background:#221c18!important;border:1px solid rgba(184,146,74,.35)!important;border-radius:22px!important;box-shadow:0 20px 50px rgba(28,23,20,.12)}
+.policies{color:#f5efe6}
+.form-group input,.form-group select,.form-group textarea{background:rgba(250,246,240,.06)!important;border-color:rgba(184,146,74,.35)!important}
+.form-group input:focus,.form-group select:focus{border-color:var(--gold)!important}
+.fx-foot{text-align:center;color:var(--mut);font-size:.85rem;padding:24px 16px 36px}.fx-foot a{color:var(--gold)}
+@media(max-width:600px){.fx-head nav a.opt{display:none}.fx-head img{height:34px}}
+header.fx-head{background:rgba(250,246,240,.96)!important;box-shadow:none!important;padding:0!important;position:sticky!important;border-bottom:1px solid #e8dfd2!important}
+footer.fx-foot{background:transparent!important;border:0!important;color:var(--mut)!important;padding:24px 16px 36px!important;margin:0!important}
