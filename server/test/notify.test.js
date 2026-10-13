@@ -68,6 +68,16 @@ test('PayPal: captura completada -> email CONFIRMADO a ambos con detalle', async
   for (const txt of ['PayPal', 'CAPTURE999', 'PAYPALORDER123', 'Carla D', '+1 555 000 1111', 'carla@example.com', 'Pack ÉL &amp; ELLA', '1 Main St', 'Miami', '33101', 'Envío EE. UU. desde Nueva York', 'Gratis', '$69.99 USD']) assert.ok(mails[0].html.includes(txt), `falta: ${txt}`);
 });
 
+test('PayPal: monto capturado menor al total del pedido -> email marcado NO VERIFICADO', async (t) => {
+  const s = await startApp(); t.after(s.close);
+  await s.post('/api/create-paypal-order', { order: { items: [{ packType: 'elella', productIds: ['cherry', 'velvet', 'coco', 'eclipse', 'tobacco'] }], shippingZone: 'international', buyer: { name: 'Carla Díaz', email: 'carla@example.com', phone: '+1 555 000 1111', address: '1 Main St', city: 'Miami', state: 'FL', postalCode: '33101', country: 'US' } } });
+  s.paypal.captureOrder = async (id) => ({ id, status: 'COMPLETED', purchase_units: [{ payments: { captures: [{ id: 'CAPTURE1', status: 'COMPLETED', amount: { value: '1.00', currency_code: 'USD' } }] } }] });
+  await fetch(`${s.base}/api/paypal/capture-order?token=PAYPALORDER123`, { redirect: 'manual' });
+  const mails = confirmed(s);
+  assert.equal(mails.length, 1);
+  assert.ok(mails[0].html.includes('NO VERIFICADO'));
+});
+
 test('OWNER_EMAIL personalizado (env) se respeta', async (t) => {
   const s = await startApp({ config: { ownerEmail: 'solo@fresche1.com' } }); t.after(s.close);
   await s.post('/api/create-preference', { order: { items: [{ productId: 'cherry', qty: 1 }], shippingZone: 'pickup', pickupStore: 'CO', buyer: buyerCO } });

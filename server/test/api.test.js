@@ -125,13 +125,15 @@ test('payment-status: consulta MP y responde estado verificado', async (t) => {
 
 test('Stripe y PayPal: precios del servidor, también con carrito legado', async (t) => {
   const s = await startApp(); t.after(s.close);
+  // Carrito legado rechazado (antes omitía envío US y validación de dirección).
   const r = await s.post('/api/create-stripe-checkout-session', { orderData: { email: 'a@b.co', fullName: 'Bob', country: 'US', shippingMethod: 'free', cart: [{ id: 'cherry', quantity: 3, price: 0.01 }] } });
-  assert.equal(r.status, 200);
-  assert.equal(s.calls.stripeSessions[0].line_items[0].price_data.unit_amount, 1699);
+  assert.equal(r.status, 409);
+  assert.equal((await s.post('/api/create-paypal-order', { orderData: { email: 'a@b.co', fullName: 'Bob', country: 'US', cart: [{ id: 'cherry', quantity: 1 }] } })).status, 409);
+  assert.equal((await s.get('/no-existe')).status, 404);
   const p = await s.post('/api/create-paypal-order', { order: { items: [{ packType: 'elella', productIds: ['cherry', 'velvet', 'coco', 'eclipse', 'tobacco'] }], shippingZone: 'pickup', pickupStore: 'US', buyer: { name: 'Bob', email: 'b@c.co' } } });
   assert.equal(p.status, 200);
   assert.equal(s.calls.paypalOrders[0].purchase_units[0].amount.value, '69.99');
-  assert.equal((await s.post('/api/create-stripe-checkout-session', { orderData: { email: 'a@b.co', fullName: 'Bob', cart: [{ id: 'cherry', quantity: -3 }] } })).status, 400);
+  assert.equal((await s.post('/api/create-stripe-checkout-session', { order: { items: [{ productId: 'cherry', qty: -3 }], shippingZone: 'pickup', pickupStore: 'US', buyer: { name: 'Bob', email: 'b@c.co' } } })).status, 400);
 });
 
 test('EE. UU.: Stripe/PayPal cobran envío como línea; dirección US inválida rechazada', async (t) => {

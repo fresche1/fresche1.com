@@ -338,22 +338,18 @@ export function createApp({ config, mp, stripe = null, paypal = null, mailer = n
   });
 
   // ---- Stripe / PayPal (USD) ----
+  // El formato legado (orderData.cart) se eliminó: no validaba dirección de EE. UU. y omitía el envío de $9.99.
   function parseUsdOrder(body) {
     if (body?.order) return parseOrderRequest(body.order, { requireCurrency: 'USD' });
-    // Compatibilidad con el sitio anterior (orderData.cart). Los precios del cliente se ignoran.
-    const od = body?.orderData;
-    if (!od || !Array.isArray(od.cart)) throw new OrderError('Pedido inválido');
-    const isPickup = od.shippingMethod === 'pickup';
-    return parseOrderRequest({
-      items: legacyCartToItems(od.cart), shippingZone: isPickup ? 'pickup' : 'international', pickupStore: isPickup ? (od.country === 'CO' ? 'CO' : 'US') : undefined,
-      buyer: { name: od.fullName || od.customerName, email: od.email, phone: od.phone, address: od.address || (isPickup ? '' : 'N/A'), city: od.city || (isPickup ? '' : 'N/A'), state: od.state, postalCode: od.zipCode, country: od.country || 'US' }
-    }, { requireCurrency: 'USD', legacy: true }); // sitio viejo (sin estado/ZIP): se cobra como antes, sin envío
+    if (body?.orderData) throw new LegacyOrderError();
+    throw new OrderError('Pedido inválido');
   }
+  class LegacyOrderError extends OrderError { constructor() { super('Versión del sitio desactualizada. Recarga la página e intenta de nuevo.'); this.status = 409; } }
 
   app.post('/api/create-stripe-checkout-session', createLimiter, async (req, res) => {
     let parsed;
     try { parsed = parseUsdOrder(req.body); } catch (error) {
-      if (error instanceof OrderError) return res.status(400).json({ error: error.message });
+      if (error instanceof OrderError) return res.status(error.status === 409 ? 409 : 400).json({ error: error.message });
       return res.status(500).json({ error: 'Error interno' });
     }
     if (!stripe) return res.status(500).json({ error: 'Stripe no configurado' });
@@ -389,7 +385,7 @@ export function createApp({ config, mp, stripe = null, paypal = null, mailer = n
   app.post('/api/create-paypal-order', createLimiter, async (req, res) => {
     let parsed;
     try { parsed = parseUsdOrder(req.body); } catch (error) {
-      if (error instanceof OrderError) return res.status(400).json({ error: error.message });
+      if (error instanceof OrderError) return res.status(error.status === 409 ? 409 : 400).json({ error: error.message });
       return res.status(500).json({ error: 'Error interno' });
     }
     if (!paypal) return res.status(500).json({ error: 'PayPal no configurado' });
@@ -434,7 +430,14 @@ export function createApp({ config, mp, stripe = null, paypal = null, mailer = n
           const a = pu.shipping?.address || {};
           order = { id: pu.custom_id || cap?.custom_id || orderId, currency: 'USD', buyer: { name: pu.shipping?.name?.full_name || [data?.payer?.name?.given_name, data?.payer?.name?.surname].filter(Boolean).join(' '), email: data?.payer?.email_address, phone: data?.payer?.phone?.phone_number?.national_number, address: a.address_line_1, notes: a.address_line_2, city: a.admin_area_2, state: a.admin_area_1, postal_code: a.postal_code, country: a.country_code }, lines: (pu.items || []).map((i) => ({ title: i.name, variant: i.description, quantity: i.quantity, unit_price: i.unit_amount?.value })) };
         }
-        await notifyConfirmed({ provider: 'PayPal', paymentId: cap?.id || orderId, status: `${cap?.status || data?.status} (orden ${orderId})`, order, amount: Number(cap?.amount?.value || order.total || 0), currency: 'USD' });
+        // El monto capturado debe coincidir con el total calculado por el servidor (alguien podría crear
+        // una orden PayPal propia con otro monto y mandarla aquí).
+        const paid = Number(cap?.amount?.value ?? pu.amount?.value);
+        const paidCur = cap?.amount?.currency_code || pu.amount?.currency_code;
+        const expected = Number(order.total);
+        const amountOk = Number.isFinite(expected) && expected > 0 && Number.isFinite(paid) && paid + 0.001 >= expected && paidCur === 'USD';
+        if (!amountOk) logger.error('🚨 Pago PayPal con monto NO verificado', orderId, paid, paidCur, order.total);
+        await notifyConfirmed({ provider: 'PayPal', paymentId: cap?.id || orderId, status: `${cap?.status || data?.status} (orden ${orderId})${amountOk ? '' : ' ⚠️ MONTO NO COINCIDE / NO VERIFICADO: revisar en PayPal antes de despachar'}`, order, amount: Number.isFinite(paid) ? paid : 0, currency: paidCur || 'USD' });
       }
       return res.redirect(`${returnBaseUrl}/payment-response.html?${new URLSearchParams({ provider: 'paypal', orderId: data?.id || orderId })}`);
     } catch (error) {
@@ -472,6 +475,8 @@ export function createApp({ config, mp, stripe = null, paypal = null, mailer = n
     const s = parsed.summary;
     return res.json({ orderId: snap.id, emailed, currency: s.currency, subtotal: s.subtotal, shipping: s.shipping, commission: s.commission, total: s.total, totalText: fmtMoney(s.total, s.currency) });
   });
+
+  app.use((_req, res) => res.status(404).json({ error: 'No encontrado' }));
 
   app.use((err, _req, res, _next) => {
     if (err?.type === 'entity.parse.failed') return res.status(400).json({ error: 'JSON inválido' });

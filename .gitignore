@@ -1,2 +1,7 @@
 server/.env
 server/node_modules/
+.env
+.env.*
+!.env.example
+**/.env
+*.pem
