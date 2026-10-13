@@ -9,9 +9,9 @@
     tobacco: { name: 'FRESCHE Dulce Tobacco', image: 'images/tobacco.jpg', thumb: 'img/dulce-tobacco.jpg' }
   };
   var PACKS = {
-    duo: { quantity: 2, priceCOP: 69999, priceUSD: 34.99, name: 'Pack Dúo' },
-    trio: { quantity: 3, priceCOP: 99999, priceUSD: 44.99, name: 'Pack Trío' },
-    elella: { quantity: 5, priceCOP: 159999, priceUSD: 69.99, name: 'Pack ÉL & ELLA' }
+    duo: { quantity: 2, priceCOP: 69999, priceUSD: 34.99, name: 'Pack Dúo', en: 'Duo Pack' },
+    trio: { quantity: 3, priceCOP: 99999, priceUSD: 44.99, name: 'Pack Trío', en: 'Trio Pack' },
+    elella: { quantity: 5, priceCOP: 159999, priceUSD: 69.99, name: 'Pack ÉL & ELLA', en: 'HIM & HER Pack' }
   };
   var UNIT = { COP: 40000, USD: 19.99 };
 
@@ -54,7 +54,8 @@
     document.documentElement.setAttribute('data-lang', l);
     document.documentElement.lang = l;
     try { localStorage.setItem('fresche_lang', l); } catch (e) {}
-    document.querySelectorAll('[data-es][data-en]').forEach(function (e) { e.innerHTML = e.getAttribute('data-' + l); });
+    if (window.FL) window.FL.apply(l);
+    else document.querySelectorAll('[data-es][data-en]').forEach(function (e) { e.innerHTML = e.getAttribute('data-' + l); });
     document.querySelectorAll('.lang button').forEach(function (b) { b.classList.toggle('on', b.dataset.l === l); });
     applyPrices();
   };
@@ -79,7 +80,7 @@
     var cfg = PACKS[type]; if (!cfg) return;
     curPack = type; sel = [];
     var en = lang() === 'en';
-    document.getElementById('ptitle').textContent = cfg.name;
+    document.getElementById('ptitle').textContent = en ? cfg.en : cfg.name;
     document.getElementById('psub').textContent = en ? 'Choose ' + cfg.quantity + ' scents (you can repeat).' : 'Elige ' + cfg.quantity + ' aromas (puedes repetir).';
     var box = document.getElementById('pchoices'); box.innerHTML = '';
     Object.keys(PRODUCTS).forEach(function (id) {
@@ -114,7 +115,7 @@
     });
     saveCart(cart);
     closePack();
-    toast(lang() === 'en' ? cfg.name + ' added to cart' : cfg.name + ' agregado al carrito');
+    toast(lang() === 'en' ? cfg.en + ' added to cart' : cfg.name + ' agregado al carrito');
     goCheckout();
   };
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') window.closePack(); });

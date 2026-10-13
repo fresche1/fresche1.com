@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmación de Pago - FRESCHE</title>
+    <title data-es="Confirmación de Pago - FRESCHE" data-en="Payment Confirmation - FRESCHE">Confirmación de Pago - FRESCHE</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         .response-container {
@@ -104,9 +104,10 @@
 <meta name="application-name" content="FRESCHE">
     <link rel="stylesheet" href="fresche-theme.css?v=20261012">
 <meta property="og:image" content="https://fresche1.com/icon-512.png">
+<script src="fresche-lang.js?v=20261013"></script>
 </head>
 <body>
-    <header class="fx-head"><div class="fx-head-in"><a href="index.html"><img src="img/logo-gold-dark.png" alt="FRESCHE"></a><nav><a href="index.html#productos" class="opt">Tienda</a><a href="politicas.html">Políticas</a><a href="https://wa.me/573017606723" rel="noopener">WhatsApp</a></nav></div></header>
+    <header class="fx-head"><div class="fx-head-in"><a href="index.html"><img src="img/logo-gold-dark.png" alt="FRESCHE"></a><nav><a href="index.html#productos" class="opt" data-es="Tienda" data-en="Shop">Tienda</a><a href="politicas.html" data-es="Políticas" data-en="Policies">Políticas</a><a href="https://wa.me/573017606723" rel="noopener">WhatsApp</a></nav></div></header>
     <div class="response-container">
         <div id="response-content"></div>
     </div>
@@ -117,6 +118,7 @@
         // Todo dato se pinta con textContent (sin innerHTML) para evitar XSS.
         const IS_LOCALHOST = ['localhost', '127.0.0.1'].includes(window.location.hostname);
         const BACKEND_URL = IS_LOCALHOST ? 'http://localhost:3001' : 'https://fresche1-payments-api.onrender.com';
+        const T = (es, en) => (window.FL && window.FL.lang === 'en' ? en : es);
         const PROVIDER_NAMES = { mercadopago: 'Mercado Pago', stripe: 'Stripe', paypal: 'PayPal' };
 
         function el(tag, className, text) {
@@ -146,7 +148,7 @@
                 });
                 contentDiv.appendChild(box);
             }
-            const home = el('a', 'btn-home', '🏠 Volver al Inicio');
+            const home = el('a', 'btn-home', T('🏠 Volver al Inicio', '🏠 Back to Home'));
             home.href = 'index.html';
             contentDiv.appendChild(home);
         }
@@ -164,7 +166,7 @@
             const providerName = PROVIDER_NAMES[provider];
 
             if (params.get('status') === 'cancel') {
-                renderResponse({ icon: '⚠️', status: 'declined', title: 'Pago Cancelado', message: `Cancelaste el pago en ${providerName}. Puedes intentarlo de nuevo cuando quieras.` });
+                renderResponse({ icon: '⚠️', status: 'declined', title: T('Pago Cancelado', 'Payment Cancelled'), message: T(`Cancelaste el pago en ${providerName}. Puedes intentarlo de nuevo cuando quieras.`, `You cancelled the payment on ${providerName}. You can try again anytime.`) });
                 return;
             }
 
@@ -175,11 +177,11 @@
             const idValue = [...query.values()][1];
 
             if (!idValue) {
-                renderResponse({ icon: '❓', status: 'pending', title: 'No pudimos verificar tu pago', message: 'No recibimos una referencia de pago válida. Si pagaste, escríbenos por WhatsApp al +57 301 760 6723 con tu comprobante.' });
+                renderResponse({ icon: '❓', status: 'pending', title: T('No pudimos verificar tu pago', 'We could not verify your payment'), message: T('No recibimos una referencia de pago válida. Si pagaste, escríbenos por WhatsApp al +57 301 760 6723 con tu comprobante.', 'We did not receive a valid payment reference. If you paid, message us on WhatsApp at +57 301 760 6723 with your receipt.') });
                 return;
             }
 
-            renderResponse({ icon: '⏳', status: 'pending', title: 'Verificando tu pago…', message: `Estamos confirmando el estado de tu pago con ${providerName}.` });
+            renderResponse({ icon: '⏳', status: 'pending', title: T('Verificando tu pago…', 'Verifying your payment…'), message: T(`Estamos confirmando el estado de tu pago con ${providerName}.`, `We are confirming your payment status with ${providerName}.`) });
 
             let result = null;
             try {
@@ -191,27 +193,27 @@
             }
 
             if (!result || result.verified !== true) {
-                renderResponse({ icon: '❓', status: 'pending', title: 'No pudimos verificar tu pago', message: 'Aún no podemos confirmar el pago. Si ya pagaste, recibirás confirmación; o escríbenos por WhatsApp al +57 301 760 6723.' });
+                renderResponse({ icon: '❓', status: 'pending', title: T('No pudimos verificar tu pago', 'We could not verify your payment'), message: T('Aún no podemos confirmar el pago. Si ya pagaste, recibirás confirmación; o escríbenos por WhatsApp al +57 301 760 6723.', 'We cannot confirm the payment yet. If you already paid, you will receive confirmation; or message us on WhatsApp at +57 301 760 6723.') });
                 return;
             }
 
             const details = [
-                { label: 'Proveedor:', value: providerName },
-                { label: 'Referencia:', value: result.reference },
-                { label: 'Monto:', value: formatAmount(result.amount, result.currency) }
+                { label: T('Proveedor:', 'Provider:'), value: providerName },
+                { label: T('Referencia:', 'Reference:'), value: result.reference },
+                { label: T('Monto:', 'Amount:'), value: formatAmount(result.amount, result.currency) }
             ];
             const st = String(result.status || '').toLowerCase();
             if (result.approved === true) {
-                renderResponse({ icon: '✅', status: 'success', title: '¡Pago Exitoso!', message: `Tu pago con ${providerName} fue confirmado. Te contactaremos para coordinar la entrega.`, details, clearCart: true });
+                renderResponse({ icon: '✅', status: 'success', title: T('¡Pago Exitoso!', 'Payment Successful!'), message: T(`Tu pago con ${providerName} fue confirmado. Te contactaremos para coordinar la entrega.`, `Your ${providerName} payment was confirmed. We will contact you to arrange delivery.`), details, clearCart: true });
             } else if (['rejected', 'cancelled', 'refunded', 'charged_back', 'voided', 'expired'].includes(st)) {
-                renderResponse({ icon: '❌', status: 'declined', title: 'Pago No Completado', message: `El pago con ${providerName} no se completó. Intenta nuevamente o usa otro método.`, details });
+                renderResponse({ icon: '❌', status: 'declined', title: T('Pago No Completado', 'Payment Not Completed'), message: T(`El pago con ${providerName} no se completó. Intenta nuevamente o usa otro método.`, `The ${providerName} payment was not completed. Try again or use another method.`), details });
             } else {
-                renderResponse({ icon: '⏳', status: 'pending', title: 'Pago Pendiente', message: `Tu pago con ${providerName} está en proceso. Te notificaremos cuando se confirme.`, details });
+                renderResponse({ icon: '⏳', status: 'pending', title: T('Pago Pendiente', 'Payment Pending'), message: T(`Tu pago con ${providerName} está en proceso. Te notificaremos cuando se confirme.`, `Your ${providerName} payment is being processed. We will notify you once it is confirmed.`), details });
             }
         }
 
         window.addEventListener('DOMContentLoaded', parsePaymentResponse);
     </script>
-    <footer class="fx-foot">© 2026 FRESCHE · <a href="politicas.html">Políticas de envío y devoluciones</a> · <a href="mailto:fresche@fresche1.com">fresche@fresche1.com</a></footer>
+    <footer class="fx-foot">© 2026 FRESCHE · <a href="politicas.html" data-es="Políticas de envío y devoluciones" data-en="Shipping &amp; returns policy">Políticas de envío y devoluciones</a> · <a href="mailto:fresche@fresche1.com">fresche@fresche1.com</a></footer>
 </body>
 </html>

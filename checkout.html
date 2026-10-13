@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<title>Finalizar compra - FRESCHE</title>
+<title data-es="Finalizar compra - FRESCHE" data-en="Checkout - FRESCHE">Finalizar compra - FRESCHE</title>
+<script src="fresche-lang.js?v=20261013"></script>
 <link rel="icon" href="/favicon.ico?v=3" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3">
 <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=3">
@@ -70,105 +71,105 @@ input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 
 <meta property="og:image" content="https://fresche1.com/icon-512.png">
 </head>
 <body>
-<header class="hd"><div class="hd-in"><a href="index.html"><img src="img/logo-gold-dark.png" alt="FRESCHE"></a><a href="index.html#productos">← Seguir comprando</a></div></header>
+<header class="hd"><div class="hd-in"><a href="index.html"><img src="img/logo-gold-dark.png" alt="FRESCHE"></a><a href="index.html#productos"><span data-es="← Seguir comprando" data-en="← Continue shopping">← Seguir comprando</span></a></div></header>
 <main class="wrap" id="app">
-  <h1>Finalizar compra</h1>
+  <h1><span data-es="Finalizar compra" data-en="Checkout">Finalizar compra</span></h1>
 
   <section class="card sum" id="summary" aria-live="polite">
-    <h2>Tu pedido</h2>
+    <h2><span data-es="Tu pedido" data-en="Your order">Tu pedido</span></h2>
     <div id="lines"></div>
     <div class="tot">
       <div><span>Subtotal</span><span id="tSub">—</span></div>
-      <div><span>Envío</span><span id="tShip">—</span></div>
-      <div id="rowFee" hidden><span>Comisión Mercado Pago (5%)</span><span id="tFee">—</span></div>
+      <div><span><span data-es="Envío" data-en="Shipping">Envío</span></span><span id="tShip">—</span></div>
+      <div id="rowFee" hidden><span><span data-es="Comisión Mercado Pago (5%)" data-en="Mercado Pago fee (5%)">Comisión Mercado Pago (5%)</span></span><span id="tFee">—</span></div>
       <div class="grand"><span>Total</span><span id="tTotal">—</span></div>
     </div>
     <p class="note" id="shipNote"></p>
   </section>
 
-  <section class="card empty" id="emptyCart" hidden><p>Tu carrito está vacío.</p><a class="btn" style="display:block;text-decoration:none" href="index.html#productos">Ver productos</a></section>
+  <section class="card empty" id="emptyCart" hidden><p><span data-es="Tu carrito está vacío." data-en="Your cart is empty.">Tu carrito está vacío.</span></p><a class="btn" style="display:block;text-decoration:none" href="index.html#productos"><span data-es="Ver productos" data-en="View products">Ver productos</span></a></section>
 
   <form id="form" novalidate>
   <section class="card step" id="step1">
-    <h2><b>1</b> Tus datos</h2>
-    <div class="f" data-f="fullName"><label for="fullName">Nombre completo</label><input id="fullName" autocomplete="name" maxlength="100"><div class="msg">Escribe tu nombre completo.</div></div>
-    <div class="f" data-f="phone"><label for="phone">Celular / WhatsApp</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="+57 300 123 4567"><div class="msg">Escribe un celular válido (solo números, +, espacios).</div></div>
-    <div class="f" data-f="email"><label for="email">Email</label><input id="email" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="tu@correo.com"><div class="msg">Escribe un email válido.</div></div>
+    <h2><b>1</b><span data-es=" Tus datos" data-en=" Your details"> Tus datos</span></h2>
+    <div class="f" data-f="fullName"><label for="fullName"><span data-es="Nombre completo" data-en="Full name">Nombre completo</span></label><input id="fullName" autocomplete="name" maxlength="100"><div class="msg"><span data-es="Escribe tu nombre completo." data-en="Enter your full name.">Escribe tu nombre completo.</span></div></div>
+    <div class="f" data-f="phone"><label for="phone"><span data-es="Celular / WhatsApp" data-en="Mobile / WhatsApp">Celular / WhatsApp</span></label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="+57 300 123 4567"><div class="msg"><span data-es="Escribe un celular válido (solo números, +, espacios)." data-en="Enter a valid phone number (digits, +, spaces only).">Escribe un celular válido (solo números, +, espacios).</span></div></div>
+    <div class="f" data-f="email"><label for="email">Email</label><input id="email" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="tu@correo.com" data-es-ph="tu@correo.com" data-en-ph="you@email.com"><div class="msg"><span data-es="Escribe un email válido." data-en="Enter a valid email.">Escribe un email válido.</span></div></div>
   </section>
 
   <section class="card step" id="step2">
-    <h2><b>2</b> Envío</h2>
-    <label>País</label>
+    <h2><b>2</b><span data-es=" Envío" data-en=" Shipping"> Envío</span></h2>
+    <label><span data-es="País" data-en="Country">País</span></label>
     <div class="seg" id="countrySeg">
       <button type="button" data-c="CO">🇨🇴 Colombia</button>
-      <button type="button" data-c="US">🇺🇸 Estados Unidos</button>
-      <button type="button" data-c="OTHER">🌎 Otro</button>
+      <button type="button" data-c="US"><span data-es="🇺🇸 Estados Unidos" data-en="🇺🇸 United States">🇺🇸 Estados Unidos</span></button>
+      <button type="button" data-c="OTHER"><span data-es="🌎 Otro" data-en="🌎 Other">🌎 Otro</span></button>
     </div>
-    <div class="f" data-f="otherCountry" id="otherWrap" hidden><label for="otherCountry">¿Cuál país?</label>
-      <select id="otherCountry"><option value="">Selecciona…</option><option value="MX">México</option><option value="ES">España</option><option value="CA">Canadá</option><option value="AR">Argentina</option><option value="CL">Chile</option><option value="PE">Perú</option><option value="EC">Ecuador</option><option value="BR">Brasil</option><option value="OTHER">Otro país</option></select><div class="msg">Selecciona tu país.</div></div>
+    <div class="f" data-f="otherCountry" id="otherWrap" hidden><label for="otherCountry"><span data-es="¿Cuál país?" data-en="Which country?">¿Cuál país?</span></label>
+      <select id="otherCountry"><option value="" data-es="Selecciona…" data-en="Select…">Selecciona…</option><option value="MX" data-es="México" data-en="Mexico">México</option><option value="ES" data-es="España" data-en="Spain">España</option><option value="CA" data-es="Canadá" data-en="Canada">Canadá</option><option value="AR">Argentina</option><option value="CL">Chile</option><option value="PE" data-es="Perú" data-en="Peru">Perú</option><option value="EC">Ecuador</option><option value="BR" data-es="Brasil" data-en="Brazil">Brasil</option><option value="OTHER" data-es="Otro país" data-en="Other country">Otro país</option></select><div class="msg"><span data-es="Selecciona tu país." data-en="Select your country.">Selecciona tu país.</span></div></div>
 
     <div class="opts" id="modeOpts" hidden>
-      <button type="button" class="opt on" data-mode="ship"><span>🚚</span><span><span class="t">Envío a domicilio</span><br><span class="d" id="shipDesc"></span></span></button>
-      <button type="button" class="opt" data-mode="pickup"><span>📍</span><span><span class="t">Recoger gratis</span><br><span class="d" id="pickupDesc"></span></span></button>
+      <button type="button" class="opt on" data-mode="ship"><span>🚚</span><span><span class="t"><span data-es="Envío a domicilio" data-en="Home delivery">Envío a domicilio</span></span><br><span class="d" id="shipDesc"></span></span></button>
+      <button type="button" class="opt" data-mode="pickup"><span>📍</span><span><span class="t"><span data-es="Recoger gratis" data-en="Free pickup">Recoger gratis</span></span><br><span class="d" id="pickupDesc"></span></span></button>
     </div>
 
     <div id="coFields" hidden>
-      <div class="f" data-f="department"><label for="department">Departamento</label><select id="department"><option value="">Selecciona…</option></select><div class="msg">Selecciona el departamento.</div></div>
-      <div class="f" data-f="cityCO"><label for="cityCO">Ciudad o municipio</label><input id="cityCO" autocomplete="address-level2" maxlength="100"><div class="msg">Escribe la ciudad.</div></div>
-      <div class="f" data-f="addressCO"><label for="addressCO">Dirección</label><input id="addressCO" autocomplete="street-address" maxlength="200" placeholder="Calle 45 # 12-34 apto 501"><div class="msg">Escribe la dirección completa.</div></div>
-      <div class="f" data-f="notesCO"><label for="notesCO">Barrio / indicaciones <small>(opcional)</small></label><input id="notesCO" maxlength="300" placeholder="Barrio, conjunto, torre, portería…"></div>
+      <div class="f" data-f="department"><label for="department"><span data-es="Departamento" data-en="Department">Departamento</span></label><select id="department"><option value="" data-es="Selecciona…" data-en="Select…">Selecciona…</option></select><div class="msg"><span data-es="Selecciona el departamento." data-en="Select the department.">Selecciona el departamento.</span></div></div>
+      <div class="f" data-f="cityCO"><label for="cityCO"><span data-es="Ciudad o municipio" data-en="City or town">Ciudad o municipio</span></label><input id="cityCO" autocomplete="address-level2" maxlength="100"><div class="msg"><span data-es="Escribe la ciudad." data-en="Enter the city.">Escribe la ciudad.</span></div></div>
+      <div class="f" data-f="addressCO"><label for="addressCO"><span data-es="Dirección" data-en="Address">Dirección</span></label><input id="addressCO" autocomplete="street-address" maxlength="200" placeholder="Calle 45 # 12-34 apto 501"><div class="msg"><span data-es="Escribe la dirección completa." data-en="Enter the full address.">Escribe la dirección completa.</span></div></div>
+      <div class="f" data-f="notesCO"><label for="notesCO"><span data-es="Barrio / indicaciones " data-en="Neighborhood / directions ">Barrio / indicaciones </span><small><span data-es="(opcional)" data-en="(optional)">(opcional)</span></small></label><input id="notesCO" maxlength="300" placeholder="Barrio, conjunto, torre, portería…" data-es-ph="Barrio, conjunto, torre, portería…" data-en-ph="Neighborhood, complex, tower, front desk…"></div>
     </div>
 
     <div id="usFields" hidden>
-      <div class="f" data-f="addressUS"><label for="addressUS">Dirección (calle y número)</label><input id="addressUS" autocomplete="address-line1" maxlength="200" placeholder="350 5th Ave"><div class="msg">Escribe la dirección (calle y número).</div></div>
-      <div class="f" data-f="notesUS"><label for="notesUS">Apt / indicaciones <small>(opcional)</small></label><input id="notesUS" autocomplete="address-line2" maxlength="300" placeholder="Apt 7B"></div>
-      <div class="f" data-f="cityUS"><label for="cityUS">Ciudad</label><input id="cityUS" autocomplete="address-level2" maxlength="100"><div class="msg">Escribe la ciudad.</div></div>
+      <div class="f" data-f="addressUS"><label for="addressUS"><span data-es="Dirección (calle y número)" data-en="Address (street and number)">Dirección (calle y número)</span></label><input id="addressUS" autocomplete="address-line1" maxlength="200" placeholder="350 5th Ave"><div class="msg"><span data-es="Escribe la dirección (calle y número)." data-en="Enter the address (street and number).">Escribe la dirección (calle y número).</span></div></div>
+      <div class="f" data-f="notesUS"><label for="notesUS"><span data-es="Apt / indicaciones " data-en="Apt / directions ">Apt / indicaciones </span><small><span data-es="(opcional)" data-en="(optional)">(opcional)</span></small></label><input id="notesUS" autocomplete="address-line2" maxlength="300" placeholder="Apt 7B"></div>
+      <div class="f" data-f="cityUS"><label for="cityUS"><span data-es="Ciudad" data-en="City">Ciudad</span></label><input id="cityUS" autocomplete="address-level2" maxlength="100"><div class="msg"><span data-es="Escribe la ciudad." data-en="Enter the city.">Escribe la ciudad.</span></div></div>
       <div class="row">
-        <div class="f" data-f="stateUS"><label for="stateUS">Estado <small>(2 letras)</small></label><input id="stateUS" autocomplete="address-level1" maxlength="2" placeholder="NY" style="text-transform:uppercase"><div class="msg">2 letras, ej. NY.</div></div>
-        <div class="f" data-f="zipUS"><label for="zipUS">ZIP code</label><input id="zipUS" inputmode="numeric" autocomplete="postal-code" maxlength="10" placeholder="10001"><div class="msg">ZIP de 5 dígitos.</div></div>
+        <div class="f" data-f="stateUS"><label for="stateUS"><span data-es="Estado " data-en="State ">Estado </span><small><span data-es="(2 letras)" data-en="(2 letters)">(2 letras)</span></small></label><input id="stateUS" autocomplete="address-level1" maxlength="2" placeholder="NY" style="text-transform:uppercase"><div class="msg"><span data-es="2 letras, ej. NY." data-en="2 letters, e.g. NY.">2 letras, ej. NY.</span></div></div>
+        <div class="f" data-f="zipUS"><label for="zipUS" data-es="Código ZIP" data-en="ZIP code">Código ZIP</label><input id="zipUS" inputmode="numeric" autocomplete="postal-code" maxlength="10" placeholder="10001"><div class="msg"><span data-es="ZIP de 5 dígitos." data-en="5-digit ZIP.">ZIP de 5 dígitos.</span></div></div>
       </div>
     </div>
 
     <div id="intlFields" hidden>
-      <div class="f" data-f="addressX"><label for="addressX">Dirección</label><input id="addressX" autocomplete="street-address" maxlength="200"><div class="msg">Escribe la dirección.</div></div>
-      <div class="f" data-f="cityX"><label for="cityX">Ciudad</label><input id="cityX" autocomplete="address-level2" maxlength="100"><div class="msg">Escribe la ciudad.</div></div>
+      <div class="f" data-f="addressX"><label for="addressX"><span data-es="Dirección" data-en="Address">Dirección</span></label><input id="addressX" autocomplete="street-address" maxlength="200"><div class="msg"><span data-es="Escribe la dirección." data-en="Enter the address.">Escribe la dirección.</span></div></div>
+      <div class="f" data-f="cityX"><label for="cityX"><span data-es="Ciudad" data-en="City">Ciudad</span></label><input id="cityX" autocomplete="address-level2" maxlength="100"><div class="msg"><span data-es="Escribe la ciudad." data-en="Enter the city.">Escribe la ciudad.</span></div></div>
       <div class="row">
-        <div class="f" data-f="stateX"><label for="stateX">Estado / provincia</label><input id="stateX" autocomplete="address-level1" maxlength="100"></div>
-        <div class="f" data-f="zipX"><label for="zipX">Código postal</label><input id="zipX" autocomplete="postal-code" maxlength="20"></div>
+        <div class="f" data-f="stateX"><label for="stateX"><span data-es="Estado / provincia" data-en="State / province">Estado / provincia</span></label><input id="stateX" autocomplete="address-level1" maxlength="100"></div>
+        <div class="f" data-f="zipX"><label for="zipX"><span data-es="Código postal" data-en="Postal code">Código postal</span></label><input id="zipX" autocomplete="postal-code" maxlength="20"></div>
       </div>
-      <div class="f" data-f="notesX"><label for="notesX">Indicaciones <small>(opcional)</small></label><input id="notesX" maxlength="300"></div>
+      <div class="f" data-f="notesX"><label for="notesX"><span data-es="Indicaciones " data-en="Directions ">Indicaciones </span><small><span data-es="(opcional)" data-en="(optional)">(opcional)</span></small></label><input id="notesX" maxlength="300"></div>
     </div>
-    <div class="f" data-f="country" id="countryErr"><div class="msg">Selecciona el país.</div></div>
+    <div class="f" data-f="country" id="countryErr"><div class="msg"><span data-es="Selecciona el país." data-en="Select the country.">Selecciona el país.</span></div></div>
   </section>
 
   <section class="card step" id="step3">
-    <h2><b>3</b> Pago</h2>
+    <h2><b>3</b><span data-es=" Pago" data-en=" Payment"> Pago</span></h2>
     <div class="pay" id="payCO" hidden>
-      <label class="pm main" data-m="MERCADOPAGO"><input type="radio" name="pm" value="MERCADOPAGO"><span><span class="t">Mercado Pago</span><br><span class="d">Tarjeta, PSE, Nequi… (comisión 5%)</span></span></label>
-      <p class="small-h">Otros medios (pago manual, confirmas por WhatsApp):</p>
-      <label class="pm small" data-m="NEQUI"><input type="radio" name="pm" value="NEQUI"><span><span class="t">Nequi</span> <span class="d">· transferencia directa</span></span></label>
-      <label class="pm small" data-m="BANCOLOMBIA"><input type="radio" name="pm" value="BANCOLOMBIA"><span><span class="t">Bancolombia</span> <span class="d">· transferencia</span></span></label>
+      <label class="pm main" data-m="MERCADOPAGO"><input type="radio" name="pm" value="MERCADOPAGO"><span><span class="t">Mercado Pago</span><br><span class="d"><span data-es="Tarjeta, PSE, Nequi… (comisión 5%)" data-en="Card, PSE, Nequi… (5% fee)">Tarjeta, PSE, Nequi… (comisión 5%)</span></span></span></label>
+      <p class="small-h"><span data-es="Otros medios (pago manual, confirmas por WhatsApp):" data-en="Other methods (manual payment, confirm via WhatsApp):">Otros medios (pago manual, confirmas por WhatsApp):</span></p>
+      <label class="pm small" data-m="NEQUI"><input type="radio" name="pm" value="NEQUI"><span><span class="t">Nequi</span> <span class="d"><span data-es="· transferencia directa" data-en="· direct transfer">· transferencia directa</span></span></span></label>
+      <label class="pm small" data-m="BANCOLOMBIA"><input type="radio" name="pm" value="BANCOLOMBIA"><span><span class="t">Bancolombia</span> <span class="d"><span data-es="· transferencia" data-en="· transfer">· transferencia</span></span></span></label>
     </div>
     <div class="pay" id="payUSD" hidden>
-      <label class="pm main" data-m="PAYPAL"><input type="radio" name="pm" value="PAYPAL"><span><span class="t">PayPal</span><br><span class="d">Con PayPal o tarjeta sin cuenta</span></span></label>
-      <label class="pm main" data-m="STRIPE" id="pmStripe" hidden><input type="radio" name="pm" value="STRIPE"><span><span class="t">Tarjeta (Stripe)</span><br><span class="d">Visa, Mastercard, Amex · Apple Pay / Google Pay</span></span></label>
-      <p class="small-h">Otro medio (pago manual):</p>
-      <label class="pm small" data-m="ZELLE"><input type="radio" name="pm" value="ZELLE"><span><span class="t">Zelle</span> <span class="d">· solo para clientes conocidos · confirmas por WhatsApp</span></span></label>
+      <label class="pm main" data-m="PAYPAL"><input type="radio" name="pm" value="PAYPAL"><span><span class="t">PayPal</span><br><span class="d"><span data-es="Con PayPal o tarjeta sin cuenta" data-en="With PayPal or card, no account needed">Con PayPal o tarjeta sin cuenta</span></span></span></label>
+      <label class="pm main" data-m="STRIPE" id="pmStripe" hidden><input type="radio" name="pm" value="STRIPE"><span><span class="t"><span data-es="Tarjeta (Stripe)" data-en="Card (Stripe)">Tarjeta (Stripe)</span></span><br><span class="d">Visa, Mastercard, Amex · Apple Pay / Google Pay</span></span></label>
+      <p class="small-h"><span data-es="Otro medio (pago manual):" data-en="Other method (manual payment):">Otro medio (pago manual):</span></p>
+      <label class="pm small" data-m="ZELLE"><input type="radio" name="pm" value="ZELLE"><span><span class="t">Zelle</span> <span class="d"><span data-es="· solo para clientes conocidos · confirmas por WhatsApp" data-en="· known customers only · confirm via WhatsApp">· solo para clientes conocidos · confirmas por WhatsApp</span></span></span></label>
     </div>
-    <p class="note" id="usTrust" hidden>📦 Enviamos desde Nueva York (USPS con rastreo) · devoluciones sin abrir en 15 días · <a href="politicas.html">políticas</a></p>
-    <p class="note" id="payHint">Elige primero el país.</p>
-    <div class="f" data-f="pm"><div class="msg">Elige un medio de pago.</div></div>
-    <div class="f" data-f="terms"><label class="terms"><input type="checkbox" id="terms"><span>Acepto las <a href="politicas.html" target="_blank" rel="noopener">políticas de envío y devolución</a>.</span></label><div class="msg">Debes aceptar las políticas.</div></div>
-    <button type="submit" class="btn" id="payBtn">Pagar</button>
+    <p class="note" id="usTrust" hidden data-es="📦 Enviamos desde Nueva York (USPS con rastreo) · devoluciones sin abrir en 15 días · &lt;a href=&quot;politicas.html&quot;&gt;políticas&lt;/a&gt;" data-en="📦 We ship from New York (USPS with tracking) · returns of unopened items within 15 days · &lt;a href=&quot;politicas.html&quot;&gt;policies&lt;/a&gt;">📦 Enviamos desde Nueva York (USPS con rastreo) · devoluciones sin abrir en 15 días · <a href="politicas.html">políticas</a></p>
+    <p class="note" id="payHint"><span data-es="Elige primero el país." data-en="Choose your country first.">Elige primero el país.</span></p>
+    <div class="f" data-f="pm"><div class="msg"><span data-es="Elige un medio de pago." data-en="Choose a payment method.">Elige un medio de pago.</span></div></div>
+    <div class="f" data-f="terms"><label class="terms"><input type="checkbox" id="terms"><span data-es="Acepto las &lt;a href=&quot;politicas.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;políticas de envío y devolución&lt;/a&gt;." data-en="I accept the &lt;a href=&quot;politicas.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;shipping and returns policy&lt;/a&gt;.">Acepto las <a href="politicas.html" target="_blank" rel="noopener">políticas de envío y devolución</a>.</span></label><div class="msg"><span data-es="Debes aceptar las políticas." data-en="You must accept the policies.">Debes aceptar las políticas.</span></div></div>
+    <button type="submit" class="btn" id="payBtn"><span data-es="Pagar" data-en="Pay">Pagar</span></button>
     <div class="err-box" id="errBox" role="alert"></div>
-    <p class="note" style="text-align:center;margin-top:10px">🔒 El total lo calcula y cobra nuestro servidor.</p>
+    <p class="note" style="text-align:center;margin-top:10px"><span data-es="🔒 El total lo calcula y cobra nuestro servidor." data-en="🔒 The total is calculated and charged by our server.">🔒 El total lo calcula y cobra nuestro servidor.</span></p>
   </section>
   </form>
 
   <section class="card done" id="done">
-    <h2 style="margin-top:0">¡Pedido recibido! <span id="doneId"></span></h2>
+    <h2 style="margin-top:0"><span data-es="¡Pedido recibido!" data-en="Order received!">¡Pedido recibido!</span> <span id="doneId"></span></h2>
     <div id="doneBody"></div>
-    <a class="wa" id="doneWa" href="#" rel="noopener">Enviar comprobante por WhatsApp</a>
+    <a class="wa" id="doneWa" href="#" rel="noopener"><span data-es="Enviar comprobante por WhatsApp" data-en="Send receipt via WhatsApp">Enviar comprobante por WhatsApp</span></a>
   </section>
 </main>
 
@@ -185,8 +186,14 @@ input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 
   const BOG = ['bogota','soacha','chia','cajica','cota','funza','mosquera','madrid','zipaquira','facatativa','tocancipa','tenjo','tabio','subachoque','el rosal','siberia','gachancipa','sopo','la calera','guasca','sesquile','nemocon','bojaca','arbelaez','fusagasuga','girardot'];
   const CEN = ['medellin','envigado','bello','itagui','sabaneta','rionegro','la estrella','caldas','copacabana','marinilla','cali','palmira','buenaventura','tulua','cartago','buga','jamundi','yumbo','barranquilla','cartagena','santa marta','soledad','malambo','sabanalarga','bucaramanga','floridablanca','giron','piedecuesta','cucuta','pamplona','villa del rosario','los patios','ocana','barrancabermeja','pereira','dosquebradas','manizales','armenia','la virginia','ibague','espinal','melgar','honda','tunja','duitama','sogamoso','chiquinquira','paipa','villa de leyva','neiva','pitalito','garzon','la plata','villavicencio','acacias','granada','puerto lopez'];
   const DEPTS = ['Amazonas','Antioquia','Arauca','Atlántico','Bogotá D.C.','Bolívar','Boyacá','Caldas','Caquetá','Casanare','Cauca','Cesar','Chocó','Córdoba','Cundinamarca','Guainía','Guaviare','Huila','La Guajira','Magdalena','Meta','Nariño','Norte de Santander','Putumayo','Quindío','Risaralda','San Andrés y Providencia','Santander','Sucre','Tolima','Valle del Cauca','Vaupés','Vichada'];
-  const PICKUP = { CO: 'Bogotá, Fusagasugá, Madrid (Cund.) y Medellín — te escribimos por WhatsApp para coordinar', US: 'Queens, Manhattan, Long Island, Brooklyn y New Jersey — coordinamos por WhatsApp' };
+  const PICKUP = { CO: ['Bogotá, Fusagasugá, Madrid (Cund.) y Medellín — te escribimos por WhatsApp para coordinar', 'Bogotá, Fusagasugá, Madrid (Cund.) and Medellín — we will message you on WhatsApp to arrange it'], US: ['Queens, Manhattan, Long Island, Brooklyn y New Jersey — coordinamos por WhatsApp', 'Queens, Manhattan, Long Island, Brooklyn and New Jersey — we arrange it via WhatsApp'] };
   const $ = (id) => document.getElementById(id);
+  const T = (es, en) => (window.FL && window.FL.lang === 'en' ? en : es);
+  const PACK_EN = { 'Pack Dúo': 'Duo Pack', 'Pack Trío': 'Trio Pack', 'Pack ÉL & ELLA': 'HIM & HER Pack' };
+  const trTitle = (t) => T(t, Object.keys(PACK_EN).reduce((x, k) => x.replace(k, PACK_EN[k]), String(t)));
+  // Mensajes del servidor (en español) -> inglés cuando la página está en EN
+  const ERR_EN = { 'Demasiadas solicitudes, intenta de nuevo en unos minutos': 'Too many requests, please try again in a few minutes', 'Versión del sitio desactualizada. Recarga la página e intenta de nuevo.': 'Outdated site version. Reload the page and try again.', 'Error interno': 'Internal error', 'Mercado Pago no configurado': 'Mercado Pago is not configured', 'Error al crear preferencia': 'Could not create the Mercado Pago payment', 'Stripe no configurado': 'Stripe is not configured', 'Error al crear sesión de Stripe': 'Could not create the Stripe session', 'PayPal no configurado': 'PayPal is not configured', 'Error al crear orden de PayPal': 'Could not create the PayPal order', 'Método de pago inválido': 'Invalid payment method', 'No encontrado': 'Not found', 'JSON inválido': 'Invalid request', 'Solicitud demasiado grande': 'Request too large', 'Dato inválido': 'Invalid data', 'Dato demasiado largo': 'Data too long', 'Nombre requerido': 'Name required', 'Email inválido': 'Invalid email', 'Teléfono inválido': 'Invalid phone number', 'País inválido': 'Invalid country', 'Dirección y ciudad requeridas': 'Address and city required', 'Estado de EE. UU. inválido (usa el código de 2 letras, ej. NY)': 'Invalid US state (use the 2-letter code, e.g. NY)', 'ZIP code inválido (ej. 10001)': 'Invalid ZIP code (e.g. 10001)', 'Dirección inválida': 'Invalid address', 'Teléfono requerido': 'Phone number required', 'Pedido inválido': 'Invalid order', 'Selecciona la tienda de recogida': 'Select the pickup store', 'País requerido': 'Country required', 'Los pedidos en Colombia se pagan en pesos (COP): usa Mercado Pago o Nequi': 'Orders in Colombia are paid in pesos (COP): use Mercado Pago or Nequi', 'Los pedidos fuera de Colombia se pagan en dólares (USD): usa PayPal, Stripe o Zelle': 'Orders outside Colombia are paid in dollars (USD): use PayPal, Stripe or Zelle', 'El carrito está vacío': 'Your cart is empty', 'Carrito demasiado grande': 'Cart too large', 'Ítem inválido': 'Invalid item', 'Cantidad inválida': 'Invalid quantity', 'Pack desconocido': 'Unknown pack', 'Producto desconocido': 'Unknown product', 'Carrito inválido': 'Invalid cart', 'Moneda inválida': 'Invalid currency', 'Zona de envío inválida': 'Invalid shipping zone', 'No se pudo procesar el pago': 'The payment could not be processed' };
+  const trErr = (m) => T(m, ERR_EN[m] || (/^El .+ requiere \d+ productos$/.test(m) ? 'This pack requires ' + m.match(/(\d+) productos$/)[1] + ' products' : 'The payment could not be processed'));
   const strip = (s) => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
   const esc = (v) => String(v ?? '').replace(/[&<>"'`]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' }[c]));
 
@@ -226,14 +233,14 @@ input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 
 
   function render(q) {
     const c = q.currency;
-    $('lines').innerHTML = q.lines.map((l) => '<div class="li"><span>' + esc(l.quantity) + ' × ' + esc(l.title) + '</span><span>' + esc(money(l.unit_price * l.quantity, c)) + '</span></div>').join('');
+    $('lines').innerHTML = q.lines.map((l) => '<div class="li"><span>' + esc(l.quantity) + ' × ' + esc(trTitle(l.title)) + '</span><span>' + esc(money(l.unit_price * l.quantity, c)) + '</span></div>').join('');
     $('tSub').textContent = money(q.subtotal, c);
-    $('tShip').textContent = q.shipping === null ? 'Escribe la ciudad' : (q.shipping === 0 ? 'Gratis' : money(q.shipping, c));
+    $('tShip').textContent = q.shipping === null ? T('Escribe la ciudad', 'Enter the city') : (q.shipping === 0 ? T('Gratis', 'Free') : money(q.shipping, c));
     $('rowFee').hidden = !q.commission; $('tFee').textContent = money(q.commission || 0, c);
     $('tTotal').textContent = q.total === null ? '—' : money(q.total, c);
-    $('payBtn').textContent = q.total === null ? 'Pagar' : 'Pagar ' + money(q.total, c);
+    $('payBtn').textContent = q.total === null ? T('Pagar', 'Pay') : T('Pagar ', 'Pay ') + money(q.total, c);
     const u = units();
-    $('shipNote').textContent = !st.country ? 'Elige el país para ver envío y moneda.' : st.mode === 'pickup' ? 'Recogida gratis.' : (st.country === 'CO' || st.country === 'US') ? (u >= FREE_UNITS ? '✓ Envío gratis (3 o más unidades).' : 'Envío gratis desde 3 unidades.') : 'Envío internacional incluido.';
+    $('shipNote').textContent = !st.country ? T('Elige el país para ver envío y moneda.', 'Choose your country to see shipping and currency.') : st.mode === 'pickup' ? T('Recogida gratis.', 'Free pickup.') : (st.country === 'CO' || st.country === 'US') ? (u >= FREE_UNITS ? T('✓ Envío gratis (3 o más unidades).', '✓ Free shipping (3 or more units).') : T('Envío gratis desde 3 unidades.', 'Free shipping from 3 units.')) : T('Envío internacional incluido.', 'International shipping included.');
   }
 
   function refresh() {
@@ -257,12 +264,12 @@ input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 
     $('otherWrap').hidden = c !== 'OTHER';
     $('modeOpts').hidden = c === 'OTHER';
     if (c === 'OTHER') st.mode = 'ship';
-    $('shipDesc').textContent = c === 'CO' ? 'Bogotá $9.000 · Central $13.800 · Resto $21.000 · gratis desde 3 unidades' : 'USPS desde Nueva York, $9.99 · gratis desde 3 unidades';
-    $('pickupDesc').textContent = PICKUP[c] || '';
+    $('shipDesc').textContent = c === 'CO' ? T('Bogotá $9.000 · Central $13.800 · Resto $21.000 · gratis desde 3 unidades', 'Bogotá $9.000 · Central $13.800 · Rest of Colombia $21.000 · free from 3 units') : T('USPS desde Nueva York, $9.99 · gratis desde 3 unidades', 'USPS from New York, $9.99 · free from 3 units');
+    $('pickupDesc').textContent = PICKUP[c] ? T(PICKUP[c][0], PICKUP[c][1]) : '';
     setMode(st.mode);
     $('payCO').hidden = c !== 'CO' || false; $('payUSD').hidden = c === 'CO' || !c;
     $('usTrust').hidden = c !== 'US';
-    $('payHint').textContent = c === 'CO' ? 'Pagas en pesos colombianos (COP).' : 'Pagas en dólares (USD).';
+    $('payHint').textContent = c === 'CO' ? T('Pagas en pesos colombianos (COP).', 'You pay in Colombian pesos (COP).') : T('Pagas en dólares (USD).', 'You pay in US dollars (USD).');
     document.querySelectorAll('input[name=pm]').forEach((i) => { i.checked = false; });
     selectMethod(c === 'CO' ? 'MERCADOPAGO' : 'PAYPAL');
     try { localStorage.setItem('fresche_currency', JSON.stringify({ region: c === 'CO' ? 'CO' : 'US', source: 'checkout' })); } catch (e) {}
@@ -322,7 +329,7 @@ input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 
   async function post(path, body) {
     const r = await fetch(BACKEND_URL + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     const d = await r.json().catch(() => ({}));
-    if (!r.ok) throw new Error(d.error || 'No se pudo procesar el pago');
+    if (!r.ok) throw new Error(trErr(d.error || 'No se pudo procesar el pago'));
     return d;
   }
   const saveRef = (provider, reference) => { try { localStorage.setItem('orderData', JSON.stringify({ provider, reference: reference || null, date: new Date().toISOString() })); } catch (e) {} };
@@ -331,7 +338,7 @@ input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 
     ev.preventDefault();
     $('errBox').style.display = 'none';
     if (!validate()) return;
-    const btn = $('payBtn'); btn.disabled = true; const label = btn.textContent; btn.textContent = 'Procesando…';
+    const btn = $('payBtn'); btn.disabled = true; const label = btn.textContent; btn.textContent = T('Procesando…', 'Processing…');
     const order = payload();
     try {
       if (st.method === 'MERCADOPAGO') { const d = await post('/api/create-preference', { order }); saveRef('mercadopago', d.reference); location.href = d.init_point; return; }
@@ -340,7 +347,7 @@ input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 
       const d = await post('/api/manual-order', { method: st.method, order });
       showManual(d, order);
     } catch (e) {
-      $('errBox').textContent = e.message + ' — Si el problema sigue, escríbenos por WhatsApp.'; $('errBox').style.display = 'block';
+      $('errBox').textContent = (e instanceof TypeError ? T('No pudimos conectar con el servidor', 'We could not reach the server') : e.message) + T(' — Si el problema sigue, escríbenos por WhatsApp.', ' — If the problem persists, message us on WhatsApp.'); $('errBox').style.display = 'block';
       btn.disabled = false; btn.textContent = label;
     }
   }
@@ -350,9 +357,9 @@ input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 
     const info = st.method === 'NEQUI'
       ? '<p><b>Nequi:</b> +57 301 760 6723 (Alejandra Vela Moreno)</p><img src="images/qr%20nequi.jpeg?v=20260203" alt="QR Nequi">'
       : st.method === 'ZELLE' ? '<p><b>Zelle:</b> fresche@fresche1.com</p><img src="images/qr%20zelle.jpg?v=20260203" alt="QR Zelle">'
-        : '<p><b>Bancolombia</b> · Cuenta de ahorros: te enviamos los datos por WhatsApp.</p>';
+        : T('<p><b>Bancolombia</b> · Cuenta de ahorros: te enviamos los datos por WhatsApp.</p>', '<p><b>Bancolombia</b> · Savings account: we will send you the details via WhatsApp.</p>');
     $('doneId').textContent = d.orderId;
-    $('doneBody').innerHTML = '<p>Transfiere <b style="font-size:1.25rem">' + esc(total) + '</b> y envíanos el comprobante por WhatsApp. Despachamos al verificar el pago.</p>' + info;
+    $('doneBody').innerHTML = T('<p>Transfiere <b style="font-size:1.25rem">' + esc(total) + '</b> y envíanos el comprobante por WhatsApp. Despachamos al verificar el pago.</p>', '<p>Send <b style="font-size:1.25rem">' + esc(total) + '</b> and send us the receipt via WhatsApp. We ship once the payment is verified.</p>') + info;
     const msg = 'Hola FRESCHE 👋 Pedido ' + d.orderId + '\nNombre: ' + order.buyer.name + '\nMétodo: ' + st.method + '\nTotal: ' + total + '\nAdjunto mi comprobante de pago.';
     $('doneWa').href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
     $('form').hidden = true; $('done').style.display = 'block';
